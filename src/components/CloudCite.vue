@@ -58,8 +58,6 @@ export default {
       return store.getters.getCitation(url)
     },
     cite() {
-      var rp = require('request-promise');
-      var cheerio = require('cheerio')
       this.$refs.urlInput.$el.children[0].blur();
       var dotIndex = this.url.indexOf('.')
       var afterDot = this.url.substring(dotIndex + 1, this.url.length)

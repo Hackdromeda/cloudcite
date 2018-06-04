@@ -21,7 +21,7 @@ export const store = new Vuex.Store({
         getCitations(state) {
             return state.citations
         },
-        getCitation(state, url) {
+        getCitation: (state) => (url) => {
             const citation = state.citations.get(url)
             if (!citation) {
                 return -1;

@@ -51,9 +51,12 @@ export default {
     },
     citations() {
       return store.getters.getCitations
-    }
+    },
   },
   methods: {
+    getCitation(url) {
+      return store.getters.getCitation(url)
+    },
     cite() {
       var rp = require('request-promise');
       var cheerio = require('cheerio')
@@ -68,19 +71,9 @@ export default {
         if (this.url.indexOf('http') == -1) {
           this.url = 'http://' + this.url
         }
-        rp({
-          uri: this.url,
-          transform: function (body) {
-            return cheerio.load(body)
-          }
-         })
-          .then((response) => {
-            console.log(response)
-            var $ = cheerio.load(response);
-            console.log($('title').text())
-            store.dispatch('setCitation', {url: this.url, format: this.format, author: null, publisher: null, datePublished: null, dateAccessed: {month: currentDate.getMonth(), day: currentDate.getDate(), year: currentDate.getFullYear()}})
-            console.log(this.citations)
-          })
+        store.dispatch('setCitation', {url: this.url, format: this.format, author: null, publisher: null, datePublished: null, dateAccessed: {month: currentDate.getMonth(), day: currentDate.getDate(), year: currentDate.getFullYear()}})
+        console.log(this.citations)
+        console.log(this.getCitation(this.url))
       } else {
         this.loading = false
         this.urlField.type = 'is-danger'

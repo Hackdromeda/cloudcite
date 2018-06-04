@@ -60,7 +60,7 @@ export default {
       this.$refs.urlInput.$el.children[0].blur();
       var dotIndex = this.url.indexOf('.')
       var afterDot = this.url.substring(dotIndex + 1, this.url.length)
-      if (this.url != null && this.url != "" && this.url.length >= 4 && this.url.indexOf('.') != -1 && afterDot != null && afterDot != "") {
+      if (this.url != null && this.url != "" && this.url.length <= 50 && this.url.length >= 4 && this.url.indexOf('.') != -1 && afterDot != null && afterDot != "" && afterDot.length >= 2) {
         this.urlField.message = null
         this.urlField.type = 'is-success'
         this.loading = true

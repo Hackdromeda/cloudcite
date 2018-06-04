@@ -1,0 +1,100 @@
+<template>
+  <div class="container">
+    <h1 class="title">
+      Welcome to CloudCite
+    </h1>
+    <b-tabs v-model="activeTab">
+      <b-tab-item label="Website" icon="application" @click="activeTab = 0" :disabled="this.$data.loading && this.$data.activeTab != 0">
+      </b-tab-item>
+      <b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1"></b-tab-item>
+    </b-tabs>
+    <b-field :type="urlField.type" :message="urlField.message">
+      <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="50" :disabled="this.$data.loading"></b-input>
+      <p class="control">
+        <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
+      </p>
+    </b-field>
+  </div>
+</template>
+
+<script>
+import {store} from '../store'
+
+export default {
+  name: 'CloudCite',
+  data() {
+    return {
+      activeTab: 0,
+      url: "",
+      urlField: {
+        type: 'is-light',
+        message: null
+      },
+      loading: false
+    }
+  },
+  mounted() {
+    this.$refs.urlInput.$el.children[0].focus();
+  },
+  computed: {
+    format() {
+      switch (this.activeTab) {
+        case 0:
+          return 'website';
+          break;
+        case 1: 
+          return 'digital image';
+          break;
+        default:
+          console.log('No citation format found.');
+      }
+    },
+    citations() {
+      return store.getters.getCitations
+    }
+  },
+  methods: {
+    cite() {
+      var rp = require('request-promise');
+      var cheerio = require('cheerio')
+      this.$refs.urlInput.$el.children[0].blur();
+      var dotIndex = this.url.indexOf('.')
+      var afterDot = this.url.substring(dotIndex + 1, this.url.length)
+      if (this.url != null && this.url != "" && this.url.length >= 4 && this.url.indexOf('.') != -1 && afterDot != null && afterDot != "") {
+        this.urlField.message = null
+        this.urlField.type = 'is-success'
+        this.loading = true
+        var currentDate = new Date()
+        if (this.url.indexOf('http') == -1) {
+          this.url = 'http://' + this.url
+        }
+        rp({
+          method: 'GET',
+          uri: this.url,
+          headers: {
+            'Access-Control-Allow-Origin': '*'
+          },
+          transform: function (body) {
+            return cheerio.load(body)
+          }
+         })
+          .then((response) => {
+            console.log(response)
+            var $ = cheerio.load(response);
+            console.log($('title').text())
+            store.dispatch('setCitation', {url: this.url, format: this.format, author: null, publisher: null, datePublished: null, dateAccessed: {month: currentDate.getMonth(), day: currentDate.getDate(), year: currentDate.getFullYear()}})
+            console.log(this.citations)
+          })
+      } else {
+        this.loading = false
+        this.urlField.type = 'is-danger'
+        this.urlField.message = 'url is not valid'
+      }
+    },
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+</style>

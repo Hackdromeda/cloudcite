@@ -4,7 +4,7 @@
       About Us
     </h1>
     <figure class="image is-128x128">
-      <img src="static/Profile_Picture.jpg" alt="Naval Patel">
+      <a href="http://navalpatel.me"><img src="static/Profile_Picture.jpg" alt="Naval Patel"></a>
     </figure>
     <br>
     <p>We are a team of developers passionate about computer science and interested in exploring innovative solutions to problems that can be solved with technology.</p>

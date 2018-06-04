@@ -69,11 +69,7 @@ export default {
           this.url = 'http://' + this.url
         }
         rp({
-          method: 'GET',
           uri: this.url,
-          headers: {
-            'Access-Control-Allow-Origin': '*'
-          },
           transform: function (body) {
             return cheerio.load(body)
           }

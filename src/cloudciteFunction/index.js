@@ -2,6 +2,7 @@ const AWS = require('aws-sdk');
 const https = require('https');
 const rp = require('request-promise-native');
 const cheerio = require('cheerio');
+const moment = require('moment-timezone');
 
 exports.handler = function(event, context, callback) {
     switch (event.format) {
@@ -13,9 +14,24 @@ exports.handler = function(event, context, callback) {
                 }
             }).then(($) => {
                 var citation = event
-                citation.title = $('title').text()
-                if (citation.title == null) {
-                    citation.title = $('meta[property="og:title"]').attr('content')
+                citation.container = $('meta[property="og:title"]').attr('content')
+                if (citation.container == null) {
+                    citation.container = $('title').text()
+                }
+                citation.source = $('meta[property="og:site_name"]').attr('content')
+                citation.authors = $('meta[property="article:author"]').attr('content')
+                citation.publisher = $('meta[property="article:publisher"]').attr('content')
+                citation.datePublished = $('meta[property="article:modified_time"]').attr('content')
+                if (citation.datePublished == null) {
+                    citation.datePublished = $('meta[property="og:published_time"]').attr('content')
+                }
+                if (citation.datePublished != null) {
+                    citation.datePublished = new Date(citation.datePublished)
+                    citation.datePublished = {
+                        month: citation.datePublished.getMonth(), 
+                        day: citation.datePublished.getDate(), 
+                        year: citation.datePublished.getFullYear()
+                    }
                 }
                 console.log('Citation: ' + citation)
                 callback(null, citation)

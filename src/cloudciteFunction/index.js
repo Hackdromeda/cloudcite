@@ -2,7 +2,6 @@ const AWS = require('aws-sdk');
 const https = require('https');
 const rp = require('request-promise-native');
 const cheerio = require('cheerio');
-const moment = require('moment-timezone');
 
 exports.handler = function(event, context, callback) {
     switch (event.format) {

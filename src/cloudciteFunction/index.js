@@ -32,6 +32,7 @@ exports.handler = function(event, context, callback) {
                         year: citation.datePublished.getFullYear()
                     }
                 }
+                citation = JSON.stringify(citation)
                 console.log('Citation: ' + citation)
                 callback(null, citation)
             });

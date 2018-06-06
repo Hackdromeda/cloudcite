@@ -10,7 +10,8 @@ exports.handler = function(event, context, callback) {
         var response = {
             "statusCode": 400,
             "headers": {
-                "api-key": "none"
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Credentials" : true
             },
             "body": JSON.stringify(body),
             "isBase64Encoded": false
@@ -24,7 +25,8 @@ exports.handler = function(event, context, callback) {
                 var response = {
                     "statusCode": 422,
                     "headers": {
-                        "api-key": "none"
+                        "Access-Control-Allow-Origin" : "*",
+                        "Access-Control-Allow-Credentials" : true
                     },
                     "body": JSON.stringify(body),
                     "isBase64Encoded": false
@@ -62,7 +64,8 @@ exports.handler = function(event, context, callback) {
                 var response = {
                     "statusCode": 200,
                     "headers": {
-                        "api-key": "none"
+                        "Access-Control-Allow-Origin" : "*",
+                        "Access-Control-Allow-Credentials" : true
                     },
                     "body": JSON.stringify(citation),
                     "isBase64Encoded": false
@@ -73,7 +76,8 @@ exports.handler = function(event, context, callback) {
                 var response = {
                     "statusCode": 422,
                     "headers": {
-                        "api-key": "none"
+                        "Access-Control-Allow-Origin" : "*",
+                        "Access-Control-Allow-Credentials" : true
                     },
                     "body": JSON.stringify(body),
                     "isBase64Encoded": false
@@ -88,7 +92,8 @@ exports.handler = function(event, context, callback) {
             var response = {
                 "statusCode": 400,
                 "headers": {
-                    "api-key": "none"
+                    "Access-Control-Allow-Origin" : "*",
+                    "Access-Control-Allow-Credentials" : true
                 },
                 "body": JSON.stringify(body),
                 "isBase64Encoded": false

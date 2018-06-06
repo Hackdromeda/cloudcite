@@ -94,11 +94,14 @@ export default {
                 return JSON.parse(body)
             }
           }).then((citation) => {
-            console.log(citation)
+            console.log('received response: ' + citation)
+            store.dispatch('setCitation', citation)
+            console.log(this.citations)
+            this.loading = false;
           }).catch((error) => {
               console.log(error)
+              this.loading = false;
           })
-        //store.dispatch('setCitation', {url: this.url, format: this.format, author: null, publisher: null, datePublished: null, dateAccessed: {month: currentDate.getMonth(), day: currentDate.getDate(), year: currentDate.getFullYear()}})
       } else {
         this.loading = false
         this.urlField.type = 'is-danger'

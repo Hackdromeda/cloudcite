@@ -5,11 +5,32 @@ const cheerio = require('cheerio');
 
 exports.handler = function(event, context, callback) {
     var API = JSON.parse(event.body);
-    console.log('API: ' + API)
-    console.log('URL: ' + API.url);
-    console.log('Format: ' + API.format);
+    if(API == null){
+        body = "{error: empty request}"
+        var response = {
+            "statusCode": 400,
+            "headers": {
+                "api-key": "none"
+            },
+            "body": JSON.stringify(body),
+            "isBase64Encoded": false
+        };
+        return callback(null, response);
+    }
     switch (API.format) {
         case 'website':
+            if(API.url == null){
+                body = "{error: expected website URL}"
+                var response = {
+                    "statusCode": 400,
+                    "headers": {
+                        "api-key": "none"
+                    },
+                    "body": JSON.stringify(body),
+                    "isBase64Encoded": false
+                };
+                return callback(null, response);
+            }
             rp({
                 uri: API.url,
                 transform: function(body) {

@@ -12,6 +12,7 @@ exports.handler = function(event, context, callback) {
                     return cheerio.load(body);
                 }
             }).then(($) => {
+                console.log("request: " + JSON.stringify(event));
                 var citation = event
                 citation.container = $('meta[property="og:title"]').attr('content')
                 if (citation.container == null) {

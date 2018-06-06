@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title">
+    <h1 class="title" style="color: #149fda;">
       Welcome to CloudCite
     </h1>
     <b-tabs v-model="activeTab">

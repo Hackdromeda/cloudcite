@@ -57,6 +57,7 @@ exports.handler = function(event, context, callback) {
                         year: citation.datePublished.getFullYear()
                     }
                 }
+                citation = JSON.stringify(citation)
                 console.log('Citation: ' + citation)
                 var response = {
                     "statusCode": 200,

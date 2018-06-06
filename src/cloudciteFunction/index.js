@@ -19,10 +19,10 @@ exports.handler = function(event, context, callback) {
     }
     switch (API.format) {
         case 'website':
-            if(API.url == null){
+            if(API.url == null || API.url == ""){
                 body = "{error: expected website URL}"
                 var response = {
-                    "statusCode": 400,
+                    "statusCode": 422,
                     "headers": {
                         "api-key": "none"
                     },
@@ -58,7 +58,7 @@ exports.handler = function(event, context, callback) {
                     }
                 }
                 citation = JSON.stringify(citation)
-                console.log('Citation: ' + citation)
+                //console.log('Citation: ' + citation)
                 var response = {
                     "statusCode": 200,
                     "headers": {
@@ -68,11 +68,22 @@ exports.handler = function(event, context, callback) {
                     "isBase64Encoded": false
                 };
                 callback(null, response);
+            }).catch(function (err) {
+                body = "{error: cited website unavailable}"
+                var response = {
+                    "statusCode": 422,
+                    "headers": {
+                        "api-key": "none"
+                    },
+                    "body": JSON.stringify(body),
+                    "isBase64Encoded": false
+                };
+                return callback(null, response);
             });
         break;
         default:
-            console.log('Format is invalid');
-            console.log("request: " + JSON.stringify(event));
+            //console.log('Format is invalid');
+            //console.log("request: " + JSON.stringify(event));
             body = "{error: bad request}"
             var response = {
                 "statusCode": 400,

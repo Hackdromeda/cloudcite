@@ -32,7 +32,7 @@ export default {
 @import 'main.scss';
 
 body {
-    background: linear-gradient(#1dadea, #094b66);
+    background: linear-gradient(45deg,#30496B,#30B8D2);
     height: 100vh;
 }
 

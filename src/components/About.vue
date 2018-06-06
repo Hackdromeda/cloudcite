@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
-    <h1 class="title">
-      About Us
-    </h1>
+  <div class="columns">
+  <div class="column"></div>
+  <div class="column is-three-quarters" style="justify-content: center;">
+    <h1 class="title">About Us</h1>
     <div class="columns">
       <div class="column"></div>
       <div class="column">
@@ -19,8 +19,10 @@
       </div>
       <div class="column"></div>
     </div>
-    <br>
+     <br>
     <p>We are a team of developers passionate about computer science and interested in exploring innovative solutions to problems that can be solved with technology.</p>
+    </div>
+    <div class="column"></div>
   </div>
 </template>
 

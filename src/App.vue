@@ -31,11 +31,15 @@ export default {
 <style lang="scss">
 @import 'main.scss';
 
+body {
+    background: linear-gradient(#1dadea, #094b66);
+    height: 100vh;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background: linear-gradient(#1dadea, #094b66);
 }
 </style>

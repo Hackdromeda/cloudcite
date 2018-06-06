@@ -1,26 +1,25 @@
 <template>
-  <div class="container">
+<div class="columns">
+  <div class="column"></div>
+  <div class="column is-three-quarters">
     <h1 class="title" style="color: #ffffff;">
       Welcome to CloudCite
     </h1>
-    <b-tabs v-model="activeTab" style="background-color: #ffffff; opacity: 0.9; border-radius: 5px;">
-      <b-tab-item label="Website" icon="application" @click="activeTab = 0" :disabled="this.$data.loading && this.$data.activeTab != 0">
-      </b-tab-item>
-      <b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1"></b-tab-item>
-    </b-tabs>
-    <div style="columns">
-        <div class="column"></div>
-        <div class="column">
-          <b-field :type="urlField.type" :message="urlField.message">
+    <b-tabs v-model="activeTab" style="background-color: #ffffff; opacity: 0.9; border-radius: 5px; justify-content: center;">
+      <b-field :type="urlField.type" :message="urlField.message" style="justify-content: center;">
             <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading" style="color: #ffffff"></b-input>
               <p class="control">
                 <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
               </p>
-          </b-field>
-        </div>
-      <div class="column"></div>
-    </div>
+      </b-field>
+      <b-tab-item label="Website" icon="application" @click="activeTab = 0" :disabled="this.$data.loading && this.$data.activeTab != 0">
+      </b-tab-item>
+      <b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
+      </b-tab-item>
+    </b-tabs>
   </div>
+  <div class="column"></div>
+</div>
 </template>
 
 <script>
@@ -34,7 +33,7 @@ export default {
       activeTab: 0,
       url: "",
       urlField: {
-        type: 'is-light',
+        type: null,
         message: null
       },
       loading: false
@@ -104,6 +103,7 @@ export default {
             store.dispatch('setCitation', citation)
             console.log(this.citations)
             this.loading = false;
+            this.$router.push({path: '/edit'})
           }).catch((error) => {
               console.log(error)
               this.loading = false;

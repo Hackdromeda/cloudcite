@@ -13,10 +13,10 @@
       </div>
     </nav>
     <section class="section">
-      <div class="columns">
-        <div class="column is-one-third"></div>
-        <router-view/>
-        <div class="column is-one-third"></div>
+      <div class="columns" style="justify-content: center;">
+        <div class="column is-one-quarter"></div>
+        <div class="column is-two-quarers"><router-view/></div>
+        <div class="column is-one-quarter"></div>
       </div>
     </section>
   </div>

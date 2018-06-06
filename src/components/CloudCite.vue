@@ -92,7 +92,6 @@ export default {
           method: 'POST',
           mode: 'cors',
         }).then((response) => {
-            response = JSON.parse(response)
             console.log(response)
             console.log(this.citations)
             console.log(this.getCitation(this.url))

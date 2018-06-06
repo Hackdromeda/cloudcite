@@ -70,7 +70,7 @@ export default {
           this.url = 'http://' + this.url
         }
         fetch('https://q4s3hew332.execute-api.us-east-1.amazonaws.com/prod/CloudCite', {
-          body: JSON.stringify({
+          body: {
             "authors": null,
             "source": null,
             "container": null,
@@ -83,7 +83,7 @@ export default {
               "day": currentDate.getDate(),
               "year": currentDate.getFullYear()
             }
-          }),
+          },
           cache: 'no-cache',
           headers: {
             'Content-Type': 'application/json',

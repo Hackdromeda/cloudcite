@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "buefy": "^0.6.6",
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

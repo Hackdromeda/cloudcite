@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import {store} from '../store'
+import {store} from '../store';
+const rp = require('request-promise-native');
 
 export default {
   name: 'CloudCite',
@@ -69,36 +70,34 @@ export default {
         if (this.url.indexOf('http') == -1) {
           this.url = 'http://' + this.url
         }
-        fetch('https://q4s3hew332.execute-api.us-east-1.amazonaws.com/prod/CloudCite', {
-          body: JSON.stringify({
-            "authors": null,
-            "source": null,
-            "container": null,
-            "url": this.url,
-            "format": this.format,
-            "publisher": null,
-            "datePublished": null,
-            "dateAccessed": {
-              "month": currentDate.getMonth(),
-              "day": currentDate.getDate(),
-              "year": currentDate.getFullYear()
+        rp({
+            uri: 'https://q4s3hew332.execute-api.us-east-1.amazonaws.com/prod/CloudCite',
+            headers: {
+              'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+              "authors": null,
+              "source": null,
+              "container": null,
+              "url": 'http://navalpatel.me',
+              "format": 'website',
+              "publisher": null,
+              "datePublished": null,
+              "dateAccessed": {
+                "month": currentDate.getMonth(),
+                "day": currentDate.getDate(),
+                "year": currentDate.getFullYear()
+              }
+            }),
+            transform: function(body) {
+                return JSON.parse(body)
             }
-          }),
-          cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-          },
-          method: 'POST',
-          mode: 'cors',
-        }).then((response) => {
-            console.log(response)
-            console.log(this.citations)
-            console.log(this.getCitation(this.url))
-            this.loading = false
-        }).catch((error) => {
-          console.log(error)
-        })
+          }).then((citation) => {
+            console.log(citation)
+          }).catch((error) => {
+              console.log(error)
+          })
         //store.dispatch('setCitation', {url: this.url, format: this.format, author: null, publisher: null, datePublished: null, dateAccessed: {month: currentDate.getMonth(), day: currentDate.getDate(), year: currentDate.getFullYear()}})
       } else {
         this.loading = false

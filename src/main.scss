@@ -1,10 +1,6 @@
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 
-#app {
-    background: linear-gradient(#1dadea, #094b66)
-}
-
 // Set your colors
 $primary: #149fda;
 $primary-invert: findColorInvert($primary);

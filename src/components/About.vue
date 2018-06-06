@@ -4,6 +4,7 @@
       About Us
     </h1>
     <div class="columns">
+      <div class="column"></div>
       <div class="column">
         <figure class="image is-128x128">
           <a href="http://navalpatel.me"><img src="static/Naval.jpg" alt="Naval Patel"></a>
@@ -16,6 +17,7 @@
           <p>Faris Bokhari</p>
         </figure>
       </div>
+      <div class="column"></div>
     </div>
     <br>
     <p>We are a team of developers passionate about computer science and interested in exploring innovative solutions to problems that can be solved with technology.</p>
@@ -29,4 +31,7 @@ export default {
 </script>
 
 <style scoped>
+h1, p  {
+  color: #ffffff;
+}
 </style>

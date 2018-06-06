@@ -3,17 +3,23 @@
     <h1 class="title" style="color: #ffffff;">
       Welcome to CloudCite
     </h1>
-    <b-tabs v-model="activeTab" style="background-color: #ffffff; border-radius: 15px">
+    <b-tabs v-model="activeTab" style="background-color: #ffffff; opacity: 0.9; border-radius: 5px;">
       <b-tab-item label="Website" icon="application" @click="activeTab = 0" :disabled="this.$data.loading && this.$data.activeTab != 0">
       </b-tab-item>
       <b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1"></b-tab-item>
     </b-tabs>
-    <b-field :type="urlField.type" :message="urlField.message">
-      <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading"></b-input>
-      <p class="control">
-        <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
-      </p>
-    </b-field>
+    <div style="columns">
+        <div class="column"></div>
+        <div class="column">
+          <b-field :type="urlField.type" :message="urlField.message">
+            <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading"></b-input>
+              <p class="control">
+                <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
+              </p>
+          </b-field>
+        </div>
+      <div class="column"></div>
+    </div>
   </div>
 </template>
 

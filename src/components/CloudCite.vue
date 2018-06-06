@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <h1 class="title" style="color: #149fda;">
+    <h1 class="title" style="color: #ffffff;">
       Welcome to CloudCite
     </h1>
-    <b-tabs v-model="activeTab">
+    <b-tabs v-model="activeTab" style="background-color: #ffffff; border-radius: 15px">
       <b-tab-item label="Website" icon="application" @click="activeTab = 0" :disabled="this.$data.loading && this.$data.activeTab != 0">
       </b-tab-item>
       <b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1"></b-tab-item>

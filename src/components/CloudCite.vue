@@ -9,7 +9,7 @@
       <b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1"></b-tab-item>
     </b-tabs>
     <b-field :type="urlField.type" :message="urlField.message">
-      <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="50" :disabled="this.$data.loading"></b-input>
+      <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading"></b-input>
       <p class="control">
         <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
       </p>
@@ -61,7 +61,7 @@ export default {
       this.$refs.urlInput.$el.children[0].blur();
       var dotIndex = this.url.indexOf('.')
       var afterDot = this.url.substring(dotIndex + 1, this.url.length)
-      if (this.url != null && this.url != "" && this.url.length <= 50 && this.url.length >= 4 && this.url.indexOf('.') != -1 && afterDot != null && afterDot != "" && afterDot.length >= 2) {
+      if (this.url != null && this.url != "" && this.url.length <= 2048 && this.url.length >= 4 && this.url.indexOf('.') != -1 && afterDot != null && afterDot != "" && afterDot.length >= 2) {
         this.urlField.message = null
         this.urlField.type = 'is-success'
         this.loading = true
@@ -70,7 +70,7 @@ export default {
           this.url = 'http://' + this.url
         }
         fetch('https://q4s3hew332.execute-api.us-east-1.amazonaws.com/prod/CloudCite', {
-          body: {
+          body: JSON.stringify({
             "authors": null,
             "source": null,
             "container": null,
@@ -83,7 +83,7 @@ export default {
               "day": currentDate.getDate(),
               "year": currentDate.getFullYear()
             }
-          },
+          }),
           cache: 'no-cache',
           headers: {
             'Content-Type': 'application/json',

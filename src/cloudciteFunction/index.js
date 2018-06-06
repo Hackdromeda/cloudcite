@@ -39,6 +39,6 @@ exports.handler = function(event, context, callback) {
         break;
         default:
             console.log('Format is invalid');
-            callback('Invalid format', null)
+            callback(JSON.stringify({"error": "Invalid Format"}), null)
     }
 }

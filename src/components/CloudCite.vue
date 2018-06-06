@@ -12,7 +12,7 @@
         <div class="column"></div>
         <div class="column">
           <b-field :type="urlField.type" :message="urlField.message">
-            <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading"></b-input>
+            <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading" style="color: #ffffff"></b-input>
               <p class="control">
                 <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
               </p>

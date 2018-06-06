@@ -4,15 +4,19 @@ const rp = require('request-promise-native');
 const cheerio = require('cheerio');
 
 exports.handler = function(event, context, callback) {
-    switch (event.format) {
+    var API = JSON.parse(event.body);
+    console.log('API: ' + API)
+    console.log('URL: ' + API.url);
+    console.log('Format: ' + API.format);
+    switch (API.format) {
         case 'website':
             rp({
-                uri: event.url,
+                uri: API.url,
                 transform: function(body) {
                     return cheerio.load(body);
                 }
             }).then(($) => {
-                var citation = event
+                var citation = API
                 citation.container = $('meta[property="og:title"]').attr('content')
                 if (citation.container == null) {
                     citation.container = $('title').text()
@@ -33,11 +37,29 @@ exports.handler = function(event, context, callback) {
                     }
                 }
                 console.log('Citation: ' + citation)
-                callback(null, citation)
+                var response = {
+                    "statusCode": 200,
+                    "headers": {
+                        "api-key": "none"
+                    },
+                    "body": JSON.stringify(citation),
+                    "isBase64Encoded": false
+                };
+                callback(null, response);
             });
         break;
         default:
             console.log('Format is invalid');
-            callback('Invalid format', null)
+            console.log("request: " + JSON.stringify(event));
+            body = "{error: bad request}"
+            var response = {
+                "statusCode": 400,
+                "headers": {
+                    "api-key": "none"
+                },
+                "body": JSON.stringify(body),
+                "isBase64Encoded": false
+            };
+            callback(null, response);
     }
 }

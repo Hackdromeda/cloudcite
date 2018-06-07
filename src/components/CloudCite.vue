@@ -16,14 +16,44 @@
       <b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
       </b-tab-item>
     </b-tabs>
+    <!-- 
+      <section>
+        <button class="button field is-danger" @click="checkedRows = []"
+            :disabled="!checkedRows.length">
+            <b-icon icon="close"></b-icon>
+            <span>Clear checked</span>
+        </button>
+
+        <b-tabs>
+            <b-tab-item label="Table">
+                <b-table
+                    :data="data"
+                    :columns="columns"
+                    :checked-rows.sync="checkedRows"
+                    :is-row-checkable="(row) => row.id !== 3"
+                    checkable>
+
+                    <template slot="bottom-left">
+                        <b>Total checked</b>: {{ checkedRows.length }}
+                    </template>
+                </b-table>
+            </b-tab-item>
+
+            <b-tab-item label="Checked rows">
+                <pre>{{ checkedRows }}</pre>
+            </b-tab-item>
+        </b-tabs>
+    </section>
+    -->
   </div>
   <div class="column"></div>
 </div>
 </template>
 
 <script>
-import {store} from '../store';
 const rp = require('request-promise-native');
+import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'CloudCite',
@@ -54,17 +84,10 @@ export default {
           console.log('No citation format found.');
       }
     },
-    citations() {
-      return store.getters.getCitations
-    },
+    ...mapGetters(['getEditing', 'getCitation', 'getCitations']),
   },
   methods: {
-    getCitation(url) {
-      return store.getters.getCitation(url)
-    },
-    getEditing() {
-      return store.getters.getEditing
-    },
+    ...mapActions(['setCitation', 'setEditing']),
     cite() {
       this.$refs.urlInput.$el.children[0].blur();
       var dotIndex = this.url.indexOf('.')
@@ -110,8 +133,8 @@ export default {
             })
           }).then((citation) => {
             citation = JSON.parse(citation)
-            store.dispatch('setEditing', citation)
-            console.log('Editing: ' + this.getEditing())
+            this.$store.dispatch('setEditing', citation)
+            console.log('Editing: ' + this.$store.state.editing)
             this.loading = false;
             this.$router.push({name: 'EditCitation'})
           }).catch((error) => {

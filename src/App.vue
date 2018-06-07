@@ -33,7 +33,7 @@ export default {
 
 body {
     background: linear-gradient(45deg,#30496B,#30B8D2);
-    height: 100vh;
+    height: 100%;
 }
 
 #app {

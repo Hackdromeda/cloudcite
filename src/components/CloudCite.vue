@@ -63,6 +63,9 @@ export default {
     getCitation(url) {
       return store.getters.getCitation(url)
     },
+    getEditing() {
+      return store.getters.getEditing
+    },
     cite() {
       this.$refs.urlInput.$el.children[0].blur();
       var dotIndex = this.url.indexOf('.')
@@ -99,11 +102,11 @@ export default {
                 return JSON.parse(body)
             }
           }).then((citation) => {
-            console.log('received response: ' + citation)
-            store.dispatch('setCitation', citation)
-            console.log(this.citations)
+            citation = JSON.parse(citation)
+            store.dispatch('setEditing', citation)
+            console.log('Editing: ' + this.getEditing())
             this.loading = false;
-            this.$router.push({path: '/edit'})
+            this.$router.push({name: 'EditCitation'})
           }).catch((error) => {
               console.log(error)
               this.loading = false;

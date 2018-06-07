@@ -5,16 +5,23 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        citations: new Map()
+        citations: new Map(),
+        editing: {}
     },
     mutations: {
         setCitation(state, payload) {
             state.citations.set(payload.url, payload)
+        },
+        setEditing(state, payload) {
+            state.editing = payload
         }
     },
     actions: {
         setCitation(state, payload) {
             state.commit('setCitation', payload)
+        },
+        setEditing(state, payload) {
+            state.commit('setEditing', payload)
         }
     },
     getters: {
@@ -28,6 +35,9 @@ export const store = new Vuex.Store({
             } else {
                 return citation;
             }
+        },
+        getEditing(state) {
+            return state.editing
         }
     }
 })

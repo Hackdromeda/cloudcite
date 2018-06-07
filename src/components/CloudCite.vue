@@ -2,12 +2,11 @@
 <div class="columns">
   <div class="column"></div>
   <div class="column is-three-quarters">
-    <h1 class="title" style="color: #ffffff;">
-      Welcome to CloudCite
-    </h1>
+    <h1 class="title" style="color: #ffffff;">Welcome to CloudCite</h1>
+    <br>
     <b-tabs v-model="activeTab" style="background-color: #ffffff; opacity: 0.9; border-radius: 5px; justify-content: center;">
       <b-field :type="urlField.type" :message="urlField.message" style="justify-content: center;">
-            <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading" style="color: #ffffff"></b-input>
+            <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading" style="color: #30496B"></b-input>
               <p class="control">
                 <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
               </p>
@@ -101,6 +100,14 @@ export default {
             transform: function(body) {
                 return JSON.parse(body)
             }
+          }).catch((error) => {
+            this.loading = false;
+            this.$toast.open({
+              duration: 5000,
+              message: `Error loading citation. Maybe an issue with the url?`,
+              position: 'is-bottom-right',
+              type: 'is-danger'
+            })
           }).then((citation) => {
             citation = JSON.parse(citation)
             store.dispatch('setEditing', citation)
@@ -110,11 +117,23 @@ export default {
           }).catch((error) => {
               console.log(error)
               this.loading = false;
+              this.$toast.open({
+                duration: 5000,
+                message: `Error loading citation. Maybe an issue with the url?`,
+                position: 'is-bottom-right',
+                type: 'is-danger'
+              })
           })
       } else {
         this.loading = false
         this.urlField.type = 'is-danger'
         this.urlField.message = 'url is not valid'
+        this.$toast.open({
+          duration: 3000,
+          message: `The website URL is invalid`,
+          position: 'is-bottom-right',
+          type: 'is-danger'
+        })
       }
     },
   }

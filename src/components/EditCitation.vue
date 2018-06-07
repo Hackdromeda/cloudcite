@@ -24,6 +24,13 @@
           <b-field horizontal label="Date Accessed">
               <b-datepicker placeholder="Type or select a date MM/DD/YYYY" icon="calendar-today" :readonly="false"></b-datepicker>
           </b-field>
+          <div class="tile is-parent">
+            <article class="tile is-child notification">
+              <div class="content">
+                <div v-if="citationAuthors">{{citationAuthors.split(' ')[1] + ", " + citationAuthors.split(' ')[0] + "."}}</div><div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (citationDatePublished ? ", ": "")}}</div><div v-if="citationDatePublished">{{citationDatePublished.day + " " + monthNames[citationDatePublished.month - 1] + " " + citationDatePublished.year + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
+              </div>
+            </article>
+          </div>
           </form>
         </div>
       </div>
@@ -35,6 +42,11 @@ import { mapActions } from 'vuex';
 
 export default {
   name: 'EditCitation',
+  data () {
+    return {
+      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    }
+  },
   computed: {
     ...mapGetters(['getEditing', 'getCitation']),
     citationAuthors: {
@@ -75,6 +87,14 @@ export default {
       },
       set(url) {
         this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {url: url}))
+      }
+    },
+    citationDatePublished: {
+      get() {
+        return this.$store.state.editing.datePublished
+      },
+      set(datePublished) {
+        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {datePublished: datePublished}))
       }
     }
   },

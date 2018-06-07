@@ -17,11 +17,13 @@ export const store = new Vuex.Store({
         }
     },
     actions: {
-        setCitation(state, payload) {
-            state.commit('setCitation', payload)
+        setCitation(context, payload) {
+            context.commit('setCitation', payload)
+            return context.getters.getCitation(payload.url)
         },
-        setEditing(state, payload) {
-            state.commit('setEditing', payload)
+        setEditing(context, payload) {
+            context.commit('setEditing', payload)
+            return context.getters.getEditing
         }
     },
     getters: {

@@ -88,7 +88,7 @@ export default {
               "authors": null,
               "source": null,
               "container": null,
-              "url": 'http://navalpatel.me',
+              "url": this.url,
               "format": 'website',
               "publisher": null,
               "datePublished": null,

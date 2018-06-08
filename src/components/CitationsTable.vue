@@ -56,9 +56,6 @@ import { mapActions } from 'vuex';
                         citationsArray.push(element)
                     })
                     return citationsArray
-                },
-                set() {
-                    this.$store.dispatch('setCitations', Object.values(this.$store.state.citations))
                 }
             }
         },

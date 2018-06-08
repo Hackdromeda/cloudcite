@@ -59,57 +59,57 @@ export default {
     ...mapGetters(['getEditing', 'getCitation']),
     citationAuthors: {
       get() {
-        return this.$store.state.editing.authors
+        return this.getEditing.authors
       },
       set(authors) {
         console.log("AUTHORS: " + authors)
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationSource: {
       get() {
-        return this.$store.state.editing.source
+        return this.getEditing.source
       },
       set(source) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {source: source}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {source: source}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationContainer: {
       get() {
-        return this.$store.state.editing.container
+        return this.getEditing.container
       },
       set(container) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {container: container}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {container: container}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationPublisher: {
       get() {
-        return this.$store.state.editing.publisher
+        return this.getEditing.publisher
       },
       set(publisher) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {publisher: publisher}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {publisher: publisher}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationURL: {
       get() {
-        return this.$store.state.editing.url
+        return this.getEditing.url
       },
       set(url) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {url: url}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {url: url}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationDatePublished: {
       get() {
-        return this.$store.state.editing.datePublished
+        return this.getEditing.datePublished
       },
       set(datePublished) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {datePublished: datePublished}))
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing.datePublished, {dateLong: this.$store.state.editing.datePublished.month + " " + this.$store.state.editing.datePublished.day + ", " + this.$store.state.editing.datePublished.year}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {datePublished: datePublished}))
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing.datePublished, {dateLong: this.getEditing.datePublished.month + " " + this.getEditing.datePublished.day + ", " + this.getEditing.datePublished.year}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
   },
@@ -117,7 +117,7 @@ export default {
     ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor']),
     updateAuthors(authorsIndex, field, event) {
       this.$store.dispatch('setEditingCitationAuthor', {authorsIndex, field, event})
-      this.$store.dispatch('setCitation', this.$store.state.editing)
+      this.$store.dispatch('setCitation', this.getEditing)
     }
   }
 }

@@ -63,7 +63,11 @@ export const store = new Vuex.Store({
             }
         },
         getEditing(state) {
-            return state.editing
+            if (!state.editing) {
+                return -1;
+            } else {
+                return state.editing
+            }
         }
     }
 })

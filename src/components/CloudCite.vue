@@ -16,35 +16,6 @@
       <b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
       </b-tab-item>
     </b-tabs>
-    <!-- 
-      <section>
-        <button class="button field is-danger" @click="checkedRows = []"
-            :disabled="!checkedRows.length">
-            <b-icon icon="close"></b-icon>
-            <span>Clear checked</span>
-        </button>
-
-        <b-tabs>
-            <b-tab-item label="Table">
-                <b-table
-                    :data="data"
-                    :columns="columns"
-                    :checked-rows.sync="checkedRows"
-                    :is-row-checkable="(row) => row.id !== 3"
-                    checkable>
-
-                    <template slot="bottom-left">
-                        <b>Total checked</b>: {{ checkedRows.length }}
-                    </template>
-                </b-table>
-            </b-tab-item>
-
-            <b-tab-item label="Checked rows">
-                <pre>{{ checkedRows }}</pre>
-            </b-tab-item>
-        </b-tabs>
-    </section>
-    -->
   </div>
   <div class="column"></div>
 </div>
@@ -54,7 +25,6 @@
 const rp = require('request-promise-native');
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
-
 export default {
   name: 'CloudCite',
   data() {
@@ -65,7 +35,7 @@ export default {
         type: null,
         message: null
       },
-      loading: false
+      loading: false,
     }
   },
   mounted() {
@@ -133,6 +103,11 @@ export default {
             })
           }).then((citation) => {
             citation = JSON.parse(citation)
+            if (citation.url.indexOf('https://') != -1) {
+              citation.url = citation.url.split('https://')[1]
+            } else if (citation.url.indexOf('http://') != -1){
+              citation.url = citation.url.split('http://')[1]
+            }
             this.$store.dispatch('setEditing', citation)
             console.log('Editing: ' + this.$store.state.editing)
             this.loading = false;

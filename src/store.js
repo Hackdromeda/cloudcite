@@ -12,6 +12,9 @@ export const store = new Vuex.Store({
         setCitation(state, payload) {
             state.citations.set(payload.url, payload)
         },
+        setCitations(state, payload) {
+            state.citations = payload
+        },
         setEditing(state, payload) {
             state.editing = payload
         }
@@ -20,6 +23,9 @@ export const store = new Vuex.Store({
         setCitation(context, payload) {
             context.commit('setCitation', payload)
             return context.getters.getCitation(payload.url)
+        },
+        setCitations(context, payload) {
+            context.commit('setCitations', payload)
         },
         setEditing(context, payload) {
             context.commit('setEditing', payload)

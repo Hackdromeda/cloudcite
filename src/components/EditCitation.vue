@@ -28,7 +28,7 @@
           <div class="tile is-parent">
             <article class="tile is-child notification">
               <div class="content">
-                <div v-if="citationAuthors">{{citationAuthors.split(' ')[1] + ", " + citationAuthors.split(' ')[0] + "."}}</div><div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (citationDatePublished ? ", ": "")}}</div><div v-if="citationDatePublished">{{citationDatePublished.day + " " + monthNames[citationDatePublished.month - 1] + " " + citationDatePublished.year + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
+                <div v-if="citationAuthors">{{citationAuthors.split(' ')[1] + ", " + citationAuthors.split(' ')[0] + "."}}</div><div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource && citationSource != (citationPublisher ? citationPublisher: '')"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (citationDatePublished ? ", ": "")}}</div><div v-if="citationDatePublished">{{citationDatePublished.dateLong + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
               </div>
             </article>
           </div>
@@ -56,6 +56,7 @@ export default {
       },
       set(authors) {
         this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {authors: authors}))
+        this.$store.dispatch('setCitation', this.$store.state.editing)
       }
     },
     citationSource: {
@@ -64,6 +65,7 @@ export default {
       },
       set(source) {
         this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {source: source}))
+        this.$store.dispatch('setCitation', this.$store.state.editing)
       }
     },
     citationContainer: {
@@ -72,6 +74,7 @@ export default {
       },
       set(container) {
         this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {container: container}))
+        this.$store.dispatch('setCitation', this.$store.state.editing)
       }
     },
     citationPublisher: {
@@ -80,6 +83,7 @@ export default {
       },
       set(publisher) {
         this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {publisher: publisher}))
+        this.$store.dispatch('setCitation', this.$store.state.editing)
       }
     },
     citationURL: {
@@ -88,6 +92,7 @@ export default {
       },
       set(url) {
         this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {url: url}))
+        this.$store.dispatch('setCitation', this.$store.state.editing)
       }
     },
     citationDatePublished: {
@@ -96,6 +101,7 @@ export default {
       },
       set(datePublished) {
         this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {datePublished: datePublished}))
+        this.$store.dispatch('setCitation', this.$store.state.editing)
       }
     }
   },

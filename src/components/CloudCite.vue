@@ -86,13 +86,13 @@ export default {
             },
             method: 'POST',
             body: JSON.stringify({
-              "authors": null,
-              "source": null,
-              "container": null,
+              "authors": [""],
+              "source": "",
+              "container": "",
               "url": this.url,
               "format": 'website',
-              "publisher": null,
-              "datePublished": null,
+              "publisher": "",
+              "datePublished": "",
               "dateAccessed": {
                 "month": currentDate.getMonth(),
                 "day": currentDate.getDate(),
@@ -107,7 +107,7 @@ export default {
             this.loading = false;
             this.$toast.open({
               duration: 5000,
-              message: `Error loading citation. Maybe an issue with the url?`,
+              message: 'Error loading citation.' + (this.urlField.type == 'is-danger' ? ' Please check the URL': ' CloudCite may be experiencing an issue right now. Please check again later.'),
               position: 'is-bottom-right',
               type: 'is-danger'
             })
@@ -119,6 +119,12 @@ export default {
               citation.url = citation.url.split('http://')[1]
             }
             this.$store.dispatch('setEditing', citation)
+            if (!this.$store.state.editing.datePublished || !this.$store.state.editing.datePublished.month || !this.$store.state.editing.datePublished.day || !this.$store.state.editing.datePublished.year) {
+              this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {datePublished: {month: "", day: "", year: "", dateLong: ""}}))
+            }
+            if (!this.$store.state.editing.authors || this.$store.state.editing.authors.length < 1) {
+              this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {authors: [{firstName: "", middleName: "", lastName: ""}]}))
+            }
             this.$store.dispatch('setCitation', citation)
             this.loading = false;
             this.$router.push({name: 'EditCitation'})
@@ -127,7 +133,7 @@ export default {
               this.loading = false;
               this.$toast.open({
                 duration: 5000,
-                message: `Error loading citation. Maybe an issue with the url?`,
+                message: 'Error loading citation.' + (this.urlField.type == 'is-danger' ? ' Please check the URL': ' CloudCite may be experiencing an issue right now. Please check again later.'),
                 position: 'is-bottom-right',
                 type: 'is-danger'
               })

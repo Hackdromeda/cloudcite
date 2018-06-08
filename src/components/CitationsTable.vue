@@ -1,9 +1,12 @@
 <template>
     <section style="background-color: #ffffff; opacity: 0.9; border-radius: 10px;">
+        <br>
+        <h1 class="title">Citations</h1>
+        <h3 v-if="citations.length == 0">Your citations look empty! Have you tried citing a website?</h3>
         <b-table :data="citations" detailed detail-key="url">
             <template slot-scope="props">
                 <b-table-column field="url" label="Citation" :width="props.row.url.length * 20">
-                    <b-icon icon="pencil" size="is-small"></b-icon>{{ " " + props.row.url }}
+                    <a @click="gotoEditPage(props.row)"><b-icon icon="pencil" size="is-small"></b-icon></a>{{ " " + props.row.url }}
                 </b-table-column>
 
                 <b-table-column field="format" label="Format">
@@ -56,7 +59,11 @@ import { mapActions } from 'vuex';
             }
         },
         methods: {
-            ...mapActions(['setCitation', 'setEditing'])
+            ...mapActions(['setCitation', 'setEditing']),
+            gotoEditPage(citation) {
+                this.$store.dispatch('setEditing', citation)
+                this.$router.push({name: 'EditCitation'})
+            }
         }
     }
 </script>

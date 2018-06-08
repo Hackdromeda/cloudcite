@@ -16,17 +16,25 @@
       <!--<b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
       </b-tab-item>-->
     </b-tabs>
+    <div>
+    <CitationsTable></CitationsTable>
+    </div>
   </div>
   <div class="column"></div>
 </div>
 </template>
 
 <script>
-const rp = require('request-promise-native');
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
+const CitationsTable = () => import('@/components/CitationsTable')
+const rp = require('request-promise-native');
+
 export default {
   name: 'CloudCite',
+  components: {
+    CitationsTable
+  },
   data() {
     return {
       activeTab: 0,

@@ -3,6 +3,7 @@ const https = require('https');
 const rp = require('request-promise-native');
 const cheerio = require('cheerio');
 const _ = require('lodash');
+const microdata = require('microdata-node');
 
 exports.handler = function(event, context, callback) {
     var headers = event.headers;
@@ -56,6 +57,10 @@ exports.handler = function(event, context, callback) {
                 }
             }).then(($) => {
                 var citation = request
+                var html = $("html").html();
+                var schemaAuthors = microdata.toJson(html, {
+                  base: 'http://www.example.com'
+                });
                 var publishers = []
                 $('div').each(function(i, elem) {
                     var text = $(this).text().replaceAll('\xa0',' ').replace(/[0-9]/g, '').trim();
@@ -91,10 +96,48 @@ exports.handler = function(event, context, callback) {
                 authors = [];       
                 authors.push($('meta[property="author"]').attr('content'));
                 authors.push( $('meta[name="author"]').attr('content'));
+                var items = schemaAuthors.items;
+                for(var i = 0; i < items.length; i++){
+                  if(items[i].type[0] == "http://schema.org/Person"){
+                    console.log(items[i])
+                    for(var j = 0; j < items[i].properties.name.length; j++){
+                      authors.push(items[i].properties.name[j]);
+                    }
+                  }
+                }
+                for(var i = 0; i < authors.length; i++){
+                    var temp = [];
+                    if(authors[i] != null){
+                        if(authors[i].indexOf(" and ") >= 0){
+                            temp = authors[i].split(' and ');
+                            authors[i] = null;
+                            for(var j = 0; j < temp.length; j++){
+                                authors.push(temp[j]);
+                            }
+                        }
+                    }
+                }
                 authors = _.uniq(authors);
                 authors = _.compact(authors)
-                // add split of "and" as well as split of name into first, middle, and last.
-                citation.authors = authors;
+                citation.authors = [];
+                for(var i = 0; i < authors.length; i++){
+                    if(authors[i] != null){      
+                        var fullName = authors[i].split(' ');
+                        var firstName = fullName[0];
+                        var middleName;
+                        var lastName = fullName[fullName.length - 1];
+                        if(fullName.length == 3){
+                            middleName = fullName[fullName.length - 2];
+                        }
+                        if(fullName.length > 3){
+                            for(var j = 1; j > fullName.length - 2; j++){
+                                firstName = firstName + " " + fullName[j];
+                            }
+                            middleName = fullName[fullName.length - 2];
+                        }
+                        citation.authors.push({first: firstName, middle: middleName, last: lastName});
+                    }
+                }
                 if(publishers[0] == null || publishers[0] == ""){
                     citation.publisher = citation.source;
                 }
@@ -128,6 +171,7 @@ exports.handler = function(event, context, callback) {
                 };
                 callback(null, response);
             }).catch(function (err) {
+                console.log(err);
                 body = "{error: cited website unavailable}"
                 var response = {
                     "statusCode": 422,

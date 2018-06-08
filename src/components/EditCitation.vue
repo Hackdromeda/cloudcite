@@ -6,9 +6,9 @@
           <form class="control">
           <div v-for="(author, index) in citationAuthors" :key="index">
           <b-field horizontal label="Author">
-            <b-input placeholder="First Name" :value="citationAuthors[index].firstName" v-on:input="updateAuthors(index, 'firstName', $event)" expanded></b-input>
-            <b-input placeholder="Middle Name" :value="citationAuthors[index].middleName" v-on:input="updateAuthors(index, 'middleName', $event)" expanded></b-input>
-            <b-input placeholder="Last Name" :value="citationAuthors[index].lastName" v-on:input="updateAuthors(index, 'lastName', $event)" expanded></b-input>
+            <b-input placeholder="First Name" :value="getEditing.authors[index].firstName" v-on:input="updateAuthors(index, 'firstName', $event)" expanded></b-input>
+            <b-input placeholder="Middle Name" :value="getEditing.authors[index].middleName" v-on:input="updateAuthors(index, 'middleName', $event)" expanded></b-input>
+            <b-input placeholder="Last Name" :value="getEditing.authors[index].lastName" v-on:input="updateAuthors(index, 'lastName', $event)" expanded></b-input>
           </b-field>
           </div>
           <br>
@@ -34,7 +34,7 @@
           <div class="tile is-parent">
             <article class="tile is-child notification">
               <div class="content">
-                <div v-if="citationAuthors.length == 1">{{citationAuthors[0].lastName + ", " + citationAuthors[0].firstName ? citationAuthors.firstName: ' ' + citationAuthors[0].middleName ? citationAuthors[0].middleName: '' + ". "}}</div>
+                <div v-if="getEditing.authors.length == 1">{{getEditing.authors[0].lastName}}{{getEditing.authors[0].firstName}}{{getEditing.authors[0].middleName ? getEditing.authors[0].middleName: '' + ". "}}</div>
                 <div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource && citationSource != (citationPublisher ? citationPublisher: '')"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (citationDatePublished ? ", ": "")}}</div><div v-if="citationDatePublished">{{citationDatePublished.dateLong + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
               </div>
             </article>
@@ -117,8 +117,7 @@ export default {
     ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor']),
     updateAuthors(authorsIndex, field, event) {
       this.$store.dispatch('setEditingCitationAuthor', {authorsIndex, field, event})
-      //this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {'authors': authors}))
-      //this.$store.dispatch('setCitations', Object.assign(this.$store.state.citations, {'authors': authors}))
+      this.$store.dispatch('setCitation', this.$store.state.editing)
     }
   }
 }

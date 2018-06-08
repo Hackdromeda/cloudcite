@@ -5,7 +5,7 @@
     <h1 class="title" style="color: #ffffff;">Welcome to CloudCite</h1>
     <br>
     <b-tabs v-model="activeTab" style="background-color: #ffffff; opacity: 0.9; border-radius: 5px; justify-content: center;">
-      <b-field :type="urlField.type" :message="urlField.message" style="justify-content: center;">
+      <b-field v-if="this.format == 'website'" :type="urlField.type" :message="urlField.message" style="justify-content: center;">
             <b-input :placeholder="'Enter ' + this.format + ' url'" v-model="url" @keyup.enter.native="cite()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading" style="color: #30496B"></b-input>
               <p class="control">
                 <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
@@ -13,20 +13,28 @@
       </b-field>
       <b-tab-item label="Website" icon="application" @click="activeTab = 0" :disabled="this.$data.loading && this.$data.activeTab != 0">
       </b-tab-item>
-      <b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
-      </b-tab-item>
+      <!--<b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
+      </b-tab-item>-->
     </b-tabs>
+    <div>
+    <CitationsTable></CitationsTable>
+    </div>
   </div>
   <div class="column"></div>
 </div>
 </template>
 
 <script>
-const rp = require('request-promise-native');
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
+const CitationsTable = () => import('@/components/CitationsTable')
+const rp = require('request-promise-native');
+
 export default {
   name: 'CloudCite',
+  components: {
+    CitationsTable
+  },
   data() {
     return {
       activeTab: 0,
@@ -36,6 +44,7 @@ export default {
         message: null
       },
       loading: false,
+      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     }
   },
   mounted() {
@@ -87,7 +96,8 @@ export default {
               "dateAccessed": {
                 "month": currentDate.getMonth(),
                 "day": currentDate.getDate(),
-                "year": currentDate.getFullYear()
+                "year": currentDate.getFullYear(),
+                "dateLong": this.monthNames[currentDate.getMonth() - 1] + " " + currentDate.getDate() + ", " + currentDate.getFullYear()
               }
             }),
             transform: function(body) {
@@ -109,7 +119,7 @@ export default {
               citation.url = citation.url.split('http://')[1]
             }
             this.$store.dispatch('setEditing', citation)
-            console.log('Editing: ' + this.$store.state.editing)
+            this.$store.dispatch('setCitation', citation)
             this.loading = false;
             this.$router.push({name: 'EditCitation'})
           }).catch((error) => {

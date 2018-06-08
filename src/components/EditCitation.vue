@@ -34,7 +34,7 @@
           <div class="tile is-parent">
             <article class="tile is-child notification">
               <div class="content">
-                <div v-if="citationAuthors.length == 1">{{citationAuthors[0].lastName + ", " + citationAuthors[0].firstName + citationAuthors[0].middleName ? citationAuthors[0].middleName: '' + ". "}}</div>
+                <div v-if="citationAuthors.length == 1">{{citationAuthors[0].lastName + ", " + citationAuthors[0].firstName ? citationAuthors.firstName: ' ' + citationAuthors[0].middleName ? citationAuthors[0].middleName: '' + ". "}}</div>
                 <div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource && citationSource != (citationPublisher ? citationPublisher: '')"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (citationDatePublished ? ", ": "")}}</div><div v-if="citationDatePublished">{{citationDatePublished.dateLong + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
               </div>
             </article>
@@ -114,24 +114,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setCitation', 'setEditing']),
-    updateAuthors(index, field, event) {
-      var authors = this.$store.state.editing.authors;
-      switch (field) {
-        case 'firstName':
-          authors[index].firstName = event
-          break;
-        case 'middleName':
-          authors[index].middleName = event
-          break;
-        case 'lastName':
-          authors[index].lastName = event
-          break;
-        default:
-          console.log('Invalid author field')
-      }
-
-      this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {'authors': authors}))
+    ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor']),
+    updateAuthors(authorsIndex, field, event) {
+      this.$store.dispatch('setEditingCitationAuthor', {authorsIndex, field, event})
+      //this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {'authors': authors}))
+      //this.$store.dispatch('setCitations', Object.assign(this.$store.state.citations, {'authors': authors}))
     }
   }
 }

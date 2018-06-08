@@ -1,6 +1,7 @@
 <template>
       <div>
         <h1 class="title" style="color: #ffffff">Edit Citation</h1>
+        <h3 class="subtitle" style="color: #ffffff">No need to click submit! Just return to the homepage to see your citations when you are done editing.</h3>
         <div class="panel-block" style="background-color: #ffffff; opacity: 0.9; border-radius: 10px;">
           <form class="control">
           <b-field horizontal label="Author">

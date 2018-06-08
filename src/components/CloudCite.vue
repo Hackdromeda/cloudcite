@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import {store} from '../store';
 const rp = require('request-promise-native');
-
+import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 export default {
   name: 'CloudCite',
   data() {
@@ -35,7 +35,7 @@ export default {
         type: null,
         message: null
       },
-      loading: false
+      loading: false,
     }
   },
   mounted() {
@@ -54,17 +54,10 @@ export default {
           console.log('No citation format found.');
       }
     },
-    citations() {
-      return store.getters.getCitations
-    },
+    ...mapGetters(['getEditing', 'getCitation', 'getCitations']),
   },
   methods: {
-    getCitation(url) {
-      return store.getters.getCitation(url)
-    },
-    getEditing() {
-      return store.getters.getEditing
-    },
+    ...mapActions(['setCitation', 'setEditing']),
     cite() {
       this.$refs.urlInput.$el.children[0].blur();
       var dotIndex = this.url.indexOf('.')
@@ -110,8 +103,13 @@ export default {
             })
           }).then((citation) => {
             citation = JSON.parse(citation)
-            store.dispatch('setEditing', citation)
-            console.log('Editing: ' + this.getEditing())
+            if (citation.url.indexOf('https://') != -1) {
+              citation.url = citation.url.split('https://')[1]
+            } else if (citation.url.indexOf('http://') != -1){
+              citation.url = citation.url.split('http://')[1]
+            }
+            this.$store.dispatch('setEditing', citation)
+            console.log('Editing: ' + this.$store.state.editing)
             this.loading = false;
             this.$router.push({name: 'EditCitation'})
           }).catch((error) => {

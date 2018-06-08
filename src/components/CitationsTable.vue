@@ -23,7 +23,10 @@
             <template slot="detail" slot-scope="props">
                     <div class="media-content">
                         <div class="content">
-                            <div v-if="props.row.authors.length <= 1">{{props.row.authors[0].lastName + ", " + props.row.authors[0].firstName + "."}}</div>
+                            <div v-if="props.row.authors.length == 1">{{props.row.authors[0].lastName + ", " + props.row.authors[0].firstName + props.row.authors[0].middleName ? props.row.authors[0].middleName + ", ": ". "}}</div>
+                            <!--<div v-if="props.row.authors.length == 2" v-for="(author, i) in props.row.authors" :key="i">
+                                {{props.row.authors[0].lastName + ", " + props.row.authors[0].firstName + props.row.authors[0].middleName ? props.row.authors[0].middleName: '' + ". "}}
+                            </div>-->
                             <div v-if="props.row.container">{{'"' + props.row.container + '."'}}</div><div v-if="props.row.source && props.row.source != (props.row.publisher ? props.row.publisher: '')"><i>{{props.row.source.substring(0, 1).toUpperCase() + props.row.source.substring(1, props.row.source.length + 1)}}</i></div><div v-if="props.row.publisher">{{" " + props.row.publisher + (props.row.datePublished ? ", ": "")}}</div><div v-if="props.row.datePublished">{{props.row.datePublished.dateLong + (props.row.url ? ", ": "")}}</div><div v-if="props.row.url">{{props.row.url + "."}}</div>
                         </div>
                     </div>

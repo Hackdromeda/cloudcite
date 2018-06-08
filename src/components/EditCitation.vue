@@ -31,13 +31,14 @@
               </option>
             </b-select>
           </b-field>
-          <!--<div class="tile is-parent">
+          div class="tile is-parent">
             <article class="tile is-child notification">
               <div class="content">
-                <div v-if="citationAuthors">{{citationAuthors.split(' ')[1] + ", " + citationAuthors.split(' ')[0] + "."}}</div><div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource && citationSource != (citationPublisher ? citationPublisher: '')"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (citationDatePublished ? ", ": "")}}</div><div v-if="citationDatePublished">{{citationDatePublished.dateLong + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
+                <div v-if="citationAuthors.length == 1">{{citationAuthors[0].lastName + ", " + citationAuthors[0].firstName + citationAuthors[0].middleName ? citationAuthors[0].middleName: '' + ". "}}</div>
+                <div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource && citationSource != (citationPublisher ? citationPublisher: '')"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (citationDatePublished ? ", ": "")}}</div><div v-if="citationDatePublished">{{citationDatePublished.dateLong + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
               </div>
             </article>
-          </div>-->
+          </div>
           </form>
         </div>
       </div>

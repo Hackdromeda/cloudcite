@@ -20,11 +20,6 @@ export default new Router({
       component: EditCitation
     },
     {
-      path: '/citations',
-      name: 'CitationsTable',
-      component: CitationsTable
-    },
-    {
       path: '/about',
       name: 'About',
       component: About

@@ -31,7 +31,7 @@
               </option>
             </b-select>
           </b-field>
-          div class="tile is-parent">
+          <div class="tile is-parent">
             <article class="tile is-child notification">
               <div class="content">
                 <div v-if="citationAuthors.length == 1">{{citationAuthors[0].lastName + ", " + citationAuthors[0].firstName + citationAuthors[0].middleName ? citationAuthors[0].middleName: '' + ". "}}</div>

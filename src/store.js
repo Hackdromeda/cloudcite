@@ -32,12 +32,28 @@ export const store = new Vuex.Store({
         },
         setEditing(state, payload) {
             state.editing = payload
+        },
+        addNewAuthor(state) {
+            state.editing.authors.push({
+                firstName: '',
+                middleName: '',
+                lastName: ''
+            })
+        },
+        removeAuthor(state, payload) {
+            var authors = state.editing.authors;
+            var newAuthorsArray = [];
+            for (let i = 0; i < authors.length - 1; i++) {
+                if (i != payload.index) {
+                    newAuthorsArray.push(authors[i])
+                }
+            }
+            state.editing.authors = newAuthorsArray
         }
     },
     actions: {
         setCitation(context, payload) {
             context.commit('setCitation', payload)
-            return context.getters.getCitation(payload.url)
         },
         setEditingCitationAuthor(context, payload) {
             context.commit('setEditingCitationAuthor', payload)
@@ -47,7 +63,12 @@ export const store = new Vuex.Store({
         },
         setEditing(context, payload) {
             context.commit('setEditing', payload)
-            return context.getters.getEditing
+        },
+        addNewAuthor(context) {
+            context.commit('addNewAuthor')
+        },
+        removeAuthor(context, payload) {
+            context.commit('removeAuthor', payload)
         }
     },
     getters: {

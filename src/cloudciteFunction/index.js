@@ -2,10 +2,26 @@ const AWS = require('aws-sdk');
 const https = require('https');
 const rp = require('request-promise-native');
 const cheerio = require('cheerio');
+const _ = require('lodash');
 
 exports.handler = function(event, context, callback) {
-    var API = JSON.parse(event.body);
-    if(API == null){
+    var headers = event.headers;
+    headers = ConvertKeysToLowerCase(headers);
+    var request = JSON.parse(event.body);
+    if(headers["content-type"] != null && headers["content-type"].toLowerCase() != "application/json"){
+        body = "{error: the server can only send data in the application/json format}"
+        var response = {
+            "statusCode": 406,
+            "headers": {
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Credentials" : true
+            },
+            "body": JSON.stringify(body),
+            "isBase64Encoded": false
+        };
+        return callback(null, response);
+    }
+    if(request == null){
         body = "{error: empty request}"
         var response = {
             "statusCode": 400,
@@ -18,9 +34,9 @@ exports.handler = function(event, context, callback) {
         };
         return callback(null, response);
     }
-    switch (API.format) {
+    switch (request.format) {
         case 'website':
-            if(API.url == null || API.url == ""){
+            if(request.url == null || request.url == ""){
                 body = "{error: expected website URL}"
                 var response = {
                     "statusCode": 422,
@@ -34,12 +50,12 @@ exports.handler = function(event, context, callback) {
                 return callback(null, response);
             }
             rp({
-                uri: API.url,
+                uri: request.url,
                 transform: function(body) {
                     return cheerio.load(body);
                 }
             }).then(($) => {
-                var citation = API
+                var citation = request
                 var publishers = []
                 $('div').each(function(i, elem) {
                     var text = $(this).text().replaceAll('\xa0',' ').replace(/[0-9]/g, '').trim();
@@ -61,12 +77,24 @@ exports.handler = function(event, context, callback) {
                       }
                     }
                 });
-                citation.container = $('meta[property="og:title"]').attr('content')
-                if (citation.container == null) {
-                    citation.container = $('title').text()
+                citation.container = $('meta[property="og:title"]').attr('content');
+                if (citation.container == null || citation.container == "") {
+                    citation.container = $('meta[name="og:title"]').attr('content');
                 }
-                citation.source = $('meta[property="og:site_name"]').attr('content')
-                citation.authors = $('meta[name="author"]').attr('content')
+                if (citation.container == null || citation.container == "") {
+                    citation.container = $('title').text();
+                }
+                citation.source = $('meta[property="og:site_name"]').attr('content');
+                if(citation.source == null || citation.source == ""){
+                    citation.source = $('meta[name="og:site_name"]').attr('content');
+                }
+                authors = [];       
+                authors.push($('meta[property="author"]').attr('content'));
+                authors.push( $('meta[name="author"]').attr('content'));
+                authors = _.uniq(authors);
+                authors = _.compact(authors)
+                // add split of "and" as well as split of name into first, middle, and last.
+                citation.authors = authors;
                 if(publishers[0] == null || publishers[0] == ""){
                     citation.publisher = citation.source;
                 }
@@ -78,6 +106,7 @@ exports.handler = function(event, context, callback) {
                 if (citation.datePublished == null) {
                     citation.datePublished = $('meta[property="og:published_time"]').attr('content')
                 }
+                const MLAmonths = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec." ];
                 if (citation.datePublished != null) {
                     citation.datePublished = new Date(citation.datePublished)
                     citation.datePublished = {
@@ -131,6 +160,8 @@ exports.handler = function(event, context, callback) {
 
 function sanitizeInput(s) {
     s = s.replace('©', ''); // may leave array of '' elements
+    s = s.replace('-', '');
+    s = s.replace('by', '');
     s = s.replaceAll('&nbsp;', ' ');
     s = s.replaceAll('\xa0',' ');
     s = s.replaceAll('All Rights Reserved', '');
@@ -160,3 +191,18 @@ function sanitizeInput(s) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
   };
+
+  function ConvertKeysToLowerCase(obj) {
+    var output = {};
+    for (i in obj) {
+        if (Object.prototype.toString.apply(obj[i]) === '[object Object]') {
+           output[i.toLowerCase()] = ConvertKeysToLowerCase(obj[i]);
+        }else if(Object.prototype.toString.apply(obj[i]) === '[object Array]'){
+            output[i.toLowerCase()]=[];
+             output[i.toLowerCase()].push(ConvertKeysToLowerCase(obj[i][0]));
+        } else {
+            output[i.toLowerCase()] = obj[i];
+        }
+    }
+    return output;
+};

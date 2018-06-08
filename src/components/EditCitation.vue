@@ -6,11 +6,11 @@
           <form class="control">
           <div v-for="(author, index) in citationAuthors" :key="index">
           <b-field horizontal label="Author">
-            <b-input placeholder="First Name" :value="getEditing.authors[index].firstName" v-on:input="updateAuthors(index, 'firstName', $event)" expanded></b-input>
-            <b-input placeholder="Middle Name" :value="getEditing.authors[index].middleName" v-on:input="updateAuthors(index, 'middleName', $event)" expanded></b-input>
-            <b-input placeholder="Last Name" :value="getEditing.authors[index].lastName" v-on:input="updateAuthors(index, 'lastName', $event)" expanded></b-input>
-          <a v-if="index == (getEditing.authors.length - 1) && index != 0" class="button is-danger" @click="removeAuthor({index: index})"><b-icon icon="minus"></b-icon></a>
-          <a v-if="index == (getEditing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="addNewAuthor"><b-icon icon="plus"></b-icon></a>
+            <b-input placeholder="First Name" :value="citationAuthors[index].firstName" v-on:input="updateAuthors(index, 'firstName', $event)" expanded></b-input>
+            <b-input placeholder="Middle Name" :value="citationAuthors[index].middleName" v-on:input="updateAuthors(index, 'middleName', $event)" expanded></b-input>
+            <b-input placeholder="Last Name" :value="citationAuthors[index].lastName" v-on:input="updateAuthors(index, 'lastName', $event)" expanded></b-input>
+          <a v-if="index <= (getEditing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
+          <a v-if="index <= (getEditing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
           </b-field>
           <div v-if="index < (getEditing.authors.length - 1)"></div>
           </div>
@@ -63,10 +63,6 @@ export default {
     citationAuthors: {
       get() {
         return this.getEditing.authors
-      },
-      set(authors) {
-        console.log("AUTHORS: " + authors)
-        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationSource: {
@@ -117,9 +113,17 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor', 'addNewAuthor', 'removeAuthor']),
+    ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor', 'addNewEditingAuthor', 'removeEditingAuthor']),
     updateAuthors(authorsIndex, field, event) {
       this.$store.dispatch('setEditingCitationAuthor', {authorsIndex, field, event})
+      this.$store.dispatch('setCitation', this.getEditing)
+    },
+    newAuthor() {
+      this.$store.dispatch('addNewEditingAuthor')
+      this.$store.dispatch('setCitation', this.getEditing)
+    },
+    deleteAuthor(index) {
+      this.$store.dispatch('removeEditingAuthor', {element: this.getEditing.authors[index]})
       this.$store.dispatch('setCitation', this.getEditing)
     }
   }

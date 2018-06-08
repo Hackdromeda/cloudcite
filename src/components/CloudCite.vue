@@ -80,7 +80,7 @@ export default {
           this.url = 'http://' + this.url
         }
         rp({
-            uri: 'https://q4s3hew332.execute-api.us-east-1.amazonaws.com/prod/CloudCite',
+            uri: 'https://api.cloudcite.net/autofill',
             headers: {
               'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
             },

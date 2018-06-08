@@ -33,22 +33,15 @@ export const store = new Vuex.Store({
         setEditing(state, payload) {
             state.editing = payload
         },
-        addNewAuthor(state) {
+        addNewEditingAuthor(state) {
             state.editing.authors.push({
                 firstName: '',
                 middleName: '',
                 lastName: ''
             })
         },
-        removeAuthor(state, payload) {
-            var authors = state.editing.authors;
-            var newAuthorsArray = [];
-            for (let i = 0; i < authors.length - 1; i++) {
-                if (i != payload.index) {
-                    newAuthorsArray.push(authors[i])
-                }
-            }
-            state.editing.authors = newAuthorsArray
+        removeEditingAuthor(state, payload) {
+            state.editing.authors = state.editing.authors.filter(element => element !== payload.element);
         }
     },
     actions: {
@@ -64,11 +57,11 @@ export const store = new Vuex.Store({
         setEditing(context, payload) {
             context.commit('setEditing', payload)
         },
-        addNewAuthor(context) {
-            context.commit('addNewAuthor')
+        addNewEditingAuthor(context) {
+            context.commit('addNewEditingAuthor')
         },
-        removeAuthor(context, payload) {
-            context.commit('removeAuthor', payload)
+        removeEditingAuthor(context, payload) {
+            context.commit('removeEditingAuthor', payload)
         }
     },
     getters: {

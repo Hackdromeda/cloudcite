@@ -6,9 +6,8 @@
         <b-table :data="citations" detailed detail-key="url">
             <template slot-scope="props">
                 <b-table-column field="url" label="Citation" :width="props.row.url.length * 20">
-                    <a @click="gotoEditPage(props.row)"><b-icon icon="pencil" size="is-small"></b-icon></a>{{ " " + props.row.url }}
+                    <a :href="'http://' + props.row.url">{{ " " + props.row.url }}</a>
                 </b-table-column>
-
                 <b-table-column field="format" label="Format">
                     {{ props.row.format }}
                 </b-table-column>
@@ -21,6 +20,7 @@
             </template>
 
             <template slot="detail" slot-scope="props">
+                    <a @click="gotoEditPage(props.row)"><b-icon icon="pencil" size="is-small"></b-icon> Edit Citation</a>
                     <div class="media-content">
                         <div class="content">
                             <div v-if="props.row.authors.length == 1">{{props.row.authors[0].last + ", " + props.row.authors[0].first + props.row.authors[0].middle ? props.row.authors[0].middle + ", ": ". "}}</div>

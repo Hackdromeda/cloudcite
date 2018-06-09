@@ -34,6 +34,9 @@ export const store = new Vuex.Store({
         setEditing(state, payload) {
             state.editing = payload
         },
+        setEditingSource(state, payload) {
+            state.editing.source = payload.source
+        },
         addNewEditingAuthor(state) {
             state.editing.authors.push({
                 first: '',
@@ -57,6 +60,9 @@ export const store = new Vuex.Store({
         },
         setEditing(context, payload) {
             context.commit('setEditing', payload)
+        },
+        setEditingSource(context, payload) {
+            context.commit('setEditingSource', payload)
         },
         addNewEditingAuthor(context) {
             context.commit('addNewEditingAuthor')

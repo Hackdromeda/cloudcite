@@ -86,13 +86,13 @@ export default {
             },
             method: 'POST',
             body: JSON.stringify({
-              "authors": [""],
-              "source": "",
-              "container": "",
+              "authors": [],
+              "source": null,
+              "container": null,
               "url": this.url,
               "format": 'website',
-              "publisher": "",
-              "datePublished": "",
+              "publisher": null,
+              "datePublished": null,
               "dateAccessed": {
                 "month": currentDate.getMonth(),
                 "day": currentDate.getDate(),
@@ -120,10 +120,10 @@ export default {
             }
             this.$store.dispatch('setEditing', citation)
             if (!this.getEditing.datePublished || !this.getEditing.datePublished.month || !this.getEditing.datePublished.day || !this.getEditing.datePublished.year) {
-              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {datePublished: {month: "", day: "", year: ""}}))
+              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {datePublished: {month: null, day: null, year: null}}))
             }
             if (!this.getEditing.authors || this.getEditing.authors.length < 1) {
-              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {authors: [{first: "", middle: "", last: ""}]}))
+              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {authors: [{first: null, middle: null, last: null}]}))
             }
             this.$store.dispatch('setCitation', citation)
             this.loading = false;

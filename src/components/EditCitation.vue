@@ -4,15 +4,15 @@
         <h3 class="subtitle" style="color: #ffffff">No need to click submit! Just return to the homepage to see your citations when you are done editing.</h3>
         <div class="panel-block" style="background-color: #ffffff; opacity: 0.9; border-radius: 10px;">
           <form class="control">
-          <div v-for="(author, index) in citationAuthors" :key="index">
+          <div v-for="(author, index) in editing.authors" :key="index">
           <b-field horizontal label="Author">
-            <b-input placeholder="First Name" :value="citationAuthors[index].first" v-on:input="updateAuthors(index, 'first', $event)" expanded></b-input>
-            <b-input placeholder="Middle Name" :value="citationAuthors[index].middle" v-on:input="updateAuthors(index, 'middle', $event)" expanded></b-input>
-            <b-input placeholder="Last Name" :value="citationAuthors[index].last" v-on:input="updateAuthors(index, 'last', $event)" expanded></b-input>
-          <a v-if="index <= (getEditing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
-          <a v-if="index <= (getEditing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
+            <b-input placeholder="First Name" v-model="editing.authors[index].first" expanded></b-input>
+            <b-input placeholder="Middle Name" v-model="editing.authors[index].middle" expanded></b-input>
+            <b-input placeholder="Last Name" v-model="editing.authors[index].last" expanded></b-input>
+          <a v-if="index <= (editing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
+          <a v-if="index <= (editing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
           </b-field>
-          <div v-if="index < (getEditing.authors.length - 1)"></div>
+          <div v-if="index < (editing.authors.length - 1)"></div>
           </div>
           <br>
           <b-field horizontal label="Source">
@@ -38,10 +38,44 @@
           </b-field>
           <div class="tile is-parent">
             <article class="tile is-child notification">
-              <div class="hangingIndent" v-if="getEditing.authors.length == 1">
-                {{getEditing.authors[0].last}} {{getEditing.authors[0].first}} {{getEditing.authors[0].middle}}
+              <div class="hangingIndent" v-if="editing.authors.length == 1">
+                <span v-if="citationAuthors[0].last">
+                  {{citationAuthors[0].last + ','}}
+                </span>
+                <span v-if="citationAuthors[0].first">
+                  {{citationAuthors[0].first}} 
+                </span>
+                <span v-if="citationAuthors[0].middle">
+                  {{citationAuthors[0].middle + '.'}} 
+                </span>
+                <span v-if="citationContainer">
+                  "{{citationContainer}}."
+                </span>
+                <span v-if="citationSource">
+                  {{citationSource}},
+                </span>
+                <span v-if="citationPublisher">
+                  <i>{{citationPublisher}}</i>,
+                </span>
+                <span v-if="citationDayPublished">
+                  <i>{{citationDayPublished}}</i>
+                </span>
+                <span v-if="citationMonthPublished">
+                  {{this.abbreviatedMonths[citationMonthPublished]}}
+                </span>
+                <span v-if="citationYearPublished">
+                  {{citationYearPublished}},
+                </span>
+                <span>
+                  {{citationURL}}.
+                </span>
+                <!--<i>{{(citationSource && citiationPublisher || citiationSource && citationMonthPublished || citationSource && citationURL) ? citationSource + ',': ''}}</i>
+                <i>{{((citationSource && !citationPublisher) && (citationSource && !citationMonthPublished) && (citationSource && !citationURL)) ? citationSource + '.': ''}}</i>-->
               </div>
             </article>
+          </div>
+          <div style="text-align: center;">
+            <a class="button is-success" @click="doneEditing()">Done Editing</a>
           </div>
           </form>
         </div>
@@ -49,6 +83,7 @@
 </template>
 
 <script>
+const _ = require('lodash');
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
 
@@ -57,99 +92,87 @@ export default {
   data () {
     return {
       monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-      abbreviatedMonths: ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec." ]
+      abbreviatedMonths: ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec." ],
+      editing: _.cloneDeep(this.$store.state.editing)
     }
   },
   computed: {
-    ...mapGetters(['getEditing', 'getCitation']),
     citationAuthors: {
       get() {
-        return this.getEditing.authors
+        return this.editing.authors
       }
     },
     citationSource: {
       get() {
-        return this.getEditing.source
+        return this.editing.source
       },
       set(source) {
-        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {source: source}))
-        this.$store.dispatch('setCitation', this.getEditing)
+        this.editing.source = source
       }
     },
     citationContainer: {
       get() {
-        return this.getEditing.container
+        return this.editing.container
       },
       set(container) {
-        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {container: container}))
-        this.$store.dispatch('setCitation', this.getEditing)
+        this.editing.container = container
       }
     },
     citationPublisher: {
       get() {
-        return this.getEditing.publisher
+        return this.editing.publisher
       },
       set(publisher) {
-        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {publisher: publisher}))
-        this.$store.dispatch('setCitation', this.getEditing)
+        this.editing.publisher = publisher
       }
     },
     citationURL: {
       get() {
-        return this.getEditing.url
+        return this.editing.url
       },
       set(url) {
-        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {url: url}))
-        this.$store.dispatch('setCitation', this.getEditing)
+        this.editing.url = url
       }
     },
     citationMonthPublished: {
       get() {
-        return this.getEditing.datePublished.month
+        return this.editing.datePublished.month
       },
       set(monthIndex) {
-        var editing = this.getEditing
-        editing.datePublished.month = monthIndex + 1
-        this.$store.dispatch('setEditing', editing)
-        this.$store.dispatch('setCitation', this.getEditing)
+        this.editing.datePublished.month = monthIndex + 1
       }
     },
     citationDayPublished: {
       get() {
-        return this.getEditing.datePublished.day
+        return this.editing.datePublished.day
       },
       set(day) {
-        var editing = this.getEditing
-        editing.datePublished.day = day
-        this.$store.dispatch('setEditing', editing)
-        this.$store.dispatch('setCitation', this.getEditing)
+        this.editing.datePublished.day = day
       }
     },
     citationYearPublished: {
       get() {
-        return this.getEditing.datePublished.year
+        return this.editing.datePublished.year
       },
       set(year) {
-        var editing = this.getEditing
-        editing.datePublished.year = year
-        this.$store.dispatch('setEditing', editing)
-        this.$store.dispatch('setCitation', this.getEditing)
+        this.editing.datePublished.year = year
       }
     }
   },
   methods: {
-    ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor', 'addNewEditingAuthor', 'removeEditingAuthor']),
-    updateAuthors(authorsIndex, field, event) {
-      this.$store.dispatch('setEditingCitationAuthor', {authorsIndex, field, event})
-      this.$store.dispatch('setCitation', this.getEditing)
-    },
     newAuthor() {
-      this.$store.dispatch('addNewEditingAuthor')
-      this.$store.dispatch('setCitation', this.getEditing)
+      this.editing.authors.push({
+        first: null,
+        middle: null,
+        last: null
+      })
     },
     deleteAuthor(index) {
-      this.$store.dispatch('removeEditingAuthor', {element: this.getEditing.authors[index]})
-      this.$store.dispatch('setCitation', this.getEditing)
+      this.editing.authors = this.editing.authors.filter(element => element !== this.editing.authors[index]);
+    },
+    doneEditing() {
+      this.$store.dispatch('setCitation', this.editing)
+      this.$router.push({name: 'CloudCite'})
     }
   }
 }

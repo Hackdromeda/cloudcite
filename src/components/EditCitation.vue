@@ -7,8 +7,8 @@
           <div v-for="(author, index) in citationAuthors" :key="index">
           <b-field horizontal label="Author">
             <b-input placeholder="First Name" :value="citationAuthors[index].first" v-on:input="updateAuthors(index, 'first', $event)" expanded></b-input>
-            <b-input placeholder="Middle Name" :value="citationAuthors[index].middle" v-on:input="updateAuthors(index, 'first', $event)" expanded></b-input>
-            <b-input placeholder="Last Name" :value="citationAuthors[index].last" v-on:input="updateAuthors(index, 'first', $event)" expanded></b-input>
+            <b-input placeholder="Middle Name" :value="citationAuthors[index].middle" v-on:input="updateAuthors(index, 'middle', $event)" expanded></b-input>
+            <b-input placeholder="Last Name" :value="citationAuthors[index].last" v-on:input="updateAuthors(index, 'last', $event)" expanded></b-input>
           <a v-if="index <= (getEditing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
           <a v-if="index <= (getEditing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
           </b-field>
@@ -40,7 +40,6 @@
             <article class="tile is-child notification">
               <div class="content">
                 <div v-if="getEditing.authors.length == 1">{{getEditing.authors[0].first}}{{getEditing.authors[0].first}}{{getEditing.authors[0].first ? getEditing.authors[0].first: '' + ". "}}</div>
-                <div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource && citationSource != (citationPublisher ? citationPublisher: '')"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (this.getEditing.datePublished ? ", ": "")}}</div><div v-if="this.getEditing.datePublished">{{citationMonthPublished + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
               </div>
             </article>
           </div>

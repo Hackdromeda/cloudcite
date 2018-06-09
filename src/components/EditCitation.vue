@@ -1,7 +1,7 @@
 <template>
       <div>
         <h1 class="title" style="color: #ffffff">Edit Citation</h1>
-        <h3 class="subtitle" style="color: #ffffff">No need to click submit! Just return to the homepage to see your citations when you are done editing.</h3>
+        <h3 class="subtitle" style="color: #ffffff">Your citation will be available on the homepage when you are done editing.</h3>
         <div class="panel-block" style="background-color: #ffffff; opacity: 0.9; border-radius: 10px;">
           <form class="control">
           <div v-for="(author, index) in editing.authors" :key="index">
@@ -40,10 +40,10 @@
             <article class="tile is-child notification">
               <div class="hangingIndent" v-if="editing.authors.length == 1">
                 <span v-if="citationAuthors[0].last">
-                  {{citationAuthors[0].last + ','}}
+                  {{citationAuthors[0].last}}<span v-if="citationAuthors[0].first">,</span><span v-if="!citationAuthors[0].first && !citationAuthors[0].middle">.</span>
                 </span>
                 <span v-if="citationAuthors[0].first">
-                  {{citationAuthors[0].first}} 
+                  {{citationAuthors[0].first}}<span v-if="!citationAuthors[0].middle">.</span>
                 </span>
                 <span v-if="citationAuthors[0].middle">
                   {{citationAuthors[0].middle + '.'}} 

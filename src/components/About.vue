@@ -7,19 +7,19 @@
       <div class="column"></div>
       <div class="column">
         <figure class="image is-128x128">
-          <a href="http://navalpatel.me"><img src="static/Naval.jpg" alt="Naval Patel"></a>
+          <a href="http://navalpatel.me"><img src="/static/images/Naval.jpg" alt="Naval Patel"></a>
           <p>Naval Patel</p>
         </figure>
       </div>
       <div class="column">
         <figure class="image is-128x128">
-          <a href="https://avimshah.com"><img src="static/Avi-2.jpg" alt="Avi Shah"></a>
+          <a href="https://avimshah.com"><img src="/static/images/Avi-2.jpg" alt="Avi Shah"></a>
           <p>Avi Shah</p>
         </figure>
       </div>
       <div class="column">
         <figure class="image is-128x128">
-          <a href="https://www.linkedin.com/in/faris-b/"><img src="static/Faris.jpg" alt="Faris Bokhari"></a>
+          <a href="https://www.linkedin.com/in/faris-b/"><img src="/static/images/Faris.jpg" alt="Faris Bokhari"></a>
           <p>Faris Bokhari</p>
         </figure>
       </div>

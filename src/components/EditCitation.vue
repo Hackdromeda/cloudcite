@@ -38,8 +38,8 @@
           </b-field>
           <div class="tile is-parent">
             <article class="tile is-child notification">
-              <div class="content">
-                <div v-if="getEditing.authors.length == 1">{{getEditing.authors[0].first}}{{getEditing.authors[0].first}}{{getEditing.authors[0].first ? getEditing.authors[0].first: '' + ". "}}</div>
+              <div class="hangingIndent" v-if="getEditing.authors.length == 1">
+                {{getEditing.authors[0].last}} {{getEditing.authors[0].first}} {{getEditing.authors[0].middle}}
               </div>
             </article>
           </div>

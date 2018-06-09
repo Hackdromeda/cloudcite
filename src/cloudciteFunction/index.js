@@ -52,15 +52,15 @@ exports.handler = function(event, context, callback) {
             }
             rp({
                 uri: request.url,
+                timeout: 6500,
                 transform: function(body) {
                     return cheerio.load(body);
                 }
             }).then(($) => {
                 var citation = request
                 var html = $("html").html();
-                var schemaAuthors = microdata.toJson(html, {
-                  base: 'http://www.example.com'
-                });
+                console.log("HTML finished: " + html);
+                var schemaAuthors = microdata.toJson(html);
                 var publishers = []
                 $('div').each(function(i, elem) {
                     var text = $(this).text().replaceAll('\xa0',' ').replace(/[0-9]/g, '').trim();
@@ -171,7 +171,7 @@ exports.handler = function(event, context, callback) {
                 };
                 callback(null, response);
             }).catch(function (err) {
-                console.log(err);
+                console.log("Error in RP:" + err);
                 body = "{error: cited website unavailable}"
                 var response = {
                     "statusCode": 422,

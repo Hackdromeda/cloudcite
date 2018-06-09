@@ -70,7 +70,7 @@ exports.handler = function(event, context, callback) {
                     var citation = request;
                     var rootDomain = extractRootDomain(citation.url).toLowerCase();
                     var html = $("html").html();
-                    console.log("HTML finished: " + html);
+                    //console.log("HTML finished: " + html);
                     var schema = microdata.toJson(html);
                     var items = schema.items;
                     var publishers = []
@@ -128,7 +128,7 @@ exports.handler = function(event, context, callback) {
                     }
                     for(var i = 0; i < items.length; i++){
                       if(items[i].type[0] == "http://schema.org/Person"){
-                        console.log(items[i])
+                        //console.log(items[i])
                         for(var j = 0; j < items[i].properties.name.length; j++){
                           authors.push(items[i].properties.name[j]);
                         }
@@ -176,7 +176,7 @@ exports.handler = function(event, context, callback) {
                             citation.authors.push({first: videoOwner, middle: null, last: null});
                         }
                     }
-                    if(rootDomain == "twitter.com" || citation.source.toLowerCase() == "twitter"){
+                    if(rootDomain == "twitter.com" || (citation.source != null && citation.source.toLowerCase() == "twitter")){
                         for(var i = 0; i < citation.authors.length; i++){
                             var fn = citation.authors[i].first;
                             if(fn != null && fn != ""){

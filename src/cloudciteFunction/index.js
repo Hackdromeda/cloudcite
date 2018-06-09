@@ -97,12 +97,12 @@ exports.handler = function(event, context, callback) {
                     if(meta != null && meta.publisher != null && meta.publisher != ""){
                         publishers.push(meta.publisher);
                     }
-                    citation.container = $('meta[property="og:title"]').attr('content');
-                    if (citation.container == null || citation.container == "") {
-                        citation.container = $('meta[name="og:title"]').attr('content');
+                    citation.title = $('meta[property="og:title"]').attr('content');
+                    if (citation.title == null || citation.title == "") {
+                        citation.title = $('meta[name="og:title"]').attr('content');
                     }
-                    if (citation.container == null || citation.container == "") {
-                        citation.container = $('title').text();
+                    if (citation.title == null || citation.title == "") {
+                        citation.title = $('title').text();
                     }
                     citation.source = $('meta[property="og:site_name"]').attr('content');
                     if(citation.source == null || citation.source == ""){

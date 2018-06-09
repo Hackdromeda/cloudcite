@@ -5,7 +5,7 @@
         <h3 v-if="citations.length == 0">Your citations look empty! Have you tried citing a website?</h3>
         <b-table :data="citations" detailed detail-key="url">
             <template slot-scope="props">
-                <b-table-column field="url" label="Citation" :width="props.row.url.length * 20">
+                <b-table-column field="url" label="Citation">
                     <a :href="'http://' + props.row.url">{{ " " + props.row.url }}</a>
                 </b-table-column>
                 <b-table-column field="format" label="Format">
@@ -23,11 +23,36 @@
                     <a @click="gotoEditPage(props.row)"><b-icon icon="pencil" size="is-small"></b-icon> Edit Citation</a>
                     <div class="media-content">
                         <div class="content">
-                            <div v-if="props.row.authors.length == 1">{{props.row.authors[0].last + ", " + props.row.authors[0].first + props.row.authors[0].middle ? props.row.authors[0].middle + ", ": ". "}}</div>
-                            <!--<div v-if="props.row.authors.length == 2" v-for="(author, i) in props.row.authors" :key="i">
-                                {{props.row.authors[0].last + ", " + props.row.authors[0].first + props.row.authors[0].middle ? props.row.authors[0].middle: '' + ". "}}
-                            </div>-->
-                            <div v-if="props.row.container">{{'"' + props.row.container + '."'}}</div><div v-if="props.row.source && props.row.source != (props.row.publisher ? props.row.publisher: '')"><i>{{props.row.source.substring(0, 1).toUpperCase() + props.row.source.substring(1, props.row.source.length + 1)}}</i></div><div v-if="props.row.publisher">{{" " + props.row.publisher + (props.row.datePublished ? ", ": "")}}</div><div v-if="props.row.datePublished">{{props.row.datePublished.month + (props.row.url ? ", ": "")}}</div><div v-if="props.row.url">{{props.row.url + "."}}</div>
+                            <span v-if="props.row.authors[0].last">
+                            {{props.row.authors[0].last}}<span v-if="props.row.authors[0].first">,</span><span v-if="!props.row.authors[0].first && !props.row.authors[0].middle">.</span>
+                            </span>
+                            <span v-if="props.row.authors[0].first">
+                            {{props.row.authors[0].first}}<span v-if="!props.row.authors[0].middle">.</span>
+                            </span>
+                            <span v-if="props.row.authors[0].middle">
+                            {{props.row.authors[0].middle + '.'}} 
+                            </span>
+                            <span v-if="props.row.title">
+                            "{{citationTitle}}."
+                            </span>
+                            <span v-if="props.row.source">
+                            {{props.row.source}},
+                            </span>
+                            <span v-if="props.row.publisher && (props.row.publisher != props.row.source)">
+                            <i>{{props.row.publisher}}</i>,
+                            </span>
+                            <span v-if="props.row.datePublished.day">
+                            <i>{{props.row.datePublished.day}}</i>
+                            </span>
+                            <span v-if="props.row.datePublished.month">
+                            {{abbreviatedMonths[props.row.datePublished.month]}}
+                            </span>
+                            <span v-if="props.row.datePublished.year">
+                            {{props.row.datePublished.year}},
+                            </span>
+                            <span v-if="props.row.url.indexOf('http://') != -1">
+                            {{props.row.url}}.
+                            </span>
                         </div>
                     </div>
             </template>
@@ -43,6 +68,8 @@ import { mapActions } from 'vuex';
         name: 'CitationsTable',
         data() {
             return {
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                abbreviatedMonths: ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec." ],
                 defaultOpenedDetails: [0]
             }
         },

@@ -1,9 +1,13 @@
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 
+[v-cloak] { 
+    display: none;
+}
+
 .hangingIndent {
-    padding-left: 22px ;
-    text-indent: -22px ;
+    padding-left: 22px;
+    text-indent: -22px;
 } 
 
 // Set your colors

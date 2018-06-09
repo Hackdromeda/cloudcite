@@ -1,7 +1,7 @@
 <template>
       <div>
         <h1 class="title" style="color: #ffffff">Edit Citation</h1>
-        <h3 class="subtitle" style="color: #ffffff">No need to click submit! Just return to the homepage to see your citations when you are done editing.</h3>
+        <h3 class="subtitle" style="color: #ffffff">Your citation will be available on the homepage when you are done editing.</h3>
         <div class="panel-block" style="background-color: #ffffff; opacity: 0.9; border-radius: 10px;">
           <form class="control">
           <div v-for="(author, index) in editing.authors" :key="index">
@@ -18,8 +18,8 @@
           <b-field horizontal label="Source">
             <b-input placeholder="Source" v-model="citationSource" expanded></b-input>
           </b-field>
-          <b-field horizontal label="Container">
-            <b-input placeholder="Container" v-model="citationContainer" expanded></b-input>
+          <b-field horizontal label="Title">
+            <b-input placeholder="Title" v-model="citationTitle" expanded></b-input>
           </b-field>
           <b-field horizontal label="Website">
             <b-input placeholder="Website" v-model="citationURL" expanded></b-input>
@@ -38,23 +38,26 @@
           </b-field>
           <div class="tile is-parent">
             <article class="tile is-child notification">
-              <div class="hangingIndent" v-if="editing.authors.length == 1">
+              <div class="hangingIndent" v-if="editing.authors.length == 1" v-cloak>
                 <span v-if="citationAuthors[0].last">
-                  {{citationAuthors[0].last + ','}}
+                  {{citationAuthors[0].last}}<span v-if="citationAuthors[0].first">,</span><span v-if="!citationAuthors[0].first && !citationAuthors[0].middle">.</span>
                 </span>
                 <span v-if="citationAuthors[0].first">
-                  {{citationAuthors[0].first}} 
+                  {{citationAuthors[0].first}}<span v-if="!citationAuthors[0].middle">.</span>
                 </span>
                 <span v-if="citationAuthors[0].middle">
                   {{citationAuthors[0].middle + '.'}} 
                 </span>
-                <span v-if="citationContainer">
-                  "{{citationContainer}}."
+                <span v-if="citationTitle">
+                  "{{citationTitle}}."
                 </span>
-                <span v-if="citationSource">
+                <span v-if="citationSource && !citationPublisher || citationSource == citationPublisher">
+                  {{citationSource}}.
+                </span>
+                <span v-else>
                   {{citationSource}},
                 </span>
-                <span v-if="citationPublisher">
+                <span v-if="citationPublisher && (citationPublisher != citationSource)">
                   <i>{{citationPublisher}}</i>,
                 </span>
                 <span v-if="citationDayPublished">
@@ -66,7 +69,7 @@
                 <span v-if="citationYearPublished">
                   {{citationYearPublished}},
                 </span>
-                <span>
+                <span v-if="citationURL.indexOf('http://') != -1">
                   {{citationURL}}.
                 </span>
                 <!--<i>{{(citationSource && citiationPublisher || citiationSource && citationMonthPublished || citationSource && citationURL) ? citationSource + ',': ''}}</i>
@@ -110,12 +113,12 @@ export default {
         this.editing.source = source
       }
     },
-    citationContainer: {
+    citationTitle: {
       get() {
-        return this.editing.container
+        return this.editing.title
       },
-      set(container) {
-        this.editing.container = container
+      set(title) {
+        this.editing.title = title
       }
     },
     citationPublisher: {

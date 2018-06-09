@@ -88,7 +88,7 @@ export default {
             body: JSON.stringify({
               "authors": [],
               "source": null,
-              "container": null,
+              "title": null,
               "url": this.url,
               "format": 'website',
               "publisher": null,

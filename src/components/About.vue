@@ -13,6 +13,12 @@
       </div>
       <div class="column">
         <figure class="image is-128x128">
+          <a href="https://avimshah.com"><img src="static/Avi-2.jpg" alt="Avi Shah"></a>
+          <p>Avi Shah</p>
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image is-128x128">
           <a href="https://www.linkedin.com/in/faris-b/"><img src="static/Faris.jpg" alt="Faris Bokhari"></a>
           <p>Faris Bokhari</p>
         </figure>

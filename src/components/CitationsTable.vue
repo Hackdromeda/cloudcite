@@ -1,7 +1,7 @@
 <template>
     <section style="background-color: #ffffff; opacity: 0.9; border-radius: 10px;">
         <br>
-        <h1 class="title">Citations</h1>
+        <h1 class="title">Edit History</h1>
         <h3 v-if="citations.length == 0">Your citations look empty! Have you tried citing a website?</h3>
         <b-table :data="citations" detailed detail-key="url">
             <template slot-scope="props">

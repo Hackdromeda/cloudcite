@@ -1,35 +1,68 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+const _ = require('lodash');
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
         citations: new Map(),
-        editing: {}
+        editing: {author: {firstName: "", middleName: "", lastName: ""}}
     },
     mutations: {
         setCitation(state, payload) {
             state.citations.set(payload.url, payload)
+        },
+        setEditingCitationAuthor(state, payload) {
+            switch (payload.field) {
+                case 'firstName':
+                  state.editing.authors[payload.authorsIndex].firstName = payload.event;
+                  break;
+                case 'middleName':
+                  state.editing.authors[payload.authorsIndex].middleName = payload.event;
+                  break;
+                case 'lastName':
+                  state.editing.authors[payload.authorsIndex].lastName = payload.event;
+                  break;
+                default:
+                  console.log('Invalid author field')
+            }
         },
         setCitations(state, payload) {
             state.citations = payload
         },
         setEditing(state, payload) {
             state.editing = payload
+        },
+        addNewEditingAuthor(state) {
+            state.editing.authors.push({
+                firstName: '',
+                middleName: '',
+                lastName: ''
+            })
+        },
+        removeEditingAuthor(state, payload) {
+            state.editing.authors = state.editing.authors.filter(element => element !== payload.element);
         }
     },
     actions: {
         setCitation(context, payload) {
             context.commit('setCitation', payload)
-            return context.getters.getCitation(payload.url)
+        },
+        setEditingCitationAuthor(context, payload) {
+            context.commit('setEditingCitationAuthor', payload)
         },
         setCitations(context, payload) {
             context.commit('setCitations', payload)
         },
         setEditing(context, payload) {
             context.commit('setEditing', payload)
-            return context.getters.getEditing
+        },
+        addNewEditingAuthor(context) {
+            context.commit('addNewEditingAuthor')
+        },
+        removeEditingAuthor(context, payload) {
+            context.commit('removeEditingAuthor', payload)
         }
     },
     getters: {
@@ -45,7 +78,11 @@ export const store = new Vuex.Store({
             }
         },
         getEditing(state) {
-            return state.editing
+            if (!state.editing) {
+                return -1;
+            } else {
+                return state.editing
+            }
         }
     }
 })

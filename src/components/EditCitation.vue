@@ -9,7 +9,10 @@
             <b-input placeholder="First Name" :value="citationAuthors[index].firstName" v-on:input="updateAuthors(index, 'firstName', $event)" expanded></b-input>
             <b-input placeholder="Middle Name" :value="citationAuthors[index].middleName" v-on:input="updateAuthors(index, 'middleName', $event)" expanded></b-input>
             <b-input placeholder="Last Name" :value="citationAuthors[index].lastName" v-on:input="updateAuthors(index, 'lastName', $event)" expanded></b-input>
+          <a v-if="index <= (getEditing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
+          <a v-if="index <= (getEditing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
           </b-field>
+          <div v-if="index < (getEditing.authors.length - 1)"></div>
           </div>
           <br>
           <b-field horizontal label="Source">
@@ -34,7 +37,7 @@
           <div class="tile is-parent">
             <article class="tile is-child notification">
               <div class="content">
-                <div v-if="citationAuthors.length == 1">{{citationAuthors[0].lastName + ", " + citationAuthors[0].firstName + citationAuthors[0].middleName ? citationAuthors[0].middleName: '' + ". "}}</div>
+                <div v-if="getEditing.authors.length == 1">{{getEditing.authors[0].lastName}}{{getEditing.authors[0].firstName}}{{getEditing.authors[0].middleName ? getEditing.authors[0].middleName: '' + ". "}}</div>
                 <div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource && citationSource != (citationPublisher ? citationPublisher: '')"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (citationDatePublished ? ", ": "")}}</div><div v-if="citationDatePublished">{{citationDatePublished.dateLong + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
               </div>
             </article>
@@ -59,79 +62,69 @@ export default {
     ...mapGetters(['getEditing', 'getCitation']),
     citationAuthors: {
       get() {
-        return this.$store.state.editing.authors
-      },
-      set(authors) {
-        console.log("AUTHORS: " + authors)
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        return this.getEditing.authors
       }
     },
     citationSource: {
       get() {
-        return this.$store.state.editing.source
+        return this.getEditing.source
       },
       set(source) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {source: source}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {source: source}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationContainer: {
       get() {
-        return this.$store.state.editing.container
+        return this.getEditing.container
       },
       set(container) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {container: container}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {container: container}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationPublisher: {
       get() {
-        return this.$store.state.editing.publisher
+        return this.getEditing.publisher
       },
       set(publisher) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {publisher: publisher}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {publisher: publisher}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationURL: {
       get() {
-        return this.$store.state.editing.url
+        return this.getEditing.url
       },
       set(url) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {url: url}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {url: url}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
     citationDatePublished: {
       get() {
-        return this.$store.state.editing.datePublished
+        return this.getEditing.datePublished
       },
       set(datePublished) {
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {datePublished: datePublished}))
-        this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing.datePublished, {dateLong: this.$store.state.editing.datePublished.month + " " + this.$store.state.editing.datePublished.day + ", " + this.$store.state.editing.datePublished.year}))
-        this.$store.dispatch('setCitation', this.$store.state.editing)
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {datePublished: datePublished}))
+        this.$store.dispatch('setEditing', Object.assign(this.getEditing.datePublished, {dateLong: this.getEditing.datePublished.month + " " + this.getEditing.datePublished.day + ", " + this.getEditing.datePublished.year}))
+        this.$store.dispatch('setCitation', this.getEditing)
       }
     },
   },
   methods: {
-    ...mapActions(['setCitation', 'setEditing']),
-    updateAuthors(index, field, event) {
-      var authors = this.$store.state.editing.authors;
-      switch (field) {
-        case 'firstName':
-          authors[index].firstName = event
-          break;
-        case 'middleName':
-          authors[index].middleName = event
-          break;
-        case 'lastName':
-          authors[index].lastName = event
-          break;
-        default:
-          console.log('Invalid author field')
-      }
-
-      this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {'authors': authors}))
+    ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor', 'addNewEditingAuthor', 'removeEditingAuthor']),
+    updateAuthors(authorsIndex, field, event) {
+      this.$store.dispatch('setEditingCitationAuthor', {authorsIndex, field, event})
+      this.$store.dispatch('setCitation', this.getEditing)
+    },
+    newAuthor() {
+      this.$store.dispatch('addNewEditingAuthor')
+      this.$store.dispatch('setCitation', this.getEditing)
+    },
+    deleteAuthor(index) {
+      this.$store.dispatch('removeEditingAuthor', {element: this.getEditing.authors[index]})
+      this.$store.dispatch('setCitation', this.getEditing)
     }
   }
 }

@@ -80,7 +80,7 @@ export default {
           this.url = 'http://' + this.url
         }
         rp({
-            uri: 'https://q4s3hew332.execute-api.us-east-1.amazonaws.com/prod/CloudCite',
+            uri: 'https://api.cloudcite.net/autofill',
             headers: {
               'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
             },
@@ -119,11 +119,11 @@ export default {
               citation.url = citation.url.split('http://')[1]
             }
             this.$store.dispatch('setEditing', citation)
-            if (!this.$store.state.editing.datePublished || !this.$store.state.editing.datePublished.month || !this.$store.state.editing.datePublished.day || !this.$store.state.editing.datePublished.year) {
-              this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {datePublished: {month: "", day: "", year: "", dateLong: ""}}))
+            if (!this.getEditing.datePublished || !this.getEditing.datePublished.month || !this.getEditing.datePublished.day || !this.getEditing.datePublished.year) {
+              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {datePublished: {month: "", day: "", year: "", dateLong: ""}}))
             }
-            if (!this.$store.state.editing.authors || this.$store.state.editing.authors.length < 1) {
-              this.$store.dispatch('setEditing', Object.assign(this.$store.state.editing, {authors: [{firstName: "", middleName: "", lastName: ""}]}))
+            if (!this.getEditing.authors || this.getEditing.authors.length < 1) {
+              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {authors: [{firstName: "", middleName: "", lastName: ""}]}))
             }
             this.$store.dispatch('setCitation', citation)
             this.loading = false;

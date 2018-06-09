@@ -2,7 +2,9 @@
   <div id="app">
     <nav class="navbar is-transparent">
       <div class="navbar-brand">
-        <router-link class="navbar-item" to="/">CloudCite</router-link>
+        <router-link class="navbar-item" to="/">
+          <span>CloudCite</span>
+        </router-link>
       </div>
       <div class="navbar-menu">
         <div class="navbar-start">
@@ -23,8 +25,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
+
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    ...mapGetters(['getEditing', 'getCitation'])
+  },
+  methods: {
+    ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor', 'addNewEditingAuthor', 'removeEditingAuthor']),
+  }
 }
 </script>
 

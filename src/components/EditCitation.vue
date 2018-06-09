@@ -6,9 +6,9 @@
           <form class="control">
           <div v-for="(author, index) in citationAuthors" :key="index">
           <b-field horizontal label="Author">
-            <b-input placeholder="First Name" :value="citationAuthors[index].firstName" v-on:input="updateAuthors(index, 'firstName', $event)" expanded></b-input>
-            <b-input placeholder="Middle Name" :value="citationAuthors[index].middleName" v-on:input="updateAuthors(index, 'middleName', $event)" expanded></b-input>
-            <b-input placeholder="Last Name" :value="citationAuthors[index].lastName" v-on:input="updateAuthors(index, 'lastName', $event)" expanded></b-input>
+            <b-input placeholder="First Name" :value="citationAuthors[index].first" v-on:input="updateAuthors(index, 'first', $event)" expanded></b-input>
+            <b-input placeholder="Middle Name" :value="citationAuthors[index].middle" v-on:input="updateAuthors(index, 'middle', $event)" expanded></b-input>
+            <b-input placeholder="Last Name" :value="citationAuthors[index].last" v-on:input="updateAuthors(index, 'last', $event)" expanded></b-input>
           <a v-if="index <= (getEditing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
           <a v-if="index <= (getEditing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
           </b-field>
@@ -28,17 +28,18 @@
             <b-input placeholder="Publisher" v-model="citationPublisher" expanded></b-input>
           </b-field>
           <b-field horizontal label="Date Published">
-            <b-select :placeholder="(citationDatePublished ? citationDatePublished.month: 'Please select a month')">
-              <option v-for="(month, i) in monthNames" :value="month" :key="i">
+            <b-select v-model="citationMonthPublished" placeholder="Please select a month">
+              <option v-for="(month, i) in monthNames" :value="i" :key="i">
                 {{ month }}
               </option>
             </b-select>
+            <b-input v-model.number="citationDayPublished" type="number" maxlength="2" placeholder="Day" expanded></b-input>
+            <b-input v-model.number="citationYearPublished" type="number" maxlength="4" placeholder="Year" expanded></b-input>
           </b-field>
           <div class="tile is-parent">
             <article class="tile is-child notification">
-              <div class="content">
-                <div v-if="getEditing.authors.length == 1">{{getEditing.authors[0].lastName}}{{getEditing.authors[0].firstName}}{{getEditing.authors[0].middleName ? getEditing.authors[0].middleName: '' + ". "}}</div>
-                <div v-if="citationContainer">{{'"' + citationContainer + '."'}}</div><div v-if="citationSource && citationSource != (citationPublisher ? citationPublisher: '')"><i>{{citationSource.substring(0, 1).toUpperCase() + citationSource.substring(1, citationSource.length + 1)}}</i></div><div v-if="citationPublisher">{{" " + citationPublisher + (citationDatePublished ? ", ": "")}}</div><div v-if="citationDatePublished">{{citationDatePublished.dateLong + (citationURL ? ", ": "")}}</div><div v-if="citationURL">{{citationURL + "."}}</div>
+              <div class="hangingIndent" v-if="getEditing.authors.length == 1">
+                {{getEditing.authors[0].last}} {{getEditing.authors[0].first}} {{getEditing.authors[0].middle}}
               </div>
             </article>
           </div>
@@ -55,7 +56,8 @@ export default {
   name: 'EditCitation',
   data () {
     return {
-      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      abbreviatedMonths: ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec." ]
     }
   },
   computed: {
@@ -101,16 +103,39 @@ export default {
         this.$store.dispatch('setCitation', this.getEditing)
       }
     },
-    citationDatePublished: {
+    citationMonthPublished: {
       get() {
-        return this.getEditing.datePublished
+        return this.getEditing.datePublished.month
       },
-      set(datePublished) {
-        this.$store.dispatch('setEditing', Object.assign(this.getEditing, {datePublished: datePublished}))
-        this.$store.dispatch('setEditing', Object.assign(this.getEditing.datePublished, {dateLong: this.getEditing.datePublished.month + " " + this.getEditing.datePublished.day + ", " + this.getEditing.datePublished.year}))
+      set(monthIndex) {
+        var editing = this.getEditing
+        editing.datePublished.month = monthIndex + 1
+        this.$store.dispatch('setEditing', editing)
         this.$store.dispatch('setCitation', this.getEditing)
       }
     },
+    citationDayPublished: {
+      get() {
+        return this.getEditing.datePublished.day
+      },
+      set(day) {
+        var editing = this.getEditing
+        editing.datePublished.day = day
+        this.$store.dispatch('setEditing', editing)
+        this.$store.dispatch('setCitation', this.getEditing)
+      }
+    },
+    citationYearPublished: {
+      get() {
+        return this.getEditing.datePublished.year
+      },
+      set(year) {
+        var editing = this.getEditing
+        editing.datePublished.year = year
+        this.$store.dispatch('setEditing', editing)
+        this.$store.dispatch('setCitation', this.getEditing)
+      }
+    }
   },
   methods: {
     ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor', 'addNewEditingAuthor', 'removeEditingAuthor']),

@@ -120,10 +120,10 @@ export default {
             }
             this.$store.dispatch('setEditing', citation)
             if (!this.getEditing.datePublished || !this.getEditing.datePublished.month || !this.getEditing.datePublished.day || !this.getEditing.datePublished.year) {
-              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {datePublished: {month: "", day: "", year: "", dateLong: ""}}))
+              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {datePublished: {month: "", day: "", year: ""}}))
             }
             if (!this.getEditing.authors || this.getEditing.authors.length < 1) {
-              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {authors: [{firstName: "", middleName: "", lastName: ""}]}))
+              this.$store.dispatch('setEditing', Object.assign(this.getEditing, {authors: [{first: "", middle: "", last: ""}]}))
             }
             this.$store.dispatch('setCitation', citation)
             this.loading = false;

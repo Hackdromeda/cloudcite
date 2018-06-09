@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         citations: new Map(),
-        editing: {author: {firstName: "", middleName: "", lastName: ""}}
+        editing: {author: {first: "", middle: "", last: ""}}
     },
     mutations: {
         setCitation(state, payload) {
@@ -15,14 +15,14 @@ export const store = new Vuex.Store({
         },
         setEditingCitationAuthor(state, payload) {
             switch (payload.field) {
-                case 'firstName':
-                  state.editing.authors[payload.authorsIndex].firstName = payload.event;
+                case 'first':
+                  state.editing.authors[payload.authorsIndex].first = payload.event;
                   break;
-                case 'middleName':
-                  state.editing.authors[payload.authorsIndex].middleName = payload.event;
+                case 'middle':
+                  state.editing.authors[payload.authorsIndex].middle = payload.event;
                   break;
-                case 'lastName':
-                  state.editing.authors[payload.authorsIndex].lastName = payload.event;
+                case 'last':
+                  state.editing.authors[payload.authorsIndex].last = payload.event;
                   break;
                 default:
                   console.log('Invalid author field')
@@ -36,9 +36,9 @@ export const store = new Vuex.Store({
         },
         addNewEditingAuthor(state) {
             state.editing.authors.push({
-                firstName: '',
-                middleName: '',
-                lastName: ''
+                first: '',
+                middle: '',
+                last: ''
             })
         },
         removeEditingAuthor(state, payload) {

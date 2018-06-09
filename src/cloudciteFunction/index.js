@@ -4,6 +4,8 @@ const rp = require('request-promise-native');
 const cheerio = require('cheerio');
 const _ = require('lodash');
 const microdata = require('microdata-node');
+const metascraper = require('metascraper');
+const got = require('got');
 
 exports.handler = function(event, context, callback) {
     var headers = event.headers;
@@ -50,128 +52,197 @@ exports.handler = function(event, context, callback) {
                 };
                 return callback(null, response);
             }
-            rp({
-                uri: request.url,
-                timeout: 6500,
-                transform: function(body) {
-                    return cheerio.load(body);
-                }
-            }).then(($) => {
-                var citation = request
-                var html = $("html").html();
-                console.log("HTML finished: " + html);
-                var schemaAuthors = microdata.toJson(html);
-                var publishers = []
-                $('div').each(function(i, elem) {
-                    var text = $(this).text().replaceAll('\xa0',' ').replace(/[0-9]/g, '').trim();
-                    var lower = text.toLowerCase();
-                    if((lower.includes('©') || lower.indexOf('copyright') > 0) && (lower.indexOf('all rights reserved') > 0 || lower.length < 25)){
-                      var start = text.indexOf("©") + 1;
-                      var end = lower.substring(start).indexOf(".") + start;
-                      if(end < 0){
-                        var result = sanitizeInput(text.substring(start).trim());
-                        if(result.length < 50 && result.length > 3){
-                          publishers.push(result);
+            var options = {
+                timeout: 4000
+            };
+            (async () => {
+                const {body: html, url} = await got(request.url, options)
+                const meta = await metascraper({html, url})
+                return meta; // remove duplicate request (got uses request) and merge with rp below
+            })().then((meta) => {
+                rp({
+                    uri: request.url,
+                    timeout: 4000,
+                    transform: function(body) {
+                        return cheerio.load(body);
+                    }
+                }).then(($) => {
+                    var citation = request;
+                    var rootDomain = extractRootDomain(citation.url).toLowerCase();
+                    var html = $("html").html();
+                    console.log("HTML finished: " + html);
+                    var schema = microdata.toJson(html);
+                    var items = schema.items;
+                    var publishers = []
+                    $('div').each(function(i, elem) {
+                        var text = $(this).text().replaceAll('\xa0',' ').replace(/[0-9]/g, '').trim();
+                        var lower = text.toLowerCase();
+                        if((lower.includes('©') || lower.indexOf('copyright') > 0) && (lower.indexOf('all rights reserved') > 0 || lower.length < 25)){
+                          var start = text.indexOf("©") + 1;
+                          var end = lower.substring(start).indexOf(".") + start;
+                          if(end < 0){
+                            var result = sanitizeInput(text.substring(start).trim());
+                            if(result.length < 50 && result.length > 3){
+                              publishers.push(result);
+                            }
+                          }
+                          else{
+                            var result = sanitizeInput(text.substring(start, end).trim());
+                            if(result.length < 60 && result.length > 3){
+                              publishers.push(result);
+                            }
+                          }
                         }
-                      }
-                      else{
-                        var result = sanitizeInput(text.substring(start, end).trim());
-                        if(result.length < 60 && result.length > 3){
-                          publishers.push(result);
+                    });
+                    if(meta != null && meta.publisher != null && meta.publisher != ""){
+                        publishers.push(meta.publisher);
+                    }
+                    citation.container = $('meta[property="og:title"]').attr('content');
+                    if (citation.container == null || citation.container == "") {
+                        citation.container = $('meta[name="og:title"]').attr('content');
+                    }
+                    if (citation.container == null || citation.container == "") {
+                        citation.container = $('title').text();
+                    }
+                    citation.source = $('meta[property="og:site_name"]').attr('content');
+                    if(citation.source == null || citation.source == ""){
+                        citation.source = $('meta[name="og:site_name"]').attr('content');
+                    }
+                    if(citation.source == null || citation.source == ""){
+                        for(var i = 0; i < items.length; i++){
+                            if(items[i].type[0] == "http://schema.org/Organization"){
+                                for(var j = 0; j < items[i].properties.name.length; j++){
+                                    var org = items[i].properties.name[j];
+                                    if(org != null && org != ""){
+                                        citation.source = org;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    authors = [];       
+                    authors.push($('meta[property="author"]').attr('content'));
+                    authors.push( $('meta[name="author"]').attr('content'));
+                    if(meta != null && meta.author != null && meta.author != ""){
+                        authors.push(meta.author);
+                    }
+                    for(var i = 0; i < items.length; i++){
+                      if(items[i].type[0] == "http://schema.org/Person"){
+                        console.log(items[i])
+                        for(var j = 0; j < items[i].properties.name.length; j++){
+                          authors.push(items[i].properties.name[j]);
                         }
                       }
                     }
+                    for(var i = 0; i < authors.length; i++){
+                        var temp = [];
+                        if(authors[i] != null){
+                            if(authors[i].indexOf(" and ") >= 0){
+                                temp = authors[i].split(' and ');
+                                authors[i] = null;
+                                for(var j = 0; j < temp.length; j++){
+                                    authors.push(temp[j]);
+                                }
+                            }
+                        }
+                    }
+                    authors = _.uniq(authors);
+                    authors = _.compact(authors)
+                    citation.authors = [];
+                    for(var i = 0; i < authors.length; i++){
+                        if(authors[i] != null){      
+                            var fullName = authors[i].split(' ');
+                            var firstName = fullName[0];
+                            var middleName;
+                            var lastName;
+                            if(fullName.length >= 2){
+                                lastName = fullName[fullName.length - 1];
+                            }
+                            if(fullName.length == 3){
+                                middleName = fullName[fullName.length - 2];
+                            }
+                            if(fullName.length > 3){
+                                for(var j = 1; j > fullName.length - 2; j++){
+                                    firstName = firstName + " " + fullName[j];
+                                }
+                                middleName = fullName[fullName.length - 2];
+                            }
+                            citation.authors.push({first: firstName, middle: middleName, last: lastName});
+                        }
+                    }
+                    if(rootDomain == "youtu.be" || rootDomain == "youtube.com"){
+                        var videoOwner = $('.yt-user-info > a').text();
+                        if (videoOwner != null && videoOwner != ""){
+                            citation.authors.push({first: videoOwner, middle: null, last: null});
+                        }
+                    }
+                    if(rootDomain == "twitter.com" || citation.source.toLowerCase() == "twitter"){
+                        for(var i = 0; i < citation.authors.length; i++){
+                            var fn = citation.authors[i].first;
+                            if(fn != null && fn != ""){
+                                citation.authors[i].first = "@" + fn;
+                            }
+                        }
+                    }
+                    if((publishers[0] == null || publishers[0] == "") && (citation.source != null && citation.source != "")){
+                        citation.publisher = citation.source;
+                    }
+                    else{
+                        citation.publisher = publishers[0]; 
+                    }
+                    if((citation.publisher != null && citation.publisher != "") && (citation.source == null || citation.source == "")){
+                        citation.source = citation.publisher;
+                    }
+                    // update later to find best match given source
+                    citation.datePublished = $('meta[property="og:published_time"]').attr('content');
+                    if (citation.datePublished == null || citation.datePublished == "") {
+                        citation.datePublished = $('meta[property="article:published_time"]').attr('content');
+                    }
+                    if (citation.datePublished == null || citation.datePublished == "") {
+                        citation.datePublished = $('meta[property="article:published"]').attr('content');
+                    }
+                    if (citation.datePublished == null || citation.datePublished == "") {
+                        if(meta != null && meta.date != null && meta.date != ""){
+                            citation.datePublished = meta.date;
+                        }
+                    }
+                    const MLAmonths = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec." ];
+                    if (citation.datePublished != null) {
+                        citation.datePublished = new Date(citation.datePublished)
+                        citation.datePublished = {
+                            month: citation.datePublished.getMonth(), 
+                            day: citation.datePublished.getDate(), 
+                            year: citation.datePublished.getFullYear()
+                        }
+                    }
+                    citation = JSON.stringify(citation)
+                    //console.log('Citation: ' + citation)
+                    var response = {
+                        "statusCode": 200,
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                            "Access-Control-Allow-Credentials" : true
+                        },
+                        "body": JSON.stringify(citation),
+                        "isBase64Encoded": false
+                    };
+                    callback(null, response);
+                }).catch(function (err) {
+                    console.log("Error in RP:" + err);
+                    body = "{error: cited website unavailable}"
+                    var response = {
+                        "statusCode": 422,
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                            "Access-Control-Allow-Credentials" : true
+                        },
+                        "body": JSON.stringify(body),
+                        "isBase64Encoded": false
+                    };
+                    return callback(null, response);
                 });
-                citation.container = $('meta[property="og:title"]').attr('content');
-                if (citation.container == null || citation.container == "") {
-                    citation.container = $('meta[name="og:title"]').attr('content');
-                }
-                if (citation.container == null || citation.container == "") {
-                    citation.container = $('title').text();
-                }
-                citation.source = $('meta[property="og:site_name"]').attr('content');
-                if(citation.source == null || citation.source == ""){
-                    citation.source = $('meta[name="og:site_name"]').attr('content');
-                }
-                authors = [];       
-                authors.push($('meta[property="author"]').attr('content'));
-                authors.push( $('meta[name="author"]').attr('content'));
-                var items = schemaAuthors.items;
-                for(var i = 0; i < items.length; i++){
-                  if(items[i].type[0] == "http://schema.org/Person"){
-                    console.log(items[i])
-                    for(var j = 0; j < items[i].properties.name.length; j++){
-                      authors.push(items[i].properties.name[j]);
-                    }
-                  }
-                }
-                for(var i = 0; i < authors.length; i++){
-                    var temp = [];
-                    if(authors[i] != null){
-                        if(authors[i].indexOf(" and ") >= 0){
-                            temp = authors[i].split(' and ');
-                            authors[i] = null;
-                            for(var j = 0; j < temp.length; j++){
-                                authors.push(temp[j]);
-                            }
-                        }
-                    }
-                }
-                authors = _.uniq(authors);
-                authors = _.compact(authors)
-                citation.authors = [];
-                for(var i = 0; i < authors.length; i++){
-                    if(authors[i] != null){      
-                        var fullName = authors[i].split(' ');
-                        var firstName = fullName[0];
-                        var middleName;
-                        var lastName = fullName[fullName.length - 1];
-                        if(fullName.length == 3){
-                            middleName = fullName[fullName.length - 2];
-                        }
-                        if(fullName.length > 3){
-                            for(var j = 1; j > fullName.length - 2; j++){
-                                firstName = firstName + " " + fullName[j];
-                            }
-                            middleName = fullName[fullName.length - 2];
-                        }
-                        citation.authors.push({first: firstName, middle: middleName, last: lastName});
-                    }
-                }
-                if(publishers[0] == null || publishers[0] == ""){
-                    citation.publisher = citation.source;
-                }
-                else{
-                    citation.publisher = publishers[0]; 
-                }
-                // update later to find best match given source
-                citation.datePublished = $('meta[property="article:modified_time"]').attr('content')
-                if (citation.datePublished == null) {
-                    citation.datePublished = $('meta[property="og:published_time"]').attr('content')
-                }
-                const MLAmonths = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec." ];
-                if (citation.datePublished != null) {
-                    citation.datePublished = new Date(citation.datePublished)
-                    citation.datePublished = {
-                        month: citation.datePublished.getMonth(), 
-                        day: citation.datePublished.getDate(), 
-                        year: citation.datePublished.getFullYear()
-                    }
-                }
-                citation = JSON.stringify(citation)
-                //console.log('Citation: ' + citation)
-                var response = {
-                    "statusCode": 200,
-                    "headers": {
-                        "Access-Control-Allow-Origin" : "*",
-                        "Access-Control-Allow-Credentials" : true
-                    },
-                    "body": JSON.stringify(citation),
-                    "isBase64Encoded": false
-                };
-                callback(null, response);
             }).catch(function (err) {
-                console.log("Error in RP:" + err);
+                console.log("Error in GOT:" + err);
                 body = "{error: cited website unavailable}"
                 var response = {
                     "statusCode": 422,
@@ -183,7 +254,7 @@ exports.handler = function(event, context, callback) {
                     "isBase64Encoded": false
                 };
                 return callback(null, response);
-            });
+            });              
         break;
         default:
             //console.log('Format is invalid');
@@ -229,24 +300,59 @@ function sanitizeInput(s) {
     s = s.replace(/ +(?= )/g,''); //Removes double spacing
   
     return s;
-  }
+}
   
-  String.prototype.replaceAll = function(search, replacement) {
+String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
-  };
+};
 
-  function ConvertKeysToLowerCase(obj) {
+function ConvertKeysToLowerCase(obj) {
     var output = {};
     for (i in obj) {
         if (Object.prototype.toString.apply(obj[i]) === '[object Object]') {
-           output[i.toLowerCase()] = ConvertKeysToLowerCase(obj[i]);
+        output[i.toLowerCase()] = ConvertKeysToLowerCase(obj[i]);
         }else if(Object.prototype.toString.apply(obj[i]) === '[object Array]'){
             output[i.toLowerCase()]=[];
-             output[i.toLowerCase()].push(ConvertKeysToLowerCase(obj[i][0]));
+            output[i.toLowerCase()].push(ConvertKeysToLowerCase(obj[i][0]));
         } else {
             output[i.toLowerCase()] = obj[i];
         }
     }
     return output;
 };
+
+function extractHostname(url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
+    if (url.indexOf("://") > -1) {
+        hostname = url.split('/')[2];
+    }
+    else {
+        hostname = url.split('/')[0];
+    }
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+    return hostname;
+};
+
+function extractRootDomain(url) {
+    var domain = extractHostname(url);
+    splitArr = domain.split('.'),
+    arrLen = splitArr.length;
+    if (arrLen > 2) {
+        domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1];
+        if (splitArr[arrLen - 1].length == 2 && splitArr[arrLen - 1].length == 2) {
+            domain = splitArr[arrLen - 3] + '.' + domain;
+        }
+    }
+    return domain;
+};
+
+function youtubeID(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11)? match[7] : false;
+}

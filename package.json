@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "MLA and APA citations with a cloud service",
   "author": "Naval Patel <navalpatel384@outlook.com>",
+  "contributors": [
+    "Avi Shah <as0218@pleasantonusd.net> (https://avimshah.com)"
+  ],
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

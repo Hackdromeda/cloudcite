@@ -34,9 +34,10 @@ export default {
 <style lang="scss">
 @import 'main.scss';
 
-body {
-    background: linear-gradient(45deg,#30496B,#30B8D2);
-    height: 100%;
+body{
+  height: 100%;
+  min-height: 100vh;
+  background: linear-gradient(45deg,#30496B,#30B8D2);
 }
 
 #app {
@@ -44,5 +45,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  height: 100%;
 }
 </style>

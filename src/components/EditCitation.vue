@@ -109,6 +109,7 @@ export default {
         if (monthIndex != this.editing.datePublished.month) {
           this.editing.datePublished.month = monthIndex + 1
         }
+        console.log(this.editing.datePublished.month)
       }
     },
     citationDayPublished: {

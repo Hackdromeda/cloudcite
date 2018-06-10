@@ -38,6 +38,11 @@
                 </span>
               </div>
             </article>
+            <li>
+              <ul><div style="padding-left: 5px;"><a><b-icon icon="content-copy" size="is-small"></b-icon></a></div></ul>
+              <ul><div style="padding-left: 5px;"><a @click="gotoEditPage(citation)"><b-icon icon="pencil" size="is-small"></b-icon></a></div></ul>
+              <ul><div style="padding-left: 5px;"><a><b-icon icon="download" size="is-small"></b-icon></a></div></ul>
+            </li>
           </div>
     </div>
 </template>

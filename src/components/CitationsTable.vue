@@ -2,6 +2,9 @@
     <section style="background-color: #ffffff; opacity: 0.9; border-radius: 10px;">
         <br>
         <h1 class="title">Citations</h1>
+        <div style="padding: 5px;" v-if="citations.length < 1">
+            This list looks a little empty! Have you tried citing a website?
+        </div>
         <div v-for="(citation, i) in citations" :key="i">
             <CitationPreview v-bind:preview="citation" v-bind:showCopyIcon="true" v-bind:showEditIcon="true" v-bind:showDownloadIcon="true"/>
         </div>

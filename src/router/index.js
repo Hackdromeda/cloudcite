@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import CloudCite from '@/components/CloudCite'
 const EditCitation = () => import('@/components/EditCitation')
-const CitationsTable = () => import('@/components/CitationsTable')
 const About = () => import('@/components/About')
 
 Vue.use(Router)

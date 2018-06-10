@@ -33,7 +33,7 @@
                             {{props.row.authors[0].middle + '.'}} 
                             </span>
                             <span v-if="props.row.title">
-                            "{{citationTitle}}."
+                            "{{props.row.title}}."
                             </span>
                             <span v-if="props.row.source">
                             {{props.row.source}},
@@ -63,7 +63,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
-
     export default {
         name: 'CitationsTable',
         data() {

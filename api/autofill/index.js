@@ -3,6 +3,7 @@ const https = require('https');
 const rp = require('request-promise-native');
 const cheerio = require('cheerio');
 const _ = require('lodash');
+const Bluebird = require('bluebird');
 const microdata = require('microdata-node');
 const metascraper = require('metascraper');
 const got = require('got');
@@ -12,7 +13,7 @@ exports.handler = function(event, context, callback) {
     headers = ConvertKeysToLowerCase(headers);
     var request = JSON.parse(event.body);
     if(headers["content-type"] != null && headers["content-type"].toLowerCase() != "application/json"){
-        body = "{error: the server can only send data in the application/json format}"
+        var body = "{error: the server can only send data in the application/json format}"
         var response = {
             "statusCode": 406,
             "headers": {
@@ -24,8 +25,8 @@ exports.handler = function(event, context, callback) {
         };
         return callback(null, response);
     }
-    if(request == null){
-        body = "{error: empty request}"
+    if(request == null || request == ""){
+        var body = "{error: empty request}"
         var response = {
             "statusCode": 400,
             "headers": {
@@ -40,7 +41,7 @@ exports.handler = function(event, context, callback) {
     switch (request.format) {
         case 'website':
             if(request.url == null || request.url == ""){
-                body = "{error: expected website URL}"
+                var body = "{error: expected website URL}"
                 var response = {
                     "statusCode": 422,
                     "headers": {
@@ -229,7 +230,7 @@ exports.handler = function(event, context, callback) {
                     callback(null, response);
                 }).catch(function (err) {
                     console.log("Error in RP:" + err);
-                    body = "{error: cited website unavailable}"
+                    var body = "{error: cited website unavailable}"
                     var response = {
                         "statusCode": 422,
                         "headers": {
@@ -243,7 +244,7 @@ exports.handler = function(event, context, callback) {
                 });
             }).catch(function (err) {
                 console.log("Error in GOT:" + err);
-                body = "{error: cited website unavailable}"
+                var body = "{error: cited website unavailable}"
                 var response = {
                     "statusCode": 422,
                     "headers": {
@@ -254,12 +255,120 @@ exports.handler = function(event, context, callback) {
                     "isBase64Encoded": false
                 };
                 return callback(null, response);
-            });              
-        break;
+            });
+            break;              
+        case 'movie':
+            if((request.title == null || request.title == "") && (request.ID == null || request.ID == "")){
+                var body = "{error: expected movie title or movie ID}"
+                var response = {
+                    "statusCode": 422,
+                    "headers": {
+                        "Access-Control-Allow-Origin" : "*",
+                        "Access-Control-Allow-Credentials" : true
+                    },
+                    "body": JSON.stringify(body),
+                    "isBase64Encoded": false
+                };
+                return callback(null, response);
+            }
+            if(request.ID == null || request.ID == ""){
+                var page = "1";
+                if(request.page != null && request.page != ""){
+                    page = "" + request.page;
+                }
+                var url = "https://api.themoviedb.org/3/search/movie?api_key=" + process.env.TMDB_KEY + "&language=en-US&include_adult=false&query=" + request.title + "&page=" + page;
+                rp({
+                    uri: url,
+                    method: 'GET',
+                    timeout: 4000,
+                    transform: function(body) {
+                        return body;
+                    }
+                }).then((body) => {
+                    var response = {
+                        "statusCode": 200,
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                            "Access-Control-Allow-Credentials" : true
+                        },
+                        "body": body,
+                        "isBase64Encoded": false
+                    };
+                    return callback(null, response);
+                }).catch(function (err) {
+                    console.log("Error in RP:" + err);
+                    var body = "{error: movie not found}"
+                    var response = {
+                        "statusCode": 422,
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                            "Access-Control-Allow-Credentials" : true
+                        },
+                        "body": JSON.stringify(body),
+                        "isBase64Encoded": false
+                    };
+                    return callback(null, response);
+                });
+            }
+            else {
+                var creditsURL = "https://api.themoviedb.org/3/movie/" + request.ID + "/credits?api_key=" + process.env.TMDB_KEY + "&language=en-US";
+                var infoURL = "https://api.themoviedb.org/3/movie/" + request.ID + "?api_key=" + process.env.TMDB_KEY + "&language=en-US";
+
+                var creditsOptions = {
+                    uri: creditsURL,
+                    method: 'GET',
+                    timeout: 4000,
+                    transform: function(body) {
+                        return JSON.parse(body);
+                    }
+               }
+               var infoOptions = {
+                    uri: infoURL,
+                    method: 'GET',
+                    timeout: 4000,
+                    transform: function(body) {
+                        return JSON.parse(body);
+                    }
+                }
+
+               var creditsRP = rp(creditsOptions);
+               var infoRP = rp(infoOptions);
+        
+               Bluebird.all([creditsRP, infoRP])
+                   .spread(function (credits, details) {
+                    var array = [{credits: credits}, {details: details}];
+                    return JSON.stringify(array);
+                }).then((body) => {
+                    var response = {
+                        "statusCode": 200,
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                            "Access-Control-Allow-Credentials" : true
+                        },
+                        "body": body,
+                        "isBase64Encoded": false
+                    };
+                    return callback(null, response);
+                }).catch(function (err) {
+                    console.log("Error in RP:" + err);
+                    var body = "{error: movie ID not found}"
+                    var response = {
+                        "statusCode": 422,
+                        "headers": {
+                            "Access-Control-Allow-Origin" : "*",
+                            "Access-Control-Allow-Credentials" : true
+                        },
+                        "body": JSON.stringify(body),
+                        "isBase64Encoded": false
+                    };
+                    return callback(null, response);
+                });
+            }
+            break;
         default:
             //console.log('Format is invalid');
             //console.log("request: " + JSON.stringify(event));
-            body = "{error: bad request}"
+            var body = "{error: bad request}"
             var response = {
                 "statusCode": 400,
                 "headers": {
@@ -269,7 +378,7 @@ exports.handler = function(event, context, callback) {
                 "body": JSON.stringify(body),
                 "isBase64Encoded": false
             };
-            callback(null, response);
+            return callback(null, response);
     }
 }
 

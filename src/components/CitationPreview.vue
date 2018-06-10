@@ -39,9 +39,9 @@
               </div>
             </article>
             <li>
-              <ul><div style="padding-left: 5px;"><a><b-icon icon="content-copy" size="is-small"></b-icon></a></div></ul>
-              <ul><div style="padding-left: 5px;"><a @click="gotoEditPage(citation)"><b-icon icon="pencil" size="is-small"></b-icon></a></div></ul>
-              <ul><div style="padding-left: 5px;"><a><b-icon icon="download" size="is-small"></b-icon></a></div></ul>
+              <ul v-if="canCopy"><div style="padding-left: 5px;"><a><b-icon icon="content-copy" size="is-small"></b-icon></a></div></ul>
+              <ul v-if="canEdit"><div style="padding-left: 5px;"><a @click="gotoEditPage(citation)"><b-icon icon="pencil" size="is-small"></b-icon></a></div></ul>
+              <ul v-if="canDownload"><div style="padding-left: 5px;"><a><b-icon icon="download" size="is-small"></b-icon></a></div></ul>
             </li>
           </div>
     </div>
@@ -53,7 +53,7 @@
 
     export default {
         name: 'CitationPreview',
-        props: ['preview'],
+        props: ['preview', 'showCopyIcon', 'showEditIcon', 'showDownloadIcon'],
         data() {
             return {
                 monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -64,6 +64,21 @@
             citation: {
               get() {
                 return this.preview
+              }
+            },
+            canCopy: {
+              get() {
+                return this.showCopyIcon
+              }
+            },
+            canEdit: {
+              get() {
+                return this.showEditIcon
+              }
+            },
+            canDownload: {
+              get() {
+                return this.showDownloadIcon
               }
             }
         },

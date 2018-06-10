@@ -36,7 +36,7 @@
             <b-input v-model.number="citationDayPublished" type="number" maxlength="2" placeholder="Day" expanded></b-input>
             <b-input v-model.number="citationYearPublished" type="number" maxlength="4" placeholder="Year" expanded></b-input>
           </b-field>
-          <CitationPreview v-bind:preview="editing"></CitationPreview>
+          <CitationPreview v-bind:preview="editing" v-bind:showCopyIcon="true" v-bind:showDownloadIcon="true"></CitationPreview>
           <div style="text-align: center;">
             <a class="button is-success" @click="doneEditing()">Done Editing</a>
           </div>

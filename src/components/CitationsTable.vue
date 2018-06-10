@@ -3,7 +3,7 @@
         <br>
         <h1 class="title">Citations</h1>
         <div v-for="(citation, i) in citations" :key="i">
-            <CitationPreview v-bind:preview="citation"/>
+            <CitationPreview v-bind:preview="citation" v-bind:showCopyIcon="true" v-bind:showEditIcon="true" v-bind:showDownloadIcon="true"/>
         </div>
     </section>
 </template>

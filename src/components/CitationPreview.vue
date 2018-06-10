@@ -56,7 +56,11 @@
             }
         },
         computed: {
-            citation: this.preview,
+            citation: {
+              get() {
+                return this.preview
+              }
+            }
         },
         methods: {
             ...mapActions(['setCitation', 'setEditing']),

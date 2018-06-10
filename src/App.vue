@@ -2,16 +2,8 @@
   <div id="app">
     <nav class="navbar is-transparent">
       <div class="navbar-brand">
-        <router-link class="navbar-item" to="/">
-          <span>CloudCite</span>
-        </router-link>
-      </div>
-      <div class="navbar-menu">
-        <div class="navbar-start">
-          <router-link class="navbar-item" to="/about">About Us</router-link>
-        </div>
-      </div>
-      <div class="navbar-end">
+        <router-link class="navbar-item" to="/">CloudCite</router-link>
+        <router-link class="navbar-item" to="/about">About Us</router-link>
       </div>
     </nav>
     <section class="section">

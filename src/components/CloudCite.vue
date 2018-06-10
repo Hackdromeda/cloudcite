@@ -27,7 +27,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
-const CitationsTable = () => import('@/components/CitationsTable')
+const CitationsTable = () => import('@/components/CitationsTable');
 const rp = require('request-promise-native');
 
 export default {

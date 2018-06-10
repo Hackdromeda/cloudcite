@@ -36,47 +36,7 @@
             <b-input v-model.number="citationDayPublished" type="number" maxlength="2" placeholder="Day" expanded></b-input>
             <b-input v-model.number="citationYearPublished" type="number" maxlength="4" placeholder="Year" expanded></b-input>
           </b-field>
-          <div class="tile is-parent">
-            <article class="tile is-child notification">
-              <div class="hangingIndent" v-if="editing.authors.length == 1" v-cloak>
-                <span v-if="citationAuthors[0].last">
-                  {{citationAuthors[0].last}}<span v-if="citationAuthors[0].first">,</span><span v-if="!citationAuthors[0].first && !citationAuthors[0].middle">.</span>
-                </span>
-                <span v-if="citationAuthors[0].first">
-                  {{citationAuthors[0].first}}<span v-if="!citationAuthors[0].middle">.</span>
-                </span>
-                <span v-if="citationAuthors[0].middle">
-                  {{citationAuthors[0].middle + '.'}} 
-                </span>
-                <span v-if="citationTitle">
-                  "{{citationTitle}}."
-                </span>
-                <span v-if="citationSource && !citationPublisher || citationSource == citationPublisher">
-                  {{citationSource}}.
-                </span>
-                <span v-else>
-                  {{citationSource}},
-                </span>
-                <span v-if="citationPublisher && (citationPublisher != citationSource)">
-                  <i>{{citationPublisher}}</i>,
-                </span>
-                <span v-if="citationDayPublished">
-                  <i>{{citationDayPublished}}</i>
-                </span>
-                <span v-if="citationMonthPublished">
-                  {{this.abbreviatedMonths[citationMonthPublished]}}
-                </span>
-                <span v-if="citationYearPublished">
-                  {{citationYearPublished}},
-                </span>
-                <span v-if="citationURL.indexOf('http://') != -1">
-                  {{citationURL}}.
-                </span>
-                <!--<i>{{(citationSource && citiationPublisher || citiationSource && citationMonthPublished || citationSource && citationURL) ? citationSource + ',': ''}}</i>
-                <i>{{((citationSource && !citationPublisher) && (citationSource && !citationMonthPublished) && (citationSource && !citationURL)) ? citationSource + '.': ''}}</i>-->
-              </div>
-            </article>
-          </div>
+          <CitationPreview v-bind:preview="editing" v-bind:showCopyIcon="true" v-bind:showDownloadIcon="true"></CitationPreview>
           <div style="text-align: center;">
             <a class="button is-success" @click="doneEditing()">Done Editing</a>
           </div>
@@ -89,9 +49,13 @@
 const _ = require('lodash');
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
+const CitationPreview = () => import('@/components/CitationPreview');
 
 export default {
   name: 'EditCitation',
+  components: {
+    CitationPreview
+  },
   data () {
     return {
       monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -139,10 +103,12 @@ export default {
     },
     citationMonthPublished: {
       get() {
-        return this.editing.datePublished.month
+        return this.editing.datePublished.month - 1
       },
       set(monthIndex) {
-        this.editing.datePublished.month = monthIndex + 1
+        if (monthIndex != this.editing.datePublished.month) {
+          this.editing.datePublished.month = monthIndex + 1
+        }
       }
     },
     citationDayPublished: {

@@ -19,7 +19,7 @@
                     {{citation.authors[0].last}}<span v-if="citation.authors[0].middle || citation.authors[0].first">,</span><span v-else>, and</span>
                   </span>
                   <span v-if="citation.authors[0].first">
-                    {{citation.authors[0].first}}<span v-if="!citation.authors[0].middle">,</span>
+                    {{citation.authors[0].first}}<span v-if="!citation.authors[0].middle">, and</span>
                   </span>
                   <span v-if="citation.authors[0].middle">
                     {{citation.authors[0].middle}}<span v-if="citation.authors[1].last || citation.authors[1].first || citation.authors[1].middle">, and</span> 

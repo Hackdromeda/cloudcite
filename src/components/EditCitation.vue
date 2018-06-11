@@ -11,7 +11,7 @@
             <b-input placeholder="Last Name" v-model="editing.authors[index].last" expanded></b-input>
             <a v-if="index == 0" class="button is-danger" @click="clearAuthor(index)"><b-icon icon="minus"></b-icon></a>
             <a v-if="index <= (editing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
-            <a v-if="index <= (editing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
+            <a v-if="index == (editing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
           </b-field>
           <div v-if="index < (editing.authors.length - 1)"></div>
           </div>

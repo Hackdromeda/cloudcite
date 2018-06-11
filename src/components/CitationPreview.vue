@@ -2,16 +2,38 @@
     <div>
         <div class="tile is-parent">
             <article class="tile is-child notification" v-if="citation.format == 'website'">
-              <div class="hangingIndent" v-if="citation.authors.length == 1" v-cloak>
-                <span v-if="citation.authors[0].last">
-                  {{citation.authors[0].last}}<span>{{citation.authors[0].middle || citation.authors[0].first ? ',': '.'}}</span>
-                </span>
-                <span v-if="citation.authors[0].first">
-                  {{citation.authors[0].first}}<span>{{citation.authors[0].middle ? '': '.'}}</span>
-                </span>
-                <span v-if="citation.authors[0].middle">
-                  {{citation.authors[0].middle + '.'}} 
-                </span>
+              <div class="hangingIndent" v-cloak>
+                <div v-if="citation.authors.length == 1">
+                  <span v-if="citation.authors[0].last">
+                    {{citation.authors[0].last}}<span>{{citation.authors[0].middle || citation.authors[0].first ? ',': '.'}}</span>
+                  </span>
+                  <span v-if="citation.authors[0].first">
+                    {{citation.authors[0].first}}<span>{{citation.authors[0].middle ? '': '.'}}</span>
+                  </span>
+                  <span v-if="citation.authors[0].middle">
+                    {{citation.authors[0].middle + '.'}} 
+                  </span>
+                </div>
+                <div v-if="citation.authors.length == 2">
+                  <span v-if="citation.authors[0].last">
+                    {{citation.authors[0].last}}<span v-if="citation.authors[0].middle || citation.authors[0].first">,</span><span v-else>, and</span>
+                  </span>
+                  <span v-if="citation.authors[0].first">
+                    {{citation.authors[0].first}}<span v-if="!citation.authors[0].middle">,</span>
+                  </span>
+                  <span v-if="citation.authors[0].middle">
+                    {{citation.authors[0].middle}}<span v-if="citation.authors[1].last || citation.authors[1].first || citation.authors[1].middle">, and</span> 
+                  </span>
+                  <span v-if="citation.authors[1].last">
+                    {{citation.authors[1].last}}<span>{{citation.authors[1].middle || citation.authors[1].first ? ',': '.'}}</span>
+                  </span>
+                  <span v-if="citation.authors[1].first">
+                    {{citation.authors[1].first}}<span>{{citation.authors[1].middle ? '': '.'}}</span>
+                  </span>
+                  <span v-if="citation.authors[1].middle">
+                    {{citation.authors[1].middle + '.'}} 
+                  </span>
+                </div>
                 <span v-if="citation.title">
                   "{{citation.title}}."
                 </span>

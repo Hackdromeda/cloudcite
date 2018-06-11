@@ -11,16 +11,10 @@
                 <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
               </p>
       </b-field>
-      <b-field v-if="this.format == 'movie'" :type="urlField.type" :message="urlField.message" style="justify-content: center;">
-            <b-input :placeholder="'Enter ' + this.format + ' name'" v-model="url" @keyup.enter.native="citeMovie()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading" style="color: #30496B"></b-input>
-              <p class="control">
-                <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
-              </p>
-      </b-field>
       <b-tab-item label="Website" icon="application" @click="activeTab = 0" :disabled="this.$data.loading && this.$data.activeTab != 0">
       </b-tab-item>
-      <b-tab-item label="Movies" icon="filmstrip" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
-      </b-tab-item>
+      <!--<b-tab-item label="Movies" icon="filmstrip" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
+      </b-tab-item>-->
     </b-tabs>
     <div>
     <CitationsTable></CitationsTable>
@@ -155,9 +149,9 @@ export default {
         })
       }
     },
-    citeMovie() {
+    /*citeMovie() {
 
-    }
+    }*/
   }
 }
 </script>

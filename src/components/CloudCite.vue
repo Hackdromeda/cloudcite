@@ -13,7 +13,7 @@
       </b-field>
       <b-tab-item label="Website" icon="application" @click="activeTab = 0" :disabled="this.$data.loading && this.$data.activeTab != 0">
       </b-tab-item>
-      <!--<b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
+      <!--<b-tab-item label="Movies" icon="filmstrip" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
       </b-tab-item>-->
     </b-tabs>
     <div>
@@ -57,7 +57,7 @@ export default {
           return 'website';
           break;
         case 1: 
-          return 'digital image';
+          return 'movie';
           break;
         default:
           console.log('No citation format found.');
@@ -141,7 +141,6 @@ export default {
       } else {
         this.loading = false
         this.urlField.type = 'is-danger'
-        this.urlField.message = 'url is not valid'
         this.$toast.open({
           duration: 3000,
           message: `The website URL is invalid`,
@@ -150,6 +149,9 @@ export default {
         })
       }
     },
+    /*citeMovie() {
+
+    }*/
   }
 }
 </script>

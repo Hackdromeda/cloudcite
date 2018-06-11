@@ -9,8 +9,9 @@
             <b-input placeholder="First Name" v-model="editing.authors[index].first" expanded></b-input>
             <b-input placeholder="Middle Name" v-model="editing.authors[index].middle" expanded></b-input>
             <b-input placeholder="Last Name" v-model="editing.authors[index].last" expanded></b-input>
-          <a v-if="index <= (editing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
-          <a v-if="index <= (editing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
+            <a v-if="index == 0" class="button is-danger" @click="clearAuthor(index)"><b-icon icon="minus"></b-icon></a>
+            <a v-if="index <= (editing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
+            <a v-if="index == (editing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2;" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
           </b-field>
           <div v-if="index < (editing.authors.length - 1)"></div>
           </div>
@@ -140,6 +141,12 @@ export default {
     deleteAuthor(index) {
       this.editing.authors = this.editing.authors.filter(element => element !== this.editing.authors[index]);
     },
+    clearAuthor(index) {
+      this.editing.authors[index].first = ''
+      this.editing.authors[index].middle = ''
+      this.editing.authors[index].last = ''
+    }
+    ,
     doneEditing() {
       this.$store.dispatch('setCitation', this.editing)
       this.$router.push({name: 'CloudCite'})

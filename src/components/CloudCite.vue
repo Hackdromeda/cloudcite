@@ -11,10 +11,16 @@
                 <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
               </p>
       </b-field>
+      <b-field v-if="this.format == 'movie'" :type="urlField.type" :message="urlField.message" style="justify-content: center;">
+            <b-input :placeholder="'Enter ' + this.format + ' name'" v-model="url" @keyup.enter.native="citeMovie()" :loading="this.$data.loading" ref="urlInput" maxlength="2048" :disabled="this.$data.loading" style="color: #30496B"></b-input>
+              <p class="control">
+                <a class="button is-primary" @click="cite()" :disabled="this.$data.loading">Cite</a>
+              </p>
+      </b-field>
       <b-tab-item label="Website" icon="application" @click="activeTab = 0" :disabled="this.$data.loading && this.$data.activeTab != 0">
       </b-tab-item>
-      <!--<b-tab-item label="Digital Image" icon="image" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
-      </b-tab-item>-->
+      <b-tab-item label="Movies" icon="filmstrip" @click="activeTab = 1" :disabled="this.$data.loading && this.$data.activeTab != 1">
+      </b-tab-item>
     </b-tabs>
     <div>
     <CitationsTable></CitationsTable>
@@ -57,7 +63,7 @@ export default {
           return 'website';
           break;
         case 1: 
-          return 'digital image';
+          return 'movie';
           break;
         default:
           console.log('No citation format found.');
@@ -141,7 +147,6 @@ export default {
       } else {
         this.loading = false
         this.urlField.type = 'is-danger'
-        this.urlField.message = 'url is not valid'
         this.$toast.open({
           duration: 3000,
           message: `The website URL is invalid`,
@@ -150,6 +155,9 @@ export default {
         })
       }
     },
+    citeMovie() {
+
+    }
   }
 }
 </script>

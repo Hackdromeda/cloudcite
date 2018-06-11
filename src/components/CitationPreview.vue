@@ -34,6 +34,17 @@
                     {{citation.authors[1].middle + '.'}} 
                   </span>
                 </div>
+                <div v-if="citation.authors.length >=3">
+                  <span v-if="citation.authors[0].last">
+                    {{citation.authors[0].last}}<span>{{citation.authors[0].middle || citation.authors[0].first ? ',': ', et al.'}}</span>
+                  </span>
+                  <span v-if="citation.authors[0].first">
+                    {{citation.authors[0].first}}<span>{{citation.authors[0].middle ? '': ', et al.'}}</span>
+                  </span>
+                  <span v-if="citation.authors[0].middle">
+                    {{citation.authors[0].middle + ', et al.'}}
+                  </span>
+                </div>
                 <span v-if="citation.title">
                   "{{citation.title}}."
                 </span>

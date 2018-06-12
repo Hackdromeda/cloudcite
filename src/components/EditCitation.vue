@@ -9,9 +9,13 @@
             <b-input placeholder="First Name" v-model="editing.authors[index].first" expanded></b-input>
             <b-input placeholder="Middle Name" v-model="editing.authors[index].middle" expanded></b-input>
             <b-input placeholder="Last Name" v-model="editing.authors[index].last" expanded></b-input>
-            <a v-if="index == 0" class="button is-danger" @click="clearAuthor(index)"><b-icon icon="minus"></b-icon></a>
-            <a v-if="index <= (editing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
-            <a v-if="index == (editing.authors.length - 1)" class="button is-primary" style="background-color: #30B8D2;" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
+            <div class="level is-mobile">
+              <div class="level-item-left">
+                <a style="margin-right: 5px;" v-if="index == 0" class="button is-danger" @click="clearAuthor(index)"><b-icon icon="minus"></b-icon></a>
+                <a style="margin-right: 5px;" v-if="index <= (editing.authors.length - 1) && index > 0" class="button is-danger" @click="deleteAuthor(index)"><b-icon icon="minus"></b-icon></a>
+                <a style="background-color: #30B8D2; margin-left: 5px;" v-if="index == (editing.authors.length - 1)" class="button is-primary" @click="newAuthor()"><b-icon icon="plus"></b-icon></a>
+              </div>
+            </div>
           </b-field>
           <div v-if="index < (editing.authors.length - 1)"></div>
           </div>

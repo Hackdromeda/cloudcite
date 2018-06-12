@@ -6,7 +6,9 @@
             This list looks a little empty! Have you tried citing a website?
         </div>
         <div v-for="(citation, i) in citations" :key="i">
-            <CitationPreview v-bind:preview="citation" v-bind:showCopyIcon="true" v-bind:showEditIcon="true" v-bind:showDownloadIcon="true"/>
+            <b-checkbox style="padding: 15px;">
+                <CitationPreview v-bind:preview="citation" v-bind:showCopyIcon="true" v-bind:showEditIcon="true" v-bind:showDownloadIcon="true"/>
+            </b-checkbox>
         </div>
     </section>
 </template>

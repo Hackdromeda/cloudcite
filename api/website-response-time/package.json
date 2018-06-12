@@ -1,0 +1,20 @@
+{
+  "name": "website-response-time",
+  "version": "1.0.0",
+  "description": "API that updates status page with website response time.",
+  "author": "Avi Shah <as0218@pleasantonusd.net> (https://avimshah.com)",
+  "contributors": [
+    "Naval Patel <navalpatel384@outlook.com>"
+  ],
+  "private": true,
+  "scripts": {
+    "dev": "node index.js",
+    "test": "node index.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.255.1",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2",
+    "request-promise-native": "^1.0.5"
+  }
+}

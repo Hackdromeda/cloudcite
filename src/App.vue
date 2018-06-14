@@ -4,6 +4,7 @@
       <div class="navbar-brand">
         <router-link class="navbar-item" to="/">CloudCite</router-link>
         <router-link class="navbar-item" to="/about">About Us</router-link>
+        <router-link class="navbar-item" to="/pricing">Pricing</router-link>
       </div>
     </nav>
     <section class="section">

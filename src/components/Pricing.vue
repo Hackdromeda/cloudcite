@@ -6,6 +6,9 @@
         <div style="background-color: #ffffff; opacity: 0.9; border-radius: 5px; justify-content: center;">
             <h1 class="is-size-2"><b>CloudCite is free forever.</b></h1>
         </div>
+        <div style="background-color: #ffffff; opacity: 0.9; border-radius: 5px; justify-content: center; margin: 5px;">
+            <h2 class="is-size-2"><b><a href="https://github.com/as0218PUSD/cloudcite">See Our Source Code</a></b></h2>
+        </div>
     <div>
     <CitationsTable></CitationsTable>
     </div>

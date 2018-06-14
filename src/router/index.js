@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import CloudCite from '@/components/CloudCite'
 const EditCitation = () => import('@/components/EditCitation')
 const About = () => import('@/components/About')
+const Pricing = () => import('@/components/Pricing')
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/about',
       name: 'About',
       component: About
+    },
+    {
+      path: '/pricing',
+      name: 'Pricing',
+      component: Pricing
     }
   ]
 })

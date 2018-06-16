@@ -14,8 +14,8 @@
     overflow: hidden;
     position: relative;
     z-index: 1;
-    background: url("img.jpg") no-repeat center center;
-    background-size: cover;
+/*  background: url("img.jpg") no-repeat center center;
+    background-size: cover; */
     text-align: center;
     margin: 0 auto;
     height: 100vh;

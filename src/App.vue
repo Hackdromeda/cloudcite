@@ -5,6 +5,7 @@
         <router-link class="navbar-item" to="/">CloudCite</router-link>
         <router-link class="navbar-item" to="/about">About Us</router-link>
         <router-link class="navbar-item" to="/pricing">Pricing</router-link>
+        <router-link class="navbar-item" to="/status">Status</router-link>
       </div>
     </nav>
     <section class="section">
@@ -35,7 +36,11 @@ export default {
 <style lang="scss">
 @import 'main.scss';
 
-body{
+html {
+  overflow-y: auto; // override Vue default
+}
+
+body {
   height: 100%;
   min-height: 100vh;
   background: linear-gradient(45deg,#30496B,#30B8D2);

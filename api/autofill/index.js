@@ -12,8 +12,8 @@ exports.handler = function(event, context, callback) {
     var headers = event.headers;
     headers = ConvertKeysToLowerCase(headers);
     var request = JSON.parse(event.body);
-    if(headers["content-type"] != null && headers["content-type"].toLowerCase() != "application/json"){
-        var body = "{error: the server can only send data in the application/json format}"
+/*     if(headers["content-type"] != null && headers["content-type"].toLowerCase() != "application/json"){
+        var body = "{error: the server can only accept data in the application/json format}"
         var response = {
             "statusCode": 406,
             "headers": {
@@ -24,7 +24,7 @@ exports.handler = function(event, context, callback) {
             "isBase64Encoded": false
         };
         return callback(null, response);
-    }
+    } */
     if(request == null || request == ""){
         var body = "{error: empty request}"
         var response = {

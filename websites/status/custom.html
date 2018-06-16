@@ -14,227 +14,260 @@
   </div>
 </footer>
 <style>
-    body {
-    background: linear-gradient(45deg,#30496B,#30B8D2); 
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    line-height: 1.6;
-    font-size: 1em;
-    }
+body {
+  background: linear-gradient(45deg,#30496B,#30B8D2); 
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  font-size: 1em;
+}
 
-    .page-status {
-        padding: 20px;
-    }
+.directions {
+  color: #0B1C3D !important;
+}
 
-    .component-container {
-    opacity: 0.9;
-    background-color: #fff;
-    color: #0B1C3D;
-    }
+.page-status {
+    padding: 20px;
+}
 
-    .legend .legend-item.light{
-    color: #0B1C3D !important;
-    }
+.component-container {
+  opacity: 0.9;
+  background-color: #fff;
+  color: #0B1C3D;
+}
 
-    .legend .legend-item {
-    color: #0B1C3D !important;
-    }
+.metrics-container {
+  opacity: 0.9;
+  background-color: #fff;
+  color: #0B1C3D;
+}
 
-    .spacer {
-    background: #0B1C3D !important;
-    }
+.metrics-container {
+    border-radius: 4px 4px 4px 4px !important;
+    -moz-border-radius: 4px 4px 4px 4px !important;
+    -webkit-border-radius: 4px 4px 4px 4px !important;
+    -o-border-radius: 4px 4px 4px 4px !important;
+    -ms-border-radius: 4px 4px 4px 4px !important;
+}
 
-    .page-status.status-none {
-        animation-name: flash-none;
-        animation-duration: 3s;
-        animation-fill-mode: both;
-        animation-iteration-count: infinite;
-    }
+.metric.border-color {
+    border-radius: 4px 4px 4px 4px !important;
+    -moz-border-radius: 4px 4px 4px 4px !important;
+    -webkit-border-radius: 4px 4px 4px 4px !important;
+    -o-border-radius: 4px 4px 4px 4px !important;
+    -ms-border-radius: 4px 4px 4px 4px !important;
+}
+.metric .metric-meta .metric-name {
+  color: #0B1C3D !important;
+}
 
-    .page-status.status-minor {
-        animation-name: flash-minor;
-        animation-duration: 3s;
-        animation-fill-mode: both;
-        animation-iteration-count: infinite;
-    }
+.metric-average {
+  color: #0B1C3D !important;
+}
 
-    .page-status.status-major {
-        animation-name: flash-major;
-        animation-duration: 3s;
-        animation-fill-mode: both;
-        animation-iteration-count: infinite;
-    }
+.legend .legend-item.light{
+  color: #0B1C3D !important;
+}
 
-    .page-status.status-critical {
-        animation-name: flash-critical;
-        animation-duration: 3s;
-        animation-fill-mode: both;
-        animation-iteration-count: infinite;
-    }
+.legend .legend-item {
+  color: #0B1C3D !important;
+}
+
+.spacer {
+  background: #0B1C3D !important;
+}
+
+.page-status.status-none {
+    animation-name: flash-none;
+    animation-duration: 3s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+}
+
+.page-status.status-minor {
+    animation-name: flash-minor;
+    animation-duration: 3s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+}
+
+.page-status.status-major {
+    animation-name: flash-major;
+    animation-duration: 3s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+}
+
+.page-status.status-critical {
+    animation-name: flash-critical;
+    animation-duration: 3s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+}
 
 
-    .page-status.status-maintenance {
-        animation-name: flash-maintenance;
-        animation-duration: 3s;
-        animation-fill-mode: both;
-        animation-iteration-count: infinite;
-    }
-    
-    @keyframes flash-none {
-    from, 50%, to {
-        background-color: #4fcc9c;
-    }
-    
-    25%, 75% {
-        background-color: #11a66e;
-    }
-    }
+.page-status.status-maintenance {
+    animation-name: flash-maintenance;
+    animation-duration: 3s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+}
+ 
+@keyframes flash-none {
+ from, 50%, to {
+    background-color: #4fcc9c;
+ }
+  
+ 25%, 75% {
+    background-color: #11a66e;
+ }
+}
 
-    @keyframes flash-minor {
-    from, 50%, to {
-        background-color: #F2C927;
-    }
-    
-    25%, 75% {
-        background-color: #C09C0C;
-    }
-    }
+@keyframes flash-minor {
+ from, 50%, to {
+    background-color: #F2C927;
+ }
+  
+ 25%, 75% {
+    background-color: #C09C0C;
+ }
+}
 
-    @keyframes flash-major {
-    from, 50%, to {
-        background-color: #E67E22;
-    }
-    
-    25%, 75% {
-        background-color: #A15817;
-    }
-    }
+@keyframes flash-major {
+ from, 50%, to {
+    background-color: #E67E22;
+ }
+  
+ 25%, 75% {
+    background-color: #A15817;
+ }
+}
 
-    @keyframes flash-critical {
-    from, 50%, to {
-        background-color: #E95E4F;
-    }
-    
-    25%, 75% {
-        background-color: #B83D30;
-    }
-    }
+@keyframes flash-critical {
+ from, 50%, to {
+    background-color: #E95E4F;
+ }
+  
+ 25%, 75% {
+    background-color: #B83D30;
+ }
+}
 
-    @keyframes flash-maintenance {
-    from, 50%, to {
-        background-color: #48A2DE;
-    }
-    
-    25%, 75% {
-        background-color: #2979AF;
-    }
-    }
+@keyframes flash-maintenance {
+ from, 50%, to {
+    background-color: #48A2DE;
+ }
+  
+ 25%, 75% {
+    background-color: #2979AF;
+ }
+}
 
-    .left-arrow:before{
-    content:"\f053";
-    font-family:FontAwesome !important;
-    font-style:normal;
-    color: #fff !important;
-    }
+.left-arrow:before{
+  content:"\f053";
+  font-family:FontAwesome !important;
+  font-style:normal;
+  color: #fff !important;
+}
 
-    .right-arrow:before{
-    content:"\f054";
-    font-family:FontAwesome !important;
-    font-style:normal;
-    color:#fff !important;
-    }
+.right-arrow:before{
+  content:"\f054";
+  font-family:FontAwesome !important;
+  font-style:normal;
+  color:#fff !important;
+}
 
-    .tooltip-base {
-    color: #0B1C3D;
-    }
+.tooltip-base {
+  color: #0B1C3D;
+}
 
-    ::selection {
-        background: black;
-        color: white;
-        text-shadow: none;
-    }
+::selection {
+    background: black;
+    color: white;
+    text-shadow: none;
+}
 
-    #custom-footer {
-    padding:20px 40px;
-    color:#888; 
-    font-size:14px;
-    }
+#custom-footer {
+  padding:20px 40px;
+  color:#888; 
+  font-size:14px;
+}
 
-    #custom-footer .logo {
-    max-width:150px;
-    float:left;
-    display:inline-block;
-    vertical-align: top;
-    }
+#custom-footer .logo {
+  max-width:150px;
+  float:left;
+  display:inline-block;
+  vertical-align: top;
+}
 
-    #custom-footer > div {
-    position:relative;
-    top:2px;
-    }
+#custom-footer > div {
+  position:relative;
+  top:2px;
+}
 
-    #custom-footer .meta {
-    float:right;
-    }
+#custom-footer .meta {
+  float:right;
+}
 
-    #custom-footer .links {
-    float:right;
-    margin-left:30px;
-    }
+#custom-footer .links {
+  float:right;
+  margin-left:30px;
+}
 
-    #custom-footer .text {
-    padding-top: 40px;
-    }
+#custom-footer .text {
+  padding-top: 40px;
+}
 
-    #custom-footer .links a {
-    color:#bbb;
-    display:inline-block;
-    margin-left:20px;
-    }
+#custom-footer .links a {
+  color:#bbb;
+  display:inline-block;
+  margin-left:20px;
+}
 
-    #custom-footer .links a:hover {
-    color:#ddd;
-    }
+#custom-footer .links a:hover {
+  color:#ddd;
+}
 
-    #custom-footer .links a:first-of-type {
+#custom-footer .links a:first-of-type {
+  margin-left:0px;
+}
+
+@media screen and (max-width: 880px) {
+  #custom-footer {
+    overflow:hidden;
+  }
+  
+  #custom-footer > div {
+    top:0px;
+  }
+  
+  #custom-footer .links {
     margin-left:0px;
-    }
+  }
+  
+  #custom-footer .meta {
+    float:left;
+  }
+  
+  #custom-footer .logo {
+    display:none;
+  }
+}
 
-    @media screen and (max-width: 880px) {
-    #custom-footer {
-        overflow:hidden;
-    }
-    
-    #custom-footer > div {
-        top:0px;
-    }
-    
-    #custom-footer .links {
-        margin-left:0px;
-    }
-    
-    #custom-footer .meta {
-        float:left;
-    }
-    
-    #custom-footer .logo {
-        display:none;
-    }
-    }
-
-    @media screen and (max-width: 600px) {
-    #custom-footer {
-        text-align:center;
-        font-size:13px;
-        line-height:20px;
-    }
-    
-    #custom-footer .meta, #custom-footer .links {
-        float:none;
-    }
-    
-    #custom-footer .links {
-        margin-bottom:5px;
-    }
-    }
+@media screen and (max-width: 600px) {
+  #custom-footer {
+    text-align:center;
+    font-size:13px;
+    line-height:20px;
+  }
+  
+  #custom-footer .meta, #custom-footer .links {
+    float:none;
+  }
+  
+  #custom-footer .links {
+    margin-bottom:5px;
+  }
+}
 </style>

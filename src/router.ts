@@ -28,6 +28,12 @@ export default new Router({
       path: '/pricing',
       name: 'pricing',
       component: Pricing
-    }
+    },
+    {
+      path: '/status',
+      beforeEnter(to, from, next) {
+          window.open('https://status.cloudcite.net','_blank');
+      }
+    }  
   ]
 })

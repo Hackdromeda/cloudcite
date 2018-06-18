@@ -9,5 +9,3 @@ env:
 script:
   - npm rebuild node-sass --force
   - yarn build
-  - node api/cite index.js
-  - node api/cloudfront-distribution index.js

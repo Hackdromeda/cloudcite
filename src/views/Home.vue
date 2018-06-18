@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    Welcome to CloudCite
+    Welcome to CloudCite!
   </div>
 </template>
 

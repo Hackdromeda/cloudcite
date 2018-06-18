@@ -21,15 +21,16 @@ const sockjs = require('sockjs');
 const spdy = require('spdy');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
+const createLog = require('./createLog');
 const OptionsValidationError = require('./OptionsValidationError');
 const optionsSchema = require('./optionsSchema.json');
 
-const clientStats = { errorDetails: false };
-const log = console.log; // eslint-disable-line no-console
+const clientStats = { all: false, assets: true, warnings: true, errors: true, errorDetails: false, hash: true };
 
-function Server(compiler, options) {
+function Server(compiler, options, _log) {
   // Default options
   if (!options) options = {};
+  this.log = _log || createLog(options);
 
   const validationErrors = webpack.validateSchema(optionsSchema, options);
   if (validationErrors.length) {
@@ -63,14 +64,22 @@ function Server(compiler, options) {
       if (addInfo) msg = `${msg} (${addInfo})`;
       this.sockWrite(this.sockets, 'progress-update', { percent, msg });
     });
-    compiler.apply(progressPlugin);
+    progressPlugin.apply(compiler);
   }
-  compiler.plugin('compile', invalidPlugin);
-  compiler.plugin('invalid', invalidPlugin);
-  compiler.plugin('done', (stats) => {
-    this._sendStats(this.sockets, stats.toJson(clientStats));
-    this._stats = stats;
-  });
+
+  const addCompilerHooks = (comp) => {
+    comp.hooks.compile.tap('webpack-dev-server', invalidPlugin);
+    comp.hooks.invalid.tap('webpack-dev-server', invalidPlugin);
+    comp.hooks.done.tap('webpack-dev-server', (stats) => {
+      this._sendStats(this.sockets, stats.toJson(clientStats));
+      this._stats = stats;
+    });
+  };
+  if (compiler.compilers) {
+    compiler.compilers.forEach(addCompilerHooks);
+  } else {
+    addCompilerHooks(compiler);
+  }
 
   // Init express server
   const app = this.app = new express(); // eslint-disable-line
@@ -80,14 +89,8 @@ function Server(compiler, options) {
     res.send('Invalid Host header');
   });
 
-  const wdmOptions = {};
+  const wdmOptions = { logLevel: this.log.options.level };
 
-  if (options.quiet === true) {
-    wdmOptions.logLevel = 'silent';
-  }
-  if (options.noInfo === true) {
-    wdmOptions.logLevel = 'warn';
-  }
   // middleware for serving webpack bundle
   this.middleware = webpackDevMiddleware(compiler, Object.assign({}, options, wdmOptions));
 
@@ -278,14 +281,14 @@ function Server(compiler, options) {
       }
     },
 
-    contentBaseFiles() {
+    contentBaseFiles: () => {
       if (Array.isArray(contentBase)) {
         contentBase.forEach((item) => {
           app.get('*', express.static(item));
         });
       } else if (/^(https?:)?\/\//.test(contentBase)) {
-        log('Using a URL as contentBase is deprecated and will be removed in the next major version. Please use the proxy option instead.');
-        log('proxy: {\n\t"*": "<your current contentBase configuration>"\n}'); // eslint-disable-line quotes
+        this.log.warn('Using a URL as contentBase is deprecated and will be removed in the next major version. Please use the proxy option instead.');
+        this.log.warn('proxy: {\n\t"*": "<your current contentBase configuration>"\n}'); // eslint-disable-line quotes
         // Redirect every request to contentBase
         app.get('*', (req, res) => {
           res.writeHead(302, {
@@ -294,8 +297,8 @@ function Server(compiler, options) {
           res.end();
         });
       } else if (typeof contentBase === 'number') {
-        log('Using a number as contentBase is deprecated and will be removed in the next major version. Please use the proxy option instead.');
-        log('proxy: {\n\t"*": "//localhost:<your current contentBase configuration>"\n}'); // eslint-disable-line quotes
+        this.log.warn('Using a number as contentBase is deprecated and will be removed in the next major version. Please use the proxy option instead.');
+        this.log.warn('proxy: {\n\t"*": "//localhost:<your current contentBase configuration>"\n}'); // eslint-disable-line quotes
         // Redirect every request to the port contentBase
         app.get('*', (req, res) => {
           res.writeHead(302, {
@@ -356,7 +359,7 @@ function Server(compiler, options) {
 
     setup: () => {
       if (typeof options.setup === 'function') {
-        log('The `setup` option is deprecated and will be removed in v3. Please update your config to use `before`');
+        this.log.warn('The `setup` option is deprecated and will be removed in v3. Please update your config to use `before`');
         options.setup(app, this);
       }
     }
@@ -407,14 +410,14 @@ function Server(compiler, options) {
 
         // cert is more than 30 days old, kill it with fire
         if ((now - certStat.ctime) / certTtl > 30) {
-          log('SSL Certificate is more than 30 days old. Removing.');
+          this.log.info('SSL Certificate is more than 30 days old. Removing.');
           del.sync([certPath], { force: true });
           certExists = false;
         }
       }
 
       if (!certExists) {
-        log('Generating SSL Certificate');
+        this.log.info('Generating SSL Certificate');
         const attrs = [{ name: 'commonName', value: 'localhost' }];
         const pems = selfsigned.generate(attrs, {
           algorithm: 'sha256',
@@ -565,16 +568,16 @@ Server.prototype.checkHost = function (headers) {
 // delegate listen call and init sockjs
 Server.prototype.listen = function (port, hostname, fn) {
   this.listenHostname = hostname;
-  // eslint-disable-next-line
-
   const returnValue = this.listeningApp.listen(port, hostname, (err) => {
     const sockServer = sockjs.createServer({
       // Use provided up-to-date sockjs-client
       sockjs_url: '/__webpack_dev_server__/sockjs.bundle.js',
       // Limit useless logs
-      log(severity, line) {
+      log: (severity, line) => {
         if (severity === 'error') {
-          log(line);
+          this.log.error(line);
+        } else {
+          this.log.debug(line);
         }
       }
     });

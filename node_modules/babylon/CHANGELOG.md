@@ -15,25 +15,9 @@ _Note: Gaps between patch versions are faulty, broken or test releases._
 
 See the [Babel Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.md) for the pre-6.8.0 version Changelog.
 
-## 6.17.4 (2017-06-18)
-
- * Fix comment attachment for call expressions (#575) (aardito2)
- * Correctly put typeParameters on FunctionExpression (#585) (Daniel Tschinder)
-
-## 6.17.3 (2017-06-09)
-
- * Fix location info on FunctionTypeParam nodes (#565) (#571) (Michal Srb)
- * Fix stmt value being the raw value (#557) (#558) (Daniel Tschinder)
-
-## 6.17.2 (2017-05-31)
-
- * Fixed disappearing comments following a trailing comma on the last property of an object literal or the last argument of a call expression (#478) (aardito2)
- * Fix #437: only prohibit 'export type from "module" ' when flow is enabled (#438) (Kevin Gibbons)
- * Fix handling of anonymous parameters in `flowParseObjectTypeMethodish`. (#526) (Max Schaefer)
- * Convert argument of SpreadElement correctly to assignable (#518) (Daniel Tschinder)
-
 ## 6.17.1 (2017-05-10)
 
+### :bug: Bug Fix
  * Fix typo in flow spread operator error (Brian Ng)
  * Fixed invalid number literal parsing ([#473](https://github.com/babel/babylon/pull/473)) (Alex Kuzmenko)
  * Fix number parser ([#433](https://github.com/babel/babylon/pull/433)) (Alex Kuzmenko)
@@ -44,12 +28,122 @@ See the [Babel Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.m
 
 ## 6.17.0 (2017-04-20)
 
+### :bug: Bug Fix
  * Cherry-pick #418 to 6.x ([#476](https://github.com/babel/babylon/pull/476)) (Sebastian McKenzie)
  * Add support for invalid escapes in tagged templates ([#274](https://github.com/babel/babylon/pull/274)) (Kevin Gibbons)
  * Throw error if new.target is used outside of a function ([#402](https://github.com/babel/babylon/pull/402)) (Brian Ng)
  * Fix parsing of class properties ([#351](https://github.com/babel/babylon/pull/351)) (Kevin Gibbons)
  * Fix parsing yield with dynamicImport ([#383](https://github.com/babel/babylon/pull/383)) (Brian Ng)
  * Ensure consistent start args for parseParenItem ([#386](https://github.com/babel/babylon/pull/386)) (Brian Ng)
+
+## 7.0.0-beta.8 (2017-04-04)
+
+### New Feature
+* Add support for flow type spread (#418) (Conrad Buck)
+* Allow statics in flow interfaces (#427) (Brian Ng)
+
+### Bug Fix
+* Fix predicate attachment to match flow parser (#428) (Brian Ng)
+* Add extra.raw back to JSXText and JSXAttribute (#344) (Alex Rattray)
+* Fix rest parameters with array and objects (#424) (Brian Ng)
+* Fix number parser (#433) (Alex Kuzmenko)
+
+### Docs
+* Fix CONTRIBUTING.md [skip ci] (#432) (Alex Kuzmenko)
+
+### Internal
+* Use babel-register script when running babel smoke tests (#442) (Brian Ng)
+
+## 7.0.0-beta.7 (2017-03-22)
+
+### Spec Compliancy
+* Remove babylon plugin for template revision since it's stage-4 (#426) (Henry Zhu)
+
+### Bug Fix
+
+* Fix push-pop logic in flow (#405) (Daniel Tschinder)
+
+## 7.0.0-beta.6 (2017-03-21)
+
+### New Feature
+* Add support for invalid escapes in tagged templates (#274) (Kevin Gibbons)
+
+### Polish
+* Improves error message when super is called outside of constructor (#408) (Arshabh Kumar Agarwal)
+
+### Docs
+
+* [7.0] Moved value field in spec from ObjectMember to ObjectProperty as ObjectMethod's don't have it (#415) [skip ci] (James Browning)
+
+## 7.0.0-beta.5 (2017-03-21)
+
+### Bug Fix
+* Throw error if new.target is used outside of a function (#402) (Brian Ng)
+* Fix parsing of class properties (#351) (Kevin Gibbons)
+
+### Other
+ * Test runner: Detect extra property in 'actual' but not in 'expected'. (#407) (Andy)
+ * Optimize travis builds (#419) (Daniel Tschinder)
+ * Update codecov to 2.0 (#412) (Daniel Tschinder)
+ * Fix spec for ClassMethod: It doesn't have a function, it *is* a function. (#406) [skip ci] (Andy)
+ * Changed Non-existent RestPattern to RestElement which is what is actually parsed (#409) [skip ci] (James Browning)
+ * Upgrade flow to 0.41 (Daniel Tschinder)
+ * Fix watch command (#403) (Brian Ng)
+ * Update yarn lock (Daniel Tschinder)
+ * Fix watch command (#403) (Brian Ng)
+ * chore(package): update flow-bin to version 0.41.0 (#395) (greenkeeper[bot])
+ * Add estree test for correct order of directives (Daniel Tschinder)
+ * Add DoExpression to spec (#364) (Alex Kuzmenko)
+ * Mention cloning of repository in CONTRIBUTING.md (#391) [skip ci] (Sumedh Nimkarde)
+ * Explain how to run only one test (#389) [skip ci] (Aaron Ang)
+
+ ## 7.0.0-beta.4 (2017-03-01)
+
+* Don't consume async when checking for async func decl (#377) (Brian Ng)
+* add `ranges` option [skip ci] (Henry Zhu)
+* Don't parse class properties without initializers when classProperties is disabled and Flow is enabled (#300) (Andrew Levine)
+
+## 7.0.0-beta.3 (2017-02-28)
+
+- [7.0] Change RestProperty/SpreadProperty to RestElement/SpreadElement (#384)
+- Merge changes from 6.x
+
+## 7.0.0-beta.2 (2017-02-20)
+
+- estree: correctly change literals in all cases (#368) (Daniel Tschinder)
+
+## 7.0.0-beta.1 (2017-02-20)
+
+- Fix negative number literal typeannotations (#366) (Daniel Tschinder)
+- Update contributing with more test info [skip ci] (#355) (Brian Ng)
+
+## 7.0.0-beta.0 (2017-02-15)
+
+- Reintroduce Variance node (#333) (Daniel Tschinder)
+- Rename NumericLiteralTypeAnnotation to NumberLiteralTypeAnnotation (#332) (Charles Pick)
+- [7.0] Remove ForAwaitStatement, add await flag to ForOfStatement (#349) (Brandon Dail)
+- chore(package): update ava to version 0.18.0 (#345) (greenkeeper[bot])
+- chore(package): update babel-plugin-istanbul to version 4.0.0 (#350) (greenkeeper[bot])
+- Change location of ObjectTypeIndexer to match flow (#228) (Daniel Tschinder)
+- Rename flow AST Type ExistentialTypeParam to ExistsTypeAnnotation (#322) (Toru Kobayashi)
+- Revert "Temporary rollback for erroring on trailing comma with spread (#154)" (#290) (Daniel Tschinder)
+- Remove classConstructorCall plugin (#291) (Brian Ng)
+- Update yarn.lock (Daniel Tschinder)
+- Update cross-env to 3.x (Daniel Tschinder)
+- [7.0] Remove node 0.10, 0.12 and 5 from Travis (#284) (Sergey Rubanov)
+- Remove `String.fromCodePoint` shim (#279) (Mathias Bynens)
+
+## 6.16.1 (2017-02-23)
+
+### :bug: Regression
+
+- Revert "Fix export default async function to be FunctionDeclaration" ([#375](https://github.com/babel/babylon/pull/375))
+
+Need to modify Babel for this AST node change, so moving to 7.0.
+
+- Revert "Don't parse class properties without initializers when classProperties plugin is disabled, and Flow is enabled" ([#376](https://github.com/babel/babylon/pull/376))
+
+[react-native](https://github.com/facebook/react-native/issues/12542) broke with this so we reverted.
 
 ## 6.16.0 (2017-02-23)
 

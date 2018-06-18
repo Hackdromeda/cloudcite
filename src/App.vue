@@ -1,51 +1,41 @@
 <template>
   <div id="app">
-    <nav class="navbar is-transparent">
-      <div class="navbar-brand">
-        <router-link class="navbar-item" to="/">CloudCite</router-link>
-        <router-link class="navbar-item" to="/about">About Us</router-link>
-        <router-link class="navbar-item" to="/pricing">Pricing</router-link>
-      </div>
-    </nav>
-    <section class="section">
-      <div class="columns" style="justify-content: center;">
-        <div class="column is-one-quarter"></div>
-        <div class="column is-two-quarers"><router-view/></div>
-        <div class="column is-one-quarter"></div>
-      </div>
-    </section>
+    <div id="nav">
+      <header class="navbar">
+      <section class="navbar-section">
+    <router-link to="/"><a class="btn btn-link">Citations</a></router-link>
+    <router-link to="/about"><a class="btn btn-link">About Us</a></router-link>
+  </section>
+  <section class="navbar-center">
+    <img src="static/favicons/favicon-96x96.png"/>
+  </section>
+  <section class="navbar-section">
+    <router-link to="/login"><a class="btn btn-link">Login</a></router-link>
+  </section>
+      </header>
+    </div>
+    <router-view/>
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-import { mapActions } from 'vuex';
-
-export default {
-  name: 'App',
-  computed: {
-    ...mapGetters(['getEditing', 'getCitation'])
-  },
-  methods: {
-    ...mapActions(['setCitation', 'setEditing', 'setEditingCitationAuthor', 'addNewEditingAuthor', 'removeEditingAuthor']),
-  }
-}
-</script>
-
 <style lang="scss">
-@import 'main.scss';
-
-body{
-  height: 100%;
-  min-height: 100vh;
-  background: linear-gradient(45deg,#30496B,#30B8D2);
-}
+@import "node_modules/spectre.css/src/spectre";
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  height: 100%;
+  color: #2c3e50;
+}
+#nav {
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>

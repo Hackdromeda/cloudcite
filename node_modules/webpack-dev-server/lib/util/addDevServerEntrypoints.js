@@ -34,7 +34,7 @@ module.exports = function addDevServerEntrypoints(webpackOptions, devServerOptio
     };
 
     [].concat(webpackOptions).forEach((wpOpt) => {
-      wpOpt.entry = prependDevClient(wpOpt.entry);
+      wpOpt.entry = prependDevClient(wpOpt.entry || './src');
     });
   }
 };

@@ -3,17 +3,21 @@
 > Elegant terminal spinner
 
 <p align="center">
-	<img src="https://rawgit.com/sindresorhus/ora/master/screenshot.svg" width="500">
+	<br>
+	<img src="screenshot.svg" width="500">
+	<br>
 </p>
 
 
 ## Install
 
 ```
-$ npm install --save ora
+$ npm install ora
 ```
 
-*Show your support for Ora by buying this excellent [Node.js course](https://LearnNode.com/friend/AWESOME).*
+<a href="https://www.patreon.com/sindresorhus">
+	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
 
 
 ## Usage
@@ -32,7 +36,7 @@ setTimeout(() => {
 
 ## API
 
-It will gracefully not do anything when there's no TTY or when in a CI.
+It will gracefully not do anything when there's no TTY or when running in a CI.
 
 ### ora([options|text])
 
@@ -71,6 +75,13 @@ Default: `cyan`<br>
 Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray`
 
 Color of the spinner.
+
+##### hideCursor
+
+Type: `boolean`<br>
+Default: `true`
+
+Set to `false` to stop Ora from hiding the cursor.
 
 ##### interval
 
@@ -121,6 +132,10 @@ Stop the spinner, change it to a yellow `⚠` and persist the current text, or `
 #### .info([text])
 
 Stop the spinner, change it to a blue `ℹ` and persist the current text, or `text` if provided. Returns the instance.
+
+#### .isSpinning
+
+A boolean of whether the instance is currently spinning.
 
 #### .stopAndPersist([options])
 
@@ -182,6 +197,7 @@ Type: `Promise`
 - [CLISpinner](https://github.com/kiliankoe/CLISpinner) - Terminal spinner library for Swift
 - [halo](https://github.com/ManrajGrover/halo) - Python port
 - [spinners](https://github.com/FGRibreau/spinners) - Terminal spinners for Rust
+- [marquee-ora](https://github.com/joeycozza/marquee-ora) - Scrolling marquee spinner for Ora
 
 
 ## License

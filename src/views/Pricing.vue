@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div id="pricing">
     Pricing: FREE
   </div>
 </template>

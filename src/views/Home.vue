@@ -1,7 +1,14 @@
 <template>
-  <div class="home">
-    <h3><b>Welcome to CloudCite!</b></h3>
-    <Cite/>
+  <div id="home">
+    <img src="static/error/favicons/mstile-150x150.png"/>
+    <h1 class="title">Welcome to CloudCite</h1>
+    <div class="columns">
+      <div class="column is-4"/>
+      <div class="column is-4">
+        <Cite/>
+      </div>
+      <div class="column is-4"/>
+    </div>
   </div>
 </template>
 
@@ -16,3 +23,13 @@ import Cite from '@/components/Cite.vue';
 })
 export default class Home extends Vue {}
 </script>
+
+<style scoped lang="scss">
+  #home {
+    text-align: center;
+    color: #fff;
+  }
+  .title {
+    color: #fff;
+  }
+</style>

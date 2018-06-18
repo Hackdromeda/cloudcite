@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    Welcome to CloudCite!
+    <h3><b>Welcome to CloudCite</b></h3>
   </div>
 </template>
 
@@ -9,6 +9,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
+    
   },
 })
 export default class Home extends Vue {}

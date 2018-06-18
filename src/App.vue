@@ -5,6 +5,7 @@
       <section class="navbar-section">
     <router-link to="/"><a class="btn btn-link">Citations</a></router-link>
     <router-link to="/about"><a class="btn btn-link">About Us</a></router-link>
+    <router-link to="/pricing"><a class="btn btn-link">Pricing</a></router-link>
   </section>
   <section class="navbar-center">
     <img src="static/favicons/favicon-96x96.png"/>

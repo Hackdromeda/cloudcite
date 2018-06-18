@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - "8.1"
+  - "lts/*"
+  - "node"
+env:
+  global:
+    - SKIP_SASS_BINARY_DOWNLOAD_FOR_CI = true
+script:
+  - npm rebuild node-sass --force
+  - yarn build
+  - node api/cite index.js
+  - node api/cloudfront-distribution index.js

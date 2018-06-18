@@ -6,6 +6,7 @@
             <router-link to="/"><a class="navbar-item">Citations</a></router-link>
             <router-link to="/about"><a class="navbar-item">About Us</a></router-link>
             <router-link to="/pricing"><a class="navbar-item">Pricing</a></router-link>
+            <router-link to="/status"><a class="navbar-item">Status</a></router-link>
           </div>
           <div class="navbar-end">
             <router-link to="/login"><a class="navbar-item">Login</a></router-link>

@@ -13,7 +13,9 @@ exports.handler = function(event, context, callback) {
     headers = ConvertKeysToLowerCase(headers);
     var request = JSON.parse(event.body);
 /*     if(headers["content-type"] != null && headers["content-type"].toLowerCase() != "application/json"){
-        var body = "{error: the server can only accept data in the application/json format}"
+        var body = {
+                    "error": "the server can only accept data in the application/json format"
+        };
         var response = {
             "statusCode": 406,
             "headers": {
@@ -26,7 +28,9 @@ exports.handler = function(event, context, callback) {
         return callback(null, response);
     } */
     if(request == null || request == ""){
-        var body = "{error: empty request}"
+        var body = {
+            "error": "empty request"
+        };
         var response = {
             "statusCode": 400,
             "headers": {
@@ -41,7 +45,9 @@ exports.handler = function(event, context, callback) {
     switch (request.format) {
         case 'website':
             if(request.url == null || request.url == ""){
-                var body = "{error: expected website URL}"
+                var body = {
+                    "error": "expected website URL"
+                };
                 var response = {
                     "statusCode": 422,
                     "headers": {
@@ -230,7 +236,9 @@ exports.handler = function(event, context, callback) {
                     callback(null, response);
                 }).catch(function (err) {
                     console.log("Error in RP:" + err);
-                    var body = "{error: cited website unavailable}"
+                    var body = {
+                        "error": "cited website unavailable"
+                    };
                     var response = {
                         "statusCode": 422,
                         "headers": {
@@ -244,7 +252,9 @@ exports.handler = function(event, context, callback) {
                 });
             }).catch(function (err) {
                 console.log("Error in GOT:" + err);
-                var body = "{error: cited website unavailable}"
+                var body = {
+                    "error": "cited website unavailable"
+                };
                 var response = {
                     "statusCode": 422,
                     "headers": {
@@ -259,7 +269,9 @@ exports.handler = function(event, context, callback) {
             break;              
         case 'movie':
             if((request.title == null || request.title == "") && (request.ID == null || request.ID == "")){
-                var body = "{error: expected movie title or movie ID}"
+                var body = {
+                    "error": "expected movie title or movie ID"
+                };
                 var response = {
                     "statusCode": 422,
                     "headers": {
@@ -297,9 +309,11 @@ exports.handler = function(event, context, callback) {
                     return callback(null, response);
                 }).catch(function (err) {
                     console.log("Error in RP:" + err);
-                    var body = "{error: movie not found}"
+                    var body = {
+                        "error": "movie not found"
+                    };
                     var response = {
-                        "statusCode": 422,
+                        "statusCode": 404,
                         "headers": {
                             "Access-Control-Allow-Origin" : "*",
                             "Access-Control-Allow-Credentials" : true
@@ -351,9 +365,11 @@ exports.handler = function(event, context, callback) {
                     return callback(null, response);
                 }).catch(function (err) {
                     console.log("Error in RP:" + err);
-                    var body = "{error: movie ID not found}"
+                    var body = {
+                        "error": "movie ID not found"
+                    };
                     var response = {
-                        "statusCode": 422,
+                        "statusCode": 404,
                         "headers": {
                             "Access-Control-Allow-Origin" : "*",
                             "Access-Control-Allow-Credentials" : true
@@ -368,7 +384,9 @@ exports.handler = function(event, context, callback) {
         default:
             //console.log('Format is invalid');
             //console.log("request: " + JSON.stringify(event));
-            var body = "{error: bad request}"
+            var body = {
+                "error": "bad request"
+            };
             var response = {
                 "statusCode": 400,
                 "headers": {

@@ -2,28 +2,16 @@ const AWS = require('aws-sdk');
 const CSL = require("citeproc");
 const fs = require("fs"); //move XML en-us to code later
 var citeproc = require("citeproc-js-node");
-//available: lodash, request-promise, aws-sdk, and 
 //docs for citeproc https://citeproc-js.readthedocs.io/en/latest/index.html
 
-//exports.handler = function(event, context, callback) { //Removed for testing
-/*     var headers = event.headers;
+exports.handler = function(event, context, callback) {
+    var headers = event.headers;
     headers = ConvertKeysToLowerCase(headers);
-    var request = JSON.parse(event.body);
-    if(headers["content-type"] != null && headers["content-type"].toLowerCase() != "application/json"){
-        var body = "{error: the server can only send data in the application/json format}"
-        var response = {
-            "statusCode": 406,
-            "headers": {
-                "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Credentials" : true
-            },
-            "body": JSON.stringify(body),
-            "isBase64Encoded": false
-        };
-        return callback(null, response);
-    }
+    var request = JSON.parse(event.body); //[required: { style: "modern-language-association"}, locale: "locales-en-US", csl: {<csl stuff>}]
     if (request == null || request == "") {
-        var body = "{error: empty request}"
+        var body = {
+			"error": "empty request"
+		};
         var response = {
             "statusCode": 400,
             "headers": {
@@ -34,14 +22,14 @@ var citeproc = require("citeproc-js-node");
             "isBase64Encoded": false
         };
         return callback(null, response);
-    } */
-
-    var sys = new citeproc.simpleSys();
-    var enUS = fs.readFileSync('./locales/locales-en-US.xml', 'utf8'); //Hardcoded for production
-    sys.addLocale('en-US', enUS);
-    var styleString = fs.readFileSync('./styles/modern-language-association.csl', 'utf8'); //Hardcoded for testing
-    var engine = sys.newEngine(styleString, 'en-US', null); //Hardcoded for production
-    //Hardcoded for testing
+    }
+	var sys = new citeproc.simpleSys();
+	var localeLocation = './locales/' + request.locale + '.xml';
+    var enUS = fs.readFileSync(localeLocation, 'utf8');
+	sys.addLocale('en-US', enUS);
+	var styleLocation = './styles/' + request.style + '.csl';
+    var styleString = fs.readFileSync(styleLocation, 'utf8');
+    var engine = sys.newEngine(styleString, 'en-US', null);
     var items = {
   		"14058/RN9M5BF3": {
 		"accessed": {
@@ -116,9 +104,25 @@ var citeproc = require("citeproc-js-node");
     
     engine.updateItems(Object.keys(items));
     var bib = engine.makeBibliography();
-    console.log(bib);
-	//[required: { style: "modern-language-association"}, csl: {<csl stuff>}]
-//} // end of Lambda export
+ 	if (bib != null || bib != "") {
+        var response = {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Credentials" : true
+            },
+            "body": JSON.stringify(bib),
+            "isBase64Encoded": false
+        };
+        return callback(null, response);
+	}
+	else {
+		var err = {
+			"error": "bibliography creation failed"
+		};
+		return callback(JSON.stringify(err), null);
+	}
+} // end of Lambda export
 
 const itemTypes = {
 	1: 'note',

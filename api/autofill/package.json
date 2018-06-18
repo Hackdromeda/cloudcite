@@ -16,6 +16,7 @@
     "cheerio": "^1.0.0-rc.2",
     "got": "^8.3.1",
     "metascraper": "^3.11.6",
+    "metascraper-author": "^3.11.5",
     "microdata-node": "^1.0.0",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",

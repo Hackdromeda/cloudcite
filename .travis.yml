@@ -8,5 +8,6 @@ env:
     - SKIP_SASS_BINARY_DOWNLOAD_FOR_CI = true
 script:
   - npm rebuild node-sass --force
-  - yarn start
   - yarn build
+  - node api\cite index.js
+  - node api\cloudfront-distribution index.js

@@ -19,23 +19,44 @@ export default class Cite extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-#cite {
+@media (max-width: 767.98px) {
+  #cite {
     text-align: center;
+  }
+  #citeButtonsRow {
+    justify-content: center;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  #citeButton {
+    margin: 3px;
+    padding: 10px;
+    color: #1976d2;
+    font-weight: 500;
+  }
+  #citeButton:hover {
+    opacity: 0.9;
+  }
 }
-#citeButtonsRow {
-  justify-content: center;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-#citeButton {
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 10px;
-  color: #1976d2;
-  font-weight: 500;
-}
-#citeButton:hover {
-  opacity: 0.9;
+@media (min-width: 991.98px) {
+  #cite {
+    text-align: center;
+  }
+  #citeButtonsRow {
+    justify-content: center;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  #citeButton {
+    margin: 10px;
+    padding: 10px;
+    color: #1976d2;
+    font-weight: 500;
+  }
+  #citeButton:hover {
+    opacity: 0.9;
+  }
 }
 </style>

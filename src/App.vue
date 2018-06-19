@@ -55,7 +55,7 @@ $link-focus-border: $primary;
 }
 
 nav {
-  background-color: #fff;
   padding: 5px;
+  background-color: #fff;
 }
 </style>

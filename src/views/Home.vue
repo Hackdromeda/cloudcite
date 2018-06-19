@@ -1,8 +1,10 @@
 <template>
   <div id="home">
-    <img src="static/error/favicons/mstile-150x150.png"/>
-    <h1 class="title">Welcome to CloudCite</h1>
-    <Cite/>
+    <div id="hero">
+      <img src="static/favicons/android-icon-144x144.png"/>
+      <h1 class="title">Welcome to CloudCite</h1>
+      <Cite/>
+    </div>
   </div>
 </template>
 
@@ -19,11 +21,17 @@ export default class Home extends Vue {}
 </script>
 
 <style scoped lang="scss">
+  .title {
+    color: #094b66;
+  }
   #home {
     text-align: center;
-    color: #fff;
+    color: #212121;
   }
-  .title {
-    color: #fff;
+  #hero {
+    padding-bottom: 20px;
+    height: 60%;
+    margin-bottom: 10px;
+    background-color: #fff;
   }
 </style>

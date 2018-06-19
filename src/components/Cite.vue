@@ -32,7 +32,7 @@ export default class Cite extends Vue {
   margin-left: 10px;
   margin-right: 10px;
   padding: 10px;
-  color: #094b66;
+  color: #1976d2;
   font-weight: 500;
 }
 #citeButton:hover {

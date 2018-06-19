@@ -2,7 +2,7 @@
   <div id="home">
     <div id="hero">
       <img src="static/favicons/android-icon-144x144.png"/>
-      <h1 class="title">Welcome to CloudCite</h1>
+      <h1 class="title is-size-2">Welcome to CloudCite</h1>
       <Cite/>
     </div>
   </div>
@@ -21,17 +21,13 @@ export default class Home extends Vue {}
 </script>
 
 <style scoped lang="scss">
-  .title {
-    color: #094b66;
-  }
   #home {
     text-align: center;
     color: #212121;
   }
   #hero {
-    padding-bottom: 20px;
+    padding-bottom: 25px;
     height: 60%;
-    margin-bottom: 10px;
     background-color: #fff;
   }
 </style>

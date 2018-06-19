@@ -1,9 +1,9 @@
 <template>
   <div class="container" id="cite">
     <div id="citeButtonsRow">
-      <a class="button" id="citeButton">Website</a>
-      <a class="button" id="citeButton">Academic Journal</a>
-      <a class="button" id="citeButton">Digital Image</a>
+      <a class="button is-rounded" id="citeButton">Website</a>
+      <a class="button is-rounded" id="citeButton">Academic Journal</a>
+      <a class="button is-rounded" id="citeButton">Digital Image</a>
     </div>
   </div>
 </template>

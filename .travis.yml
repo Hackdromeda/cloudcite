@@ -3,9 +3,7 @@ notifications:
   webhooks:
       - https://cloudcite-build-status.herokuapp.com/webhook
 node_js:
-  - "8.1"
   - "lts/*"
-  - "node"
 env:
   global:
     - SKIP_SASS_BINARY_DOWNLOAD_FOR_CI = true

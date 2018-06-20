@@ -2,8 +2,12 @@
   <div class="container" id="cite">
     <div id="citeButtonsRow">
       <a class="button is-rounded" id="citeButton">Website</a>
-      <a class="button is-rounded" id="citeButton">Academic Journal</a>
+      <a class="button is-rounded" id="citeButton">Journal</a>
+      <a class="button is-rounded" id="citeButton">Book</a>
+      <a class="button is-rounded" id="citeButton">Film/Movie</a>
       <a class="button is-rounded" id="citeButton">Digital Image</a>
+      <a class="button is-rounded" id="citeButton">Podcast</a>
+      <a class="button is-rounded" id="citeButton">Music</a>
     </div>
   </div>
 </template>
@@ -24,10 +28,10 @@ export default class Cite extends Vue {
     text-align: center;
   }
   #citeButtonsRow {
-    justify-content: center;
+    justify-content: left;
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow-x: scroll;
   }
   #citeButton {
     margin: 3px;
@@ -47,7 +51,7 @@ export default class Cite extends Vue {
     justify-content: center;
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow-x: scroll;
   }
   #citeButton {
     margin: 10px;

@@ -15,3 +15,7 @@ yarn-error.log*
 *.zip
 
 testing/
+
+src/node_modules/\.cache/vue-loader/
+
+src/dist/

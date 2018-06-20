@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <div id="hero">
-      <img src="static/favicons/android-icon-144x144.png"/>
+      <img src="static/error/favicons/mstile-150x150.png"/>
       <h1 class="title is-size-2">Welcome to CloudCite</h1>
       <Cite/>
     </div>
@@ -28,6 +28,8 @@ export default class Home extends Vue {}
   #hero {
     padding-bottom: 25px;
     height: 60%;
-    background-color: #fff;
+  }
+  .title {
+    color: #fff;
   }
 </style>

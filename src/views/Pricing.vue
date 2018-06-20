@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+  <div>
   <div class="pricing">
      <h1 class="title">Pricing</h1>
     <div class="pricing-table is-comparative">
@@ -42,6 +42,8 @@
 <style scoped lang="scss">
   .pricing {
     padding: 20px;
+    min-height: 100vh;
+    background-color: #fff;
   }
   .title{
     color: #fff;

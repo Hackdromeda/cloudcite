@@ -31,13 +31,15 @@ export default class Cite extends Vue {
     justify-content: left;
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: scroll;
+    overflow-x: auto;
   }
   #citeButton {
     margin: 3px;
     padding: 10px;
-    color: #1976d2;
+    color: #fff;
     font-weight: 500;
+    border-color: #006DFC;
+    background-color: #006DFC;
   }
   #citeButton:hover {
     opacity: 0.9;
@@ -51,16 +53,29 @@ export default class Cite extends Vue {
     justify-content: center;
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: scroll;
+    overflow-x: auto;
   }
   #citeButton {
     margin: 10px;
     padding: 10px;
-    color: #1976d2;
+    color: #fff;
     font-weight: 500;
+    border-color: #006DFC;
+    background-color: #006DFC;
   }
   #citeButton:hover {
     opacity: 0.9;
   }
+
+  @keyframes pulse {
+  0% {
+    border-color: #001F3F;
+    background-color: #001F3F;
+  }
+  100% {
+    border-color: #FF4136;
+    background-color: #FF4136;
+  }
+}
 }
 </style>

@@ -16,6 +16,6 @@ yarn-error.log*
 
 testing/
 
-src/node_modules/\.cache/vue-loader/
-
+src/node_modules/\.cache/
+node_modules/\.cache/
 src/dist/

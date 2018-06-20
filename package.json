@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "buefy": "^0.6.6",
+    "bulma-pricingtable": "^2.1.0",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",

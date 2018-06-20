@@ -44,6 +44,7 @@ $link-focus-border: $primary;
 
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
+@import '~bulma-pricingtable/src/sass/index';
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

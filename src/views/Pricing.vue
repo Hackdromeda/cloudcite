@@ -21,12 +21,13 @@
 
 #offers{
   padding-top:10px;
-  align-text:left;
+  text-align: left;
   font-size:15px;
+  color: #000;
 }
 #slogan{
   font-size: 25px;
-  color:#a6c7fc;
+  color:#000;
 
 
 }
@@ -39,7 +40,8 @@
 
  #tier1{
     margin:auto;
-    background-color: linear-gradient(180 deg,#30496B,#30B8D2, 3);
+    background-color: #fff;
+    color: #000;
     opacity:2;
     border: 0.1px solid #A4A4A4;
     width:400px;
@@ -89,15 +91,15 @@
 #source_code {
     margin:auto;
     margin-top:50px;
-    background-color: linear-gradient(180 deg,#30496B,#30B8D2, 3);
-    opacity:2;
+    background-color: #fff;
+    opacity: 0.95;
     width:750px;
     padding-right:10px;
     padding-left:10px;
    box-shadow: 5px 5px 18px 1px #333333;
     height:200px;
     border-radius:10px;
-    color: #a6c7fc;
+    color: #000;
     font-size:30px;
      padding-top:25px;
     -webkit-animation: fadein 5s; 
@@ -106,8 +108,7 @@
         animation: fadein 5s;
 }
 #image_code:hover { 
-  filter: brightness(1000%);
-
+  filter: brightness(100%);
 }
 #image_code {
     text-align: center;

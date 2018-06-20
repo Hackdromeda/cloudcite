@@ -50,8 +50,7 @@ $link-focus-border: $primary;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  height: 100vh;
-  background: linear-gradient(45deg,#30496B,#30B8D2);
+   background: linear-gradient(45deg,#30496B,#30B8D2);
 }
 
 nav {

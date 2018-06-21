@@ -13,14 +13,14 @@
     <div class="plan-footer"></div>
   </div>
   <div class="pricing-plan is-active">
-    <div class="plan-header">CloudCite</div>
+    <div class="plan-header">CloudCite <a href="https://github.com/avimshah/cloudcite/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg"/></a></div>
     <div class="plan-price"><span class="plan-price-amount"><span class="plan-price-currency">$</span>0</span>/month</div>
     <div class="plan-items">
       <div class="plan-item" data-feature="Citations">FREE</div>
       <div class="plan-item" data-feature="API">FREE</div>
     </div>
     <div class="plan-footer">
-      <button class="button is-fullwidth" disabled="disabled">Always Free</button>
+      <a class="button is-fullwidth" href="https://github.com/avimshah/cloudcite" target="_blank">View Source Code</a>
     </div>
   </div>
     <div class="pricing-plan">

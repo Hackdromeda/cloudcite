@@ -46,7 +46,7 @@
     background-color: #fff;
   }
   .title{
-    color: #fff;
+    color: #000;
   }
 </style>
 

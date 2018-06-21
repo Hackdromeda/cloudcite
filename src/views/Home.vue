@@ -2,7 +2,7 @@
   <div id="home">
     <div id="hero">
       <img src="static/error/favicons/mstile-150x150.png"/>
-      <h1 class="title is-size-2">Welcome to CloudCite</h1>
+      <h1 id="welcomeText" class="title is-size-2">Welcome to CloudCite</h1>
       <Cite/>
     </div>
   </div>
@@ -29,7 +29,7 @@ export default class Home extends Vue {}
     padding-bottom: 25px;
     height: 60%;
   }
-  .title {
+  #welcomeText {
     color: #fff;
   }
 </style>

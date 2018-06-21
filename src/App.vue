@@ -20,7 +20,7 @@
 <style lang="scss">
 @import "~bulma/sass/utilities/_all";
 
-$primary: #149fda;
+$primary: #005eea;
 $primary-invert: findColorInvert($primary);
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);

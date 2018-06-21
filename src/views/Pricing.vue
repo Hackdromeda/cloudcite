@@ -55,12 +55,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Cite from '@/components/Cite.vue';
 
 @Component({
   components: {
-    Cite
   },
 })
-export default class Home extends Vue {}
+export default class Pricing extends Vue {}
 </script>

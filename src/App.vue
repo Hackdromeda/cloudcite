@@ -1,21 +1,77 @@
 <template>
   <div id="app">
       <header>
-        <nav class="navbar-menu" role="navigation" aria-label="main navigation">
-          <div class="navbar-start">
-            <router-link to="/"><a class="navbar-item">Citations</a></router-link>
-            <router-link to="/about"><a class="navbar-item">About Us</a></router-link>
-            <router-link to="/pricing"><a class="navbar-item">Pricing</a></router-link>
-            <router-link to="/status"><a class="navbar-item">Status</a></router-link>
+        <nav id="navbar" class="navbar is-transparent">
+          <div class="navbar-brand">
+            <a class="navbar-item" @click="$router.push({path: '/'})">
+              <h1 class="is-size-5">CloudCite</h1>
+            </a>
+            <div class="navbar-burger burger" data-target="navbarMenu">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </div>
           </div>
-          <div class="navbar-end">
-            <router-link to="/login"><a class="navbar-item">Login</a></router-link>
+          <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-start">
+              <a class="navbar-item" @click="$router.push({path: '/pricing'})">
+                Pricing
+              </a>
+              <a class="navbar-item" @click="$router.push({path: '/about'})">
+                About Us
+              </a>
+              <a class="navbar-item" @click="$router.push({path: '/status'})">
+                Status
+              </a>
+            </div>
+
+            <div class="navbar-end">
+              <div class="navbar-item">
+                <div class="field is-grouped">
+                  <p class="control">
+                    <a class="button is-primary" @click="$router.push({path: '/login'})">
+                      <span>Login</span>
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        </nav>
-      </header>
-    <router-view/>
+      </nav>
+    </header>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component({
+  components: {
+  },
+})
+
+export default class App extends Vue {
+
+  mounted(): void {
+    var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    if ($navbarBurgers.length > 0) {
+      $navbarBurgers.forEach(function ($el: any) {
+        $el.addEventListener('click', function () {
+          var target = $el.dataset.target;
+          var $target = document.getElementById(target);
+          $el.classList.toggle('is-active');
+          if ($target) {
+            $target.classList.toggle('is-active');
+          }
+        });
+      });
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 @import "~bulma/sass/utilities/_all";

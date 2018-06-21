@@ -2,7 +2,6 @@
   <div class="content" id="about">
 
   </div>
-  </div>
 </template>
 
 <script lang="ts">

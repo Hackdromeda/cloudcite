@@ -52,7 +52,7 @@ $link-focus-border: $primary;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   height: 100vh;
-  background-image: linear-gradient(to right top, #005eea, #0058bf, #0a4e93, #274366, #32363c);
+  background-image: radial-gradient(#005eea,#32363c);
 }
 
 nav {

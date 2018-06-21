@@ -67,15 +67,5 @@ export default class Cite extends Vue {
     opacity: 0.9;
   }
 
-  @keyframes pulse {
-  0% {
-    border-color: #001F3F;
-    background-color: #001F3F;
-  }
-  100% {
-    border-color: #FF4136;
-    background-color: #FF4136;
-  }
-}
 }
 </style>

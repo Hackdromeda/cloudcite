@@ -15,7 +15,7 @@ yarn-error.log*
 *.zip
 
 testing/
-
+node_modules/
 src/node_modules/\.cache/
 node_modules/\.cache/
 src/dist/

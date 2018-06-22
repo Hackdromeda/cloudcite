@@ -5,9 +5,12 @@ import About from './views/About.vue'
 import Login from './views/Login.vue'
 import Pricing from './views/Pricing.vue'
 import EditWebsite from './views/EditWebsite.vue'
+import NotFound from './views/NotFound.vue'
+
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -35,6 +38,10 @@ export default new Router({
       beforeEnter(to, from, next) {
           window.open('https://status.cloudcite.net','_blank');
       }
+    },
+    {
+      path: '*',
+      component: NotFound
     },
     {
       path: '/editwebsite',

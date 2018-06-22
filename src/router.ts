@@ -4,7 +4,7 @@ import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Login from './views/Login.vue'
 import Pricing from './views/Pricing.vue'
-
+import EditWebsite from './views/EditWebsite.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -35,6 +35,11 @@ export default new Router({
       beforeEnter(to, from, next) {
           window.open('https://status.cloudcite.net','_blank');
       }
-    }
+    },
+    {
+      path: '/editwebsite',
+      name: 'editwebsite',
+      component: EditWebsite
+    },
   ]
 })

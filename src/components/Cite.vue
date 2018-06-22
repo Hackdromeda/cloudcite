@@ -22,13 +22,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
+@Component({
+  components: {
+  },
+})
 export default class Cite extends Vue {
-    data () {
-      return {
-        websiteModal: false
-      }
-    }
+  websiteModal = false
 }
 </script>
 

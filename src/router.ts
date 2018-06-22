@@ -41,7 +41,12 @@ export default new Router({
     },
     {
       path: '*',
-      component: NotFound
+      component: Vue.component("PageNotFound", {
+        template: "",
+        created: function() {
+            window.location.href = "/error.html";
+        }
+      })
     },
     {
       path: '/editwebsite',

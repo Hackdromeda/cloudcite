@@ -44,9 +44,8 @@
     </keep-alive>
     <footer class="footer">
       <div class="content has-text-centered">
-        <p>
-          <strong>CloudCite</strong> by the Hackdromeda team. The source code is licensed
-          <a href="https://github.com/avimshah/cloudcite/blob/master/LICENSE">GNU AGPL v3.0</a>. <img width="150" height="50" src="static/a0-badge-light.png"/>
+        <p class="footer-text"><strong>CloudCite</strong> by the Hackdromeda team. The source code is licensed
+            <a href="https://github.com/avimshah/cloudcite/blob/master/LICENSE">GNU AGPL v3.0</a>. <img width="150" height="50" src="static/a0-badge-light.png"/>
         </p>
       </div>
     </footer>
@@ -122,6 +121,10 @@ $link-focus-border: $primary;
 @import "~buefy/src/scss/buefy";
 @import '~bulma-pricingtable/src/sass/index';
 
+html {
+  overflow-y: auto; // override Vue default
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -143,5 +146,9 @@ nav {
   padding: 0px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.footer img {
+  vertical-align: middle;
 }
 </style>

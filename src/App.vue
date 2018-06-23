@@ -29,7 +29,7 @@
               <div class="navbar-item">
                 <div class="field is-grouped">
                   <p class="control">
-                    <a class="button is-primary" @click="login()">
+                    <a v-if="!authenticated" class="button is-primary" @click="login()">
                       <span>Login</span>
                     </a>
                   </p>

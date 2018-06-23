@@ -39,6 +39,13 @@ export default new Router({
       }
     },
     {
+      path: '/support',
+      name: 'support',
+      beforeEnter(to: any, from: any, next: any) {
+          window.open('https://help.cloudcite.net','_blank');
+      }
+    },
+    {
       path: '*',
       name: 'error',
       beforeEnter(to: any, from: any, next: any) {

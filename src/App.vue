@@ -23,6 +23,9 @@
               <a class="navbar-item" @click="$router.push({path: '/status'})">
                 Status
               </a>
+              <a class="navbar-item" @click="$router.push({path: '/support'})">
+                Support
+              </a>
             </div>
 
             <div class="navbar-end">

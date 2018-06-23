@@ -3,10 +3,13 @@
         <div class="box" id="editwebsitebox">
             <h1 id="editFormTitle" class="title is-size-4">Edit Website Citation</h1>
             <b-field grouped>
-                <b-field label="First Name" expanded>
+                <b-field label="Author's First Name" expanded>
                     <b-input></b-input>
                 </b-field>
-                <b-field label="Last Name" expanded>
+                <b-field label="Author's Middle Name" expanded>
+                    <b-input></b-input>
+                </b-field>
+                <b-field label="Author's Last Name" expanded>
                     <b-input></b-input>
                 </b-field>
             </b-field>
@@ -30,7 +33,7 @@ export default class EditWebsite extends Vue {}
 }
 @media (max-width: 991.97px) {
     #editwebsite {
-        padding: 10px;
+        padding: 1px;
         margin-left: 5%;
         margin-right: 5%;
         text-align: center;
@@ -42,7 +45,7 @@ export default class EditWebsite extends Vue {}
         padding: 10px;
         margin-left: 15%;
         margin-right: 15%;
-        text-align: center;
+        text-align: left;
         justify-content: center;
     }
 }

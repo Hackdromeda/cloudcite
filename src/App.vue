@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div id="appMain">
       <header>
         <nav id="navbar" class="navbar is-transparent">
           <div class="navbar-brand">
@@ -27,7 +28,6 @@
                 Support
               </a>
             </div>
-
             <div class="navbar-end">
               <div class="navbar-item">
                 <div class="field is-grouped">
@@ -48,6 +48,14 @@
     <keep-alive>
       <router-view :auth="auth" :authenticated="authenticated"/>
     </keep-alive>
+    </div>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p class="footer-text"><strong>CloudCite</strong> by the Hackdromeda team. The source code is licensed
+            <a href="https://github.com/avimshah/cloudcite/blob/master/LICENSE">GNU AGPL v3.0</a>. <img width="150" height="50" src="static/a0-badge-light.png"/>
+        </p>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -129,8 +137,11 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  height: 100vh;
   background-image: radial-gradient(#005eea,#32363c);
+}
+
+#appMain {
+  min-height: 100vh;
 }
 
 nav {
@@ -138,13 +149,9 @@ nav {
   background-color: #fff;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 0px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+footer {
+    position: static;
+    width: 100%;
 }
 
 .footer img {

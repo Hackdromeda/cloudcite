@@ -33,9 +33,6 @@
         <div class="plan-item" data-feature="API">Unknown</div>
         <div class="plan-item" data-feature="Proprietary">Open Source or Proprietary</div>
       </div>
-      <div class="plan-footer">
-        <button class="button is-fullwidth">Choose</button>
-      </div>
       </div>
     </div>
   </div>

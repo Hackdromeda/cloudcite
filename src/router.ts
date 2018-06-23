@@ -34,14 +34,14 @@ export default new Router({
     {
       path: '/status',
       name: 'status',
-      beforeEnter(to, from, next) {
+      beforeEnter(to: any, from: any, next: any) {
           window.open('https://status.cloudcite.net','_blank');
       }
     },
     {
       path: '*',
       name: 'error',
-      beforeEnter(to, from, next) {
+      beforeEnter(to: any, from: any, next: any) {
         window.location.href = "/error.html";
       }
     },

@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import About from './views/About.vue'
-import Pricing from './views/Pricing.vue'
-import EditWebsite from './views/EditWebsite.vue'
-import LoadingPage from './views/LoadingPage.vue'
+const About = () => import('./views/About.vue')
+const Pricing = () => import('./views/Pricing.vue')
+const EditWebsite = () => import('./views/EditWebsite.vue')
+const LoadingPage = () => import('./views/LoadingPage.vue')
 
 Vue.use(Router)
 

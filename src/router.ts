@@ -5,7 +5,7 @@ import About from './views/About.vue'
 import Login from './views/Login.vue'
 import Pricing from './views/Pricing.vue'
 import EditWebsite from './views/EditWebsite.vue'
-import NotFound from './views/NotFound.vue'
+import LoadingPage from './views/LoadingPage.vue'
 
 Vue.use(Router)
 
@@ -23,9 +23,9 @@ export default new Router({
       component: About
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login
+      path: '/callback',
+      name: 'LoadingPage',
+      component: LoadingPage
     },
     {
       path: '/pricing',

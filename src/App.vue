@@ -29,7 +29,7 @@
               <div class="navbar-item">
                 <div class="field is-grouped">
                   <p class="control">
-                    <a class="button is-primary" @click="$router.push({path: '/login'})">
+                    <a class="button is-primary" @click="login()">
                       <span>Login</span>
                     </a>
                   </p>
@@ -40,25 +40,37 @@
       </nav>
     </header>
     <keep-alive>
-      <router-view/>
+      <router-view :auth="auth" :authenticated="authenticated"/>
     </keep-alive>
   </div>
 </template>
+<script>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import AuthService from './Auth/AuthService'
 
-@Component({
-  components: {
+const auth = new AuthService()
+
+const { login, logout, authenticated, authNotifier } = auth
+
+export default {
+  name: 'App',
+  data () {
+    authNotifier.on('authChange', authState => {
+      this.authenticated = authState.authenticated
+    })
+    return {
+      auth,
+      authenticated
+    }
   },
-})
-
-export default class App extends Vue {
-
-  mounted(): void {
+  methods: {
+    login,
+    logout
+  },
+  mounted() {
     var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
     if ($navbarBurgers.length > 0) {
-      $navbarBurgers.forEach(function ($el: any) {
+      $navbarBurgers.forEach(function ($el) {
         $el.addEventListener('click', function () {
           var target = $el.dataset.target;
           var $target = document.getElementById(target);

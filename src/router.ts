@@ -49,11 +49,6 @@ export default new Router({
       path: '/editwebsite',
       name: 'editwebsite',
       component: EditWebsite
-    },
-    {
-      path: '/loading',
-      name: 'loading',
-      component: LoadingPage
-    },
+    }
   ]
 })

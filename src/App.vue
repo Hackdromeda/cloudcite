@@ -54,8 +54,8 @@
     </footer>
   </div>
 </template>
-<script>
 
+<script>
 import AuthService from './Auth/AuthService'
 
 const auth = new AuthService()

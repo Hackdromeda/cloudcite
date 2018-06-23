@@ -1,12 +1,19 @@
 <template>
   <div id="loadingPage">
-      Loading...
+    <div id="loadingDiv">
+      <moon-loader loading="true" color="#005eea"></moon-loader>
+    </div>
   </div>
 </template>
 
 <script>
+  import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
+
   export default {
     name: 'LodingPage',
+    components: {
+      'MoonLoader': MoonLoader
+    },
     props: ['auth'],
     data () {
       this.auth.handleAuthentication()
@@ -17,9 +24,16 @@
 
 <style scoped lang="scss">
   #loadingPage {
-    text-align: left;
+    text-align: center;
+    justify-content: center;
     background-color: #fff;
     min-height: 100vh;
-    padding: 20px;
+  }
+  #loadingDiv {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>

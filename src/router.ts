@@ -50,5 +50,10 @@ export default new Router({
       name: 'editwebsite',
       component: EditWebsite
     },
+    {
+      path: '/loading',
+      name: 'loading',
+      component: LoadingPage
+    },
   ]
 })

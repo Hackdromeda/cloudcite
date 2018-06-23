@@ -30,7 +30,10 @@
                 <div class="field is-grouped">
                   <p class="control">
                     <a v-if="!authenticated" class="button is-primary" @click="login()">
-                      <span>Login</span>
+                      <span>Log In</span>
+                    </a>
+                    <a v-if="authenticated" class="button is-primary" @click="logout()">
+                      <span>Log Out</span>
                     </a>
                   </p>
                 </div>

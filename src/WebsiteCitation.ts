@@ -1,14 +1,18 @@
 export default class WebsiteCitation {
     authors: any[]
     source: string
+    title: string
+    url: string
     publisher: string
-    published: object
+    datePublished: object
 
-    constructor(authors: any, source: any, publisher: any, published: any) {
+    constructor(authors: any, source: any, title: any, url: any, publisher: any, datePublished: any) {
         this.authors = authors
         this.source = source
+        this.title = title
+        this.url = url
         this.publisher = publisher
-        this.published = published
+        this.datePublished = datePublished
     }
 
     removeAuthor(index: number) {

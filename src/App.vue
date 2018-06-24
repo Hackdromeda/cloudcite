@@ -128,6 +128,10 @@ $link-focus-border: $primary;
 @import "~buefy/src/scss/buefy";
 @import '~bulma-pricingtable/src/sass/index';
 
+[v-cloak] {
+  display: none;
+}
+
 html {
   overflow-y: auto; // override Vue default
 }

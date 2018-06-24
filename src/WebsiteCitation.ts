@@ -15,10 +15,6 @@ export default class WebsiteCitation {
         this.authors = this.authors.filter(element => element !== this.authors[index]);
     }
     clearAuthor(index: number) {
-        this.authors[index] = {
-            first: '',
-            middle: '',
-            last: ''
-        }
+        this.authors[index] = Object.assign(this.authors[index], {first: null, middle: null, last: null})
     }
 }

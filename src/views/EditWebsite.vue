@@ -2,21 +2,6 @@
     <div id="editwebsite">
             <h1 id="editFormTitle" class="title is-size-4">Edit Website Citation</h1>
             <div class="container" id="editForm">
-                <b-field grouped v-if="websiteCitationData.authors.length == 0">
-                    <b-field expanded>
-                        <b-input placeholder="Author First Name" v-model="websiteCitationData.authors[0].first"></b-input>
-                    </b-field>
-                    <b-field expanded>
-                        <b-input placeholder="Author Middle Name" v-model="websiteCitationData.authors[0].middle"></b-input>
-                    </b-field>
-                    <b-field expanded>
-                        <b-input placeholder="Author Last Name" v-model="websiteCitationData.authors[0].last"></b-input>
-                    </b-field>
-                    <b-field expanded>
-                        <a id="removeAuthorButton" @click="websiteCitationData.clearAuthor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
-                        <a id="addAuthorButton" @click="websiteCitationData.authors.push({first: null, middle: null, last: null})"><b-icon icon="plus-circle" custom-size="mdi-24px"></b-icon></a>
-                    </b-field>
-                </b-field>
                 <b-field grouped v-for="(author, i) in websiteCitationData.authors" :key="i">
                     <b-field expanded>
                         <b-input placeholder="Author First Name" v-model="author.first"></b-input>
@@ -28,7 +13,8 @@
                         <b-input placeholder="Author Last Name" v-model="author.last"></b-input>
                     </b-field>
                     <b-field expanded>
-                        <a id="removeAuthorButton" @click="websiteCitationData.removeAuthor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
+                        <a v-if="websiteCitationData.authors.length == 1" id="removeAuthorButton" @click="websiteCitationData.clearAuthor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
+                        <a v-if="websiteCitationData.authors.length > 1" id="removeAuthorButton" @click="websiteCitationData.removeAuthor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
                         <a id="addAuthorButton" @click="websiteCitationData.authors.push({first: null, middle: null, last: null})"><b-icon icon="plus-circle" custom-size="mdi-24px"></b-icon></a>
                     </b-field>
                 </b-field>

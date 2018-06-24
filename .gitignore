@@ -19,3 +19,4 @@ node_modules/
 src/node_modules/\.cache/
 node_modules/\.cache/
 src/dist/
+src/Auth/

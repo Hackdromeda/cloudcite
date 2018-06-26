@@ -1,13 +1,13 @@
 export default class WebsiteCitation {
-    authors: any[]
+    contributors: any[]
     source: string
     title: string
     url: string
     publisher: string
     datePublished: object
 
-    constructor(authors: any, source: any, title: any, url: any, publisher: any, datePublished: any) {
-        this.authors = authors
+    constructor(contributors: any, source: any, title: any, url: any, publisher: any, datePublished: any) {
+        this.contributors = contributors
         this.source = source
         this.title = title
         this.url = url
@@ -15,10 +15,10 @@ export default class WebsiteCitation {
         this.datePublished = datePublished
     }
 
-    removeAuthor(index: number) {
-        this.authors = this.authors.filter(element => element !== this.authors[index]);
+    removeContributor(index: number) {
+        this.contributors = this.contributors.filter(element => element !== this.contributors[index]);
     }
-    clearAuthor(index: number) {
-        this.authors[index] = Object.assign(this.authors[index], {first: null, middle: null, last: null})
+    clearContributor(index: number) {
+        this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Author"})
     }
 }

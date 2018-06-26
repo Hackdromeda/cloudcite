@@ -2,20 +2,27 @@
     <div id="editwebsite">
         <h1 id="editFormTitle" class="title is-size-4">Edit Website Citation</h1>
         <div class="container" id="editForm">
-            <b-field grouped v-for="(author, i) in websiteCitationData.authors" :key="i">
+            <b-field grouped v-for="(contributor, i) in websiteCitationData.contributors" :key="i">
                 <b-field expanded>
-                    <b-input placeholder="Author First Name" v-model="author.first"></b-input>
+                    <b-select v-model="websiteCitationData.contributors[i].type" :placeholder="contributor.type">
+                    <option v-for="(type, j) in contributorTypes" :value="type" :key="j" v-cloak>
+                        {{ type }}
+                    </option>  
+                </b-select>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Author Middle Name" v-model="author.middle"></b-input>
+                    <b-input placeholder="First Name" v-model="contributor.first"></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Author Last Name" v-model="author.last"></b-input>
+                    <b-input placeholder="Middle Name" v-model="contributor.middle"></b-input>
                 </b-field>
                 <b-field expanded>
-                    <a v-if="websiteCitationData.authors.length == 1" id="removeAuthorButton" @click="websiteCitationData.clearAuthor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
-                    <a v-if="websiteCitationData.authors.length > 1" id="removeAuthorButton" @click="websiteCitationData.removeAuthor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
-                    <a id="addAuthorButton" @click="websiteCitationData.authors.push({first: null, middle: null, last: null})"><b-icon icon="plus-circle" custom-size="mdi-24px"></b-icon></a>
+                    <b-input placeholder="Last Name" v-model="contributor.last"></b-input>
+                </b-field>
+                <b-field expanded>
+                    <a v-if="websiteCitationData.contributors.length == 1" id="removeContributorButton" @click="websiteCitationData.clearContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
+                    <a v-if="websiteCitationData.contributors.length > 1" id="removeContributorButton" @click="websiteCitationData.removeContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
+                    <a id="addContributorButton" @click="websiteCitationData.contributors.push({first: null, middle: null, last: null, type: 'Author'})"><b-icon icon="plus-circle" custom-size="mdi-24px"></b-icon></a>
                 </b-field>
             </b-field>
             <b-field expanded>
@@ -52,7 +59,8 @@ import WebsiteCitation from '../WebsiteCitation';
   },
 })
 export default class EditWebsite extends Vue {
-    websiteCitationData = new WebsiteCitation([{}], null, null, null, null, {})
+    contributorTypes = ["Author", "Editor"] 
+    websiteCitationData = new WebsiteCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {})
     monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
 }
 </script>
@@ -68,10 +76,10 @@ export default class EditWebsite extends Vue {
         justify-content: center;
         background-color: #fff;
 }
-#removeAuthorButton {
+#removeContributorButton {
     color: red;
 }
-#addAuthorButton {
+#addContributorButton {
     color: #005eea;
 }
 @media (max-width: 991.97px) {

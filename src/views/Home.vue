@@ -5,7 +5,7 @@
       <h1 id="welcomeText" class="title is-size-2">Welcome to CloudCite</h1>
       <div class="container" id="cite">
         <div id="citeButtonsRow">
-          <a class="button is-rounded" id="citeButton" @click="websiteModal = !websiteModal">Website</a>
+          <a class="button is-rounded" id="citeButton" href="#websiteSection">Website</a>
           <a class="button is-rounded" id="citeButton">Journal</a>
           <a class="button is-rounded" id="citeButton" @click="bookModal = !bookModal">Book</a>
           <a class="button is-rounded" id="citeButton">Film/Movie</a>

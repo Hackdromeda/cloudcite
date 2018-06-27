@@ -1,16 +1,9 @@
 <template>
   <div class="container" id="cite">
-    <b-modal :active.sync="websiteModal" id="websiteModal">
-       <div id="websiteInput">
-        <b-field>
-          <input type="email" placeholder="Enter website url" maxlength="2048" autofocus/>
-        </b-field>
-      </div>
-    </b-modal>
     <div id="citeButtonsRow">
       <a class="button is-rounded" id="citeButton" @click="websiteModal = !websiteModal">Website</a>
       <a class="button is-rounded" id="citeButton">Journal</a>
-      <a class="button is-rounded" id="citeButton">Book</a>
+      <a class="button is-rounded" id="citeButton" @click="bookModal = !bookModal">Book</a>
       <a class="button is-rounded" id="citeButton">Film/Movie</a>
       <a class="button is-rounded" id="citeButton">Digital Image</a>
       <a class="button is-rounded" id="citeButton">Podcast</a>
@@ -28,6 +21,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 })
 export default class Cite extends Vue {
   websiteModal = false
+  bookModal = false
 }
 </script>
 
@@ -37,7 +31,7 @@ export default class Cite extends Vue {
   #cite {
     text-align: center;
   }
-  #websiteInput {
+  #searchModalInput {
     color: #fff;
     font-weight: 400;
     justify-content: center;
@@ -61,7 +55,7 @@ export default class Cite extends Vue {
       opacity: 0.3;
     }
   }
-  #websiteModal {
+  #searchModal {
     background-color: transparentize($color: #005eea, $amount: 0.7)
   }
   #citeButtonsRow {
@@ -86,12 +80,11 @@ export default class Cite extends Vue {
   #cite {
     text-align: center;
   }
-  #websiteInput {
+  #searchModalInput {
     color: #fff;
     font-weight: 400;
     justify-content: center;
     text-align: center;
-    padding: 20px;
 
     input {
       background-color: transparent; 
@@ -127,8 +120,15 @@ export default class Cite extends Vue {
   #citeButton:hover {
     opacity: 0.9;
   }
-  #websiteModal {
-    background-color: transparentize($color: #005eea, $amount: 0.7)
+  #searchModal {
+    background-color: transparentize($color: #005eea, $amount: 0.7);
+  }
+  #bookModal {
+    background-color: transparentize($color: #005eea, $amount: 0.7);
+    color: #000;
+  }
+  #bookModalBox {
+    padding: 50px;
   }
 }
 </style>

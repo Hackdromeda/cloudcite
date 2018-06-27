@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 const About = () => import('./views/About.vue')
 const Pricing = () => import('./views/Pricing.vue')
-const EditWebsite = () => import('./views/EditWebsite.vue')
 const LoadingPage = () => import('./views/LoadingPage.vue')
 const EditBook = () => import('./views/EditBook.vue')
 
@@ -52,11 +51,6 @@ export default new Router({
       beforeEnter(to: any, from: any, next: any) {
         window.location.href = "/error.html";
       }
-    },
-    {
-      path: '/editwebsite',
-      name: 'editwebsite',
-      component: EditWebsite
     },
     {
       path: '/editbook',

@@ -35,6 +35,7 @@ export default new Router({
       path: '/status',
       name: 'status',
       beforeEnter(to: any, from: any, next: any) {
+          window.location.href = "/";
           window.open('https://status.cloudcite.net','_blank');
       }
     },
@@ -42,6 +43,7 @@ export default new Router({
       path: '/support',
       name: 'support',
       beforeEnter(to: any, from: any, next: any) {
+          window.location.href = "/";
           window.open('https://help.cloudcite.net','_blank');
       }
     },
@@ -49,7 +51,7 @@ export default new Router({
       path: '*',
       name: 'error',
       beforeEnter(to: any, from: any, next: any) {
-        window.location.href = "/error.html";
+        window.location.href = "/error/";
       }
     },
     {

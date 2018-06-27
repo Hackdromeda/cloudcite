@@ -5,7 +5,7 @@
                 <b-field id="websiteInputField">
                     <div class="field has-addons">
                         <div class="control" id="websiteInput">
-                            <b-input type="text" placeholder="Enter website link"/>
+                            <b-input type="url" placeholder="Enter website link" @keyup.enter.native="citationStarted = !citationStarted" autofocus/>
                         </div>
                         <div class="control">
                             <a class="button is-primary" @click="citationStarted = !citationStarted">Cite</a>

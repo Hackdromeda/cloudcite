@@ -5,7 +5,7 @@
       <h1 id="welcomeText" class="title is-size-2">Welcome to CloudCite</h1>
       <div class="container" id="cite">
         <div id="citeButtonsRow">
-          <a class="button is-rounded" id="citeButton" href="#websiteSection">Website</a>
+          <a class="button is-rounded" id="citeButton" href="#websiteSection" @click="selected='website'">Website</a>
           <a class="button is-rounded" id="citeButton">Journal</a>
           <a class="button is-rounded" id="citeButton" @click="bookModal = !bookModal">Book</a>
           <a class="button is-rounded" id="citeButton">Film/Movie</a>
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <section id="websiteSection">
+    <section id="websiteSection" v-if="selected == 'website'">
       <EditWebsite/>
     </section>
   </div>
@@ -30,17 +30,15 @@ import EditWebsite from '@/components/EditWebsite.vue';
     EditWebsite
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  selected = null
+}
 </script>
 
 <style scoped lang="scss">
   #home {
     text-align: center;
     color: #212121;
-  }
-  #hero {
-    padding-bottom: 25px;
-    height: 100vh;
   }
   #welcomeText {
     color: #fff;
@@ -51,13 +49,13 @@ export default class Home extends Vue {}
     padding: 5%;
   }
 
-  #websiteInput {
-    display: inline-block;
-    width: 50%;
-  }
   @media (max-width: 991.97px) {
   #cite {
     text-align: center;
+  }
+   #hero {
+    padding-bottom: 25px;
+    height: 130vh;
   }
   #citeButtonsRow {
     justify-content: left;
@@ -76,10 +74,17 @@ export default class Home extends Vue {}
   #citeButton:hover {
     opacity: 0.9;
   }
+  #websiteInput {
+    width: 70%;
+  }
 }
 @media (min-width: 991.98px) {
   #cite {
     text-align: center;
+  }
+   #hero {
+    padding-bottom: 25px;
+    height: 100vh;
   }
   #citeButtonsRow {
     justify-content: center;
@@ -97,6 +102,9 @@ export default class Home extends Vue {}
   }
   #citeButton:hover {
     opacity: 0.9;
+  }
+  #websiteInput {
+    width: 50%;
   }
 }
 </style>

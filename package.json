@@ -20,11 +20,13 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@prerenderer/renderer-jsdom": "^0.1.4",
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",
     "@vue/cli-plugin-pwa": "^3.0.0-beta.15",
     "@vue/cli-plugin-typescript": "^3.0.0-beta.15",
     "@vue/cli-service": "^3.0.0-beta.15",
     "node-sass": "^4.9.0",
+    "prerender-spa-plugin": "^3.0.0-beta.2",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.16"
   },

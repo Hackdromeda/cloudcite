@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="canonical" href="https://cloudcite.net/">
-    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
     <link rel="apple-touch-icon" sizes="57x57" href="/static/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/static/favicons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/favicons/apple-icon-72x72.png">
@@ -20,7 +19,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/static/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png">
     <link rel="manifest" href="/static/favicons/manifest.json">
-    <link rel="stylesheet" href="/static/MaterialDesign-Webfont-master/css/materialdesignicons.min.css">
+    <link rel="preload" href="/static/MaterialDesign-Webfont-master/css/materialdesignicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/static/MaterialDesign-Webfont-master/css/materialdesignicons.min.css"></noscript>
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/static/favicons/ms-icon-144x144.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -45,6 +44,7 @@
       <p style="text-align: center;">We're sorry but CloudCite will not work properly without JavaScript enabled. Please enable it for the best experience.</p>
     </noscript>
     <div id="app"></div>
+    <script src="/static/cssrelpreload.js"></script>
     <!-- built files will be auto injected -->
   </body>
 </html>

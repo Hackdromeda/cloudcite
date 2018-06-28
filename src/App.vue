@@ -19,7 +19,7 @@
                 Pricing
               </a>
               <a class="navbar-item" @click="$router.push({path: '/about'})">
-                About Us
+                About
               </a>
               <a class="navbar-item" @click="$router.push({path: '/status'})">
                 Status

@@ -55,7 +55,7 @@ export default new Router({
       }
     },
     {
-      path: '/editbook',
+      path: '/edit/book',
       name: 'editbook',
       component: EditBook
     }

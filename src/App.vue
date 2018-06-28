@@ -61,7 +61,6 @@
 
 <script>
 import AuthService from './Auth/AuthService'
-
 const auth = new AuthService()
 
 const { login, logout, authenticated, authNotifier } = auth

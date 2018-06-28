@@ -1,6 +1,2 @@
 User-Agent: *
-Disallow: /static/
-Disallow: /js/
-Disallow: /css/
-Disallow: /error/
 Allow: /

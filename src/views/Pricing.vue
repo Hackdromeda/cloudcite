@@ -25,7 +25,7 @@
       <div class="plan-items">
         <div class="plan-item" data-feature="Citations">FREE</div>
         <div class="plan-item" data-feature="API">FREE</div>
-        <div class="plan-item" data-feature="License"><a href="https://github.com/avimshah/cloudcite/blob/master/LICENSE" target="_blank"><img src="static/License-AGPL v3-blue.svg"/></a></div>
+        <div class="plan-item" data-feature="License"><a href="https://github.com/Hackdromeda/cloudcite/blob/master/LICENSE" target="_blank"><img src="/static/License-AGPL v3-blue.svg"/></a></div>
         <div class="plan-item" data-feature="Ads">100% Ad-Free and Popup-Free</div>
         <div class="plan-item" data-feature="Tracking">No Third-Party Tracking</div>
         <div class="plan-item" data-feature="Secure"><a href="https://www.websecurity.symantec.com/security-topics/what-is-ssl-tls-https" target="_blank">SSL, TLS</a>, <a href="https://securityheaders.com/?q=cloudcite.net&followRedirects=on" target="_blank">HSTS, and Strong Security Headers</a></div>
@@ -33,7 +33,7 @@
         <div class="plan-item" data-feature="Apps-and-Extensions">FREE (Coming Soon)</div>
       </div>
       <div class="plan-footer">
-        <a class="button is-fullwidth" href="https://github.com/avimshah/cloudcite" target="_blank">View Source Code</a>
+        <a class="button is-fullwidth" href="https://github.com/Hackdromeda/cloudcite" target="_blank">View Source Code</a>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
           <div class="plan-item" data-feature="Apps-and-Extensions">Limited or PAID</div>
         </div>
         <div class="plan-footer">
-          <a class="button is-fullwidth" href="/" target="_blank">Switch to CloudCite</a>
+          <a class="button is-fullwidth" href="/">Switch to CloudCite</a>
         </div>
       </div>
     </div>

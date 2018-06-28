@@ -11,6 +11,8 @@
     "auth0-js": "^9.6.1",
     "buefy": "^0.6.6",
     "bulma-pricingtable": "^2.1.0",
+    "path": "^0.12.7",
+    "prerender-plugin": "^1.3.0",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",
@@ -26,7 +28,7 @@
     "@vue/cli-plugin-typescript": "^3.0.0-beta.15",
     "@vue/cli-service": "^3.0.0-beta.15",
     "node-sass": "^4.9.0",
-    "prerender-spa-plugin": "^3.0.0-beta.2",
+    "prerender-spa-plugin": "^3.2.1",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.16"
   },

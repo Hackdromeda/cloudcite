@@ -10,7 +10,11 @@ Vue.use(Buefy)
 Vue.config.productionTip = false
 
 new Vue({
+  el: '#app',
   router,
   store,
-  render: h => h(App)
-}).$mount('#app')
+  render: h => h(App),
+  mounted () {
+    document.dispatchEvent(new Event('vue-render-event'))
+  }
+})

@@ -1,31 +1,20 @@
-//const PrerenderSPAPlugin = require('prerender-spa-plugin');
-// const PrerenderPlugin = require('prerender-plugin')
-//const PuppeteerRenderer = PrerenderSPAPlugin.PuppeteerRenderer;
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const path = require('path');
-
 module.exports = {
-    configureWebpack: {
+  configureWebpack: config => {
+    if (process.env.NODE_ENV !== 'production') return
+
+    return {
       plugins: [
-/*           new PrerenderPlugin({
-            source: path.join(__dirname, 'public'),
-            target: path.join(__dirname, 'dist'),
-            routes: ['/', '/about', '/pricing'],
-            capture: {
-              delay: 3000
-              // selector: 'mySelectorFromDocument',
-              // event: 'myEventRaisedFromDocument'
-            }
-          }) *//* ,
-          new PrerenderSPAPlugin({
-            staticDir: path.join(__dirname, 'dist'),
-            indexPath: path.join(__dirname, 'public'),                      
-            routes: ['/', '/about', '/pricing'],
-            renderer: new PuppeteerRenderer({
-              renderAfterElementExists: '#app',
-              renderAfterDocumentEvent: 'vue-render-event'
-            })
-          }) */
+        new PrerenderSPAPlugin(
+          path.resolve(__dirname, 'dist'),
+          // Add routes as we develop them
+          ['/', '/about', '/pricing'],
+          {
+              // add options
+          }
+        ),
       ]
     }
   }
-  
+}

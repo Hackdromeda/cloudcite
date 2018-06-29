@@ -25,13 +25,13 @@
                         </b-select>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="First Name" v-model="contributor.first"></b-input>
+                        <b-input placeholder="First Name" v-model="contributor.given"></b-input>
                     </b-field>
                     <b-field expanded>
                         <b-input placeholder="Middle Name" v-model="contributor.middle"></b-input>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="Last Name" v-model="contributor.last"></b-input>
+                        <b-input placeholder="Last Name" v-model="contributor.family"></b-input>
                     </b-field>
                     <b-field expanded>
                         <b-tooltip label="Remove Contributor" position="is-top" animated>
@@ -86,7 +86,7 @@ import rp from 'request-promise-native';
 export default class EditWebsite extends Vue {
     citationStarted = false
     contributorTypes = ["Author", "Editor"] 
-    websiteCitationData = new WebsiteCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {})
+    websiteCitationData = new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], null, null, null, null, {})
     monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
     
     cite() {

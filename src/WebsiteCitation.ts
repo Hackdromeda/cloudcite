@@ -19,28 +19,27 @@ export default class WebsiteCitation {
         this.contributors = this.contributors.filter(element => element !== this.contributors[index]);
     }
     clearContributor(index: number) {
-        this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Author"})
+        this.contributors[index] = Object.assign(this.contributors[index], {given: null, middle: null, family: null, type: "Author"})
     }
 
     toCSL() {
         var accessedDate = new Date()
         return JSON.stringify({
-            id: 'ITEM-1',
-            lang: "en-us",
-            type: 'webpage',
-            title: this.url,
-            style: 'citation-mla',
-            URL: this.url,
-            accessed: {
-                "date-parts": [
-                    [
-                        accessedDate.getFullYear(),
-                        accessedDate.getMonth(),
-                        accessedDate.getDay()
-                    ]
-                ]
-            },
-            authors: this.contributors.filter(c => c.type === "author")
+            style: "modern-language-association", 
+            locale: "locales-en-US",
+            csl: {
+                "INTERESTING/ID": {
+                  "accessed": {
+                  "month": accessedDate.getMonth(),
+                  "year": accessedDate.getFullYear(),
+                  "day": accessedDate.getDay()
+                  },
+                  "id": "AWESOME/ID",
+                  "author": this.contributors.filter(c => c.type === "author"),
+                  "title": this.title,
+                  "type": "webpage",
+                }
+            }
         })
     }
 }

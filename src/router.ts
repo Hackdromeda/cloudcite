@@ -19,22 +19,22 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
+      path: '/about/',
       name: 'about',
       component: About
     },
     {
-      path: '/callback',
+      path: '/callback/',
       name: 'LoadingPage',
       component: LoadingPage
     },
     {
-      path: '/pricing',
+      path: '/pricing/',
       name: 'pricing',
       component: Pricing
     },
     {
-      path: '/status',
+      path: '/status/',
       name: 'status',
       beforeEnter(to: any, from: any, next: any) {
           window.location.href = "/";
@@ -42,7 +42,7 @@ export default new Router({
       }
     },
     {
-      path: '/support',
+      path: '/support/',
       name: 'support',
       beforeEnter(to: any, from: any, next: any) {
           window.location.href = "/";
@@ -57,17 +57,17 @@ export default new Router({
       }
     },
     {
-      path: '/edit/format/website',
+      path: '/edit/format/website/',
       name: 'editwebsite',
       component: EditWebsite
     },
     {
-      path: '/edit/format/book',
+      path: '/edit/format/book/',
       name: 'editbook',
       component: EditBook
     },
     {
-      path: '/edit/format/film',
+      path: '/edit/format/film/',
       name: 'editfilm',
       component: EditFilm
     }

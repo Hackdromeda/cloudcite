@@ -4,7 +4,9 @@ import Home from './views/Home.vue'
 const About = () => import('./views/About.vue')
 const Pricing = () => import('./views/Pricing.vue')
 const LoadingPage = () => import('./views/LoadingPage.vue')
+const EditWebsite = () => import('./views/EditWebsite.vue')
 const EditBook = () => import('./views/EditBook.vue')
+const EditFilm = () => import('./views/EditFilm.vue')
 
 Vue.use(Router)
 
@@ -55,9 +57,19 @@ export default new Router({
       }
     },
     {
-      path: '/editbook',
+      path: '/edit/format/website',
+      name: 'editwebsite',
+      component: EditWebsite
+    },
+    {
+      path: '/edit/format/book',
       name: 'editbook',
       component: EditBook
+    },
+    {
+      path: '/edit/format/film',
+      name: 'editfilm',
+      component: EditFilm
     }
   ]
 })

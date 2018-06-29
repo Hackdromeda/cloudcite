@@ -5,40 +5,64 @@
       <h1 id="welcomeText" class="title is-size-2">Welcome to CloudCite</h1>
       <div class="container" id="cite">
         <div id="citeButtonsRow">
-          <a class="button is-rounded" id="citeButton" href="#websiteSection" @click="selected='website'">Website</a>
+          <a class="button is-rounded" id="citeButton" @click="cite('Website')">Website</a>
           <a class="button is-rounded" id="citeButton">Journal</a>
-          <a class="button is-rounded" id="citeButton" @click="bookModal = !bookModal">Book</a>
-          <a class="button is-rounded" id="citeButton">Film/Movie</a>
+          <a class="button is-rounded" id="citeButton" @click="cite('Book')">Book</a>
+          <a class="button is-rounded" id="citeButton" @click="cite('Film')">Film/Movie</a>
           <a class="button is-rounded" id="citeButton">Digital Image</a>
           <a class="button is-rounded" id="citeButton">Podcast</a>
           <a class="button is-rounded" id="citeButton">Music</a>
         </div>
+        <div class="box" id="formatSelectBox">
+            <b-autocomplete v-model="formatTitle" size="is-large" ref="autocomplete" :data="filteredFormats" placeholder="I would like to cite..." @select="option => cite(option)" v-cloak>
+                <template slot="empty">No results for {{formatTitle}}</template>
+            </b-autocomplete>
+        </div>
       </div>
     </div>
-    <section id="websiteSection" v-if="selected == 'website'">
-      <EditWebsite/>
-    </section>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import EditWebsite from '@/components/EditWebsite.vue';
 
 @Component({
   components: {
-    EditWebsite
   },
 })
 export default class Home extends Vue {
-  selected = null
+  formats: string[] = [
+    "Website",
+    "Journal",
+    "Book",
+    "Film",
+    "Digital Image",
+    "Podcast",
+    "Music"
+  ]
+  formatTitle: string = ''
+  selectedFormat: string = ''
+
+  get filteredFormats() {
+    return this.formats.filter((option) => {
+      return option
+        .toString()
+        .toLowerCase()
+        .indexOf(this.formatTitle.toLowerCase()) >= 0
+    })
+  }
+
+  cite(option: string) {
+    this.selectedFormat = option
+    this.$router.push({name: 'edit' + option.toLowerCase()})
+  }
 }
 </script>
 
 <style scoped lang="scss">
   #home {
     text-align: center;
-    color: #212121;
+    color: #fff;
   }
   #welcomeText {
     color: #fff;
@@ -47,6 +71,13 @@ export default class Home extends Vue {
     background-color: #fff;
     height: 100vh;
     padding: 5%;
+  }
+
+  #formatSelectBox {
+    display: inline-flex;
+    justify-content: center;
+    margin: 20px;
+    padding: 0;
   }
 
   @media (max-width: 991.97px) {

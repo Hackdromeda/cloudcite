@@ -58,16 +58,6 @@
   </div>
 </div>     
 </template>
-   
-<style scoped lang="scss">
-  .pricing {
-    min-height: 100vh;
-    background-color: #fff;
-  }
-  .title{
-    color: #000;
-  }
-</style>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
@@ -78,3 +68,13 @@ import { Component, Vue } from 'vue-property-decorator';
 })
 export default class Pricing extends Vue {}
 </script>
+
+<style scoped lang="scss">
+  .pricing {
+    min-height: 100vh;
+    background-color: #fff;
+  }
+  .title{
+    color: #000;
+  }
+</style>

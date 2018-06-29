@@ -21,4 +21,26 @@ export default class WebsiteCitation {
     clearContributor(index: number) {
         this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Author"})
     }
+
+    toCSL() {
+        var accessedDate = new Date()
+        return JSON.stringify({
+            id: 'ITEM-1',
+            lang: "en-us",
+            type: 'webpage',
+            title: this.url,
+            style: 'citation-mla',
+            URL: this.url,
+            accessed: {
+                "date-parts": [
+                    [
+                        accessedDate.getFullYear(),
+                        accessedDate.getMonth(),
+                        accessedDate.getDay()
+                    ]
+                ]
+            },
+            authors: this.contributors.filter(c => c.type === "author")
+        })
+    }
 }

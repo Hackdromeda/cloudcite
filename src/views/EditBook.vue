@@ -20,9 +20,13 @@
                     <b-input placeholder="Last Name" v-model="contributor.last"></b-input>
                 </b-field>
                 <b-field expanded>
-                    <a v-if="bookCitationData.contributors.length == 1" id="removeContributorButton" @click="bookCitationData.clearContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
-                    <a v-if="bookCitationData.contributors.length > 1" id="removeContributorButton" @click="bookCitationData.removeContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
-                    <a id="addContributorButton" @click="bookCitationData.contributors.push({first: null, middle: null, last: null, type: 'Author'})"><b-icon icon="plus-circle" custom-size="mdi-24px"></b-icon></a>
+                    <b-tooltip label="Remove Contributor" position="is-top" animated>
+                        <a v-if="bookCitationData.contributors.length == 1" id="removeContributorButton" @click="bookCitationData.clearContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
+                        <a v-if="bookCitationData.contributors.length > 1" id="removeContributorButton" @click="bookCitationData.removeContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
+                    </b-tooltip>
+                    <b-tooltip label="Add Contributor" position="is-top" animated>
+                        <a id="addContributorButton" @click="bookCitationData.contributors.push({first: null, middle: null, last: null, type: 'Author'})"><b-icon icon="plus-circle" custom-size="mdi-24px"></b-icon></a>
+                    </b-tooltip>
                 </b-field>
             </b-field>
             <b-field expanded>
@@ -66,7 +70,6 @@ export default class Editbook extends Vue {
     monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
 
     setContributorType(index: number, type: string) {
-        console.log('SELECTED!')
         this.bookCitationData.contributors[index].type = type
     }
 }

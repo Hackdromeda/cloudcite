@@ -11,7 +11,17 @@ module.exports = {
           // Add routes as we develop them
           ['/', '/about', '/pricing'],
           {
-              // add options
+            postProcessHtml: function (context) {
+              var titles = {
+                '/': 'CloudCite · The Best Automatic Bibliography Generator',
+                '/about': 'CloudCite · About',
+                '/pricing': 'CloudCite · Pricing'
+              }
+              return context.html.replace(
+                /<title>[^<]*<\/title>/i,
+                '<title>' + titles[context.route] + '</title>'
+              )
+            }
           }
         ),
       ]

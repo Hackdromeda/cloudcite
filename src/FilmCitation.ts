@@ -1,16 +1,12 @@
-export default class BookCitation {
+export default class FilmCitation {
     contributors: any[]
-    chapter: any
-    volNumber: any
     title: any
     publisher: any
     datePublished: object
 
-    constructor(contributors: any[], chapter: any, volNumber: any, title: any, publisher: any, datePublished: object) {
+    constructor(contributors: any[], title: any, publisher: any, datePublished: object) {
         
         this.contributors = contributors
-        this.chapter = chapter
-        this.volNumber = volNumber
         this.title = title
         this.publisher = publisher
         this.datePublished = datePublished
@@ -20,6 +16,6 @@ export default class BookCitation {
         this.contributors = this.contributors.filter(element => element !== this.contributors[index]);
     }
     clearContributor(index: number) {
-        this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Author"})
+        this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Director"})
     }
 }

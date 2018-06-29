@@ -11,6 +11,7 @@
     "auth0-js": "^9.6.1",
     "buefy": "^0.6.6",
     "bulma-pricingtable": "^2.1.0",
+    "citeproc-js-node": "^0.0.3",
     "path": "^0.12.7",
     "register-service-worker": "^1.0.0",
     "request": "^2.87.0",

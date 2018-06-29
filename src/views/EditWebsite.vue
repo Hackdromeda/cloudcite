@@ -5,7 +5,7 @@
             <b-field id="websiteInputField">
                 <div class="field has-addons">
                     <div class="control" id="websiteInput">
-                        <b-input type="url" placeholder="Enter website link" @keyup.enter.native="citationStarted = !citationStarted"/>
+                        <b-input v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citationStarted = !citationStarted"/>
                     </div>
                     <div class="control">
                         <a class="button is-primary" @click="citationStarted = !citationStarted">Cite</a>
@@ -56,13 +56,13 @@
                     <b-input placeholder="Publisher" v-model="websiteCitationData.Publisher" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-select v-model="websiteCitationData.datePublished.month" placeholder="Month Published">
+                    <b-select v-model="websiteCitationData.issued.month" placeholder="Month Published">
                         <option v-for="(month, i) in monthNames" :value="i" :key="i" v-cloak>
                             {{ month }}
                         </option>
                     </b-select>
-                    <b-input v-model.number="websiteCitationData.datePublished.day" type="number" maxlength="2" placeholder="Day" expanded></b-input>
-                    <b-input v-model.number="websiteCitationData.datePublished.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
+                    <b-input v-model.number="websiteCitationData.issued.day" type="number" maxlength="2" placeholder="Day" expanded></b-input>
+                    <b-input v-model.number="websiteCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
                 </b-field>
                 <b-field expanded>
                     <div id="submitFormDiv">
@@ -79,6 +79,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import WebsiteCitation from '../WebsiteCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
+//@ts-ignore
+import generateBibliography from '../BibliographyGenerator'
 @Component({
   components: {
   },
@@ -91,21 +93,20 @@ export default class EditWebsite extends Vue {
     
     cite() {
         this.citationStarted = !this.citationStarted;
-        rp({
+        /*rp({
             uri: 'https://api.cloudcite.net/cite',
             headers: {
                 'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
             },
             method: 'POST',
             body: this.websiteCitationData.toCSL(),
-            transform: function(body: any) {
-                return JSON.parse(body)
-            }
-            }).then((response: any) => {
+            json: true
+        }).then((response: any) => {
             console.log(response)
-            }).catch((error: any) => {
-                console.log(error)
-        })
+        }).catch((error: any) => {
+            console.log(error)
+        })*/
+        console.log(generateBibliography(this.websiteCitationData.toCSL()))
     }
 }
 </script>

@@ -4,15 +4,15 @@ export default class WebsiteCitation {
     title: string
     url: string
     publisher: string
-    datePublished: object
+    issued: any
 
-    constructor(contributors: any, source: any, title: any, url: any, publisher: any, datePublished: any) {
+    constructor(contributors: any, source: any, title: any, url: any, publisher: any, issued: any) {
         this.contributors = contributors
         this.source = source
         this.title = title
         this.url = url
         this.publisher = publisher
-        this.datePublished = datePublished
+        this.issued = issued //date published
     }
 
     removeContributor(index: number) {
@@ -24,22 +24,28 @@ export default class WebsiteCitation {
 
     toCSL() {
         var accessedDate = new Date()
-        return JSON.stringify({
-            style: "modern-language-association", 
-            locale: "locales-en-US",
-            csl: {
-                "INTERESTING/ID": {
-                  "accessed": {
-                  "month": accessedDate.getMonth(),
-                  "year": accessedDate.getFullYear(),
-                  "day": accessedDate.getDay()
-                  },
-                  "id": "AWESOME/ID",
-                  "author": this.contributors.filter(c => c.type === "author"),
-                  "title": this.title,
-                  "type": "webpage",
+        return {
+            "style": "modern-language-association", 
+            "locale": "locales-en-US", 
+            "csl": {
+                "14058/NSBERGDK":{
+                    "accessed":{
+                        "month": accessedDate.getMonth(),
+                        "year": accessedDate.getFullYear(),
+                        "day": accessedDate.getDay()
+                    },
+                    "issued":{
+                        "month": this.issued.month,
+                        "year": this.issued.year,
+                        "day": this.issued.day
+                    },
+                    "type":"website",
+                    "id":"14058/NSBERGDK",
+                    "author": this.contributors.filter(c => c.type === "author"),
+                    "title": this.title,
+                    "URL": this.url
                 }
             }
-        })
+        }
     }
 }

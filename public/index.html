@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="canonical" href="https://cloudcite.net/">
-    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
     <link rel="apple-touch-icon" sizes="57x57" href="/static/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/static/favicons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/favicons/apple-icon-72x72.png">
@@ -20,21 +19,21 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/static/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png">
     <link rel="manifest" href="/static/favicons/manifest.json">
-    <link rel="stylesheet" href="/static/MaterialDesign-Webfont-master/css/materialdesignicons.min.css">
+    <link rel="preload" href="/static/MaterialDesign-Webfont-master/css/materialdesignicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/static/MaterialDesign-Webfont-master/css/materialdesignicons.min.css"></noscript>
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/static/favicons/ms-icon-144x144.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="CloudCite · The Best Automatic Bibliography Generator">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cloudcite.net/">
     <meta property="og:image" content="https://cloudcite.net/static/favicons/CloudCite+Blue+(Online).png">
     <meta property="og:image:width" content="2134">
 		<meta property="og:image:height" content="2134">
     <meta property="og:site_name" content="CloudCite">
-    <meta property="og:title" content="CloudCite · The Best Automatic Bibliography Generator">
-    <meta name="description" property="og:description" content="CloudCite is a free, automatic bibliography generator for MLA 8th Edition. It is built by students for students.">
-    <meta name="keywords" content="cloud cite, cloudcite, bibliography, bibliography creator, bibliography generator, bib, cite, cite easy, cite for me, citation, citations, create citations, inline citations, works cited, MLA, citation style, generator, automatic, autofill, sources, easy, no bloat, no spam, no tracking, formatted, free, secure, SSL, references, reference converter, reference lists, reference software">
+    <meta name="description" property="og:description" content="Set in vue.config.js">
+    <meta name="keywords" content="cloud cite, cloudcite, bibliography, bibliography creator, bibliography generator, bibliography engine, bibliography machine, bibliographies, bib, cite, cite easy, cite for me, cite 4 me, cite4me, cite this for me, cite this 4 me, citation, citation machine, citation engine, citation processor, citation style language, CSL, citations, create citations, inline citations, works cited, MLA, APA, Chicago, Turbian, citation style, generator, automatic, autofill, sources, easy, no bloat, no spam, no tracking, formatted, free, secure, SSL, references, reference converter, reference lists, reference software, refme alternative, easybib alternative, cite this for me alternative, bibme alternative">
     <meta name="author" content="CloudCite">
     <meta name="publisher" content="CloudCite">
     <script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"Website","@id":"#website","url":"https:\/\/cloudcite.net\/","name":"CloudCite"}</script>
@@ -45,6 +44,7 @@
       <p style="text-align: center;">We're sorry but CloudCite will not work properly without JavaScript enabled. Please enable it for the best experience.</p>
     </noscript>
     <div id="app"></div>
+    <script src="/static/cssrelpreload.js"></script>
     <!-- built files will be auto injected -->
   </body>
 </html>

@@ -1,18 +1,18 @@
-export default async function generateBibliography(request: any) {
+export default async function generateBibliography(request) {
 	//move XML en-us to code later
 	const citeproc = require("citeproc-js-node");
 	const axios = require("axios");
 	//docs for citeproc https://citeproc-js.readthedocs.io/en/latest/index.html
 		//var headers = event.headers;
 		//headers = ConvertKeysToLowerCase(headers); //[required: { style: "modern-language-association"}, locale: "locales-en-US", csl: {<csl stuff>}]
-	var sys: any = new citeproc.simpleSys();
-	var localeLocation: string = '/static/locales/' + request.locale + '.xml';
-	var enUS: any = await axios.get(localeLocation);
+	var sys = new citeproc.simpleSys();
+	var localeLocation = '/static/locales/' + request.locale + '.xml';
+	var enUS = await axios.get(localeLocation);
 	sys.addLocale('en-US', enUS);
 	var styleLocation = '/static/styles/' + request.style + '.csl';
-	var styleString: any = await axios.get(styleLocation);
+	var styleString = await axios.get(styleLocation);
 	var engine = sys.newEngine(styleString, 'en-US', null);
-	var items: object = request.csl;
+	var items = request.csl;
 	/*     var items = {
 			"14058/RN9M5BF3": {
 			"accessed": {
@@ -85,7 +85,7 @@ export default async function generateBibliography(request: any) {
 		//Test case items
 	sys.items = items;
 	engine.updateItems(Object.keys(items));
-	var bib: string = engine.makeBibliography();
+	var bib = engine.makeBibliography();
 	console.log(bib)
 	if (bib != null || bib != "") {
 		return bib;

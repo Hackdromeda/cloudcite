@@ -80,7 +80,8 @@ import WebsiteCitation from '../WebsiteCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
 //@ts-ignore
-import generateBibliography from '../BibliographyGenerator'
+import generateBibliography from '../BibliographyGenerator';
+
 @Component({
   components: {
   },
@@ -106,7 +107,8 @@ export default class EditWebsite extends Vue {
         }).catch((error: any) => {
             console.log(error)
         })*/
-        console.log(generateBibliography(this.websiteCitationData.toCSL()))
+        //@ts-ignore
+        console.log(BibliographyGenerator.generateBibliography(this.websiteCitationData.toCSL()))
     }
 }
 </script>

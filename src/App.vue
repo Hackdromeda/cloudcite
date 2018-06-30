@@ -15,17 +15,17 @@
           </div>
           <div id="navbarMenu" class="navbar-menu">
             <div class="navbar-start">
-              <a class="navbar-item" @click="$router.push({path: '/pricing'})">
-                Pricing
-              </a>
-              <a class="navbar-item" @click="$router.push({path: '/about'})">
+              <a class="navbar-item" @click="$router.push({path: '/about/'})">
                 About
               </a>
-              <a class="navbar-item" @click="$router.push({path: '/status'})">
+              <a class="navbar-item" @click="$router.push({path: '/pricing/'})">
+                Pricing
+              </a>
+              <a class="navbar-item" @click="$router.push({path: '/status/'})">
                 Status
               </a>
-              <a class="navbar-item" @click="$router.push({path: '/support'})">
-                Support
+              <a class="navbar-item" @click="$router.push({path: '/support/'})">
+                Help
               </a>
             </div>
             <div class="navbar-end">

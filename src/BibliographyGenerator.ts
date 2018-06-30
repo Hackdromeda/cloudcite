@@ -4,7 +4,7 @@
         var sys = new citeproc.simpleSys();
         const enUS = await fetch('/static/locales/' + request.locale + '.xml');
         sys.addLocale('en-US', enUS);
-        const styleString= await fetch('./styles/' + request.style + '.csl');
+        const styleString = await fetch('./styles/' + request.style + '.csl');
         var engine = sys.newEngine(styleString, 'en-US', null);
         var items = request.csl;
         sys.items = items;

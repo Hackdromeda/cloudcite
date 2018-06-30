@@ -106,9 +106,7 @@ export default class EditWebsite extends Vue {
         }).catch((error: any) => {
             console.log(error)
         })*/
-        Promise.resolve(generateBibliography(this.websiteCitationData.toCSL())).then(bibliography => {
-            console.log(bibliography)
-        })
+        console.log(generateBibliography(this.websiteCitationData.toCSL()))
     }
 }
 </script>

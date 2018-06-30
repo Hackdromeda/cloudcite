@@ -1,15 +1,16 @@
-async function generateBibliography(request: any) {
-	const fs = require("fs"); //move XML en-us to code later
+export default async function generateBibliography(request: any) {
+	//move XML en-us to code later
 	const citeproc = require("citeproc-js-node");
+	const axios = require("axios");
 	//docs for citeproc https://citeproc-js.readthedocs.io/en/latest/index.html
 		//var headers = event.headers;
 		//headers = ConvertKeysToLowerCase(headers); //[required: { style: "modern-language-association"}, locale: "locales-en-US", csl: {<csl stuff>}]
 	var sys: any = new citeproc.simpleSys();
 	var localeLocation: string = '/static/locales/' + request.locale + '.xml';
-	var enUS: string = await fs.readFile(localeLocation, 'utf8');
+	var enUS: any = await axios.get(localeLocation);
 	sys.addLocale('en-US', enUS);
 	var styleLocation = '/static/styles/' + request.style + '.csl';
-	var styleString = await fs.readFile(styleLocation, 'utf8');
+	var styleString: any = await axios.get(styleLocation);
 	var engine = sys.newEngine(styleString, 'en-US', null);
 	var items: object = request.csl;
 	/*     var items = {
@@ -94,5 +95,3 @@ async function generateBibliography(request: any) {
 		return null
 	}
 }
-
-export default generateBibliography;

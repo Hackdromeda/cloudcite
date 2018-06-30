@@ -9,6 +9,7 @@
   "dependencies": {
     "EventEmitter": "^1.0.0",
     "auth0-js": "^9.6.1",
+    "axios": "^0.18.0",
     "buefy": "^0.6.6",
     "bulma-pricingtable": "^2.1.0",
     "citeproc-js-node": "^0.0.3",

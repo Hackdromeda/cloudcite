@@ -21,6 +21,6 @@ src/node_modules/\.cache/
 node_modules/\.cache/
 src/dist/
 src/Auth/
-public/static/locales
-public/static/styles
+public/static/locales/
+public/static/styles/
 ignore/

@@ -4,7 +4,7 @@
             <h1 class="title is-size-2">Cite a Film</h1>
             <b-field id="filmInputField">
                 <div class="control" id="filmInput">
-                    <b-autocomplete v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." field="title" :loading="isFetching" @input="getAsyncData" @select="option => selected = option">
+                    <b-autocomplete v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." field="title" :loading="isFetching" @input="getAsyncData" @select="option => citeFilm(option)">
                         <template slot-scope="props">
                             <div class="media">
                                 <div class="media-left">
@@ -90,33 +90,80 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import FilmCitation from '../FilmCitation';
 //@ts-ignore
 import debounce from 'lodash/debounce';
+//@ts-ignore
+import rp from 'request-promise-native';
 
 @Component({
   components: {
   },
+  data () {
+      return {
+        citationStarted: false,
+        contributorTypes: ["Director", "Actor"],
+        filmCitationData: new FilmCitation([{first: "", middle: "", last: "", type: "Director"}], null, null, {}),
+        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
+        filmData: [],
+        filmTitle: '',
+        selectedFilm: '',
+        isFetching: false
+      }
+  },
+  methods: {
+      getAsyncData: debounce(function () {
+        //@ts-ignore
+        this.filmData = []
+        //@ts-ignore
+        this.isFetching = true
+        //@ts-ignore
+        rp({
+            uri: 'https://api.cloudcite.net/autofill',
+            headers: {
+                'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+            },
+            method: 'POST',
+            //@ts-ignore
+            body: {"title": this.filmTitle, "format": "movie"},
+            json: true
+            //@ts-ignore
+        }).then(data => {
+                //@ts-ignore
+                data.results.forEach((item) => this.filmData.push(item))
+                //@ts-ignore
+                this.isFetching = false
+            })
+            //@ts-ignore
+            .catch((error) => {
+                //@ts-ignore
+                this.isFetching = false
+                throw error
+            })
+    }, 500),
+    citeFilm: function(film) {
+        this.$data.selectedFilm = film;
+        if (this.$data.selectedFilm != null && this.$data.selectedFilm != '') {
+            rp({
+                uri: 'https://api.cloudcite.net/autofill',
+                headers: {
+                    'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+                },
+                method: 'POST',
+                //@ts-ignore
+                body: {"title": this.filmTitle, "format": "movie", "ID": this.$data.selectedFilm.id},
+                json: true
+                //@ts-ignore
+            }).then(filmCitationData => {
+                console.log(filmCitationData)
+                this.$data.citationStarted = true
+                //@ts-ignore
+            }).catch(error => {
+                console.log(error)
+                this.$data.citationStarted = true
+            })
+        }
+      }
+  }
 })
 export default class EditFilm extends Vue {
-    citationStarted = false
-    contributorTypes = ["Director", "Actor"] 
-    filmCitationData = new FilmCitation([{first: "", middle: "", last: "", type: "Director"}], null, null, {})
-    monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
-    filmData: any = []
-    filmTitle: string = ''
-    selectedFilm: string = ''
-    isFetching = false
-    /*getAsyncData = debounce(function () {
-                this.filmData = []
-                this.isFetching = true
-                this.$http.get(`https://api.themoviedb.org/3/search/movie?api_key=bb6f51bef07465653c3e553d6ab161a8&query=${this.filmTitle}`)
-                    .then(({ data }) => {
-                        data.results.forEach((item) => this.filmData.push(item))
-                        this.isFetching = false
-                    })
-                    .catch((error) => {
-                        this.isFetching = false
-                        throw error
-                    })
-    }, 500)*/
 }
 </script>
 

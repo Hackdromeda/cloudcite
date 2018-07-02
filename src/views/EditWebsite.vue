@@ -5,10 +5,10 @@
             <b-field id="websiteInputField">
                 <div class="field has-addons">
                     <div class="control" id="websiteInput">
-                        <b-input v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citationStarted = !citationStarted"/>
+                        <b-input v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citeURL()"/>
                     </div>
                     <div class="control">
-                        <a class="button is-primary" @click="citationStarted = !citationStarted">Cite</a>
+                        <a class="button is-primary" @click="citeURL()">Cite</a>
                     </div>
                 </div>
             </b-field>
@@ -79,37 +79,63 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import WebsiteCitation from '../WebsiteCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
-//@ts-ignore
-import generateBibliography from '../BibliographyGenerator';
 
 @Component({
   components: {
   },
+  data () {
+      return {
+        citationStarted: false,
+        contributorTypes: ["Author", "Editor"] ,
+        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], null, null, null, null, {}),
+        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
+      }
+  },
+  methods: {
+      formatURL(url: string) {
+          if (url.indexOf('http://') == -1 && url.indexOf('https://') == -1) {
+              return 'http://' + url
+          } else {
+              return url
+          }
+      },
+      citeURL() {
+        rp({
+                uri: 'https://api.cloudcite.net/autofill',
+                headers: {
+                    'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+                },
+                method: 'POST',
+                //@ts-ignore
+                body: {"url": this.formatURL(this.websiteCitationData.url), "format": "website"},
+                json: true
+                //@ts-ignore
+        }).then(data => {
+            console.log(data)
+            //@ts-ignore
+            var contributors = [];
+            if (data.author && data.author.length > 0) {
+                //@ts-ignore
+                data.author.forEach(author => {
+                    //@ts-ignore
+                    contributors.push({given: author.given, middle: author.given.split(" ").length == 2 ? author.given.split(" ")[1]: null, family: author.family, type: "Author"})
+                });
+            }
+            //@ts-ignore
+            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source, data.title, this.websiteCitationData.url, data.publisher, data.issued)
+            this.$data.citationStarted = !this.$data.citationStarted;
+            //@ts-ignore
+        }).catch(error => {
+            console.log(error)
+            this.$data.citationStarted = !this.$data.citationStarted;
+        })
+    },
+    cite() {
+        console.log('Cite website')
+    }
+  }
 })
 export default class EditWebsite extends Vue {
-    citationStarted = false
-    contributorTypes = ["Author", "Editor"] 
-    websiteCitationData = new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], null, null, null, null, {})
-    monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
-    
-    cite() {
-        this.citationStarted = !this.citationStarted;
-        /*rp({
-            uri: 'https://api.cloudcite.net/cite',
-            headers: {
-                'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-            },
-            method: 'POST',
-            body: this.websiteCitationData.toCSL(),
-            json: true
-        }).then((response: any) => {
-            console.log(response)
-        }).catch((error: any) => {
-            console.log(error)
-        })*/
-        //@ts-ignore
-        console.log(BibliographyGenerator.generateBibliography(this.websiteCitationData.toCSL()))
-    }
 }
 </script>
 

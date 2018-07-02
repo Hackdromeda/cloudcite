@@ -41,7 +41,8 @@ export default class WebsiteCitation {
                     },
                     "type":"website",
                     "id":"14058/NSBERGDK",
-                    "author": this.contributors.filter(c => c.type === "author"),
+                    "author": this.contributors.filter(c => c.type === "Author"),
+                    "editor": this.contributors.filter(c => c.type === "Editor"),
                     "title": this.title,
                     "URL": this.url
                 }

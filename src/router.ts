@@ -7,6 +7,7 @@ const LoadingPage = () => import('./views/LoadingPage.vue')
 const EditWebsite = () => import('./views/EditWebsite.vue')
 const EditBook = () => import('./views/EditBook.vue')
 const EditFilm = () => import('./views/EditFilm.vue')
+const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
 
 Vue.use(Router)
 
@@ -55,6 +56,11 @@ export default new Router({
       beforeEnter(to: any, from: any, next: any) {
         window.location.href = "/error/";
       }
+    },
+    {
+      path: '/privacypolicy/',
+      name: 'privacypolicy',
+      component: PrivacyPolicy
     },
     {
       path: '/edit/format/website/',

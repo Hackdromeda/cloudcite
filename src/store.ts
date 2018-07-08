@@ -10,11 +10,17 @@ export default new Vuex.Store({
   mutations: {
     addCitation(state: any, payload: object) {
       state.citations.push(payload)
+    },
+    removeCitation(state: any, payload: number) {
+      state.citations = state.citations.splice(payload, 1)
     }
   },
   actions: {
     addCitation(context: any, payload: object) {
       context.commit('addCitation', payload)
+    },
+    removeCitation(context: any, payload: number) {
+      context.commit('removeCitation', payload)
     }
   },
   getters: {

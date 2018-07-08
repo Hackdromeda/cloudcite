@@ -55,25 +55,16 @@
                     </b-field>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Source" v-model="filmCitationData.source" expanded></b-input>
-                </b-field>
-                <b-field expanded>
                     <b-input placeholder="Title" v-model="filmCitationData.title" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Film URL" v-model="filmCitationData.url" expanded></b-input>
+                    <b-input placeholder="Studio" v-model="filmCitationData.studio" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Publisher" v-model="filmCitationData.Publisher" expanded></b-input>
+                    <b-input v-model.number="filmCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-select v-model="filmCitationData.datePublished.month" placeholder="Month Published">
-                        <option v-for="(month, i) in monthNames" :value="i" :key="i" v-cloak>
-                            {{ month }}
-                        </option>
-                    </b-select>
-                    <b-input v-model.number="filmCitationData.datePublished.day" type="number" maxlength="2" placeholder="Day" expanded></b-input>
-                    <b-input v-model.number="filmCitationData.datePublished.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
+                    <b-input maxlength="500" type="textarea" v-model="filmCitationData.abstract" placeholder="Abstract"></b-input>
                 </b-field>
                 <b-field expanded>
                     <div id="submitFormDiv">
@@ -99,8 +90,8 @@ import rp from 'request-promise-native';
   data () {
       return {
         citationStarted: false,
-        contributorTypes: ["Director", "Actor"],
-        filmCitationData: new FilmCitation([{first: "", middle: "", last: "", type: "Director"}], null, null, {}),
+        contributorTypes: ["Director", "Writer", "Producer", "Actor/Performer", "Author"],
+        filmCitationData: new FilmCitation([{first: "", middle: "", last: "", type: "Director"}], '', '', {month: null, day: null, year: null}, ''),
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
         filmData: [],
         filmTitle: '',
@@ -151,13 +142,51 @@ import rp from 'request-promise-native';
                 body: {"title": this.filmTitle, "format": "movie", "ID": this.$data.selectedFilm.id},
                 json: true
                 //@ts-ignore
-            }).then(filmCitationData => {
-                console.log(filmCitationData)
-                this.$data.citationStarted = true
+            }).then(data => {
+                data = data.results[0]
+                console.log(data)
+                //@ts-ignore
+                var contributors = [];
+                //@ts-ignore
+                /*
+                if (data.director && data.director.length > 0) {
+                    //@ts-ignore
+                    data.director.forEach(director => {
+                        //@ts-ignore
+                        contributors.push({given: director.given, middle: director.given.split(" ").length == 2 ? director.given.split(" ")[1]: null, family: director.family, type: "Director"})
+                    });
+                }
+                //@ts-ignore
+                if (data.producer && data.producer.length > 0) {
+                    //@ts-ignore
+                    data.producer.forEach(producer => {
+                        //@ts-ignore
+                        contributors.push({given: producer.given, middle: producer.given.split(" ").length == 2 ? producer.given.split(" ")[1]: null, family: producer.family, type: "Producer"})
+                    });
+                }
+                //@ts-ignore
+                if (data.author && data.author.length > 0) {
+                    //@ts-ignore
+                    data.author.forEach(author => {
+                        //@ts-ignore
+                        contributors.push({given: author.given, middle: author.given.split(" ").length == 2 ? author.given.split(" ")[1]: null, family: author.family, type: "Author"})
+                    });
+                }
+                */
+                //@ts-ignore
+                if (contributors.length == 0) {
+                    contributors = [{first: "", middle: "", last: "", type: "Director"}]
+                }
+                var issued = new Date(data.release_date)
+                //@ts-ignore
+                issued = {month: null, day: null, year: issued.getFullYear()}
+                //@ts-ignore
+                this.$data.filmCitationData = new FilmCitation(contributors, data.title, data.studio, issued.year ? issued: {month: null, day: null, year: null}, data.overview)
+                this.$data.citationStarted = !this.$data.citationStarted
                 //@ts-ignore
             }).catch(error => {
                 console.log(error)
-                this.$data.citationStarted = true
+                this.$data.citationStarted = !this.$data.citationStarted
             })
         }
       }

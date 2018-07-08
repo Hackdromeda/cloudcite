@@ -21,6 +21,7 @@ src/node_modules/\.cache/
 node_modules/\.cache/
 src/dist/
 src/Auth/
+src/.DS_Store
 public/static/locales/
 public/static/styles/
 ignore/

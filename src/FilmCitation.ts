@@ -1,14 +1,16 @@
 export default class FilmCitation {
     contributors: any[]
     title: string
-    studio: string
+    publisher: string
     issued: any
     abstract: string
+    publisherPlace: string
 
-    constructor(contributors: any[], title: string, studio: string, issued: any, abstract: string) {
+    constructor(contributors: any[], title: string, publisher: string, publisherPlace: string, issued: any, abstract: string) {
         this.contributors = contributors
         this.title = title
-        this.studio = studio
+        this.publisher = publisher
+        this.publisherPlace = publisherPlace
         this.issued = issued
         this.abstract = abstract
     }
@@ -41,7 +43,10 @@ export default class FilmCitation {
                     "director": this.contributors.filter(c => c.type === "Director"),
                     "author": this.contributors.filter(c => c.type === "Writer" || c.type === "Actor/Performer" || c.type == "Author"),
                     "editorial-director": this.contributors.filter(c => c.type === "Producer"),
+                    "publisher": this.publisher,
+                    "publisher-place": this.publisherPlace,
                     "title": this.title,
+                    "abstract": this.abstract
                 }
             }
         }

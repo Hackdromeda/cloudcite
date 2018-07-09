@@ -11,17 +11,19 @@ module.exports = {
         new PrerenderSPAPlugin({
           staticDir: path.resolve(__dirname, 'dist'),
           // Add routes as we develop them
-          routes: ['/', '/about/', '/pricing/'],
+          routes: ['/', '/about/', '/pricing/', '/privacy/'],
           postProcess: function (context) {
             var titles = {
               '/': 'CloudCite · The Best Automatic Bibliography Generator',
               '/about/': 'CloudCite · About',
-              '/pricing/': 'CloudCite · Pricing'
+              '/pricing/': 'CloudCite · Pricing',
+              '/privacy/': 'CloudCite · Privacy'
             }
             var descriptions = {
               '/': 'CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.',
               '/about/': 'Learn about CloudCite. A free, secure and ad-free Bibliography Generator.',
-              '/pricing/': 'CloudCite is always free. No ads. No tracking.'
+              '/pricing/': 'CloudCite is always free. No ads.',
+              '/privacy/': 'CloudCite is committed to user privacy. No ads. No tracking.'
             }
             context.html = context.html.replace(
               /<title>[^<]*<\/title>/i,

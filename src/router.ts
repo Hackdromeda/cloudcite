@@ -58,7 +58,7 @@ export default new Router({
       }
     },
     {
-      path: '/privacypolicy/',
+      path: '/privacy/',
       name: 'privacypolicy',
       component: PrivacyPolicy
     },

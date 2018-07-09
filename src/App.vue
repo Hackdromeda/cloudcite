@@ -160,4 +160,6 @@ footer {
 .footer img {
   vertical-align: middle;
 }
+
+@import url("/static/MaterialDesign-Webfont-master/css/materialdesignicons.min.css");
 </style>

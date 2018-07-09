@@ -50,6 +50,11 @@
                 <b-input v-model.number="bookCitationData.datePublished.day" type="number" maxlength="2" placeholder="Day" expanded></b-input>
                 <b-input v-model.number="bookCitationData.datePublished.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
             </b-field>
+            <b-field expanded>
+                <div id="submitFormDiv">
+                    <a class="button is-primary" @click="cite()">Done Editing</a>
+                </div>
+            </b-field>
         </div>
     </div>
 </template>
@@ -61,18 +66,25 @@ import BookCitation from '../BookCitation';
 @Component({
   components: {
 
+  },
+  data () {
+    return {
+        bookCitationData: new BookCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {}),
+        contributorTypes: ["Author", "Editor"],
+        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
+    }
+  },
+  methods: {
+    setContributorType(index: number, type: string) {
+        this.$data.bookCitationData.contributors[index].type = type
+    },
+    cite() {
+        this.$store.dispatch('addCitation', this.$data.bookCitationData)
+    }
   }
 })
 
-export default class Editbook extends Vue {
-    bookCitationData = new BookCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {})
-    contributorTypes = ["Author", "Editor"]  
-    monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
-
-    setContributorType(index: number, type: string) {
-        this.bookCitationData.contributors[index].type = type
-    }
-}
+export default class Editbook extends Vue {}
 </script>
 
 <style scoped lang="scss">
@@ -91,6 +103,9 @@ export default class Editbook extends Vue {
 }
 #addContributorButton {
     color: #005eea;
+}
+#submitFormDiv {
+    text-align: left;
 }
 @media (max-width: 991.97px) {
 

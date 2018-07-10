@@ -79,7 +79,7 @@ import BookCitation from '../BookCitation';
         this.$data.bookCitationData.contributors[index].type = type
     },
     cite() {
-        this.$store.dispatch('addCitation', this.$data.bookCitationData)
+        this.$store.dispatch('addCitation', this.$data.bookCitationData.toCSL())
     }
   }
 })

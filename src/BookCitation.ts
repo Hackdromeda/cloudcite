@@ -23,6 +23,7 @@ export default class BookCitation {
         this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Author"})
     }
     toCSL() {
+        var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
         return {
             "style": "modern-language-association", 
@@ -35,7 +36,7 @@ export default class BookCitation {
                         "day": accessedDate.getDay()
                     },
                     "issued":{
-                        "month": this.issued.month,
+                        "month": cslMonth,
                         "year": this.issued.year,
                         "day": this.issued.day
                     },

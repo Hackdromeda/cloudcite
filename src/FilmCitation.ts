@@ -22,6 +22,7 @@ export default class FilmCitation {
         this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Director"})
     }
     toCSL() {
+        var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
         return {
             "style": "modern-language-association", 
@@ -29,7 +30,7 @@ export default class FilmCitation {
             "csl": {
                 "14058/NSBERGDK":{
                     "accessed":{
-                        "month": accessedDate.getMonth(),
+                        "month": cslMonth,
                         "year": accessedDate.getFullYear(),
                         "day": accessedDate.getDay()
                     },

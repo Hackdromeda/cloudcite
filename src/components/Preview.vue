@@ -59,7 +59,7 @@ export default class Preview extends Vue {}
     background-color: rgba(255, 255, 255, 0.932);
     padding: 20px;
   }
-  #csl-bib-body {
+  #csl-entry {
     padding-left: 22px;
     text-indent: -22px;
   }

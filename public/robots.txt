@@ -1,2 +1,5 @@
 User-Agent: *
 Allow: /
+Disallow: /callback/
+Disallow: /error/
+Disallow: /edit/

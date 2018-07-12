@@ -3,10 +3,9 @@
     }
 
   .overlay {
-    background: linear-gradient(45deg,#30496B,#30B8D2);
+    background: radial-gradient(#005eea,#32363c);
     max-width: 100%;
     height: 100vh;
-    opacity: .90;
     z-index: 2;
   }
 

@@ -18,3 +18,8 @@ new Vue({
     document.dispatchEvent(new Event('vue-render-event'))
   }
 })
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+})

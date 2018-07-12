@@ -17,22 +17,34 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        title: 'CloudCite · The Best Automatic Bibliography Generator'
+      }
     },
     {
       path: '/about/',
       name: 'about',
-      component: About
+      component: About,
+      meta: {
+        title: 'CloudCite · About'
+      }
     },
     {
       path: '/callback/',
       name: 'LoadingPage',
-      component: LoadingPage
+      component: LoadingPage,
+      meta: {
+        title: 'CloudCite · Log In'
+      }
     },
     {
       path: '/pricing/',
       name: 'pricing',
-      component: Pricing
+      component: Pricing,
+      meta: {
+        title: 'CloudCite · Pricing'
+      }
     },
     {
       path: '/status/',
@@ -40,6 +52,9 @@ export default new Router({
       beforeEnter(to: any, from: any, next: any) {
           window.location.href = "/";
           window.open('https://status.cloudcite.net','_blank');
+      },
+      meta: {
+        title: 'CloudCite · The Best Automatic Bibliography Generator'
       }
     },
     {
@@ -48,6 +63,9 @@ export default new Router({
       beforeEnter(to: any, from: any, next: any) {
           window.location.href = "/";
           window.open('https://help.cloudcite.net','_blank');
+      },
+      meta: {
+        title: 'CloudCite · The Best Automatic Bibliography Generator'
       }
     },
     {
@@ -55,27 +73,42 @@ export default new Router({
       name: 'error',
       beforeEnter(to: any, from: any, next: any) {
         window.location.href = "/error/";
+      },
+      meta: {
+        title: 'CloudCite · Error'
       }
     },
     {
       path: '/privacy/',
       name: 'privacypolicy',
-      component: PrivacyPolicy
+      component: PrivacyPolicy,
+      meta: {
+        title: 'CloudCite · Privacy'
+      }
     },
     {
       path: '/edit/format/website/',
       name: 'editwebsite',
-      component: EditWebsite
+      component: EditWebsite,
+      meta: {
+        title: 'CloudCite · Cite a Website'
+      }
     },
     {
       path: '/edit/format/book/',
       name: 'editbook',
-      component: EditBook
+      component: EditBook,
+      meta: {
+        title: 'CloudCite · Cite a Book'
+      }
     },
     {
       path: '/edit/format/film/',
       name: 'editfilm',
-      component: EditFilm
+      component: EditFilm,
+      meta: {
+        title: 'CloudCite · Cite a Film'
+      }
     }
   ]
 })

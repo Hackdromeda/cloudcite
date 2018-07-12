@@ -1,8 +1,10 @@
 <template>
   <div id="home">
     <div id="hero">
-      <img src="static/error/favicons/mstile-150x150.png"/>
+      <img src="static/error/favicons/mstile-150x150.png" alt="CloudCite is the best bibliography generator"/>
       <h1 id="welcomeText" class="title is-size-2">Welcome to CloudCite</h1>
+      <h2 id="missionText" class="subtitle">CloudCite processes citations in the cloud so you never have to create citations manually again.</h2>
+      <h3 id="descriptionText" class="subtitle is-size-6">CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago. Learn more about our committment to a privacy and a distraction free bibliography generation environment on our <a class="mission" href="/about/">about page</a>.</h3>
       <div class="container" id="cite">
         <div id="citeButtonsRow">
           <a class="button is-rounded" id="citeButton" @click="cite('Website')">Website</a>
@@ -54,7 +56,7 @@ export default class Home extends Vue {
 
   cite(option: string) {
     this.selectedFormat = option
-    this.$router.push({name: 'edit' + option.toLowerCase()})
+    this.$router.push({path: '/edit/format/' + option.toLowerCase() + '/'})
   }
 }
 </script>
@@ -64,9 +66,24 @@ export default class Home extends Vue {
     text-align: center;
     color: #fff;
   }
+
   #welcomeText {
     color: #fff;
   }
+
+  #missionText {
+    color: #fff;
+  }
+
+  #descriptionText {
+    color: #fff;
+    padding: 0 15%;
+  }
+
+  .mission {
+    color: #fff;
+  }
+
   #websiteSection {
     background-color: #fff;
     height: 100vh;
@@ -81,61 +98,62 @@ export default class Home extends Vue {
   }
 
   @media (max-width: 991.97px) {
-  #cite {
-    text-align: center;
+    #cite {
+      text-align: center;
+    }
+    #hero {
+      padding-bottom: 25px;
+      height: 130vh;
+    }
+    #citeButtonsRow {
+      justify-content: left;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    #citeButton {
+      margin: 3px;
+      padding: 10px;
+      color: #fff;
+      font-weight: 500;
+      border-color: #006DFC;
+      background-color: #006DFC;
+    }
+    #citeButton:hover {
+      opacity: 0.9;
+    }
+    #websiteInput {
+      width: 70%;
+    }
   }
-   #hero {
-    padding-bottom: 25px;
-    height: 130vh;
+
+  @media (min-width: 991.98px) {
+    #cite {
+      text-align: center;
+    }
+    #hero {
+      padding-bottom: 25px;
+      height: 100vh;
+    }
+    #citeButtonsRow {
+      justify-content: center;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    #citeButton {
+      margin: 10px;
+      padding: 10px;
+      color: #fff;
+      font-weight: 500;
+      border-color: #006DFC;
+      background-color: #006DFC;
+    }
+    #citeButton:hover {
+      opacity: 0.9;
+    }
+    #websiteInput {
+      width: 50%;
+    }
   }
-  #citeButtonsRow {
-    justify-content: left;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-  }
-  #citeButton {
-    margin: 3px;
-    padding: 10px;
-    color: #fff;
-    font-weight: 500;
-    border-color: #006DFC;
-    background-color: #006DFC;
-  }
-  #citeButton:hover {
-    opacity: 0.9;
-  }
-  #websiteInput {
-    width: 70%;
-  }
-}
-@media (min-width: 991.98px) {
-  #cite {
-    text-align: center;
-  }
-   #hero {
-    padding-bottom: 25px;
-    height: 100vh;
-  }
-  #citeButtonsRow {
-    justify-content: center;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-  }
-  #citeButton {
-    margin: 10px;
-    padding: 10px;
-    color: #fff;
-    font-weight: 500;
-    border-color: #006DFC;
-    background-color: #006DFC;
-  }
-  #citeButton:hover {
-    opacity: 0.9;
-  }
-  #websiteInput {
-    width: 50%;
-  }
-}
 </style>

@@ -23,6 +23,7 @@ export default class WebsiteCitation {
     }
 
     toCSL() {
+        var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
         return {
             "style": "modern-language-association", 
@@ -30,7 +31,7 @@ export default class WebsiteCitation {
             "csl": {
                 "14058/NSBERGDK":{
                     "accessed":{
-                        "month": accessedDate.getMonth(),
+                        "month": cslMonth,
                         "year": accessedDate.getFullYear(),
                         "day": accessedDate.getDay()
                     },

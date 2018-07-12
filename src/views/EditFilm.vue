@@ -71,7 +71,7 @@
                 </b-field>
                 <b-field expanded>
                     <div id="submitFormDiv">
-                        <a class="button is-primary" @click="citationStarted = !citationStarted">Done Editing</a>
+                        <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
             </div>
@@ -170,6 +170,9 @@ import rp from 'request-promise-native';
                 this.$data.citationStarted = !this.$data.citationStarted
             })
         }
+      },
+      cite() {
+          this.$store.dispatch('addCitation', this.$data.filmCitationData.toCSL())
       }
   }
 })

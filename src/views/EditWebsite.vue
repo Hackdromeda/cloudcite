@@ -131,7 +131,7 @@ import rp from 'request-promise-native';
         })
     },
     cite() {
-        this.$store.dispatch('addCitation', this.$data.websiteCitationData)
+        this.$store.dispatch('addCitation', this.$data.websiteCitationData.toCSL())
     }
   }
 })

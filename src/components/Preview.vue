@@ -1,6 +1,10 @@
 <template>
   <div class="content" id="preview">
-    
+    <div class="csl-bib-body">
+      <div v-for="(cslEntry, i) in cslHTML" :key="i">
+        <div v-html="cslEntry"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,12 +30,18 @@ import rp from 'request-promise-native';
             //@ts-ignore
         }).then(data => {
             console.log(data)
+            this.$data.cslHTML = data[1]
         })
         //@ts-ignore
         .catch((error) => {
           console.log(error)
         })
     }, 5000);
+  },
+  data () {
+    return {
+      cslHTML: []
+    }
   },
   computed: {
     cslData: {
@@ -48,5 +58,9 @@ export default class Preview extends Vue {}
   #preview {
     background-color: rgba(255, 255, 255, 0.932);
     padding: 20px;
+  }
+  #csl-bib-body {
+    padding-left: 22px;
+    text-indent: -22px;
   }
 </style>

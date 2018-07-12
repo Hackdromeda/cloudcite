@@ -1,3 +1,5 @@
+import * as store from './store';
+
 export default class WebsiteCitation {
     contributors: any[]
     source: string
@@ -25,11 +27,13 @@ export default class WebsiteCitation {
     toCSL() {
         var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
+        //@ts-ignore
+        var id: string = 'Website/' + (store.default.getters.getCitations.filter(c => c.csl.id.substring(0, 7) === 'Website').length + 1)
         return {
             "style": "modern-language-association", 
             "locale": "locales-en-US", 
             "csl": {
-                "14058/NSBERGDK":{
+                [id]: {
                     "accessed":{
                         "month": cslMonth,
                         "year": accessedDate.getFullYear(),
@@ -41,7 +45,7 @@ export default class WebsiteCitation {
                         "day": this.issued.day
                     },
                     "type":"website",
-                    "id":"14058/NSBERGDK",
+                    "id": id,
                     "author": this.contributors.filter(c => c.type === "Author"),
                     "editor": this.contributors.filter(c => c.type === "Editor"),
                     "title": this.title,

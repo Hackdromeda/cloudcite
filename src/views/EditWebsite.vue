@@ -70,6 +70,7 @@
                     </div>
                 </b-field>
             </div>
+            <Preview :cslObject=websiteCitationData.toCSL() />
         </div>
     </div>
 </template>
@@ -79,9 +80,10 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import WebsiteCitation from '../WebsiteCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
-
+import Preview from '../components/Preview.vue'
 @Component({
   components: {
+    Preview
   },
   data () {
       return {

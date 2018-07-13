@@ -24,3 +24,5 @@
 /public/static/locales/
 /public/static/styles/
 /ignore/
+
+public/static/\.DS_Store

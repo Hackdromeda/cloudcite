@@ -1,3 +1,5 @@
+import * as store from './store';
+
 export default class WebsiteCitation {
     contributors: any[]
     source: string
@@ -25,27 +27,29 @@ export default class WebsiteCitation {
     toCSL() {
         var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
+        //@ts-ignore
+        var id: string = 'Website/' + (store.default.getters.getCitations.filter(c => c.csl.id.substring(0, 7) === 'Website').length + 1)
         return {
             "style": "modern-language-association", 
             "locale": "locales-en-US", 
             "csl": {
-                "14058/NSBERGDK":{
+                [id]: {
                     "accessed":{
-                        "month": cslMonth,
+                        "month": cslMonth ? cslMonth: "",
                         "year": accessedDate.getFullYear(),
                         "day": accessedDate.getDay()
                     },
                     "issued":{
-                        "month": this.issued.month,
-                        "year": this.issued.year,
-                        "day": this.issued.day
+                        "month": this.issued.month ? this.issued.month: "",
+                        "year": this.issued.year ? this.issued.year: "",
+                        "day": this.issued.day ? this.issued.day: ""
                     },
                     "type":"website",
-                    "id":"14058/NSBERGDK",
+                    "id": id,
                     "author": this.contributors.filter(c => c.type === "Author"),
                     "editor": this.contributors.filter(c => c.type === "Editor"),
-                    "title": this.title,
-                    "URL": this.url
+                    "title": this.title ? this.title: "",
+                    "URL": this.url ? this.url: ""
                 }
             }
         }

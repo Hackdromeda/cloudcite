@@ -69,6 +69,7 @@
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
+                <Preview :cslObject=websiteCitationData.toCSL() />
             </div>
         </div>
     </div>
@@ -79,15 +80,16 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import WebsiteCitation from '../WebsiteCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
-
+import Preview from '../components/Preview.vue'
 @Component({
   components: {
+    Preview
   },
   data () {
       return {
         citationStarted: false,
         contributorTypes: ["Author", "Editor"] ,
-        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], null, null, null, null, {}),
+        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], null, null, null, null, {month: null, day: null, year: null}),
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
       }
   },

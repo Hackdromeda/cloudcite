@@ -58,6 +58,17 @@ export default new Router({
       }
     },
     {
+      path: '/api/',
+      name: 'api',
+      beforeEnter(to: any, from: any, next: any) {
+          window.location.href = "/";
+          window.open('https://api.cloudcite.net','_blank');
+      },
+      meta: {
+        title: 'CloudCite · The Best Automatic Bibliography Generator'
+      }
+    },
+    {
       path: '/support/',
       name: 'support',
       beforeEnter(to: any, from: any, next: any) {
@@ -84,6 +95,14 @@ export default new Router({
       component: PrivacyPolicy,
       meta: {
         title: 'CloudCite · Privacy'
+      }
+    },
+    {
+      path: '/donate/',
+      name: 'donate',
+      component: Home,
+      meta: {
+        title: 'CloudCite · Donate'
       }
     },
     {

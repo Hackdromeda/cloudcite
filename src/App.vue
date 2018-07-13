@@ -23,6 +23,13 @@
               <a class="navbar-item" @click="$router.push({path: '/support/'})">Donate</a>
             </div>
             <div class="navbar-end">
+              <!--<div class="navbar-item">
+                <b-select v-model="websiteCitationData.contributors[i].type" placeholder="mla">
+                  <option v-for="(style, i) in styles" :value="style" :key="i" v-cloak>
+                    {{ style }}
+                  </option>  
+                </b-select>
+              </div>-->
               <div class="navbar-item">
                 <div class="field is-grouped">
                   <p class="control">
@@ -56,7 +63,7 @@
 </template>
 
 <script>
-import AuthService from './Auth/AuthService'
+import AuthService from './Auth/AuthService';
 const auth = new AuthService()
 
 const { login, logout, authenticated, authNotifier } = auth
@@ -69,7 +76,7 @@ export default {
     })
     return {
       auth,
-      authenticated
+      authenticated,
     }
   },
   methods: {

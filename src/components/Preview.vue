@@ -16,7 +16,6 @@ import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
 import { setInterval } from 'timers';
-
 @Component({
   props: ['cslObject'],
   components: {},

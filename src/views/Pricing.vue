@@ -14,7 +14,11 @@
         <div class="plan-item">Tracking/Analytics</div>
         <div class="plan-item">Security</div>
         <div class="plan-item">Autofill</div>
+        <div class="plan-item">Requirements</div>
+        <div class="plan-item">Export/Import<br><br><br></div>
+        <div class="plan-item">Style Accuracy</div>
         <div class="plan-item">App and Extensions</div>
+        <div class="plan-item">Advanced Features<br><br></div>
       </div>
       <div class="plan-footer"></div>
     </div>
@@ -30,7 +34,11 @@
         <div class="plan-item" data-feature="Tracking">No Third-Party Tracking</div>
         <div class="plan-item" data-feature="Secure"><a href="https://www.websecurity.symantec.com/security-topics/what-is-ssl-tls-https" target="_blank">SSL, TLS</a>, <a href="https://securityheaders.com/?q=cloudcite.net&followRedirects=on" target="_blank">HSTS, and Strong Security Headers</a></div>
         <div class="plan-item" data-feature="Autofill">Fast and Accurate</div>
+        <div class="plan-item" data-feature="Requirements">No account creation or downloads required.</div>
+        <div class="plan-item" data-feature="Export-and-Import">Exports to clipboard, .DOC, .DOCX, and .PDF<br>Exports to Google Drive, Dropbox, and OneDrive<br>Imports CSL-JSON and BibTeX.</div>        
+        <div class="plan-item" data-feature="Style-Accuracy">Powered by the same <a href="https://citationstyles.org/">Citation Style Language (CSL) styles</a> competitors use</div>
         <div class="plan-item" data-feature="Apps-and-Extensions">FREE (Coming Soon)</div>
+        <div class="plan-item" data-feature="Advanced-Features">CloudCite offers the following advanced features:<br>Quick Cite - we suggest additional sources to quickly add to your bibliography using topic analysis<br>Source Analysis - we make sure you are using reliable sources</div>
       </div>
       <div class="plan-footer">
         <a class="button is-fullwidth" href="https://github.com/Hackdromeda/cloudcite" target="_blank">View Source Code</a>
@@ -38,7 +46,7 @@
     </div>
 
       <div class="pricing-plan is-danger">
-        <div class="plan-header">Some Other Citation Services</div>
+        <div class="plan-header">Most Other Citation Services</div>
         <div class="plan-price"><span class="plan-price-amount">Up to <span class="plan-price-currency">$</span>9.99</span>/month</div>
         <div class="plan-items">
           <div class="plan-item" data-feature="Citations">PAID (Only MLA is FREE)</div>
@@ -48,7 +56,11 @@
           <div class="plan-item" data-feature="Tracking">Third-Party Tracking on ALL accounts</div>
           <div class="plan-item" data-feature="Weak-Security">No SSL, Mixed Content, or Weak Security Settings</div>
           <div class="plan-item" data-feature="Autofill">Slower and Often Inaccurate</div>
+          <div class="plan-item" data-feature="Requirements">Some require software download. Some require account creation.</div>
+          <div class="plan-item" data-feature="Export-and-Import">Export to certain formats is often a PAID feature.<br>Imports rarely supported.</div>        
+          <div class="plan-item" data-feature="Style-Accuracy">CSL is used by other products such as <a href="https://easybib.com/">EasyBib</a>, <a href="https://www.citethisforme.com/">Cite This For Me</a>, <a href="https://www.citethisforme.com/">Papers</a>, and <a href="https://www.mendeley.com/">Mendeley</a>.<br>To see if the your citation service uses CSL, visit <a href="https://citationstyles.org/">the Citation Style Language (CSL) website</a>.</div>
           <div class="plan-item" data-feature="Apps-and-Extensions">Limited or PAID</div>
+          <div class="plan-item" data-feature="Advanced-Features">N/A<br> <br> </div>
         </div>
         <div class="plan-footer">
           <a class="button is-fullwidth" href="/">Switch to CloudCite</a>

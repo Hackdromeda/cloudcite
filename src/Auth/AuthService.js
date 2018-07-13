@@ -15,10 +15,10 @@ export default class AuthService {
   }
 
   auth0 = new auth0.WebAuth({
-    domain: 'cloudcite.auth0.com',
+    domain: 'login.cloudcite.net',
     clientID: 'Db26mmHH9vbGJLnz8mYe41CfEG1pVJnS',
-    redirectUri: 'https://cloudcite.net/callback',
-    audience: 'https://cloudcite.auth0.com/userinfo',
+    redirectUri: 'https://cloudcite.net/callback/',
+    audience: 'https://login.cloudcite.net/userinfo',
     responseType: 'token id_token',
     scope: 'openid'
   })

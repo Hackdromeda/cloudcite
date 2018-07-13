@@ -1,4 +1,6 @@
 import * as store from './store';
+//@ts-ignore
+import * as  _ from 'lodash/core';
 export default class WebsiteCitation {
     contributors: any[]
     source: string
@@ -26,30 +28,25 @@ export default class WebsiteCitation {
     toCSL() {
         var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
-        //@ts-ignore
-        var id: string = 'Website/' + (store.default.getters.getCitations.filter(c => c.csl[Object.keys(c.csl)[0]].id.substring(0, 7) === 'Website').length + 1)
+        var id = ('Website/' + _.filter(store.default.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 7) === 'Website'}).length)
         return {
-            "style": "modern-language-association", 
-            "locale": "locales-en-US", 
-            "csl": {
-                [id]: {
-                    "accessed":{
-                        "month": cslMonth ? cslMonth: "",
-                        "year": accessedDate.getFullYear(),
-                        "day": accessedDate.getDay()
-                    },
-                    "issued":{
-                        "month": this.issued.month ? this.issued.month: "",
-                        "year": this.issued.year ? this.issued.year: "",
-                        "day": this.issued.day ? this.issued.day: ""
-                    },
-                    "type":"website",
-                    "id": id,
-                    "author": this.contributors.filter(c => c.type === "Author"),
-                    "editor": this.contributors.filter(c => c.type === "Editor"),
-                    "title": this.title ? this.title: "",
-                    "URL": this.url ? this.url: ""
-                }
+            [id]: {
+                "accessed":{
+                    "month": cslMonth ? cslMonth: "",
+                    "year": accessedDate.getFullYear(),
+                    "day": accessedDate.getDay()
+                },
+                "issued":{
+                    "month": this.issued.month ? this.issued.month: "",
+                    "year": this.issued.year ? this.issued.year: "",
+                    "day": this.issued.day ? this.issued.day: ""
+                },
+                "type":"website",
+                "id": id,
+                "author": this.contributors.filter(c => c.type === "Author"),
+                "editor": this.contributors.filter(c => c.type === "Editor"),
+                "title": this.title ? this.title: "",
+                "URL": this.url ? this.url: ""
             }
         }
     }

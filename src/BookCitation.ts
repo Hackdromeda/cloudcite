@@ -1,4 +1,6 @@
 import * as store from './store';
+//@ts-ignore
+import * as  _ from 'lodash/core';
 export default class BookCitation {
     contributors: any[]
     chapter: any
@@ -26,29 +28,24 @@ export default class BookCitation {
     toCSL() {
         var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
-         //@ts-ignore
-         var id: string = 'Book/' + (store.default.getters.getCitations.filter(c => c.csl[Object.keys(c.csl)[0]].id.substring(0, 4) === 'Book').length + 1)
+        var id = ('Book/' + _.filter(store.default.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 4) === 'Book'}).length)
         return {
-            "style": "modern-language-association", 
-            "locale": "locales-en-US", 
-            "csl": {
-                [id]:{
-                    "accessed":{
-                        "month": accessedDate.getMonth(),
-                        "year": accessedDate.getFullYear(),
-                        "day": accessedDate.getDay()
-                    },
-                    "issued":{
-                        "month": cslMonth ? cslMonth: "",
-                        "year": this.issued.year ? this.issued.year: "",
-                        "day": this.issued.day ? this.issued.day: ""
-                    },
-                    "type":"book",
-                    "id": id,
-                    "author": this.contributors.filter(c => c.type === "Author"),
-                    "editor": this.contributors.filter(c => c.type === "Editor"),
-                    "title": this.title ? this.title: "",
-                }
+            [id]:{
+                "accessed":{
+                    "month": accessedDate.getMonth(),
+                    "year": accessedDate.getFullYear(),
+                    "day": accessedDate.getDay()
+                },
+                "issued":{
+                    "month": cslMonth ? cslMonth: "",
+                    "year": this.issued.year ? this.issued.year: "",
+                    "day": this.issued.day ? this.issued.day: ""
+                },
+                "type":"book",
+                "id": id,
+                "author": this.contributors.filter(c => c.type === "Author"),
+                "editor": this.contributors.filter(c => c.type === "Editor"),
+                "title": this.title ? this.title: "",
             }
         }
     }

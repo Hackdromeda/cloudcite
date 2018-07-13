@@ -1,4 +1,6 @@
 import * as store from './store';
+//@ts-ignore
+import * as  _ from 'lodash/core';
 export default class FilmCitation {
     contributors: any[]
     title: string
@@ -25,33 +27,28 @@ export default class FilmCitation {
     toCSL() {
         var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
-        //@ts-ignore
-        var id: string = 'Film/' + (store.default.getters.getCitations.filter(c => c.csl[Object.keys(c.csl)[0]].id.substring(0, 4) === 'Film').length + 1)
+        var id = ('Film/' + _.filter(store.default.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 4) === 'Film'}).length)
         return {
-            "style": "modern-language-association", 
-            "locale": "locales-en-US", 
-            "csl": {
-                [id]:{
-                    "accessed":{
-                        "month": cslMonth ? cslMonth: "",
-                        "year": accessedDate.getFullYear(),
-                        "day": accessedDate.getDay()
-                    },
-                    "issued":{
-                        "month": this.issued.month ? this.issued.month: "",
-                        "year": this.issued.year ? this.issued.year: "",
-                        "day": this.issued.day ? this.issued.day: ""
-                    },
-                    "type":"motion_picture",
-                    "id": id,
-                    "director": this.contributors.filter(c => c.type === "Director"),
-                    "author": this.contributors.filter(c => c.type === "Writer" || c.type === "Actor/Performer" || c.type == "Author"),
-                    "editorial-director": this.contributors.filter(c => c.type === "Producer"),
-                    "publisher": this.publisher ? this.publisher: "",
-                    "publisher-place": this.publisherPlace ? this.publisherPlace: "",
-                    "title": this.title ? this.title: "",
-                    "abstract": this.abstract ? this.abstract: ""
-                }
+            [id]:{
+                "accessed":{
+                    "month": cslMonth ? cslMonth: "",
+                    "year": accessedDate.getFullYear(),
+                    "day": accessedDate.getDay()
+                },
+                "issued":{
+                    "month": this.issued.month ? this.issued.month: "",
+                    "year": this.issued.year ? this.issued.year: "",
+                    "day": this.issued.day ? this.issued.day: ""
+                },
+                "type":"motion_picture",
+                "id": id,
+                "director": this.contributors.filter(c => c.type === "Director"),
+                "author": this.contributors.filter(c => c.type === "Writer" || c.type === "Actor/Performer" || c.type == "Author"),
+                "editorial-director": this.contributors.filter(c => c.type === "Producer"),
+                "publisher": this.publisher ? this.publisher: "",
+                "publisher-place": this.publisherPlace ? this.publisherPlace: "",
+                "title": this.title ? this.title: "",
+                "abstract": this.abstract ? this.abstract: ""
             }
         }
     }

@@ -69,8 +69,8 @@
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
+                <Preview :cslObject=websiteCitationData.toCSL() />
             </div>
-            <Preview :cslObject=websiteCitationData.toCSL() />
         </div>
     </div>
 </template>
@@ -89,7 +89,7 @@ import Preview from '../components/Preview.vue'
       return {
         citationStarted: false,
         contributorTypes: ["Author", "Editor"] ,
-        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], null, null, null, null, {}),
+        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], null, null, null, null, {month: null, day: null, year: null}),
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
       }
   },

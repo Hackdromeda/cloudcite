@@ -4,6 +4,9 @@
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div v-html="cslEntry"/>
       </div>
+      <div id="refreshInformation" v-if="refreshing">
+        Refreshing
+      </div>
     </div>
   </div>
 </template>
@@ -12,12 +15,14 @@
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
+import { setInterval } from 'timers';
 
 @Component({
   props: ['cslObject'],
   components: {},
   mounted() {
-    setTimeout(() => {
+    setInterval(() => {
+      this.$data.refreshing = true;
        rp({
             uri: 'https://api.cloudcite.net/cite',
             headers: {
@@ -31,16 +36,19 @@ import rp from 'request-promise-native';
         }).then(data => {
             console.log(data)
             this.$data.cslHTML = data[1]
+            this.$data.refreshing = false
         })
         //@ts-ignore
         .catch((error) => {
           console.log(error)
+          this.$data.refreshing = false
         })
-    }, 5000);
+    }, 10000);
   },
   data () {
     return {
-      cslHTML: []
+      cslHTML: [],
+      refreshing: false
     }
   },
   computed: {
@@ -55,12 +63,28 @@ export default class Preview extends Vue {}
 </script>
 
 <style scoped lang="scss">
+  #refreshInformation {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    color: #8d8d8d;
+  }
+@media (max-width: 991.97px) {
   #preview {
-    background-color: rgba(255, 255, 255, 0.932);
+    background-color: #f5f5f5;
+    color: #000;
     padding: 20px;
+    border-radius: 5px;
+    min-height: 23vh;
   }
-  #csl-entry {
-    padding-left: 22px;
-    text-indent: -22px;
+}
+@media (min-width: 991.98px) {
+  #preview {
+    background-color: #f5f5f5;
+    color: #000;
+    padding: 20px;
+    border-radius: 5px;
+    min-height: 16vh;
   }
+}
 </style>

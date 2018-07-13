@@ -35,21 +35,21 @@ export default class WebsiteCitation {
             "csl": {
                 [id]: {
                     "accessed":{
-                        "month": cslMonth,
+                        "month": cslMonth ? cslMonth: "",
                         "year": accessedDate.getFullYear(),
                         "day": accessedDate.getDay()
                     },
                     "issued":{
-                        "month": this.issued.month,
-                        "year": this.issued.year,
-                        "day": this.issued.day
+                        "month": this.issued.month ? this.issued.month: "",
+                        "year": this.issued.year ? this.issued.year: "",
+                        "day": this.issued.day ? this.issued.day: ""
                     },
                     "type":"website",
                     "id": id,
                     "author": this.contributors.filter(c => c.type === "Author"),
                     "editor": this.contributors.filter(c => c.type === "Editor"),
-                    "title": this.title,
-                    "URL": this.url
+                    "title": this.title ? this.title: "",
+                    "URL": this.url ? this.url: ""
                 }
             }
         }

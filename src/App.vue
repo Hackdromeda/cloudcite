@@ -48,7 +48,7 @@
     <footer class="footer">
       <div class="content has-text-centered">
         <p class="footer-text"><strong>CloudCite</strong> by the Hackdromeda team. The source code is licensed under 
-          <a href="https://github.com/Hackdromeda/cloudcite/blob/master/LICENSE">GNU AGPL v3.0</a>. Please read the <router-link to="/privacy/">Privacy Policy</router-link> before using this service. <img width="150" height="50" src="/static/a0-badge-light.png" alt="CloudCite uses Auth0 Token Based Authentication for secure logins"/>
+          <a href="https://github.com/Hackdromeda/cloudcite/blob/master/LICENSE">GNU AGPL v3.0</a>. Please read the <router-link to="/privacy/">privacy policy</router-link> before using this service. <img width="150" height="50" src="/static/a0-badge-light.png" alt="CloudCite uses Auth0 Token Based Authentication for secure logins"/>
         </p>
       </div>
     </footer>

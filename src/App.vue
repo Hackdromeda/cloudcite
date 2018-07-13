@@ -23,13 +23,6 @@
               <a class="navbar-item" @click="$router.push({path: '/support/'})">Donate</a>
             </div>
             <div class="navbar-end">
-              <!--<div class="navbar-item">
-                <b-select v-model="websiteCitationData.contributors[i].type" placeholder="mla">
-                  <option v-for="(style, i) in styles" :value="style" :key="i" v-cloak>
-                    {{ style }}
-                  </option>  
-                </b-select>
-              </div>-->
               <div class="navbar-item">
                 <div class="field is-grouped">
                   <p class="control">
@@ -62,31 +55,34 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator';
+//@ts-ignore
 import AuthService from './Auth/AuthService';
 const auth = new AuthService()
-
 const { login, logout, authenticated, authNotifier } = auth
-
-export default {
-  name: 'app',
+//import * as styles from '../public/static/options'
+@Component({
+  components: {},
   data () {
+    //@ts-ignore
     authNotifier.on('authChange', authState => {
+      //@ts-ignore
       this.authenticated = authState.authenticated
     })
     return {
       auth,
-      authenticated,
+      authenticated
     }
   },
   methods: {
     login,
     logout
   },
-  mounted() {
+  mounted () {
     var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
     if ($navbarBurgers.length > 0) {
-      $navbarBurgers.forEach(function ($el) {
+      $navbarBurgers.forEach(function ($el: any) {
         $el.addEventListener('click', function () {
           var target = $el.dataset.target;
           var $target = document.getElementById(target);
@@ -98,7 +94,8 @@ export default {
       });
     }
   }
-}
+})
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">

@@ -1,4 +1,4 @@
-[{
+export default [{
   "title": "3 Biotech",
   "titleShort": "3 Biotech",
   "name": "3-biotech",

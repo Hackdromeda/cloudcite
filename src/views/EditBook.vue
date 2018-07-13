@@ -82,6 +82,7 @@
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
+                <Preview :cslObject=bookCitationData.toCSL() />
             </div>
         </div>
     </div>
@@ -96,9 +97,12 @@ import rp from 'request-promise-native';
 import lodash from 'lodash';
 //@ts-ignore
 import debounce from 'lodash/debounce';
+import Preview from '../components/Preview.vue';
 
 @Component({
-  components: {},
+  components: {
+    Preview
+  },
   data () {
     return {
         citationStarted: false,

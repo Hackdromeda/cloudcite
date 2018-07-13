@@ -74,6 +74,7 @@
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
+                <Preview :cslObject=filmCitationData.toCSL() />
             </div>
         </div>
     </div>
@@ -86,9 +87,10 @@ import FilmCitation from '../FilmCitation';
 import debounce from 'lodash/debounce';
 //@ts-ignore
 import rp from 'request-promise-native';
-
+import Preview from '../components/Preview.vue';
 @Component({
   components: {
+    Preview
   },
   data () {
       return {

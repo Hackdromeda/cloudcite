@@ -1,5 +1,4 @@
 import * as store from './store';
-
 export default class WebsiteCitation {
     contributors: any[]
     source: string
@@ -28,7 +27,7 @@ export default class WebsiteCitation {
         var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
         //@ts-ignore
-        var id: string = 'Website/' + (store.default.getters.getCitations.filter(c => c.csl.id.substring(0, 7) === 'Website').length + 1)
+        var id: string = 'Website/' + (store.default.getters.getCitations.filter(c => c.csl[Object.keys(c.csl)[0]].id.substring(0, 7) === 'Website').length + 1)
         return {
             "style": "modern-language-association", 
             "locale": "locales-en-US", 

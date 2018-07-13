@@ -15,22 +15,18 @@
           </div>
           <div id="navbarMenu" class="navbar-menu">
             <div class="navbar-start">
-              <a class="navbar-item" @click="$router.push({path: '/about/'})">
-                About
-              </a>
-              <a class="navbar-item" @click="$router.push({path: '/pricing/'})">
-                Pricing
-              </a>
-              <a class="navbar-item" @click="$router.push({path: '/status/'})">
-                Status
-              </a>
-              <a class="navbar-item" @click="$router.push({path: '/support/'})">
-                Help
-              </a>
+              <a class="navbar-item" @click="$router.push({path: '/about/'})">About</a>
+              <a class="navbar-item" @click="$router.push({path: '/api/'})">API</a>
+              <a class="navbar-item" @click="$router.push({path: '/pricing/'})">Pricing</a>
+              <a class="navbar-item" @click="$router.push({path: '/status/'})">Status</a>
+              <a class="navbar-item" @click="$router.push({path: '/support/'})">Help</a>
+              <a class="navbar-item" @click="$router.push({path: '/support/'})">Donate</a>
             </div>
             <div class="navbar-end">
               <div class="navbar-item">
                 <div class="field is-grouped">
+                  <p class="control">
+                  </p>
                   <p class="control">
                     <a v-if="!authenticated" class="button is-primary" @click="login()">
                       <span>Log In / Register</span>
@@ -159,5 +155,11 @@ footer {
 
 .footer img {
   vertical-align: middle;
+}
+
+@media (max-width: 1024px) {
+  .field.is-grouped {
+    justify-content: center !important;
+}
 }
 </style>

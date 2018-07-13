@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <div id="hero">
-      <img src="static/error/favicons/mstile-150x150.png" alt="CloudCite is the best bibliography generator"/>
+      <img src="/static/favicons/icon-150x150.png" alt="CloudCite is the best bibliography generator"/>
       <h1 id="welcomeText" class="title is-size-2">Welcome to CloudCite</h1>
       <h2 id="missionText" class="subtitle">CloudCite processes citations in the cloud so you never have to create citations manually again.</h2>
       <h3 id="descriptionText" class="subtitle is-size-6">CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago. Learn more about our committment to a privacy and a distraction free bibliography generation environment on our <a class="mission" href="/about/">about page</a>.</h3>
@@ -68,10 +68,12 @@ export default class Home extends Vue {
 
   #welcomeText {
     color: #fff;
+    padding: 0 5%;
   }
 
   #missionText {
     color: #fff;
+    padding: 0 10%;
   }
 
   #descriptionText {

@@ -80,7 +80,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import WebsiteCitation from '../WebsiteCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
-import Preview from '../components/Preview.vue'
+import Preview from '../components/Preview.vue';
 @Component({
   components: {
     Preview

@@ -18,7 +18,7 @@ export default class AuthService {
     domain: 'login.cloudcite.net',
     clientID: 'Db26mmHH9vbGJLnz8mYe41CfEG1pVJnS',
     redirectUri: 'https://cloudcite.net/callback/',
-    audience: 'https://login.cloudcite.net/userinfo',
+    audience: 'https://cloudcite.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid'
   })

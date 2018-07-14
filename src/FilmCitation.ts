@@ -36,7 +36,7 @@ export default class FilmCitation {
                     "day": accessedDate.getDay()
                 },
                 "issued":{
-                    "month": this.issued.month ? this.issued.month: "",
+                    "month": (this.issued.month && this.issued.month >= 1 && this.issued.month <= 12) ? this.issued.month: "",
                     "year": this.issued.year ? this.issued.year: "",
                     "day": this.issued.day ? this.issued.day: ""
                 },

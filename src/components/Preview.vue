@@ -3,12 +3,17 @@
     <div class="csl-bib-body">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div v-html="cslEntry"/>
-      </div>
-      <div id="refreshInformation" v-if="refreshing">
-        Refreshing
-      </div>
-      <div id="citationOptions" v-if="!refreshing && deleteButton">
-        <a id="removeCitationButton" @click="$store.dispatch('removeCitationById', Object.keys(cslData)[0])">&#128465;</a>
+        <div id="refreshInformation" v-if="refreshing">
+          Refreshing
+        </div>
+        <div id="citationOptions" v-if="!refreshing">
+          <span v-if="deleteButton">
+            <a id="removeCitationButton" @click="$store.dispatch('removeCitationById', Object.keys(cslData)[0])"><b-icon icon="delete" custom-size="mdi-24px"/></a>
+          </span>
+          <span v-if="clipboardButton">
+            <a id="copyToClipboardButton"><b-icon icon="clipboard-outline" custom-size="mdi-24px"/></a>
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -21,7 +26,7 @@ import * as store from '../store';
 import rp from 'request-promise-native';
 import { setInterval } from 'timers';
 @Component({
-  props: ['cslObject', 'refreshInterval', 'deleteOption'],
+  props: ['cslObject', 'refreshInterval', 'deleteOption', 'copyOption'],
   components: {},
   mounted() {
     //@ts-ignore
@@ -95,6 +100,11 @@ import { setInterval } from 'timers';
       get() {
         return this.$props.deleteOption
       }
+    },
+    clipboardButton: {
+      get() {
+        return this.$props.copyOption
+      }
     }
   }
 })
@@ -114,7 +124,20 @@ export default class Preview extends Vue {}
     justify-content: flex-end;
   }
   #removeCitationButton {
-    color: #005eea;
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+    color: #4b636e;
+  }
+  #removeCitationButton:hover {
+    color: #7f0000;
+  }
+  #copyToClipboardButton {
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+    color: #4b636e;
+  }
+  #copyToClipboardButton:hover {
+    color: #087f23;
   }
 @media (max-width: 991.97px) {
   #preview {

@@ -8,7 +8,7 @@
       <div class="column"/>
       <div class="column is-7">
         <div id="preview" v-for="(citation, i) in $store.getters.getCitations" :key="i">
-          <Preview :cslObject="citation" :refreshInterval="0" :deleteOption="true"/>
+          <Preview :cslObject="citation" :refreshInterval="0" :deleteOption="true" :copyOption="true"/>
         </div>
       </div>
       <div class="column"/>

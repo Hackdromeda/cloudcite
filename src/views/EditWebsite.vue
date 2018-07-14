@@ -57,7 +57,7 @@
                 </b-field>
                 <b-field expanded>
                     <b-select v-model="websiteCitationData.issued.month" placeholder="Month Published">
-                        <option v-for="(month, i) in monthNames" :value="i" :key="i" v-cloak>
+                        <option v-for="(month, i) in monthNames" :value="i + 1" :key="i" v-cloak>
                             {{ month }}
                         </option>
                     </b-select>

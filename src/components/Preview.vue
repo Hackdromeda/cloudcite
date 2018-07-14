@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import * as store from '../store';
 //@ts-ignore
 import rp from 'request-promise-native';
 import { setInterval } from 'timers';
@@ -29,7 +30,7 @@ import { setInterval } from 'timers';
             },
             method: 'POST',
             //@ts-ignore
-            body: this.cslData,
+            body: {style: store.default.getters.getStyle, locale: store.default.getters.getLocale, csl: this.cslData},
             json: true
             //@ts-ignore
         }).then(data => {

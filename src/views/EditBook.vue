@@ -38,13 +38,13 @@
                         </b-select>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="First Name" v-model="contributor.first"></b-input>
+                        <b-input placeholder="First Name" v-model="contributor.given"></b-input>
                     </b-field>
                     <b-field expanded>
                         <b-input placeholder="Middle Name" v-model="contributor.middle"></b-input>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="Last Name" v-model="contributor.last"></b-input>
+                        <b-input placeholder="Last Name" v-model="contributor.family"></b-input>
                     </b-field>
                     <b-field expanded>
                         <b-tooltip label="Remove Contributor" position="is-top" animated>
@@ -70,7 +70,7 @@
                 </b-field>
                 <b-field expanded>
                     <b-select v-model="bookCitationData.issued.month" placeholder="Month Published">
-                        <option v-for="(month, i) in monthNames" :value="i" :key="i" v-cloak>
+                        <option v-for="(month, i) in monthNames" :value="i + 1" :key="i" v-cloak>
                             {{ month }}
                         </option>
                     </b-select>

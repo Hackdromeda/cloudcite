@@ -12,11 +12,17 @@ const PouchDB = require('pouchdb').default;
       )     
       var db = new PouchDB('cloudcite')
       db.get('citationStore').then(function (response: any) {
-        if (response.citations && response.citations.length > 0) {
-          store.dispatch('setCitations', response.citations)
+        if (response.state) {
+          store.dispatch('setState', response.state)
         }
       }).catch(function (err: any) {
-        db.put({"_id": "citationStore", "citations": []})
+        db.put({"_id": "citationStore", "state": {
+            citations: [],
+            style: "modern-language-association",
+            locale: "locales-en-US",
+            csl: {}
+          }
+        })
           .catch(function (err: any) {
             console.log(err)
           });

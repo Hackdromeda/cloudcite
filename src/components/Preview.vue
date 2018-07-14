@@ -1,6 +1,6 @@
 <template>
   <div id="preview">
-    <div class="csl-bib-body">
+    <div class="csl-bib-body" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div v-html="cslEntry"/>
         <div id="refreshInformation" v-if="refreshing">
@@ -11,7 +11,7 @@
             <a id="removeCitationButton" @click="$store.dispatch('removeCitationById', Object.keys(cslData)[0])"><b-icon icon="delete" custom-size="mdi-24px"/></a>
           </span>
           <span v-if="clipboardButton">
-            <a id="copyToClipboardButton"><b-icon icon="clipboard-outline" custom-size="mdi-24px"/></a>
+            <a id="copyToClipboardButton" @click="copyCitation"><b-icon icon="clipboard-outline" custom-size="mdi-24px"/></a>
           </span>
         </div>
       </div>
@@ -105,6 +105,18 @@ import { setInterval } from 'timers';
       get() {
         return this.$props.copyOption
       }
+    }
+  },
+  methods: {
+    copyCitation() {
+      //@ts-ignore
+      this.$copyText(this.$refs.cslBibRef.textContent)
+      this.$toast.open({
+          duration: 3000,
+          message: `Copied to Clipboard`,
+          position: 'is-bottom-right',
+          type: 'is-success'
+      })
     }
   }
 })

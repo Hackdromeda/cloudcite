@@ -1,6 +1,18 @@
 <template>
   <div class="content" id="bibliography">
-    <h1 class="title is-size-2">Bibliography</h1>
+    <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true">{{bibliographyTitle}}</a>
+    <div v-if="editingTitle" class="columns">
+      <div class="column"/>
+      <div class="column is-2">
+        <b-field>
+          <b-input autofocus v-model="bibliographyTitle" @keyup.native.enter="editingTitle = false" expanded/>
+          <p class="control">
+            <a class="button" @click="editingTitle = false"><b-icon icon="check" custom-size="mdi-24px" type="is-primary"/></a>
+          </p>
+        </b-field>
+      </div>
+      <div class="column"/>
+    </div>
     <div v-if="$store.getters.getCitations.length == 0">
       <p>This bibliography looks a little empty. You can create your first citation on the <router-link to="/">homepage</router-link>.</p>
     </div>
@@ -25,6 +37,8 @@ import Preview from '../components/Preview.vue';
   },
   data () {
     return {
+      bibliographyTitle: "Bibliography",
+      editingTitle: false
     }
   }
 })
@@ -32,9 +46,6 @@ export default class Bibliography extends Vue {}
 </script>
 
 <style scoped lang="scss">
-#bibliographyTitle {
-  color: #005eea;
-}
 #bibliography {
   padding: 10px;
   min-height: 100vh;
@@ -43,6 +54,7 @@ export default class Bibliography extends Vue {}
   background-color: #fff;
 }
 #preview {
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>

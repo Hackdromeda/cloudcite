@@ -14,14 +14,14 @@ module.exports = {
           routes: ['/', '/about/', '/pricing/', '/privacy/', '/callback/', '/edit/format/website/', '/edit/format/book/', '/edit/format/film/'],
           postProcess: function (context) {
             var titles = {
-              '/': 'CloudCite · The Best Automatic Bibliography Generator',
+              '/': 'CloudCite · The Best Free Automatic Bibliography Generator · MLA, APA, Chicago, Harvard Citation Styles',
               '/about/': 'CloudCite · About',
               '/pricing/': 'CloudCite · Pricing',
               '/privacy/': 'CloudCite · Privacy',
               '/callback/': 'CloudCite · Log In',
-              '/edit/format/website/': 'CloudCite · Cite a Website',
-              '/edit/format/book/': 'CloudCite · Cite a Book',
-              '/edit/format/film/': 'CloudCite · Cite a Film'
+              '/edit/format/website/': 'CloudCite · Cite a Website · MLA, APA, Chicago, Harvard Citation Styles',
+              '/edit/format/book/': 'CloudCite · Cite a Book · MLA, APA, Chicago, Harvard Citation Styles',
+              '/edit/format/film/': 'CloudCite · Cite a Film · MLA, APA, Chicago, Harvard Citation Styles'
             }
             var descriptions = {
               '/': 'CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.',

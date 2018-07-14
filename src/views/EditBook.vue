@@ -82,7 +82,7 @@
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
-                <Preview :cslObject=bookCitationData.toCSL() />
+                <Preview :cslObject="bookCitationData.toCSL()" :refreshInterval="10000" :deleteOption="false"/>
             </div>
         </div>
     </div>
@@ -233,11 +233,11 @@ export default class Editbook extends Vue {}
     color: #005eea;
 }
 #editbook {
-        padding: 10px;
-        min-height: 100vh;
-        text-align: center;
-        justify-content: center;
-        background-color: #fff;
+    padding: 10px;
+    min-height: 100vh;
+    text-align: center;
+    justify-content: center;
+    background-color: #fff;
 }
 #removeContributorButton {
     color: red;

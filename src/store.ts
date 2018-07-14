@@ -25,6 +25,11 @@ export default new Vuex.Store({
       state.csl = _.omit(state.csl, [Object.keys(state.citations[payload])[0]])
       state.citations = state.citations.splice(payload, 1)
     },
+    removeCitationById(state: any, payload: string) {
+      state.csl = _.omit(state.csl, payload)
+      //@ts-ignore
+      state.citations = state.citations.filter(citation => Object.keys(citation)[0] !== payload)
+    },
     setCitations(state: any, payload: any[]) {
       state.citations = payload;
       state.csl = {};
@@ -53,6 +58,17 @@ export default new Vuex.Store({
     },
     removeCitation(context: any, payload: number) {
       context.commit('removeCitation', payload)
+      db.get('citationStore').then(function (response: any) {
+        db.put({"_id": "citationStore", "_rev": response._rev, "state": context.state})
+          .catch(function (err: any) {
+            console.log(err)
+          });
+      }).catch(function (err: any) {
+        console.log(err)
+      });
+    },
+    removeCitationById(context: any, payload: string) {
+      context.commit('removeCitationById', payload)
       db.get('citationStore').then(function (response: any) {
         db.put({"_id": "citationStore", "_rev": response._rev, "state": context.state})
           .catch(function (err: any) {

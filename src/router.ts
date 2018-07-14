@@ -8,6 +8,7 @@ const EditWebsite = () => import('./views/EditWebsite.vue')
 const EditBook = () => import('./views/EditBook.vue')
 const EditFilm = () => import('./views/EditFilm.vue')
 const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
+const Bibliography = () => import('./views/Bibliography.vue')
 
 Vue.use(Router)
 
@@ -95,6 +96,14 @@ export default new Router({
       component: PrivacyPolicy,
       meta: {
         title: 'CloudCite · Privacy'
+      }
+    },
+    {
+      path: '/bibliography/',
+      name: 'bibliography',
+      component: Bibliography,
+      meta: {
+        title: 'CloudCite · Bibliography'
       }
     },
     {

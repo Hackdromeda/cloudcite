@@ -15,6 +15,7 @@
           </div>
           <div id="navbarMenu" class="navbar-menu">
             <div class="navbar-start">
+              <a class="navbar-item" @click="$router.push({path: '/bibliography/'})">Bibliography</a>
               <a class="navbar-item" @click="$router.push({path: '/about/'})">About</a>
               <a class="navbar-item" @click="$router.push({path: '/api/'})">API</a>
               <a class="navbar-item" @click="$router.push({path: '/pricing/'})">Pricing</a>

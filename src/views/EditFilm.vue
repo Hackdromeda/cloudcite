@@ -74,7 +74,7 @@
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
-                <Preview :cslObject=filmCitationData.toCSL() />
+                <Preview :cslObject="filmCitationData.toCSL()" :refreshInterval="10000" :deleteOption="false"/>
             </div>
         </div>
     </div>

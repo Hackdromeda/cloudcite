@@ -53,7 +53,7 @@
                     <b-input placeholder="Website URL" v-model="websiteCitationData.url" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Publisher" v-model="websiteCitationData.Publisher" expanded></b-input>
+                    <b-input placeholder="Publisher" v-model="websiteCitationData.publisher" expanded></b-input>
                 </b-field>
                 <b-field expanded>
                     <b-select v-model="websiteCitationData.issued.month" placeholder="Month Published">

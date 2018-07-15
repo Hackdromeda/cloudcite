@@ -27,6 +27,15 @@
               <div class="navbar-item">
                 <div class="field is-grouped">
                   <p class="control">
+                    <b-autocomplete v-model="selectedStyleField" :data="styleData"  :loading="isFetchingStyle" @input="getAsyncData" @select="option => selectStyle(option)">
+                        <template slot-scope="props">
+                            <div class="media">
+                                <div class="media-content" v-cloak>
+                                    {{ props.option.title }}
+                                </div>
+                            </div>
+                        </template>
+                    </b-autocomplete>
                   </p>
                   <p class="control">
                     <a v-if="!authenticated" class="button is-primary" @click="login()">
@@ -62,7 +71,10 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import AuthService from './Auth/AuthService';
 const auth = new AuthService()
 const { login, logout, authenticated, authNotifier } = auth
-//import * as styles from '../public/static/options'
+//@ts-ignore
+import rp from 'request-promise-native';
+//@ts-ignore
+import debounce from 'lodash/debounce';
 @Component({
   components: {},
   data () {
@@ -73,12 +85,58 @@ const { login, logout, authenticated, authNotifier } = auth
     })
     return {
       auth,
-      authenticated
+      authenticated,
+      styleData: [],
+      selectedStyleField: null,
+      selectedStyle: 'modern-language-association',
+      isFetchingStyle: false
     }
   },
   methods: {
     login,
-    logout
+    logout,
+    getAsyncData: debounce(function() {
+      //@ts-ignore
+        this.styleData = []
+        //@ts-ignore
+        this.isFetchingStyle = true
+        //@ts-ignore
+        rp({
+            uri: 'https://api.cloudcite.net/style',
+            headers: {
+                'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+            },
+            method: 'POST',
+            //@ts-ignore
+            body: {
+              //@ts-ignore
+              "search": this.$data.selectedStyleField
+            },
+            json: true
+            //@ts-ignore
+        }).then(data => {
+          console.log(data)
+                //@ts-ignore
+                data.forEach((item) => this.styleData.push(item))
+                //@ts-ignore
+                this.isFetchingStyle = false
+            })
+            //@ts-ignore
+            .catch((error) => {
+                //@ts-ignore
+                this.isFetchingStyle = false
+                throw error
+            })
+    }, 500),
+    selectStyle(styleOption: any) {
+      if (styleOption.dependent == 0) {
+        this.$data.selectedStyle = styleOption.name
+        this.$store.dispatch('setStyle', this.$data.selectedStyle)
+      } else {
+        this.$data.selectedStyle = 'dependent/' + styleOption.filename
+        this.$store.dispatch('setStyle', this.$data.selectedStyle)
+      }
+    }
   },
   mounted () {
     var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
@@ -94,7 +152,7 @@ const { login, logout, authenticated, authNotifier } = auth
         });
       });
     }
-  }
+  },
 })
 export default class App extends Vue {}
 </script>

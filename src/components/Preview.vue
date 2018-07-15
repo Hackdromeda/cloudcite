@@ -1,5 +1,5 @@
 <template>
-  <div id="preview">
+  <div id="preview" :class="hangingIndent ? 'hangingIndent': ''">
     <div class="csl-bib-body" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div v-html="cslEntry"/>
@@ -69,6 +69,9 @@ import { setInterval } from 'timers';
                 //@ts-ignore
             }).then(data => {
                 console.log(data)
+                if (data[0].hangingident) {
+                  this.$data.hangingIndent = true
+                }
                 this.$data.cslHTML = data[1]
                 this.$data.refreshing = false
             })
@@ -82,6 +85,7 @@ import { setInterval } from 'timers';
   data () {
     return {
       cslHTML: [],
+      hangingIndent: false,
       refreshing: false
     }
   },
@@ -151,6 +155,10 @@ export default class Preview extends Vue {}
   #copyToClipboardButton:hover {
     color: #087f23;
   }
+  .hangingIndent {
+    padding-left: 10vh;
+    text-indent: -5vh;
+  }
 @media (max-width: 991.97px) {
   #preview {
     background-color: #f5f5f5;
@@ -159,8 +167,6 @@ export default class Preview extends Vue {}
     border-radius: 5px;
     min-height: 23vh;
     text-align: left;
-    padding-left: 10vh;
-    text-indent: -5vh;
   }
 }
 @media (min-width: 991.98px) {
@@ -171,8 +177,6 @@ export default class Preview extends Vue {}
     border-radius: 5px;
     min-height: 16vh;
     text-align: left;
-    padding-left: 10vh;
-    text-indent: -5vh;
   }
 }
 </style>

@@ -42,6 +42,9 @@ export default new Vuex.Store({
       state.style = payload.style
       state.locale = payload.locale
       state.csl = payload.csl
+    },
+    setStyle(state: any, payload: string) {
+      state.style = payload
     }
   },
   actions: {
@@ -91,6 +94,9 @@ export default new Vuex.Store({
     },
     setState(context: any, payload: any) {
       context.commit('setState', payload)
+    },
+    setStyle(context: any, payload: string) {
+      context.commit('setStyle', payload)
     }
   },
   getters: {

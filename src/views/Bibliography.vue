@@ -13,7 +13,7 @@
       </div>
       <div class="column"/>
     </div>
-    <div v-if="$store.getters.getCitations.length == 0">
+    <div v-if="$store.getters.getCitations.length == 0" style="margin-top: 10vh;">
       <p>This bibliography looks a little empty. You can create your first citation on the <router-link to="/">homepage</router-link>.</p>
     </div>
     <div class="columns">

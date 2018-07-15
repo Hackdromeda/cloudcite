@@ -27,7 +27,12 @@
               <div class="navbar-item">
                 <div class="field is-grouped">
                   <p class="control">
-                    <b-autocomplete v-model="selectedStyleField" :data="styleData"  :loading="isFetchingStyle" @input="getAsyncData" @select="option => selectStyle(option)">
+                    <b-select v-if="!isSearchingForStyle" v-model="selectedStyleField" :placeholder="(this.$store.getters.getStyle == 'modern-language-association') ? 'Modern Language Association 8th edition': this.$store.getters.getStyle">
+                      <option @click="setStyleFromDropdown(style)" v-for="(style, i) in popularStyles" :value="style[Object.keys(style)[0]]" :key="i" v-cloak>
+                        {{ Object.keys(style)[0] }}
+                      </option>
+                    </b-select>
+                    <b-autocomplete v-if="isSearchingForStyle" v-model="selectedStyleField" :data="styleData"  :loading="isFetchingStyle" @input="getAsyncData" @select="option => selectStyle(option)">
                         <template slot-scope="props">
                             <div class="media">
                                 <div class="media-content" v-cloak>
@@ -75,6 +80,7 @@ const { login, logout, authenticated, authNotifier } = auth
 import rp from 'request-promise-native';
 //@ts-ignore
 import debounce from 'lodash/debounce';
+
 @Component({
   components: {},
   data () {
@@ -89,7 +95,37 @@ import debounce from 'lodash/debounce';
       styleData: [],
       selectedStyleField: null,
       selectedStyle: 'modern-language-association',
-      isFetchingStyle: false
+      isFetchingStyle: false,
+      isSearchingForStyle: false,
+      popularStyles: [
+        {
+          "Modern Language Association 8th edition": "modern-language-association"
+        },
+        {
+          "American Psychological Association 6th edition": "apa"
+        },
+        {
+          "Turabian 8th edition (full note)": "turabian-fullnote-bibliography"
+        },
+        {
+          "IEEE": "ieee"
+        },
+        {
+          "Vancouver": "vancouver"
+        },
+        {
+          "The University of Western Australia - Harvard": "the-university-of-western-australia-harvard"
+        },
+        {
+          "DIN 1505-2 (numeric, sorted alphabetically, German)": "din-1505-2-numeric-alphabetical"
+        },
+        {
+          "Chicago Manual of Style 17th edition (full note)": "chicago-fullnote-bibliography"
+        },
+        {
+          "Search for Style": "SEARCH"
+        }
+      ]
     }
   },
   methods: {
@@ -119,22 +155,34 @@ import debounce from 'lodash/debounce';
                 //@ts-ignore
                 data.forEach((item) => this.styleData.push(item))
                 //@ts-ignore
-                this.isFetchingStyle = false
+                this.$data.isFetchingStyle = false
             })
             //@ts-ignore
             .catch((error) => {
                 //@ts-ignore
-                this.isFetchingStyle = false
+                this.$data.isFetchingStyle = false
                 throw error
             })
     }, 500),
+    setStyleFromDropdown(option: any) {
+      if (option[Object.keys(option)[0]] != "SEARCH") {
+        this.$store.dispatch('setStyle', option[Object.keys(option)[0]])
+        this.$data.isFetchingStyle = false
+      } else {
+        this.$data.isSearchingForStyle = true
+      }
+    },
     selectStyle(styleOption: any) {
       if (styleOption.dependent == 0) {
         this.$data.selectedStyle = styleOption.name
         this.$store.dispatch('setStyle', this.$data.selectedStyle)
+        this.$data.selectedStyleField = null
+        this.$data.isSearchingForStyle = false
       } else {
         this.$data.selectedStyle = 'dependent/' + styleOption.filename
         this.$store.dispatch('setStyle', this.$data.selectedStyle)
+        this.$data.selectedStyleField = null
+        this.$data.isSearchingForStyle = false
       }
     }
   },

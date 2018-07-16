@@ -157,7 +157,7 @@ import Preview from '../components/Preview.vue';
                     //@ts-ignore
                     data.director.forEach(director => {
                         //@ts-ignore
-                        contributors.push({given: director.given, middle: director.given.split(" ").length == 2 ? director.given.split(" ")[1]: null, family: director.family, type: "Director"})
+                        contributors.push({given: director.given ? director.given: "", middle: director.given ? (director.given.split(" ").length == 2 ? director.given.split(" ")[1]: ""): "", family: director.family ? director.family: "", type: "Director"})
                     });
                 }
                 //@ts-ignore
@@ -165,7 +165,7 @@ import Preview from '../components/Preview.vue';
                     contributors = [{given: "", middle: "", family: "", type: "Director"}]
                 }
                 //@ts-ignore
-                this.$data.filmCitationData = new FilmCitation(contributors, data.title, data.publisher, data["publisher-place"], {month: data.issued.month, day: data.issued.day, year: data.issued.year}, data.abstract)
+                this.$data.filmCitationData = new FilmCitation(contributors, data.title ? data.title: "", data.publisher ? data.publisher: "", data["publisher-place"] ? data["publisher-place"]: "", {month: data.issued.month ? data.issued.month: "", day: data.issued.day ? data.issued.day: "", year: data.issued.year ? data.issued.year: ""}, data.abstract ? data.abstract: "")
                 this.$data.citationStarted = !this.$data.citationStarted
                 //@ts-ignore
             }).catch(error => {
@@ -176,6 +176,7 @@ import Preview from '../components/Preview.vue';
       },
       cite() {
           this.$store.dispatch('addCitation', this.$data.filmCitationData.toCSL())
+          this.$router.push({path: '/bibliography/'})
       }
   },
   watch: {

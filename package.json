@@ -17,6 +17,7 @@
     "register-service-worker": "^1.0.0",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
+    "semantic-ui-vue": "^0.2.11",
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",
     "vue-clipboard2": "^0.2.0",

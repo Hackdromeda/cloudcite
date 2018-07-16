@@ -69,12 +69,6 @@
                     <b-input placeholder="Publisher" @input="typing = true" v-model="bookCitationData.publisher" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-select v-model="bookCitationData.issued.month" placeholder="Month Published">
-                        <option v-for="(month, i) in monthNames" :value="i + 1" :key="i" v-cloak>
-                            {{ month }}
-                        </option>
-                    </b-select>
-                    <b-input @input="typing = true" v-model.number="bookCitationData.issued.day" type="number" maxlength="2" placeholder="Day" expanded></b-input>
                     <b-input @input="typing = true" v-model.number="bookCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
                 </b-field>
                 <b-field expanded>
@@ -184,7 +178,6 @@ import Preview from '../components/Preview.vue';
                 json: true
                 //@ts-ignore
             }).then(data => {
-                console.log(data)
                 //@ts-ignore
                 var contributors = [];
                 //@ts-ignore
@@ -192,14 +185,14 @@ import Preview from '../components/Preview.vue';
                     //@ts-ignore
                     data.author.forEach(author => {
                         //@ts-ignore
-                        contributors.push({given: author.given, middle: author.given.split(" ").length == 2 ? author.given.split(" ")[1]: null, family: author.family, type: "Author"})
+                        contributors.push({given: author.given ? author.given: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
                     });
                 }
                 if (data.editor && data.editor.length > 0) {
                     //@ts-ignore
                     data.editor.forEach(editor => {
                         //@ts-ignore
-                        contributors.push({given: editor.given, middle: editor.given.split(" ").length == 2 ? editor.given.split(" ")[1]: null, family: editor.family, type: "Editor"})
+                        contributors.push({given: editor.given ? editor.given: "", middle: editor.given ? (editor.given.split(" ").length == 2 ? editor.given.split(" ")[1]: ""): "", family: editor.family ? editor.family: "", type: "Editor"})
                     });
                 }
                 //@ts-ignore
@@ -207,7 +200,9 @@ import Preview from '../components/Preview.vue';
                     contributors = [{given: "", middle: "", family: "", type: "Author"}]
                 }
                 //@ts-ignore
-                this.$data.bookCitationData = new BookCitation(contributors, null, null, this.$data.selectedBook.volumeInfo.title, this.$data.selectedBook.volumeInfo.publisher, {month: null, day: null, year: this.$data.selectedBook.volumeInfo.publishedDate})
+                var yearPublished = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): ""
+                //@ts-ignore
+                this.$data.bookCitationData = new BookCitation(contributors, "", "", this.$data.selectedBook.volumeInfo.title, this.$data.selectedBook.volumeInfo.publisher, {month: "", day: "", year: yearPublished ? yearPublished: ""})
                 this.$data.citationStarted = !this.$data.citationStarted
                 //@ts-ignore
             }).catch(error => {
@@ -218,9 +213,20 @@ import Preview from '../components/Preview.vue';
     },
     cite() {
         this.$store.dispatch('addCitation', this.$data.bookCitationData.toCSL())
+        this.$router.push({path: '/bibliography/'})
+    }
+  },
+  computed: {
+    selectedMonth: {
+        get() {
+            return this.$data.bookCitationData.issued.month
+        }
     }
   },
   watch: {
+    selectedMonth() {
+        this.$data.typing = true
+    },
     typing: debounce(function () {
     //@ts-ignore
     this.$data.typing = false

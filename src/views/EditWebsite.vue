@@ -126,14 +126,14 @@ import debounce from 'lodash/debounce';
                 //@ts-ignore
                 data.author.forEach(author => {
                     //@ts-ignore
-                    contributors.push({given: author.given, middle: author.given.split(" ").length == 2 ? author.given.split(" ")[1]: null, family: author.family, type: "Author"})
+                    contributors.push({given: author.given ? author.given: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
                 });
             }
-            //@ts-ignore
-            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source, data.title, this.websiteCitationData.url, data.publisher, data.issued)
-            if (this.$data.websiteCitationData.contributors.length == 0) {
-                this.$data.websiteCitationData.contributors.push({given: "", middle: "", family: "", type: "Author"})
+            if (contributors.length == 0) {
+                contributors.push({given: "", middle: "", family: "", type: "Author"})
             }
+            //@ts-ignore
+            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.title ? data.title: "", this.websiteCitationData.url ? this.websiteCitationData.url: "", data.publisher ? data.publisher: "", data.issued ? data.issued: {month: "", day: "", year: ""})
             this.$data.loadingCitation = false
             this.$data.citationStarted = !this.$data.citationStarted;
             //@ts-ignore
@@ -148,7 +148,17 @@ import debounce from 'lodash/debounce';
         this.$router.push({path: '/bibliography/'})
     }
   },
+  computed: {
+    selectedMonth: {
+        get() {
+            return this.$data.websiteCitationData.issued.month
+        }
+    }
+  },
   watch: {
+    selectedMonth() {
+        this.$data.typing = true
+    },
     typing: debounce(function () {
     //@ts-ignore
     this.$data.typing = false

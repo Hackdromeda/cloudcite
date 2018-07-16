@@ -5,7 +5,7 @@
             <b-field id="websiteInputField">
                 <div class="field has-addons">
                     <div class="control" id="websiteInput">
-                        <b-input v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citeURL()"/>
+                        <b-input v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citeURL()" :loading="loadingCitation"/>
                     </div>
                     <div class="control">
                         <a class="button is-primary" @click="citeURL()">Cite</a>
@@ -25,13 +25,13 @@
                         </b-select>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="First Name" v-model="contributor.given"></b-input>
+                        <b-input placeholder="First Name" @input="typing = true" v-model="contributor.given"></b-input>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="Middle Name" v-model="contributor.middle"></b-input>
+                        <b-input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle"></b-input>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="Last Name" v-model="contributor.family"></b-input>
+                        <b-input placeholder="Last Name" @input="typing = true" v-model="contributor.family"></b-input>
                     </b-field>
                     <b-field expanded>
                         <b-tooltip label="Remove Contributor" position="is-top" animated>
@@ -44,16 +44,16 @@
                     </b-field>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Source" v-model="websiteCitationData.source" expanded></b-input>
+                    <b-input placeholder="Source" @input="typing = true" v-model="websiteCitationData.source" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Title" v-model="websiteCitationData.title" expanded></b-input>
+                    <b-input placeholder="Title" @input="typing = true" v-model="websiteCitationData.title" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Website URL" v-model="websiteCitationData.url" expanded></b-input>
+                    <b-input placeholder="Website URL" @input="typing = true" v-model="websiteCitationData.url" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Publisher" v-model="websiteCitationData.publisher" expanded></b-input>
+                    <b-input placeholder="Publisher" @input="typing = true" v-model="websiteCitationData.publisher" expanded></b-input>
                 </b-field>
                 <b-field expanded>
                     <b-select v-model="websiteCitationData.issued.month" placeholder="Month Published">
@@ -61,15 +61,15 @@
                             {{ month }}
                         </option>
                     </b-select>
-                    <b-input v-model.number="websiteCitationData.issued.day" type="number" maxlength="2" placeholder="Day" expanded></b-input>
-                    <b-input v-model.number="websiteCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
+                    <b-input @input="typing = true" v-model.number="websiteCitationData.issued.day" type="number" maxlength="2" placeholder="Day" expanded></b-input>
+                    <b-input @input="typing = true" v-model.number="websiteCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
                 </b-field>
                 <b-field expanded>
                     <div id="submitFormDiv">
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
-                <Preview :cslObject="websiteCitationData.toCSL()" :refreshInterval="10000" :deleteOption="false"/>
+                <Preview :cslObject="websiteCitationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
             </div>
         </div>
     </div>
@@ -81,14 +81,19 @@ import WebsiteCitation from '../WebsiteCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
 import Preview from '../components/Preview.vue';
+//@ts-ignore
+import debounce from 'lodash/debounce';
+
 @Component({
   components: {
     Preview
   },
   data () {
       return {
+        loadingCitation: false,
+        typing: false,
         citationStarted: false,
-        contributorTypes: ["Author", "Editor"] ,
+        contributorTypes: ["Author", "Editor"],
         websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], null, null, null, null, {month: null, day: null, year: null}),
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
       }
@@ -102,6 +107,7 @@ import Preview from '../components/Preview.vue';
           }
       },
       citeURL() {
+        this.$data.loadingCitation = true
         rp({
                 uri: 'https://api.cloudcite.net/autofill',
                 headers: {
@@ -125,16 +131,28 @@ import Preview from '../components/Preview.vue';
             }
             //@ts-ignore
             this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source, data.title, this.websiteCitationData.url, data.publisher, data.issued)
+            if (this.$data.websiteCitationData.contributors.length == 0) {
+                this.$data.websiteCitationData.contributors.push({given: "", middle: "", family: "", type: "Author"})
+            }
+            this.$data.loadingCitation = false
             this.$data.citationStarted = !this.$data.citationStarted;
             //@ts-ignore
         }).catch(error => {
             console.log(error)
+            this.$data.loadingCitation = false
             this.$data.citationStarted = !this.$data.citationStarted;
         })
     },
     cite() {
         this.$store.dispatch('addCitation', this.$data.websiteCitationData.toCSL())
+        this.$router.push({path: '/bibliography/'})
     }
+  },
+  watch: {
+    typing: debounce(function () {
+    //@ts-ignore
+    this.$data.typing = false
+    }, 5000)
   }
 })
 export default class EditWebsite extends Vue {

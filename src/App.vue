@@ -40,9 +40,7 @@
           </div>
       </nav>
     </header>
-    <keep-alive>
-      <router-view :auth="auth" :authenticated="authenticated"/>
-    </keep-alive>
+    <router-view :auth="auth" :authenticated="authenticated"/>
     </div>
     <footer class="footer">
       <div class="content has-text-centered">
@@ -139,7 +137,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-image: radial-gradient(#005eea,#32363c);
+  background-color: #eeeeee;
+  //background-image: radial-gradient(#005eea,#32363c);
 }
 
 #appMain {

@@ -38,13 +38,13 @@
                         </b-select>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="First Name" v-model="contributor.given"></b-input>
+                        <b-input placeholder="First Name" @input="typing = true" v-model="contributor.given"></b-input>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="Middle Name" v-model="contributor.middle"></b-input>
+                        <b-input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle"></b-input>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="Last Name" v-model="contributor.family"></b-input>
+                        <b-input placeholder="Last Name" @input="typing = true" v-model="contributor.family"></b-input>
                     </b-field>
                     <b-field expanded>
                         <b-tooltip label="Remove Contributor" position="is-top" animated>
@@ -57,16 +57,16 @@
                     </b-field>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Title" v-model="bookCitationData.title" expanded></b-input>
+                    <b-input placeholder="Title" @input="typing = true" v-model="bookCitationData.title" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Chapter" v-model="bookCitationData.chapter" expanded></b-input>
+                    <b-input placeholder="Chapter" @input="typing = true" v-model="bookCitationData.chapter" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Volume Number" v-model.number="bookCitationData.volNumber" expanded></b-input>
+                    <b-input placeholder="Volume Number" @input="typing = true" v-model.number="bookCitationData.volNumber" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Publisher" v-model="bookCitationData.publisher" expanded></b-input>
+                    <b-input placeholder="Publisher" @input="typing = true" v-model="bookCitationData.publisher" expanded></b-input>
                 </b-field>
                 <b-field expanded>
                     <b-select v-model="bookCitationData.issued.month" placeholder="Month Published">
@@ -74,15 +74,15 @@
                             {{ month }}
                         </option>
                     </b-select>
-                    <b-input v-model.number="bookCitationData.issued.day" type="number" maxlength="2" placeholder="Day" expanded></b-input>
-                    <b-input v-model.number="bookCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
+                    <b-input @input="typing = true" v-model.number="bookCitationData.issued.day" type="number" maxlength="2" placeholder="Day" expanded></b-input>
+                    <b-input @input="typing = true" v-model.number="bookCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
                 </b-field>
                 <b-field expanded>
                     <div id="submitFormDiv">
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
-                <Preview :cslObject="bookCitationData.toCSL()" :refreshInterval="10000" :deleteOption="false"/>
+                <Preview :cslObject="bookCitationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
             </div>
         </div>
     </div>
@@ -106,6 +106,7 @@ import Preview from '../components/Preview.vue';
   data () {
     return {
         citationStarted: false,
+        typing: false,
         bookData: [],
         selectedBook: null,
         bookIdentificationSelected: 'Title',
@@ -218,6 +219,12 @@ import Preview from '../components/Preview.vue';
     cite() {
         this.$store.dispatch('addCitation', this.$data.bookCitationData.toCSL())
     }
+  },
+  watch: {
+    typing: debounce(function () {
+    //@ts-ignore
+    this.$data.typing = false
+    }, 5000)
   }
 })
 

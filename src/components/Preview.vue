@@ -3,8 +3,11 @@
     <div class="csl-bib-body" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div v-html="cslEntry"/>
-        <div id="refreshInformation" v-if="refreshing">
+        <div id="previewStatus" v-if="refreshing">
           Refreshing
+        </div>
+        <div id="previewStatus" v-if="typingStatus">
+          Editing Citation
         </div>
         <div id="citationOptions" v-if="!refreshing">
           <span v-if="deleteButton">
@@ -21,66 +24,35 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import * as store from '../store';
 //@ts-ignore
 import rp from 'request-promise-native';
-import { setInterval } from 'timers';
 @Component({
-  props: ['cslObject', 'refreshInterval', 'deleteOption', 'copyOption'],
+  props: ['cslObject', 'deleteOption', 'copyOption', 'typing'],
   components: {},
   mounted() {
+    this.$data.refreshing = true;
+    rp({
+        uri: 'https://api.cloudcite.net/cite',
+        headers: {
+          'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+        },
+        method: 'POST',
+        //@ts-ignore
+        body: {style: this.$store.getters.getStyle, locale: this.$store.getters.getLocale, csl: this.cslData},
+        json: true
+        //@ts-ignore
+    })
     //@ts-ignore
-    if (this.intervalRefresh > 0) {
-      setInterval(() => {
-        this.$data.refreshing = true;
-        rp({
-              uri: 'https://api.cloudcite.net/cite',
-              headers: {
-                  'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-              },
-              method: 'POST',
-              //@ts-ignore
-              body: {style: store.default.getters.getStyle, locale: store.default.getters.getLocale, csl: this.cslData},
-              json: true
-              //@ts-ignore
-          }).then(data => {
-              console.log(data)
-              this.$data.cslHTML = data[1]
-              this.$data.refreshing = false
-          })
-          //@ts-ignore
-          .catch((error) => {
-            console.log(error)
-            this.$data.refreshing = false
-          })
-      //@ts-ignore
-      }, this.refreshInterval);
-    } else {
-        this.$data.refreshing = true;
-          rp({
-                uri: 'https://api.cloudcite.net/cite',
-                headers: {
-                    'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-                },
-                method: 'POST',
-                //@ts-ignore
-                body: {style: store.default.getters.getStyle, locale: store.default.getters.getLocale, csl: this.cslData},
-                json: true
-                //@ts-ignore
-            }).then(data => {
-                console.log(data)
-                if (data[0].hangingident) {
-                  this.$data.hangingIndent = true
-                }
-                this.$data.cslHTML = data[1]
-                this.$data.refreshing = false
-            })
-            //@ts-ignore
-            .catch((error) => {
-              console.log(error)
-              this.$data.refreshing = false
-            })
-    }
+    .then(data => {
+      console.log(data)
+      this.$data.cslHTML = data[1]
+      this.$data.refreshing = false
+    })
+    //@ts-ignore
+    .catch((error) => {
+      console.log(error)
+      this.$data.refreshing = false
+    })
   },
   data () {
     return {
@@ -95,11 +67,6 @@ import { setInterval } from 'timers';
         return this.$props.cslObject
       }
     },
-    intervalRefresh: {
-      get() {
-        return this.$props.refreshInterval
-      }
-    },
     deleteButton: {
       get() {
         return this.$props.deleteOption
@@ -108,6 +75,11 @@ import { setInterval } from 'timers';
     clipboardButton: {
       get() {
         return this.$props.copyOption
+      }
+    },
+    typingStatus: {
+      get() {
+        return this.$props.typing
       }
     }
   },
@@ -132,13 +104,41 @@ import { setInterval } from 'timers';
           type: 'is-success'
       })
     }
+  },
+  watch: {
+    typingStatus() {
+      //@ts-ignore
+      if (this.typingStatus == false) {
+        this.$data.refreshing = true;
+        rp({
+              uri: 'https://api.cloudcite.net/cite',
+              headers: {
+                  'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+              },
+              method: 'POST',
+              //@ts-ignore
+              body: {style: this.$store.getters.getStyle, locale: this.$store.getters.getLocale, csl: this.cslData},
+              json: true
+              //@ts-ignore
+        }).then(data => {
+          console.log(data)
+          this.$data.cslHTML = data[1]
+          this.$data.refreshing = false
+        })
+        //@ts-ignore
+        .catch((error) => {
+          console.log(error)
+          this.$data.refreshing = false
+        })
+      }
+    }
   }
 })
 export default class Preview extends Vue {}
 </script>
 
 <style scoped lang="scss">
-  #refreshInformation {
+  #previewStatus {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;

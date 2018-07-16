@@ -11,21 +11,28 @@ const PouchDB = require('pouchdb').default;
         'For more details, visit https://goo.gl/AFskqB'
       )     
       var db = new PouchDB('cloudcite')
-      db.get('citationStore').then(function (response: any) {
-        if (response.state) {
-          store.dispatch('setState', response.state)
-        }
+
+      db.get('state').then(function (doc: any) {
+        console.log('SERVICE WORKER SET STATE TO: ')
+        console.log(doc)
+        store.dispatch('setState', doc)
       }).catch(function (err: any) {
-        db.put({"_id": "citationStore", "state": {
-            citations: [],
-            style: "modern-language-association",
-            locale: "locales-en-US",
-            csl: {}
-          }
-        })
-          .catch(function (err: any) {
-            console.log(err)
-          });
+        if (err.name == 'not_found') {
+          db.put({
+            _id: 'state',
+            state: {
+              selectedProject: 0,
+              projects: [
+                {
+                  citations: [],
+                  style: "modern-language-association",
+                  locale: "locales-en-US",
+                  csl: {}
+                }
+              ]
+            }
+          })
+        }
       });
     },
     cached () {

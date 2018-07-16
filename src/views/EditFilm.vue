@@ -36,13 +36,13 @@
                         </b-select>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="First Name" v-model="contributor.given"></b-input>
+                        <b-input placeholder="First Name" @input="typing = true" v-model="contributor.given"></b-input>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="Middle Name" v-model="contributor.middle"></b-input>
+                        <b-input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle"></b-input>
                     </b-field>
                     <b-field expanded>
-                        <b-input placeholder="Last Name" v-model="contributor.family"></b-input>
+                        <b-input placeholder="Last Name" @input="typing = true" v-model="contributor.family"></b-input>
                     </b-field>
                     <b-field expanded>
                         <b-tooltip label="Remove Contributor" position="is-top" animated>
@@ -55,26 +55,26 @@
                     </b-field>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Title" v-model="filmCitationData.title" expanded></b-input>
+                    <b-input placeholder="Title" @input="typing = true" v-model="filmCitationData.title" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Studio" v-model="filmCitationData.publisher" expanded></b-input>
+                    <b-input placeholder="Studio" @input="typing = true" v-model="filmCitationData.publisher" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input placeholder="Publisher Location" v-model="filmCitationData.publisherPlace" expanded></b-input>
+                    <b-input placeholder="Publisher Location" @input="typing = true" v-model="filmCitationData.publisherPlace" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input v-model.number="filmCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
+                    <b-input @input="typing = true" v-model.number="filmCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
                 </b-field>
                 <b-field expanded>
-                    <b-input maxlength="500" type="textarea" v-model="filmCitationData.abstract" placeholder="Abstract"></b-input>
+                    <b-input maxlength="500" type="textarea" @input="typing = true" v-model="filmCitationData.abstract" placeholder="Abstract"></b-input>
                 </b-field>
                 <b-field expanded>
                     <div id="submitFormDiv">
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
-                <Preview :cslObject="filmCitationData.toCSL()" :refreshInterval="10000" :deleteOption="false"/>
+                <Preview :cslObject="filmCitationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
             </div>
         </div>
     </div>
@@ -95,6 +95,7 @@ import Preview from '../components/Preview.vue';
   data () {
       return {
         citationStarted: false,
+        typing: false,
         contributorTypes: ["Director", "Writer", "Producer", "Actor/Performer", "Author"],
         filmCitationData: new FilmCitation([{first: "", middle: "", last: "", type: "Director"}], '', '', '', {month: null, day: null, year: null}, ''),
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
@@ -176,6 +177,12 @@ import Preview from '../components/Preview.vue';
       cite() {
           this.$store.dispatch('addCitation', this.$data.filmCitationData.toCSL())
       }
+  },
+  watch: {
+    typing: debounce(function () {
+    //@ts-ignore
+    this.$data.typing = false
+    }, 5000)
   }
 })
 export default class EditFilm extends Vue {

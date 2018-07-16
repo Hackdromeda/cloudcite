@@ -10,41 +10,49 @@ var db = new PouchDB('cloudcite')
 
 export default new Vuex.Store({
   state: {
-    citations: [],
-    style: "modern-language-association",
-    locale: "locales-en-US",
-    csl: {}
+    projects: [
+      {
+        citations: [],
+        style: "modern-language-association",
+        locale: "locales-en-US",
+        csl: {}
+      }
+    ],
+    selectedProject: 0
   },
   mutations: {
     addCitation(state: any, payload: object) {
-      state.citations.push(payload)
+      state.projects[state.selectedProject].citations.push(payload)
       //@ts-ignore
-      state.csl = _.set(state.csl, Object.keys(payload)[0], payload[Object.keys(payload)[0]])
+      state.projects[state.selectedProject].csl = _.set(state.projects[state.selectedProject].csl, Object.keys(payload)[0], payload[Object.keys(payload)[0]])
     },
     removeCitation(state: any, payload: number) {
-      state.csl = _.omit(state.csl, [Object.keys(state.citations[payload])[0]])
-      state.citations = state.citations.splice(payload, 1)
+      state.projects[state.selectedProject].csl = _.omit(state.projects[state.selectedProject].csl, [Object.keys(state.projects[state.selectedProject].citations[payload])[0]])
+      state.projects[state.selectedProject].citations = state.projects[state.selectedProject].citations.splice(payload, 1)
     },
     removeCitationById(state: any, payload: string) {
-      state.csl = _.omit(state.csl, payload)
+      state.projects[state.selectedProject].csl = _.omit(state.projects[state.selectedProject].csl, payload)
       //@ts-ignore
-      state.citations = state.citations.filter(citation => Object.keys(citation)[0] !== payload)
+      state.projects[state.selectedProject].citations = state.projects[state.selectedProject].citations.filter(citation => Object.keys(citation)[0] !== payload)
     },
     setCitations(state: any, payload: any[]) {
-      state.citations = payload;
-      state.csl = {};
-      for (let i=0; i<state.citations.length; i++) {
-        state.csl = _.set(state.csl, Object.keys(payload)[i], state.citations[i][Object.keys(state.citations[i])[0]])
+      state.projects[state.selectedProject].citations = payload;
+      state.projects[state.selectedProject].csl = {};
+      for (let i=0; i<state.projects[state.selectedProject].citations.length; i++) {
+        state.projects[state.selectedProject].csl = _.set(state.projects[state.selectedProject].csl, Object.keys(payload)[i], state.projects[state.selectedProject].citations[i][Object.keys(state.projects[state.selectedProject].citations[i])[0]])
       }
     },
     setState(state: any, payload: any) {
-      state.citations = payload.citations
-      state.style = payload.style
-      state.locale = payload.locale
-      state.csl = payload.csl
+      state.projects[state.selectedProject].citations = payload.citations
+      state.projects[state.selectedProject].style = payload.style
+      state.projects[state.selectedProject].locale = payload.locale
+      state.projects[state.selectedProject].csl = payload.csl
     },
     setStyle(state: any, payload: string) {
-      state.style = payload
+      state.projects[state.selectedProject].style = payload
+    },
+    selectProject(state: any, payload: number) {
+      state.selectedProject = payload
     }
   },
   actions: {
@@ -94,20 +102,50 @@ export default new Vuex.Store({
     },
     setState(context: any, payload: any) {
       context.commit('setState', payload)
+      db.get('citationStore').then(function (response: any) {
+        db.put({"_id": "citationStore", "_rev": response._rev, "state": context.state})
+          .catch(function (err: any) {
+            console.log(err)
+          });
+      }).catch(function (err: any) {
+        console.log(err)
+      });
     },
     setStyle(context: any, payload: string) {
       context.commit('setStyle', payload)
+      db.get('citationStore').then(function (response: any) {
+        db.put({"_id": "citationStore", "_rev": response._rev, "state": context.state})
+          .catch(function (err: any) {
+            console.log(err)
+          });
+      }).catch(function (err: any) {
+        console.log(err)
+      });
+    },
+    selectProject(context: any, payload: number) {
+      context.commit('selectProject', payload)
+      db.get('citationStore').then(function (response: any) {
+        db.put({"_id": "citationStore", "_rev": response._rev, "state": context.state})
+          .catch(function (err: any) {
+            console.log(err)
+          });
+      }).catch(function (err: any) {
+        console.log(err)
+      });
     }
   },
   getters: {
     getCitations(state: any) {
-      return state.citations
+      return state.projects[state.selectedProject].citations
     },
     getStyle(state: any) {
-      return state.style
+      return state.projects[state.selectedProject].style
     },
     getLocale(state: any) {
-      return state.locale
+      return state.projects[state.selectedProject].locale
+    },
+    getProjects(state: any) {
+      return state.projects
     }
   }
 })

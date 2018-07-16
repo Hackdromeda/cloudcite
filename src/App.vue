@@ -27,22 +27,6 @@
               <div class="navbar-item">
                 <div class="field is-grouped">
                   <p class="control">
-                    <b-select v-if="!isSearchingForStyle" v-model="selectedStyleField" :placeholder="(this.$store.getters.getStyle == 'modern-language-association') ? 'Modern Language Association 8th edition': this.$store.getters.getStyle">
-                      <option @click="setStyleFromDropdown(style)" v-for="(style, i) in popularStyles" :value="style[Object.keys(style)[0]]" :key="i" v-cloak>
-                        {{ Object.keys(style)[0] }}
-                      </option>
-                    </b-select>
-                    <b-autocomplete v-if="isSearchingForStyle" v-model="selectedStyleField" :data="styleData"  :loading="isFetchingStyle" @input="getAsyncData" @select="option => selectStyle(option)">
-                        <template slot-scope="props">
-                            <div class="media">
-                                <div class="media-content" v-cloak>
-                                    {{ props.option.title }}
-                                </div>
-                            </div>
-                        </template>
-                    </b-autocomplete>
-                  </p>
-                  <p class="control">
                     <a v-if="!authenticated" class="button is-primary" @click="login()">
                       <span>Log In / Register</span>
                     </a>
@@ -76,10 +60,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import AuthService from './Auth/AuthService';
 const auth = new AuthService()
 const { login, logout, authenticated, authNotifier } = auth
-//@ts-ignore
-import rp from 'request-promise-native';
-//@ts-ignore
-import debounce from 'lodash/debounce';
 
 @Component({
   components: {},
@@ -91,100 +71,12 @@ import debounce from 'lodash/debounce';
     })
     return {
       auth,
-      authenticated,
-      styleData: [],
-      selectedStyleField: null,
-      selectedStyle: 'modern-language-association',
-      isFetchingStyle: false,
-      isSearchingForStyle: false,
-      popularStyles: [
-        {
-          "Modern Language Association 8th edition": "modern-language-association"
-        },
-        {
-          "American Psychological Association 6th edition": "apa"
-        },
-        {
-          "Turabian 8th edition (full note)": "turabian-fullnote-bibliography"
-        },
-        {
-          "IEEE": "ieee"
-        },
-        {
-          "Vancouver": "vancouver"
-        },
-        {
-          "The University of Western Australia - Harvard": "the-university-of-western-australia-harvard"
-        },
-        {
-          "DIN 1505-2 (numeric, sorted alphabetically, German)": "din-1505-2-numeric-alphabetical"
-        },
-        {
-          "Chicago Manual of Style 17th edition (full note)": "chicago-fullnote-bibliography"
-        },
-        {
-          "Search for Style": "SEARCH"
-        }
-      ]
+      authenticated
     }
   },
   methods: {
     login,
-    logout,
-    getAsyncData: debounce(function() {
-      //@ts-ignore
-        this.styleData = []
-        //@ts-ignore
-        this.isFetchingStyle = true
-        //@ts-ignore
-        rp({
-            uri: 'https://api.cloudcite.net/style',
-            headers: {
-                'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-            },
-            method: 'POST',
-            //@ts-ignore
-            body: {
-              //@ts-ignore
-              "search": this.$data.selectedStyleField
-            },
-            json: true
-            //@ts-ignore
-        }).then(data => {
-          console.log(data)
-                //@ts-ignore
-                data.forEach((item) => this.styleData.push(item))
-                //@ts-ignore
-                this.$data.isFetchingStyle = false
-            })
-            //@ts-ignore
-            .catch((error) => {
-                //@ts-ignore
-                this.$data.isFetchingStyle = false
-                throw error
-            })
-    }, 500),
-    setStyleFromDropdown(option: any) {
-      if (option[Object.keys(option)[0]] != "SEARCH") {
-        this.$store.dispatch('setStyle', option[Object.keys(option)[0]])
-        this.$data.isFetchingStyle = false
-      } else {
-        this.$data.isSearchingForStyle = true
-      }
-    },
-    selectStyle(styleOption: any) {
-      if (styleOption.dependent == 0) {
-        this.$data.selectedStyle = styleOption.name
-        this.$store.dispatch('setStyle', this.$data.selectedStyle)
-        this.$data.selectedStyleField = null
-        this.$data.isSearchingForStyle = false
-      } else {
-        this.$data.selectedStyle = 'dependent/' + styleOption.filename
-        this.$store.dispatch('setStyle', this.$data.selectedStyle)
-        this.$data.selectedStyleField = null
-        this.$data.isSearchingForStyle = false
-      }
-    }
+    logout
   },
   mounted () {
     var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);

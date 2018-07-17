@@ -7,7 +7,7 @@
           <nav v-if="editingTitle" class="level" style="background-color: #005eea; color: #fff;">
             <div class="level-item has-text-centered">
               <div>
-                <input id="bibliographyTitleInput" @mouseout="editingTitle = false" v-model="bibliographyTitle"/>
+                <input id="bibliographyTitleInput" @keyup.enter="editingTitle = false" @mouseout="editingTitle = false" v-model="bibliographyTitle"/>
               </div>
             </div>
           </nav>

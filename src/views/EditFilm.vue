@@ -18,20 +18,20 @@
                     <div class="card">
                         <div class="card-content">
                             <div class="media">
-                                <div class="media-left">
+                                <div class="media-left" v-if="film.poster_path">
                                     <figure class="image is-48x48" style="margin-bottom: 25px;">
                                     <img :src="`https://image.tmdb.org/t/p/w500/${film.poster_path}`" width="32">
                                     </figure>
                                 </div>
-                                <div class="media-content" v-cloak>
+                                <div class="media-content" v-if="film.title" v-cloak>
                                     {{ film.title }}
                                     <br>
-                                    <small v-cloak>
+                                    <small v-if="film.release_date && film.vote_average" v-cloak>
                                         Released at {{ film.release_date }},
                                         rated <b>{{ film.vote_average }}</b>
                                     </small>
                                     <br/>
-                                    <small v-cloak>
+                                    <small v-if="film.overview" v-cloak>
                                         {{film.overview}}
                                     </small>
                                 </div>
@@ -42,7 +42,13 @@
             </div>
         </div>
         <div v-if="citationStarted">
-            <h1 id="editFormTitle" class="title is-size-4">Edit Film Citation</h1>
+            <section class="hero is-primary" style="height: 20vh; margin-bottom: 10vh;">
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title is-size-2">Edit Film Citation</h1>
+                    </div>
+                </div>
+            </section>
             <div class="container" id="editForm">
                 <b-field grouped v-for="(contributor, i) in filmCitationData.contributors" :key="i">
                     <b-field expanded>
@@ -227,10 +233,6 @@ export default class EditFilm extends Vue {
 }
 #filmInputBox:focus {
     border-color: #0064ff;
-}
-#filmInputField {
-    justify-content: center;
-    display: inline-flex;
 }
 #editFormTitle {
     color: #005eea;

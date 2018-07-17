@@ -11,11 +11,17 @@
                     </div>
                 </div>
             </section>
-            <input id="websiteInput" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citeURL()"/>
+            <input id="websiteInput" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
             <a style="width: 10vh; height: 7vh; margin-left: 2vh;" class="button is-primary" @click="citeURL()">Cite</a>
         </div>
         <div v-if="citationStarted">
-            <h1 id="editFormTitle" class="title is-size-4">Edit Website Citation</h1>
+            <section class="hero is-primary" style="height: 20vh; margin-bottom: 10vh;">
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title is-size-2">Edit Website Citation</h1>
+                    </div>
+                </div>
+            </section>
             <div class="container" id="editForm">
                 <b-field grouped v-for="(contributor, i) in websiteCitationData.contributors" :key="i">
                     <b-field expanded>

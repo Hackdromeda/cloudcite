@@ -11,32 +11,54 @@
                     </div>
                 </div>
             </section>
-            <b-field id="bookInputField">
-                <div class="control" id="bookInput">
-                    <b-field expanded>
-                        <b-select v-model="bookIdentificationSelected" :placeholder="bookIdentificationSelected">
-                            <option v-for="(identification, i) in bookIdentification" :value="identification" :key="i" v-cloak>
-                                {{ identification }}
-                            </option>  
-                        </b-select>
-                    <b-autocomplete v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." field="title" :loading="isFetching" @input="getAsyncData" @select="option => citeBook(option)">
-                        <template slot-scope="props">
+                <select id="bookIdentificationDropdown" v-model="bookIdentificationSelected">
+                    <option v-for="(identification, i) in bookIdentification" :value="identification" :key="i" v-cloak>
+                        {{ 'Search by ' + identification }}
+                    </option>  
+                </select>
+                <input id="bookInputBox" v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData"/>
+            
+            <div v-for="(book, i) in bookData" :key="i">
+                <a @click="citeBook(book)">
+                    <div class="card">
+                        <div class="card-content">
                             <div class="media">
-                                <div class="media-left">
-                                    <img width="32" :src="props.option.volumeInfo.imageLinks.smallThumbnail">
+                                <div class="media-left" v-if="book.volumeInfo.imageLinks.smallThumbnail">
+                                    <figure class="image is-48x48" style="margin-bottom: 25px;">
+                                    <img :src="book.volumeInfo.imageLinks.smallThumbnail" width="32">
+                                    </figure>
                                 </div>
-                                <div class="media-content">
-                                    {{ props.option.volumeInfo.title }}
+                                <div class="media-content" v-cloak>
+                                    {{ book.volumeInfo.title }}
+                                    <small v-if="book.volumeInfo.authors && book.volumeInfo.authors.length > 1"><br>Authors: </small>
+                                    <small v-if="book.volumeInfo.authors && book.volumeInfo.authors.length == 1"><br>Author: </small>
+                                    <small v-for="(author, a) in book.volumeInfo.authors" :key="a">
+                                        <span v-if="book.volumeInfo.authors.length > 1 && a < (book.volumeInfo.authors.length - 1)" v-cloak>{{author + ", "}}</span>
+                                        <span v-else v-cloak>
+                                            {{author}}
+                                        </span>
+                                    </small>
+                                    <small v-if="book.volumeInfo.publishedDate" v-cloak>
+                                        <br/>Published on {{book.volumeInfo.publishedDate}}
+                                    </small>
+                                    <small v-if="book.volumeInfo.description" v-cloak>
+                                        <br/>{{book.volumeInfo.description}}
+                                    </small>
                                 </div>
                             </div>
-                        </template>
-                    </b-autocomplete>
-                    </b-field>
-                </div>
-            </b-field>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
         <div v-if="citationStarted">
-            <h1 id="editFormTitle" class="title is-size-4">Edit Book Citation</h1>
+            <section class="hero is-primary" style="height: 20vh; margin-bottom: 10vh;">
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title is-size-2">Edit Book Citation</h1>
+                    </div>
+                </div>
+            </section>
             <div class="container" id="editForm">
                 <b-field grouped v-for="(contributor, i) in bookCitationData.contributors" :key="i">
                     <b-field expanded>
@@ -245,13 +267,40 @@ import Preview from '../components/Preview.vue';
   }
 })
 
-export default class Editbook extends Vue {}
+export default class EditBook extends Vue {}
 </script>
 
 <style scoped lang="scss">
-#bookInputField {
-    justify-content: center;
-    display: inline-flex;
+#bookIdentificationDropdown {
+    width: 20vh;
+    height: 4vh;
+    font-size: 0.8rem;
+    font-weight: 500;
+    -webkit-appearance: none; 
+   -moz-appearance: none;
+   border-style: solid;
+   background-color: #e0e0e0;
+   border-color: #e0e0e0;
+   border-radius: 5px;
+}
+#bookInputBox {
+  padding: 5px;
+  margin-left: 5vh;
+  margin-bottom: 5vh;
+  min-width: 20vh;
+  min-height: 7vh;
+  border-style: solid;
+  background-color: #fff;
+  caret-color: #000;
+  border-radius: 5px;
+  font-size: 1.3rem;
+}
+#bookInputBox::placeholder {
+    font-size: 1rem;
+    color: #9ea7aa;
+}
+#bookInputBox:focus {
+    border-color: #0064ff;
 }
 #editFormTitle {
     color: #005eea;

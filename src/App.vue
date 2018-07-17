@@ -137,8 +137,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #eeeeee;
-  //background-image: radial-gradient(#005eea,#32363c);
+  background-image: radial-gradient(#005eea,#32363c);
 }
 
 #appMain {

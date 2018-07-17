@@ -1,11 +1,11 @@
 <template>
   <div id="home">
     <div id="hero">
-      <div class="box" id="mainContent">
-        <img src="/static/favicons/android-icon-144x144.png" alt="CloudCite is the best bibliography generator"/>
-        <h1 class="title is-size-2">Welcome to CloudCite</h1>
-        <h2 class="subtitle">CloudCite processes citations in the cloud so you never have to create citations manually again.</h2>
-        <h3 class="subtitle is-size-6">CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago. Learn more about our commitment to a privacy and a distraction-free bibliography generation environment on our <a href="/about/">about page</a>.</h3>
+      <div class="container" id="mainContent">
+        <img src="/static/favicons/icon-150x150.png" alt="CloudCite is the best bibliography generator"/>
+        <h1 class="title is-size-2" style="color: #fff;">Welcome to CloudCite</h1>
+        <h2 class="subtitle" style="color: #fff;">CloudCite processes citations in the cloud so you never have to create citations manually again.</h2>
+        <h3 class="subtitle is-size-6" style="color: #fff;">CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago. Learn more about our commitment to a privacy and a distraction-free bibliography generation environment on our <a href="/about/" style="color: #fff;"><b>about page</b></a>.</h3>
         <div class="container" id="cite">
           <div id="citeButtonsRow">
             <a class="button is-rounded" id="citeButton" @click="cite('Website')">Website</a>
@@ -18,22 +18,6 @@
           </div>
         </div>
       </div>
-      <nav id="mainContent" class="level">
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Supported Formats</p>
-          <b-select placeholder="Select a format" required>
-            <option v-for="(format, i) in formats" :key="i">{{format}}</option>
-          </b-select>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Supported Styles</p>
-          <p class="title">8000</p>
-        </div>
-      </div>
-    </nav>
     </div>
   </div>
 </template>
@@ -152,7 +136,7 @@ export default class Home extends Vue {}
       margin: 5vh; 
       margin-top: 2vh;
       margin-bottom: 2vh;
-      color: #000;
+      color: #fff;
     }
     #cite {
       text-align: center;
@@ -188,7 +172,7 @@ export default class Home extends Vue {}
       margin: 10vh; 
       margin-bottom: 5vh;
       margin-top: 5vh;
-      color: #000;
+      color: #fff;
     }
     #cite {
       text-align: center;

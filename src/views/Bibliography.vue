@@ -3,7 +3,14 @@
     <section class="hero is-primary" style="height: 35vh;">
       <div class="hero-body">
         <div class="container">
-          <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true">{{bibliographyTitle}}</a>
+          <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true" v-cloak>{{bibliographyTitle}}</a>
+          <nav v-if="editingTitle" class="level" style="background-color: #005eea; color: #fff;">
+            <div class="level-item has-text-centered">
+              <div>
+                <input id="bibliographyTitleInput" @mouseout="editingTitle = false" v-model="bibliographyTitle"/>
+              </div>
+            </div>
+          </nav>
           <h2 class="subtitle" style="margin-top: 10vh;">
             All of your citations will be here.
           </h2>
@@ -11,18 +18,6 @@
       </div>
     </section>
     <div class="content" id="bibliography">
-      <div v-if="editingTitle" class="columns">
-        <div class="column"/>
-        <div class="column is-2">
-          <b-field>
-            <b-input autofocus v-model="bibliographyTitle" @keyup.native.enter="editingTitle = false" expanded/>
-            <p class="control">
-              <a class="button" @click="editingTitle = false"><b-icon icon="check" custom-size="mdi-24px" type="is-primary"/></a>
-            </p>
-          </b-field>
-        </div>
-        <div class="column"/>
-      </div>
       <div v-if="$store.getters.getCitations.length == 0" style="margin-top: 10vh;">
         <p>This bibliography looks a little empty. You can create your first citation on the <router-link to="/">homepage</router-link>.</p>
       </div>
@@ -49,7 +44,8 @@ import Preview from '../components/Preview.vue';
   data () {
     return {
       bibliographyTitle: "Bibliography",
-      editingTitle: false
+      editingTitle: false,
+      typingTitle: false
     }
   }
 })
@@ -63,6 +59,27 @@ export default class Bibliography extends Vue {}
   text-align: center;
   justify-content: center;
   background-color: #fff;
+}
+#bibliographyTitle {
+  padding: 5px;
+}
+#bibliographyTitle:hover {
+  background-color: #104ba4;
+}
+#bibliographyTitleInput {
+  padding: 5px;
+  min-width: 20vh;
+  min-height: 5vh;
+  border: transparent;
+  background-color: #0036b7;
+  caret-color: #fff;
+  color: #fff;
+  border-radius: 5px;
+  font-size:2rem;
+}
+#bibliographyTitleInput:focus {
+  border-color: #fff;
+  border: transparent;
 }
 #preview {
   margin-top: 10px;

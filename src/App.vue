@@ -5,7 +5,7 @@
         <nav id="navbar" class="navbar is-transparent">
           <div class="navbar-brand">
             <a class="navbar-item" @click="$router.push({path: '/'})">
-              <h1 class="is-size-5">CloudCite</h1>
+              <h1 class="is-size-5" style="color: #005eea; font-weight: 525;">CloudCite</h1>
             </a>
             <div class="navbar-burger burger" data-target="navbarMenu">
               <span aria-hidden="true"></span>
@@ -27,10 +27,10 @@
               <div class="navbar-item">
                 <div class="field is-grouped">
                   <p class="control">
-                    <a v-if="!authenticated" class="button is-primary" @click="login()">
+                    <a v-if="!authenticated" class="button is-primary is-rounded" @click="login()">
                       <span>Log In / Register</span>
                     </a>
-                    <a v-if="authenticated" class="button is-primary" @click="logout()">
+                    <a v-if="authenticated" class="button is-primary is-rounded" @click="logout()">
                       <span>Log Out</span>
                     </a>
                   </p>
@@ -42,9 +42,9 @@
     </header>
     <router-view :auth="auth" :authenticated="authenticated"/>
     </div>
-    <footer class="footer">
+    <footer class="footer" style="background-color: #eee;">
       <div class="content has-text-centered">
-        <p class="footer-text"><strong>CloudCite</strong> by the Hackdromeda team. The source code is licensed under 
+        <p class="footer-text"><strong>CloudCite</strong> by the Hackdromeda team. CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago. Learn more about our commitment to a privacy and a distraction-free bibliography generation environment on our about page. The source code is licensed under 
           <a href="https://github.com/Hackdromeda/cloudcite/blob/master/LICENSE">GNU AGPL v3.0</a>. Please read the <router-link to="/privacy/">privacy policy</router-link> before using this service. <img width="150" height="50" src="/static/a0-badge-light.png" alt="CloudCite uses Auth0 Token Based Authentication for secure logins"/>
         </p>
       </div>
@@ -92,7 +92,9 @@ const { login, logout, authenticated, authNotifier } = auth
     }
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+
+}
 </script>
 
 <style lang="scss">
@@ -137,11 +139,17 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-image: radial-gradient(#005eea,#32363c);
+  background-color: #fff;
+  //background-image: radial-gradient(#005eea,#32363c);
 }
 
 #appMain {
   min-height: 100vh;
+  font-weight: 500;
+}
+
+.navbar {
+  border-bottom: 4mm ridge #005eea;
 }
 
 nav {

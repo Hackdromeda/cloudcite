@@ -1,13 +1,19 @@
 <template>
   <div id="home">
-    <div id="hero">
+    <section class="hero is-primary" style="min-height: 35vh;">
+        <div class="hero-body">
+          <div class="container">
+            <img src="/static/favicons/icon-150x150.png" alt="CloudCite is the best bibliography generator"/>
+            <h1 class="title is-size-2">Welcome to CloudCite</h1>
+            <h2 class="subtitle" style="margin-top: 10vh;">
+              CloudCite processes citations in the cloud so you never have to create citations manually again.
+            </h2>
+          </div>
+        </div>
+      </section>
       <div class="container" id="mainContent">
-        <img src="/static/favicons/icon-150x150.png" alt="CloudCite is the best bibliography generator"/>
-        <h1 class="title is-size-2" style="color: #fff;">Welcome to CloudCite</h1>
-        <h2 class="subtitle" style="color: #fff;">CloudCite processes citations in the cloud so you never have to create citations manually again.</h2>
-        <h3 class="subtitle is-size-6" style="color: #fff;">CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago. Learn more about our commitment to a privacy and a distraction-free bibliography generation environment on our <a href="/about/" style="color: #fff;"><b>about page</b></a>.</h3>
+        <h1 class="is-size-3" style="font-weight: 500;">Citation Options</h1>
         <div class="container" id="cite">
-          <div id="citeButtonsRow">
             <a class="button is-rounded" id="citeButton" @click="cite('Website')">Website</a>
             <a class="button is-rounded" id="citeButton">Journal</a>
             <a class="button is-rounded" id="citeButton" @click="cite('Book')">Book</a>
@@ -16,9 +22,7 @@
             <a class="button is-rounded" id="citeButton">Podcast</a>
             <a class="button is-rounded" id="citeButton">Music</a>
           </div>
-        </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -123,7 +127,7 @@ export default class Home extends Vue {}
 <style scoped lang="scss">
   #home {
     text-align: center;
-    color: #fff;
+    color: #000;
   }
   #formatSelectBox {
     display: inline-flex;
@@ -136,7 +140,7 @@ export default class Home extends Vue {}
       margin: 5vh; 
       margin-top: 2vh;
       margin-bottom: 2vh;
-      color: #fff;
+      color: #000;
     }
     #cite {
       text-align: center;
@@ -145,16 +149,10 @@ export default class Home extends Vue {}
       padding-bottom: 25px;
       min-height: 130vh;
     }
-    #citeButtonsRow {
-      justify-content: left;
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-    }
     #citeButton {
       margin: 3px;
       padding: 10px;
-      color: #fff;
+      color: #000;
       font-weight: 500;
       border-color: #006DFC;
       background-color: #006DFC;
@@ -172,7 +170,7 @@ export default class Home extends Vue {}
       margin: 10vh; 
       margin-bottom: 5vh;
       margin-top: 5vh;
-      color: #fff;
+      color: #000;
     }
     #cite {
       text-align: center;
@@ -180,12 +178,6 @@ export default class Home extends Vue {}
     #hero {
       padding-bottom: 25px;
       height: 100vh;
-    }
-    #citeButtonsRow {
-      justify-content: center;
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
     }
     #citeButton {
       margin: 10px;

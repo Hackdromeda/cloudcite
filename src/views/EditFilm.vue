@@ -11,27 +11,35 @@
                     </div>
                 </div>
             </section>
-            <b-field id="filmInputField">
-                <div class="control" id="filmInput">
-                    <b-autocomplete v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." field="title" :loading="isFetching" @input="getAsyncData" @select="option => citeFilm(option)">
-                        <template slot-scope="props">
+            <input id="filmInputBox" v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData"/>
+            
+            <div v-for="(film, i) in filmData" :key="i">
+                <a @click="citeFilm(film)">
+                    <div class="card">
+                        <div class="card-content">
                             <div class="media">
                                 <div class="media-left">
-                                    <img width="32" :src="`https://image.tmdb.org/t/p/w500/${props.option.poster_path}`">
+                                    <figure class="image is-48x48" style="margin-bottom: 25px;">
+                                    <img :src="`https://image.tmdb.org/t/p/w500/${film.poster_path}`" width="32">
+                                    </figure>
                                 </div>
-                                <div class="media-content">
-                                    {{ props.option.title }}
+                                <div class="media-content" v-cloak>
+                                    {{ film.title }}
                                     <br>
-                                    <small>
-                                        Released at {{ props.option.release_date }},
-                                        rated <b>{{ props.option.vote_average }}</b>
+                                    <small v-cloak>
+                                        Released at {{ film.release_date }},
+                                        rated <b>{{ film.vote_average }}</b>
+                                    </small>
+                                    <br/>
+                                    <small v-cloak>
+                                        {{film.overview}}
                                     </small>
                                 </div>
                             </div>
-                        </template>
-                    </b-autocomplete>
-                </div>
-            </b-field>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
         <div v-if="citationStarted">
             <h1 id="editFormTitle" class="title is-size-4">Edit Film Citation</h1>
@@ -202,6 +210,24 @@ export default class EditFilm extends Vue {
 </script>
 
 <style scoped lang="scss">
+#filmInputBox {
+  padding: 5px;
+  margin-bottom: 5vh;
+  min-width: 20vh;
+  min-height: 7vh;
+  border-style: solid;
+  background-color: #fff;
+  caret-color: #000;
+  border-radius: 5px;
+  font-size: 1.3rem;
+}
+#filmInputBox::placeholder {
+    font-size: 1rem;
+    color: #9ea7aa;
+}
+#filmInputBox:focus {
+    border-color: #0064ff;
+}
 #filmInputField {
     justify-content: center;
     display: inline-flex;

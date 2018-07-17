@@ -11,16 +11,8 @@
                     </div>
                 </div>
             </section>
-            <b-field id="websiteInputField">
-                <div class="field has-addons">
-                    <div class="control" id="websiteInput">
-                        <b-input v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citeURL()" :loading="loadingCitation"/>
-                    </div>
-                    <div class="control">
-                        <a class="button is-primary" @click="citeURL()">Cite</a>
-                    </div>
-                </div>
-            </b-field>
+            <input id="websiteInput" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citeURL()"/>
+            <a style="width: 10vh; height: 7vh; margin-left: 2vh;" class="button is-primary" @click="citeURL()">Cite</a>
         </div>
         <div v-if="citationStarted">
             <h1 id="editFormTitle" class="title is-size-4">Edit Website Citation</h1>
@@ -181,9 +173,22 @@ export default class EditWebsite extends Vue {
 </script>
 
 <style scoped lang="scss">
-#websiteInputField {
-    justify-content: center;
-    display: inline-flex;
+#websiteInput {
+  padding: 5px;
+  min-width: 20vh;
+  min-height: 7vh;
+  border-style: solid;
+  background-color: #fff;
+  caret-color: #000;
+  border-radius: 5px;
+  font-size: 1.3rem;
+}
+#websiteInput::placeholder {
+    font-size: 1rem;
+    color: #9ea7aa;
+}
+#websiteInput:focus {
+    border-color: #0064ff;
 }
 #editFormTitle {
     color: #005eea;

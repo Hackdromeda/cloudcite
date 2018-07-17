@@ -152,16 +152,14 @@ export default class Home extends Vue {}
     #citeButton {
       margin: 3px;
       padding: 10px;
-      color: #000;
+      color: #fff;
       font-weight: 500;
       border-color: #006DFC;
       background-color: #006DFC;
     }
     #citeButton:hover {
-      opacity: 0.9;
-    }
-    #styleDropdown {
-      width: 25vh;
+      background-color: #207DF6;
+      border-color: #207DF6;
     }
   }
 
@@ -188,7 +186,8 @@ export default class Home extends Vue {}
       background-color: #006DFC;
     }
     #citeButton:hover {
-      opacity: 0.9;
+      background-color: #207DF6;
+      border-color: #207DF6;
     }
     #styleDropdown {
       width: 18vh;

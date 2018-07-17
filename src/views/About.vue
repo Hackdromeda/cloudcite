@@ -1,5 +1,16 @@
 <template>
-  <div class="content" id="about">
+  <div>
+    <section class="hero is-primary" style="height: 35vh;">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title is-size-2">About Us</h1>
+            <h2 class="subtitle" style="margin-top: 10vh;">
+              CloudCite was developed by the Hackdromeda Team.
+            </h2>
+          </div>
+        </div>
+      </section>
+      <div class="content" id="about"></div>
   </div>
 </template>
 
@@ -15,9 +26,10 @@ export default class About extends Vue {}
 
 <style scoped lang="scss">
   #about {
-    text-align: left;
-    background-color: #fff;
+    padding: 10px;
     min-height: 100vh;
-    padding: 20px;
+    text-align: center;
+    justify-content: center;
+    background-color: #fff;
   }
 </style>

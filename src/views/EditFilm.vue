@@ -1,7 +1,16 @@
 <template>
     <div id="editFilm">
         <div v-if="!citationStarted">
-            <h1 class="title is-size-2">Cite a Film</h1>
+            <section class="hero is-primary" style="height: 35vh; margin-bottom: 10vh;">
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title is-size-2">Cite a Film</h1>
+                        <h2 class="subtitle" style="margin-top: 10vh;">
+                            You can start citing a film by typing the title and selecting the film you want to cite.
+                        </h2>
+                    </div>
+                </div>
+            </section>
             <b-field id="filmInputField">
                 <div class="control" id="filmInput">
                     <b-autocomplete v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." field="title" :loading="isFetching" @input="getAsyncData" @select="option => citeFilm(option)">
@@ -201,7 +210,6 @@ export default class EditFilm extends Vue {
     color: #005eea;
 }
 #editFilm {
-    padding: 10px;
     height: 100vh;
     text-align: center;
     justify-content: center;

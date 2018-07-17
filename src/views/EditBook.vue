@@ -1,7 +1,16 @@
 <template>
     <div id="editbook">
         <div v-if="!citationStarted">
-            <h1 class="title is-size-2">Cite a Book</h1>
+            <section class="hero is-primary" style="height: 35vh; margin-bottom: 10vh;">
+                <div class="hero-body">
+                    <div class="container">
+                    <h1 class="title is-size-2">Cite a Book</h1>
+                    <h2 class="subtitle" style="margin-top: 10vh; text-align: left;">
+                        You can start citing a book by typing the title and selecting the book you want to cite. You can also find books by ISBN, OCLC, and LCCN.
+                    </h2>
+                    </div>
+                </div>
+            </section>
             <b-field id="bookInputField">
                 <div class="control" id="bookInput">
                     <b-field expanded>
@@ -248,7 +257,6 @@ export default class Editbook extends Vue {}
     color: #005eea;
 }
 #editbook {
-    padding: 10px;
     min-height: 100vh;
     text-align: center;
     justify-content: center;

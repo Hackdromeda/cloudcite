@@ -1,7 +1,16 @@
 <template>
     <div id="editwebsite">
         <div v-if="!citationStarted">
-            <h1 class="title is-size-2">Cite a Website</h1>
+            <section class="hero is-primary" style="height: 35vh; margin-bottom: 10vh;">
+                <div class="hero-body">
+                    <div class="container">
+                    <h1 class="title is-size-2">Cite a Website</h1>
+                    <h2 class="subtitle" style="margin-top: 10vh;">
+                        You can start citing a website by typing the website link and clicking on cite.
+                    </h2>
+                    </div>
+                </div>
+            </section>
             <b-field id="websiteInputField">
                 <div class="field has-addons">
                     <div class="control" id="websiteInput">
@@ -180,8 +189,7 @@ export default class EditWebsite extends Vue {
     color: #005eea;
 }
 #editwebsite {
-    padding: 10px;
-    height: 100vh;
+    min-height: 100vh;
     text-align: center;
     justify-content: center;
     background-color: #fff;

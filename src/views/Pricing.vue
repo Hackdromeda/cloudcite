@@ -1,29 +1,37 @@
 <template>
-<div>
-  <div class="pricing">
-     <h1 class="title">Pricing</h1>
-  <div class="pricing-table is-comparative">
-    <div class="pricing-plan is-features">
-      <div class="plan-header">Features</div>
-      <div class="plan-price"><span class="plan-price-amount">&nbsp;</span></div>
-      <div class="plan-items">
-        <div class="plan-item">Citations</div>
-        <div class="plan-item">API</div>
-        <div class="plan-item">License</div>
-        <div class="plan-item">Ads</div>
-        <div class="plan-item">Tracking/Analytics</div>
-        <div class="plan-item">Security</div>
-        <div class="plan-item">Autofill</div>
-        <div class="plan-item">Requirements</div>
-        <div class="plan-item">Export and Import<br><br><br></div>
-        <div class="plan-item">Style Accuracy</div>
-        <div class="plan-item">App and Extensions</div>
-        <div class="plan-item">Advanced Features<br><br></div>
+  <div>
+    <section class="hero is-primary" style="height: 35vh;">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title is-size-2">Pricing</h1>
+          <h2 class="subtitle" style="margin-top: 10vh;">
+            CloudCite is free forever and open source.
+          </h2>
+        </div>
       </div>
-      <div class="plan-footer"></div>
-    </div>
-
-    <div class="pricing-plan is-active">
+    </section>
+  <div id="pricing">
+    <div class="pricing-table is-comparative">
+      <div class="pricing-plan is-features">
+        <div class="plan-header">Features</div>
+        <div class="plan-price"><span class="plan-price-amount">&nbsp;</span></div>
+        <div class="plan-items">
+          <div class="plan-item">Citations</div>
+          <div class="plan-item">API</div>
+          <div class="plan-item">License</div>
+          <div class="plan-item">Ads</div>
+          <div class="plan-item">Tracking/Analytics</div>
+          <div class="plan-item">Security</div>
+          <div class="plan-item">Autofill</div>
+          <div class="plan-item">Requirements</div>
+          <div class="plan-item">Export and Import<br><br><br></div>
+          <div class="plan-item">Style Accuracy</div>
+          <div class="plan-item">App and Extensions</div>
+          <div class="plan-item">Advanced Features<br><br></div>
+        </div>
+        <div class="plan-footer"></div>
+      </div>
+      <div class="pricing-plan is-active">
       <div class="plan-header">CloudCite</div>
       <div class="plan-price"><span class="plan-price-amount">Free Forever</span></div>
       <div class="plan-items">
@@ -82,9 +90,10 @@ export default class Pricing extends Vue {}
 </script>
 
 <style scoped lang="scss">
-  .pricing {
+  #pricing {
     min-height: 100vh;
     background-color: #fff;
+    padding: 10vh;
   }
   .title{
     color: #000;

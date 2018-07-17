@@ -70,11 +70,13 @@
                     <b-input maxlength="500" type="textarea" @input="typing = true" v-model="filmCitationData.abstract" placeholder="Abstract"></b-input>
                 </b-field>
                 <b-field expanded>
+                    <Preview :cslObject="filmCitationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
+                </b-field>
+                <b-field expanded>
                     <div id="submitFormDiv">
                         <a class="button is-primary" @click="cite()">Done Editing</a>
                     </div>
                 </b-field>
-                <Preview :cslObject="filmCitationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
             </div>
         </div>
     </div>

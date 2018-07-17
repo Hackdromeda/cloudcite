@@ -26,12 +26,13 @@ export default class BookCitation {
         this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Author"})
     }
     toCSL() {
+        var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
         var id = ('Book/' + _.filter(store.default.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 4) === 'Book'}).length)
         return {
             [id]:{
                 "accessed":{
-                    "month": accessedDate.getMonth(),
+                    "month": cslMonth ? cslMonth: "",
                     "year": accessedDate.getFullYear(),
                     "day": accessedDate.getDay()
                 },

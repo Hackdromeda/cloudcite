@@ -1,7 +1,7 @@
 <template>
     <div id="editbook">
         <div v-if="!citationStarted">
-            <section class="hero is-primary" style="height: 35vh; margin-bottom: 10vh;">
+            <section class="hero is-primary" style="min-height: 35vh; margin-bottom: 10vh;">
                 <div class="hero-body">
                     <div class="container">
                     <h1 class="title is-size-2">Cite a Book</h1>
@@ -11,12 +11,31 @@
                     </div>
                 </div>
             </section>
+            <div class="is-hidden-tablet">
+                <b-field style="margin-left: 2vh; margin-right: 2vh;">
+                    <p class="control">
+                        <b-select v-model="bookIdentificationSelected">
+                        <option v-for="(identification, i) in bookIdentification" :value="identification" :key="i" v-cloak>
+                            {{ 'Search by ' + identification }}
+                        </option>  
+                    </b-select>
+                    </p>
+                    <p class="control">
+                        <b-input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData" expanded/>
+                    </p>
+                </b-field>
+            </div>
+            <div class="is-hidden-mobile" style="display: inline-flex;">
                 <select id="bookIdentificationDropdown" v-model="bookIdentificationSelected">
                     <option v-for="(identification, i) in bookIdentification" :value="identification" :key="i" v-cloak>
                         {{ 'Search by ' + identification }}
                     </option>  
                 </select>
                 <input id="bookInputBox" v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData"/>
+            </div>
+            <div v-if="isFetching">
+                <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
+            </div>
             
             <div v-for="(book, i) in bookData" :key="i">
                 <a @click="citeBook(book)">
@@ -52,7 +71,7 @@
             </div>
         </div>
         <div v-if="citationStarted">
-            <section class="hero is-primary" style="height: 20vh; margin-bottom: 10vh;">
+            <section class="hero is-primary" style="min-height: 20vh; margin-bottom: 10vh;">
                 <div class="hero-body">
                     <div class="container">
                         <h1 class="title is-size-2">Edit Book Citation</h1>
@@ -125,10 +144,12 @@ import lodash from 'lodash';
 //@ts-ignore
 import debounce from 'lodash/debounce';
 import Preview from '../components/Preview.vue';
+import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 
 @Component({
   components: {
-    Preview
+    Preview,
+    MoonLoader
   },
   data () {
     return {
@@ -273,15 +294,19 @@ export default class EditBook extends Vue {}
 <style scoped lang="scss">
 #bookIdentificationDropdown {
     width: 20vh;
-    height: 4vh;
+    height: 7vh;
     font-size: 0.8rem;
-    font-weight: 500;
+    font-weight: 450;
     -webkit-appearance: none; 
    -moz-appearance: none;
    border-style: solid;
-   background-color: #e0e0e0;
-   border-color: #e0e0e0;
+   background-color: #fff;
    border-radius: 5px;
+   color: #9ea7aa;;
+}
+#bookIdentificationDropdown:focus {
+    border-color: #005eea;
+    color: #000;
 }
 #bookInputBox {
   padding: 5px;
@@ -319,10 +344,15 @@ export default class EditBook extends Vue {}
 }
 #submitFormDiv {
     text-align: left;
+    margin: 5vh;
 }
 @media (max-width: 991.97px) {
     #bookInput {
         width: 35vh;
+    }
+    #editForm {
+        margin-left: 5vh;
+        margin-right: 5vh;
     }
 }
 @media (min-width: 991.98px) {

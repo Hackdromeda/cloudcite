@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="hero is-primary" style="height: 35vh;">
+    <section class="hero is-primary" style="min-height: 35vh;">
       <div class="hero-body">
         <div class="container">
           <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true" v-cloak>{{bibliographyTitle}}</a>

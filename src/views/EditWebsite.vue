@@ -1,7 +1,7 @@
 <template>
     <div id="editwebsite">
         <div v-if="!citationStarted">
-            <section class="hero is-primary" style="height: 35vh; margin-bottom: 10vh;">
+            <section class="hero is-primary" style="min-height: 35vh; margin-bottom: 10vh;">
                 <div class="hero-body">
                     <div class="container">
                     <h1 class="title is-size-2">Cite a Website</h1>
@@ -11,11 +11,22 @@
                     </div>
                 </div>
             </section>
-            <input id="websiteInput" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
-            <a style="width: 10vh; height: 7vh; margin-left: 2vh;" class="button is-primary" @click="citeURL()">Cite</a>
+            <div class="is-hidden-tablet" style="display: inline-flex;">
+                <b-input style="padding-left: 5vh; padding-right: 2vh;" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citeURL()" :loading="loadingCitation"/>
+                <a class="button is-primary" style="margin-right: 5vh;" @click="citeURL()">Cite</a>
+            </div>
+            <div class="is-hidden-mobile">
+                <input id="websiteInput" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
+                <a style="width: 10vh; height: 7vh; margin-left: 2vh;" class="button is-primary" @click="citeURL()">Cite</a>
+            </div>
+
+            <div v-if="loadingCitation">
+                <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"></moon-loader>
+            </div>
         </div>
+
         <div v-if="citationStarted">
-            <section class="hero is-primary" style="height: 20vh; margin-bottom: 10vh;">
+            <section class="hero is-primary" style="min-height: 20vh; margin-bottom: 10vh;">
                 <div class="hero-body">
                     <div class="container">
                         <h1 class="title is-size-2">Edit Website Citation</h1>
@@ -92,10 +103,12 @@ import rp from 'request-promise-native';
 import Preview from '../components/Preview.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
+import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 
 @Component({
   components: {
-    Preview
+    Preview,
+    MoonLoader
   },
   data () {
       return {
@@ -199,6 +212,10 @@ export default class EditWebsite extends Vue {
 #editFormTitle {
     color: #005eea;
 }
+#editForm {
+    margin-left: 5vh;
+    margin-right: 5vh;
+}
 #editwebsite {
     min-height: 100vh;
     text-align: center;
@@ -216,6 +233,7 @@ export default class EditWebsite extends Vue {
 }
 #submitFormDiv {
     text-align: left;
+    margin: 5vh;
 }
 @media (max-width: 991.97px) {
     #websiteInput {

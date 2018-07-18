@@ -1,6 +1,5 @@
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   configureWebpack: config => {

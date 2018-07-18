@@ -1,7 +1,7 @@
 <template>
     <div id="editFilm">
         <div v-if="!citationStarted">
-            <section class="hero is-primary" style="height: 35vh; margin-bottom: 10vh;">
+            <section class="hero is-primary" style="min-height: 35vh; margin-bottom: 10vh;">
                 <div class="hero-body">
                     <div class="container">
                         <h1 class="title is-size-2">Cite a Film</h1>
@@ -11,7 +11,20 @@
                     </div>
                 </div>
             </section>
-            <input id="filmInputBox" v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData"/>
+
+            <div class="is-hidden-tablet">
+                <b-field style="margin-left: 2vh; margin-right: 2vh;">
+                    <b-input id="filmInputBox" v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" expanded/>
+                </b-field>
+            </div>
+
+            <div class="is-hidden-mobile">
+                <input id="filmInputBox" v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData"/>
+            </div>
+
+            <div v-if="isFetching">
+                <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
+            </div>
             
             <div v-for="(film, i) in filmData" :key="i">
                 <a @click="citeFilm(film)">
@@ -42,7 +55,7 @@
             </div>
         </div>
         <div v-if="citationStarted">
-            <section class="hero is-primary" style="height: 20vh; margin-bottom: 10vh;">
+            <section class="hero is-primary" style="min-height: 20vh; margin-bottom: 10vh;">
                 <div class="hero-body">
                     <div class="container">
                         <h1 class="title is-size-2">Edit Film Citation</h1>
@@ -113,9 +126,12 @@ import debounce from 'lodash/debounce';
 //@ts-ignore
 import rp from 'request-promise-native';
 import Preview from '../components/Preview.vue';
+import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
+
 @Component({
   components: {
-    Preview
+    Preview,
+    MoonLoader
   },
   data () {
       return {
@@ -254,10 +270,15 @@ export default class EditFilm extends Vue {
 }
 #submitFormDiv {
     text-align: left;
+    margin: 5vh;
 }
 @media (max-width: 991.97px) {
     #filmInput {
         width: 35vh;
+    }
+    #editForm {
+        margin-left: 5vh;
+        margin-right: 5vh;
     }
 }
 @media (min-width: 991.98px) {

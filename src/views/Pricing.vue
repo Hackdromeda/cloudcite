@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="hero is-primary" style="height: 35vh;">
+    <section class="hero is-primary" style="min-height: 35vh;">
       <div class="hero-body">
         <div class="container">
           <h1 class="title is-size-2">Pricing</h1>

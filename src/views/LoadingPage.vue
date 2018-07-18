@@ -12,7 +12,7 @@
   export default {
     name: 'LodingPage',
     components: {
-      'MoonLoader': MoonLoader
+      MoonLoader
     },
     props: ['auth'],
     data () {

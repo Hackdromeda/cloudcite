@@ -6,7 +6,6 @@ import './registerServiceWorker'
 import Buefy from 'buefy'
 //@ts-ignore
 import VueClipboard from 'vue-clipboard2'
-
 Vue.use(Buefy)
 Vue.use(VueClipboard)
 

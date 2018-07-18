@@ -116,17 +116,25 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
         typing: false,
         citationStarted: false,
         contributorTypes: ["Author", "Editor"],
-        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], null, null, null, null, {month: null, day: null, year: null}),
+        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], "", "", "", "", {month: null, day: null, year: null}),
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"]
       }
   },
   methods: {
       formatURL(url: string) {
-          if (url.indexOf('http://') == -1 && url.indexOf('https://') == -1) {
-              return 'http://' + url
-          } else {
-              return url
-          }
+        var newURL: string = ""
+        switch (url.substring(0, 7)) {
+            case 'https:/':
+                newURL = url.substring(8, url.length)
+                break;
+            case 'http://':
+                newURL =  url.substring(7, url.length)
+                break;
+            default:
+                newURL = url
+        }
+        console.log(newURL)
+        return newURL
       },
       citeURL() {
         this.$data.loadingCitation = true
@@ -137,7 +145,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 },
                 method: 'POST',
                 //@ts-ignore
-                body: {"url": this.formatURL(this.websiteCitationData.url), "format": "website"},
+                body: {"url": this.websiteCitationData.url, "format": "website"},
                 json: true
                 //@ts-ignore
         }).then(data => {
@@ -155,7 +163,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 contributors.push({given: "", middle: "", family: "", type: "Author"})
             }
             //@ts-ignore
-            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.title ? data.title: "", this.websiteCitationData.url ? this.websiteCitationData.url: "", data.publisher ? data.publisher: "", data.issued ? data.issued: {month: "", day: "", year: ""})
+            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.title ? data.title: "", this.websiteCitationData.url ? this.formatURL(this.websiteCitationData.url): "", data.publisher ? data.publisher: "", data.issued ? data.issued: {month: "", day: "", year: ""})
             this.$data.loadingCitation = false
             this.$data.citationStarted = !this.$data.citationStarted;
             //@ts-ignore

@@ -42,7 +42,7 @@
                     <div class="card">
                         <div class="card-content">
                             <div class="media">
-                                <div class="media-left" v-if="book.volumeInfo.imageLinks.smallThumbnail">
+                                <div class="media-left" v-if="book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.smallThumbnail">
                                     <figure class="image is-48x48" style="margin-bottom: 25px;">
                                     <img :src="book.volumeInfo.imageLinks.smallThumbnail" width="32">
                                     </figure>

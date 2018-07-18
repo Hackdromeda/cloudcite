@@ -9,9 +9,7 @@
           <div class="level is-hidden-mobile">
             <div class="level-item has-text-centered">
               <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true" v-cloak>{{bibliographyTitle}}</a>
-            </div>
-            <div v-if="editingTitle" style="background-color: #005eea; color: #fff;">
-              <div class="level-item has-text-centered">
+              <div v-if="editingTitle" style="background-color: #005eea; color: #fff;" class="level-item has-text-centered">
                 <input id="bibliographyTitleInput" @keyup.enter="editingTitle = false" @mouseout="editingTitle = false" v-model="bibliographyTitle"/>
               </div>
             </div>

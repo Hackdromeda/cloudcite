@@ -3,14 +3,19 @@
     <section class="hero is-primary" style="min-height: 35vh;">
       <div class="hero-body">
         <div class="container">
-          <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true" v-cloak>{{bibliographyTitle}}</a>
-          <nav v-if="editingTitle" class="level" style="background-color: #005eea; color: #fff;">
-            <div class="level-item has-text-centered">
-              <div>
-                <input id="bibliographyTitleInput" @keyup.enter="editingTitle = false" @mouseout="editingTitle = false" v-model="bibliographyTitle"/>
+          <div class="level is-hidden-tablet">
+            <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" v-cloak>{{bibliographyTitle}}</a>
+          </div>
+          <div class="level is-hidden-mobile">
+            <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true" v-cloak>{{bibliographyTitle}}</a>
+            <div v-if="editingTitle" style="background-color: #005eea; color: #fff;">
+              <div class="level-item has-text-centered">
+                <div>
+                  <input id="bibliographyTitleInput" @keyup.enter="editingTitle = false" @mouseout="editingTitle = false" v-model="bibliographyTitle"/>
+                </div>
               </div>
             </div>
-          </nav>
+          </div>
           <h2 class="subtitle" style="margin-top: 10vh;">
             All of your citations will be here.
           </h2>

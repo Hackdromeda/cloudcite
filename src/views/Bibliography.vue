@@ -7,12 +7,12 @@
             <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" v-cloak>{{bibliographyTitle}}</a>
           </div>
           <div class="level is-hidden-mobile">
-            <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true" v-cloak>{{bibliographyTitle}}</a>
+            <div class="level-item has-text-centered">
+              <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true" v-cloak>{{bibliographyTitle}}</a>
+            </div>
             <div v-if="editingTitle" style="background-color: #005eea; color: #fff;">
               <div class="level-item has-text-centered">
-                <div>
-                  <input id="bibliographyTitleInput" @keyup.enter="editingTitle = false" @mouseout="editingTitle = false" v-model="bibliographyTitle"/>
-                </div>
+                <input id="bibliographyTitleInput" @keyup.enter="editingTitle = false" @mouseout="editingTitle = false" v-model="bibliographyTitle"/>
               </div>
             </div>
           </div>

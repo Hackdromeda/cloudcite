@@ -26,14 +26,89 @@
         </div>
 
         <div v-if="citationStarted">
-            <section class="hero is-primary" style="min-height: 20vh; margin-bottom: 10vh;">
+            <section class="hero is-primary" style="min-height: 20vh;">
                 <div class="hero-body">
                     <div class="container">
                         <h1 class="title is-size-2">Edit Website Citation</h1>
                     </div>
                 </div>
             </section>
-            <div class="container" id="editForm">
+            <div class="columns is-hidden-mobile">
+                <div class="column" style="margin-top: 8vh;">
+                    <div style="height: 100%; width: 80%; margin-left: 10px; border-radius: 5px;">
+                        <aside class="menu">
+                            <p class="menu-label">
+                                Citations
+                            </p>
+                            <ul class="menu-list">
+                                <a>Creating a Citation</a>
+                                <a>Editing a Citation</a>
+                            </ul>
+                            <p class="menu-label">
+                                Bibliography
+                            </p>
+                            <ul class="menu-list">
+                                <a>Export Options</a>
+                                <a>Managing Citations</a>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+                <div class="column is-6" style="margin-top: 5vh;">
+                <input id="websiteInput" style="margin-bottom: 5vh; width: 100%;" v-model="websiteCitationData.url" placeholder="Enter website link"/>
+                <b-field grouped v-for="(contributor, i) in websiteCitationData.contributors" :key="i">
+                    <b-field>
+                        <b-select v-model="websiteCitationData.contributors[i].type" :placeholder="contributor.type">
+                            <option v-for="(type, j) in contributorTypes" :value="type" :key="j" v-cloak>
+                                {{ type }}
+                            </option>  
+                        </b-select>
+                    </b-field>
+                    <b-field>
+                        <input placeholder="First Name" @input="typing = true" v-model="contributor.given"/>
+                    </b-field>
+                    <b-field>
+                        <input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle"/>
+                    </b-field>
+                    <b-field>
+                        <input placeholder="Last Name" @input="typing = true" v-model="contributor.family"/>
+                    </b-field>
+                    <b-field>
+                        <b-tooltip label="Remove Contributor" position="is-top" animated>
+                            <a v-if="websiteCitationData.contributors.length == 1" id="removeContributorButton" @click="websiteCitationData.clearContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
+                            <a v-if="websiteCitationData.contributors.length > 1" id="removeContributorButton" @click="websiteCitationData.removeContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
+                        </b-tooltip>
+                        <b-tooltip label="Add Contributor" position="is-top" animated>
+                            <a id="addContributorButton" @click="websiteCitationData.contributors.push({first: null, middle: null, last: null, type: 'Author'})"><b-icon icon="plus-circle" custom-size="mdi-24px"></b-icon></a>
+                        </b-tooltip>
+                    </b-field>
+                </b-field>
+                <b-field style="text-align: left;">
+                    <input placeholder="Source" style="width: 28vh; margin-right: 2vh;" @input="typing = true" v-model="websiteCitationData.source" />
+                    <input placeholder="Title" style="width: 28vh; margin-right: 2vh;" @input="typing = true" v-model="websiteCitationData.title" />
+                    <input placeholder="Publisher" style="width: 29vh;" @input="typing = true" v-model="websiteCitationData.publisher" expanded/>
+                </b-field>
+                <b-field style="text-align: left;">
+                    <b-select v-model="websiteCitationData.issued.month" placeholder="Month Published" style="width: 28vh; margin-right: 2vh;">
+                        <option v-for="(month, i) in monthNames" :value="i + 1" :key="i" v-cloak>
+                            {{ month }}
+                        </option>
+                    </b-select>
+                    <input @input="typing = true" v-model.number="websiteCitationData.issued.day" type="number" maxlength="2" placeholder="Day" style="width: 28vh; margin-right: 2vh;"/>
+                    <input @input="typing = true" v-model.number="websiteCitationData.issued.year" type="number" maxlength="4" placeholder="Year" style="width: 29vh;"/>
+                </b-field>
+                <b-field>
+                    <Preview :cslObject="websiteCitationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
+                </b-field>
+                <b-field expanded>
+                    <div id="submitFormDiv">
+                        <a class="button is-primary" @click="cite()">Done Editing</a>
+                    </div>
+                </b-field>
+                </div>
+                <div class="column"/>
+            </div>
+            <div class="container is-hidden-tablet" id="editForm" style="margin-top: 10vh;">
                 <b-field grouped v-for="(contributor, i) in websiteCitationData.contributors" :key="i">
                     <b-field expanded>
                         <b-select v-model="websiteCitationData.contributors[i].type" :placeholder="contributor.type">
@@ -133,7 +208,9 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
             default:
                 newURL = url
         }
-        console.log(newURL)
+        if (newURL.substring(0, 4) == "www.") {
+            newURL = newURL.substring(4, newURL.length)
+        }
         return newURL
       },
       citeURL() {
@@ -145,7 +222,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 },
                 method: 'POST',
                 //@ts-ignore
-                body: {"url": this.websiteCitationData.url, "format": "website"},
+                body: {"url": (this.websiteCitationData.url.substring(0, 4) == 'http') ? this.websiteCitationData.url: ('http://' + this.websiteCitationData.url), "format": "website"},
                 json: true
                 //@ts-ignore
         }).then(data => {
@@ -215,6 +292,23 @@ export default class EditWebsite extends Vue {
     color: #9ea7aa;
 }
 #websiteInput:focus {
+    border-color: #0064ff;
+}
+input {
+    padding: 5px;
+    width: 20vh;
+    height: 5vh;
+    border-style: solid;
+    background-color: #fff;
+    caret-color: #000;
+    border-radius: 5px;
+    font-size: 1.05rem;
+}
+input::placeholder {
+    font-size: 1rem;
+    color: #9ea7aa;
+}
+input:focus {
     border-color: #0064ff;
 }
 #editFormTitle {

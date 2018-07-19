@@ -20,7 +20,8 @@ export default new Vuex.Store({
         "locale": "locales-en-US",
         "csl": {}
       }
-    ]
+    ],
+    "editing": null
   },
   mutations: {
     addCitation(state: any, payload: object) {
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     },
     selectProject(state: any, payload: number) {
       state.selectedProject = payload
+    },
+    setEditing(state: any, payload: any) {
+      state.editing = payload
     }
   },
   actions: {
@@ -285,6 +289,9 @@ export default new Vuex.Store({
           })
         }
       });
+    },
+    setEditing(context: any, payload: any) {
+      context.commit('setEditing', payload)
     }
   },
   getters: {
@@ -299,6 +306,9 @@ export default new Vuex.Store({
     },
     getProjects(state: any) {
       return state.projects
+    },
+    getEditing(state: any) {
+      return state.editing
     },
     getState(state: any) {
       return state

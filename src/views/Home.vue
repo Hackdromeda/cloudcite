@@ -63,7 +63,10 @@ import debounce from 'lodash/debounce';
   methods: {
     cite(option: string) {
       this.$data.selectedFormat = option
-      this.$router.push({path: '/edit/format/' + option.toLowerCase() + '/'})
+      this.$router.push({
+        path: ('/cite/' + option.toLowerCase() + '/'),
+        //@ts-ignore
+      })
     },
     getAsyncData: debounce(function() {
       //@ts-ignore

@@ -1,5 +1,5 @@
 <template>
-    <div id="editbook">
+    <div id="citeBook">
         <div v-if="!citationStarted">
             <section class="hero is-primary" style="min-height: 35vh; margin-bottom: 10vh;">
                 <div class="hero-body">
@@ -11,32 +11,17 @@
                     </div>
                 </div>
             </section>
-            <div class="is-hidden-tablet">
-                <b-field style="margin-left: 2vh; margin-right: 2vh;">
-                    <p class="control">
-                        <b-select v-model="bookIdentificationSelected">
-                        <option v-for="(identification, i) in bookIdentification" :value="identification" :key="i" v-cloak>
-                            {{ 'Search by ' + identification }}
-                        </option>  
-                    </b-select>
-                    </p>
-                    <p class="control">
-                        <b-input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData" expanded/>
-                    </p>
-                </b-field>
-            </div>
-            <div class="is-hidden-mobile" style="display: inline-flex;">
-                <select id="bookIdentificationDropdown" v-model="bookIdentificationSelected">
-                    <option v-for="(identification, i) in bookIdentification" :value="identification" :key="i" v-cloak>
-                        {{ 'Search by ' + identification }}
-                    </option>  
-                </select>
-                <input id="bookInputBox" v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData"/>
-            </div>
+            <sui-form style="display: inline-flex;">
+                <sui-form-field style="margin-right: 3vh;">
+                    <sui-dropdown fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
+                </sui-form-field>
+                <sui-form-field>
+                    <input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData"/>
+                </sui-form-field>
+            </sui-form>
             <div v-if="isFetching">
                 <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
             </div>
-            
             <div v-for="(book, i) in bookData" :key="i">
                 <a @click="citeBook(book)">
                     <div class="card">
@@ -70,67 +55,6 @@
                 </a>
             </div>
         </div>
-        <div v-if="citationStarted">
-            <section class="hero is-primary" style="min-height: 20vh; margin-bottom: 10vh;">
-                <div class="hero-body">
-                    <div class="container">
-                        <h1 class="title is-size-2">Edit Book Citation</h1>
-                    </div>
-                </div>
-            </section>
-            <div class="container" id="editForm">
-                <b-field grouped v-for="(contributor, i) in bookCitationData.contributors" :key="i">
-                    <b-field expanded>
-                        <b-select v-model="bookCitationData.contributors[i].type" :placeholder="contributor.type">
-                            <option v-for="(type, j) in contributorTypes" :value="type" :key="j" v-cloak>
-                                {{ type }}
-                            </option>  
-                        </b-select>
-                    </b-field>
-                    <b-field expanded>
-                        <b-input placeholder="First Name" @input="typing = true" v-model="contributor.given"></b-input>
-                    </b-field>
-                    <b-field expanded>
-                        <b-input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle"></b-input>
-                    </b-field>
-                    <b-field expanded>
-                        <b-input placeholder="Last Name" @input="typing = true" v-model="contributor.family"></b-input>
-                    </b-field>
-                    <b-field expanded>
-                        <b-tooltip label="Remove Contributor" position="is-top" animated>
-                            <a v-if="bookCitationData.contributors.length == 1" id="removeContributorButton" @click="bookCitationData.clearContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
-                            <a v-if="bookCitationData.contributors.length > 1" id="removeContributorButton" @click="bookCitationData.removeContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
-                        </b-tooltip>
-                        <b-tooltip label="Add Contributor" position="is-top" animated>
-                            <a id="addContributorButton" @click="bookCitationData.contributors.push({first: null, middle: null, last: null, type: 'Author'})"><b-icon icon="plus-circle" custom-size="mdi-24px"></b-icon></a>
-                        </b-tooltip>
-                    </b-field>
-                </b-field>
-                <b-field expanded>
-                    <b-input placeholder="Title" @input="typing = true" v-model="bookCitationData.title" expanded></b-input>
-                </b-field>
-                <b-field expanded>
-                    <b-input placeholder="Chapter" @input="typing = true" v-model="bookCitationData.chapter" expanded></b-input>
-                </b-field>
-                <b-field expanded>
-                    <b-input placeholder="Volume Number" @input="typing = true" v-model.number="bookCitationData.volNumber" expanded></b-input>
-                </b-field>
-                <b-field expanded>
-                    <b-input placeholder="Publisher" @input="typing = true" v-model="bookCitationData.publisher" expanded></b-input>
-                </b-field>
-                <b-field expanded>
-                    <b-input @input="typing = true" v-model.number="bookCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
-                </b-field>
-                <b-field expanded>
-                    <Preview :cslObject="bookCitationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
-                </b-field>
-                <b-field expanded>
-                    <div id="submitFormDiv">
-                        <a class="button is-primary" @click="cite()">Done Editing</a>
-                    </div>
-                </b-field>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -153,16 +77,33 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
   },
   data () {
     return {
-        citationStarted: false,
-        typing: false,
         bookData: [],
         selectedBook: null,
         bookIdentificationSelected: 'Title',
-        bookIdentification: ['Title', 'ISBN', 'OCLC', 'LCCN'],
+        bookIdentification: [
+            {
+                "key": "Title",
+                "text": "Title",
+                "value": "Title"
+            },
+            {
+                "key": "ISBN",
+                "text": "ISBN",
+                "value": "ISBN"
+            },
+            {
+                "key": "OCLC",
+                "text": "OCLC",
+                "value": "OCLC"
+            },
+            {
+                "key": "LCCN",
+                "text": "LCCN",
+                "value": "LCCN"
+            }
+        ],
         bookIdentificationField: null,
         bookCitationData: new BookCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {}),
-        contributorTypes: ["Author", "Editor"],
-        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
         isFetching: false
     }
   },
@@ -257,111 +198,26 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 var yearPublished = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): ""
                 //@ts-ignore
                 this.$data.bookCitationData = new BookCitation(contributors, "", "", this.$data.selectedBook.volumeInfo.title, this.$data.selectedBook.volumeInfo.publisher, {month: "", day: "", year: yearPublished ? yearPublished: ""})
-                this.$data.citationStarted = !this.$data.citationStarted
+                //@ts-ignore
+                this.$store.dispatch('setEditing', this.$data.bookCitationData)
+                this.$router.push({path: '/edit/book/'})
                 //@ts-ignore
             }).catch(error => {
                 console.log(error)
-                this.$data.citationStarted = !this.$data.citationStarted
             })
         }
     },
-    cite() {
-        this.$store.dispatch('addCitation', this.$data.bookCitationData.toCSL())
-        this.$router.push({path: '/bibliography/'})
-    }
-  },
-  computed: {
-    selectedMonth: {
-        get() {
-            return this.$data.bookCitationData.issued.month
-        }
-    }
-  },
-  watch: {
-    selectedMonth() {
-        this.$data.typing = true
-    },
-    typing: debounce(function () {
-    //@ts-ignore
-    this.$data.typing = false
-    }, 5000)
   }
 })
 
-export default class EditBook extends Vue {}
+export default class CiteBook extends Vue {}
 </script>
 
 <style scoped lang="scss">
-#bookIdentificationDropdown {
-    width: 20vh;
-    height: 7vh;
-    font-size: 0.8rem;
-    font-weight: 450;
-    -webkit-appearance: none; 
-   -moz-appearance: none;
-   border-style: solid;
-   background-color: #fff;
-   border-radius: 5px;
-   color: #9ea7aa;;
-}
-#bookIdentificationDropdown:focus {
-    border-color: #005eea;
-    color: #000;
-}
-#bookInputBox {
-  padding: 5px;
-  margin-left: 5vh;
-  margin-bottom: 5vh;
-  min-width: 20vh;
-  min-height: 7vh;
-  border-style: solid;
-  background-color: #fff;
-  caret-color: #000;
-  border-radius: 5px;
-  font-size: 1.3rem;
-}
-#bookInputBox::placeholder {
-    font-size: 1rem;
-    color: #9ea7aa;
-}
-#bookInputBox:focus {
-    border-color: #0064ff;
-}
-#editFormTitle {
-    color: #005eea;
-}
-#editbook {
+#citeBook {
     min-height: 100vh;
     text-align: center;
     justify-content: center;
     background-color: #fff;
-}
-#removeContributorButton {
-    color: red;
-}
-#addContributorButton {
-    color: #005eea;
-}
-#submitFormDiv {
-    text-align: left;
-    margin: 5vh;
-}
-@media (max-width: 991.97px) {
-    #bookInput {
-        width: 35vh;
-    }
-    #editForm {
-        margin-left: 5vh;
-        margin-right: 5vh;
-    }
-}
-@media (min-width: 991.98px) {
-    #editForm {
-        padding-left: 20%;
-        padding-right: 20%;
-    }
-    #bookInput {
-        width: 60vh;
-    }
 }
 </style>

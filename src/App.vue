@@ -53,6 +53,7 @@
 </template>
 
 <script lang="ts">
+import 'semantic-ui-css/semantic.min.css';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 //@ts-ignore
 import AuthService from './Auth/AuthService';

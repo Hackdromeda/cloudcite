@@ -4,11 +4,12 @@ import Home from './views/Home.vue'
 const About = () => import('./views/About.vue')
 const Pricing = () => import('./views/Pricing.vue')
 const LoadingPage = () => import('./views/LoadingPage.vue')
-const EditWebsite = () => import('./views/EditWebsite.vue')
-const EditBook = () => import('./views/EditBook.vue')
-const EditFilm = () => import('./views/EditFilm.vue')
+const CiteWebsite = () => import('./views/CiteWebsite.vue')
+const CiteBook = () => import('./views/CiteBook.vue')
+const CiteFilm = () => import('./views/CiteFilm.vue')
 const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
 const Bibliography = () => import('./views/Bibliography.vue')
+const EditCitation = () => import('./views/EditCitation.vue')
 
 Vue.use(Router)
 
@@ -115,25 +116,34 @@ export default new Router({
       }
     },
     {
-      path: '/edit/format/website/',
-      name: 'editwebsite',
-      component: EditWebsite,
+      path: '/edit/:format/',
+      name: 'editcitation',
+      component: EditCitation,
+      props: true,
+      meta: {
+        title: 'CloudCite · Edit Citation'
+      }
+    },
+    {
+      path: '/cite/website/',
+      name: 'citewebsite',
+      component: CiteWebsite,
       meta: {
         title: 'CloudCite · Cite a Website'
       }
     },
     {
-      path: '/edit/format/book/',
-      name: 'editbook',
-      component: EditBook,
+      path: '/cite/book/',
+      name: 'citebook',
+      component: CiteBook,
       meta: {
         title: 'CloudCite · Cite a Book'
       }
     },
     {
-      path: '/edit/format/film/',
-      name: 'editfilm',
-      component: EditFilm,
+      path: '/cite/film/',
+      name: 'citefilm',
+      component: CiteFilm,
       meta: {
         title: 'CloudCite · Cite a Film'
       }

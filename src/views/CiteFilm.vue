@@ -1,5 +1,5 @@
 <template>
-    <div id="editFilm">
+    <div id="citeFilm">
         <div v-if="!citationStarted">
             <section class="hero is-primary" style="min-height: 35vh; margin-bottom: 10vh;">
                 <div class="hero-body">
@@ -54,67 +54,6 @@
                 </a>
             </div>
         </div>
-        <div v-if="citationStarted">
-            <section class="hero is-primary" style="min-height: 20vh; margin-bottom: 10vh;">
-                <div class="hero-body">
-                    <div class="container">
-                        <h1 class="title is-size-2">Edit Film Citation</h1>
-                    </div>
-                </div>
-            </section>
-            <div class="container" id="editForm">
-                <b-field grouped v-for="(contributor, i) in filmCitationData.contributors" :key="i">
-                    <b-field expanded>
-                        <b-select v-model="filmCitationData.contributors[i].type" :placeholder="contributor.type">
-                            <option v-for="(type, j) in contributorTypes" :value="type" :key="j" v-cloak>
-                                {{ type }}
-                            </option>  
-                        </b-select>
-                    </b-field>
-                    <b-field expanded>
-                        <b-input placeholder="First Name" @input="typing = true" v-model="contributor.given"></b-input>
-                    </b-field>
-                    <b-field expanded>
-                        <b-input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle"></b-input>
-                    </b-field>
-                    <b-field expanded>
-                        <b-input placeholder="Last Name" @input="typing = true" v-model="contributor.family"></b-input>
-                    </b-field>
-                    <b-field expanded>
-                        <b-tooltip label="Remove Contributor" position="is-top" animated>
-                            <a v-if="filmCitationData.contributors.length == 1" id="removeContributorButton" @click="filmCitationData.clearContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
-                            <a v-if="filmCitationData.contributors.length > 1" id="removeContributorButton" @click="filmCitationData.removeContributor(i)"><b-icon icon="minus-circle" custom-size="mdi-24px"></b-icon></a>
-                        </b-tooltip>
-                        <b-tooltip label="Add Contributor" position="is-top" animated>
-                            <a id="addContributorButton" @click="filmCitationData.contributors.push({first: null, middle: null, last: null, type: 'Author'})"><b-icon icon="plus-circle" custom-size="mdi-24px"></b-icon></a>
-                        </b-tooltip>
-                    </b-field>
-                </b-field>
-                <b-field expanded>
-                    <b-input placeholder="Title" @input="typing = true" v-model="filmCitationData.title" expanded></b-input>
-                </b-field>
-                <b-field expanded>
-                    <b-input placeholder="Studio" @input="typing = true" v-model="filmCitationData.publisher" expanded></b-input>
-                </b-field>
-                <b-field expanded>
-                    <b-input placeholder="Publisher Location" @input="typing = true" v-model="filmCitationData.publisherPlace" expanded></b-input>
-                </b-field>
-                <b-field expanded>
-                    <b-input @input="typing = true" v-model.number="filmCitationData.issued.year" type="number" maxlength="4" placeholder="Year" expanded></b-input>
-                </b-field>
-                <b-field expanded>
-                    <b-input maxlength="500" type="textarea" @input="typing = true" v-model="filmCitationData.abstract" placeholder="Abstract"></b-input>
-                </b-field>
-                <b-field expanded>
-                    <Preview :cslObject="filmCitationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
-                </b-field>
-                <b-field expanded>
-                    <div id="submitFormDiv">
-                        <a class="button is-primary" @click="cite()">Done Editing</a>
-                    </div>
-                </b-field>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -135,8 +74,6 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
   },
   data () {
       return {
-        citationStarted: false,
-        typing: false,
         contributorTypes: ["Director", "Writer", "Producer", "Actor/Performer", "Author"],
         filmCitationData: new FilmCitation([{first: "", middle: "", last: "", type: "Director"}], '', '', '', {month: null, day: null, year: null}, ''),
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
@@ -207,27 +144,18 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 }
                 //@ts-ignore
                 this.$data.filmCitationData = new FilmCitation(contributors, data.title ? data.title: "", data.publisher ? data.publisher: "", data["publisher-place"] ? data["publisher-place"]: "", {month: data.issued.month ? data.issued.month: "", day: data.issued.day ? data.issued.day: "", year: data.issued.year ? data.issued.year: ""}, data.abstract ? data.abstract: "")
-                this.$data.citationStarted = !this.$data.citationStarted
+                //@ts-ignore
+                this.$store.dispatch('setEditing', this.$data.filmCitationData)
+                this.$router.push({path: '/edit/film/'})
                 //@ts-ignore
             }).catch(error => {
                 console.log(error)
-                this.$data.citationStarted = !this.$data.citationStarted
             })
         }
-      },
-      cite() {
-          this.$store.dispatch('addCitation', this.$data.filmCitationData.toCSL())
-          this.$router.push({path: '/bibliography/'})
       }
   },
-  watch: {
-    typing: debounce(function () {
-    //@ts-ignore
-    this.$data.typing = false
-    }, 5000)
-  }
 })
-export default class EditFilm extends Vue {
+export default class CiteFilm extends Vue {
 }
 </script>
 
@@ -250,10 +178,7 @@ export default class EditFilm extends Vue {
 #filmInputBox:focus {
     border-color: #0064ff;
 }
-#editFormTitle {
-    color: #005eea;
-}
-#editFilm {
+#citeFilm {
     height: 100vh;
     text-align: center;
     justify-content: center;
@@ -262,16 +187,7 @@ export default class EditFilm extends Vue {
 #nextColumn {
     transform: translate(0, 35%);
 }
-#removeContributorButton {
-    color: red;
-}
-#addContributorButton {
-    color: #005eea;
-}
-#submitFormDiv {
-    text-align: left;
-    margin: 5vh;
-}
+
 @media (max-width: 991.97px) {
     #filmInput {
         width: 35vh;

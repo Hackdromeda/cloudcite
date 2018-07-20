@@ -1,6 +1,5 @@
 <template>
     <div id="citeFilm">
-        <div v-if="!citationStarted">
             <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
                 <div class="container" style="padding: 7vh;">
                     <h1>Cite a Film</h1>
@@ -10,48 +9,38 @@
                 </div>
             </div>
 
-            <div class="is-hidden-tablet">
-                <b-field style="margin-left: 2vh; margin-right: 2vh;">
-                    <b-input id="filmInputBox" v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" expanded/>
-                </b-field>
-            </div>
-
-            <div class="is-hidden-mobile">
-                <input id="filmInputBox" v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData"/>
+            <div style="display: inline-flex; margin-top: 5vh;">
+                <sui-input v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" icon="search"/>
             </div>
 
             <div v-if="isFetching">
                 <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
             </div>
-            
-            <div v-for="(film, i) in filmData" :key="i">
-                <a @click="citeFilm(film)">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-left" v-if="film.poster_path">
-                                    <figure class="image is-48x48" style="margin-bottom: 25px;">
-                                    <img :src="`https://image.tmdb.org/t/p/w500/${film.poster_path}`" width="32">
-                                    </figure>
-                                </div>
-                                <div class="media-content" v-if="film.title" v-cloak>
-                                    {{ film.title }}
-                                    <br>
-                                    <small v-if="film.release_date && film.vote_average" v-cloak>
-                                        Released at {{ film.release_date }},
-                                        rated <b>{{ film.vote_average }}</b>
-                                    </small>
-                                    <br/>
-                                    <small v-if="film.overview" v-cloak>
-                                        {{film.overview}}
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+
+            <sui-grid :columns="3">
+                <sui-grid-row>
+                    <sui-grid-column/>
+                    <sui-grid-column>
+                    <sui-item-group style="text-align: left; padding: 5vh; width: 60vh;" divided v-for="(film, i) in filmData" :key="i">
+                        <sui-item>
+                            <sui-item-content>
+                                <sui-item-header v-if="film.title" v-cloak>{{ film.title }}</sui-item-header>
+                                <sui-item-meta>
+                                    <span v-if="film.release_date && film.vote_average" v-cloak>
+                                        Released at {{ film.release_date }}, rated <b>{{ film.vote_average }}</b>
+                                    </span>
+                                </sui-item-meta>
+                                <sui-item-description v-if="film.overview" v-cloak>
+                                    <p>{{ film.overview }}</p>
+                                </sui-item-description>
+                                <sui-button style="margin-top: 1vh;" @click="citeFilm(film)" type="button"><sui-icon name="pencil alternatice"/>Cite Film</sui-button>
+                            </sui-item-content>
+                        </sui-item>
+                    </sui-item-group>
+                    </sui-grid-column>
+                    <sui-grid-column/>
+                </sui-grid-row>
+            </sui-grid>
     </div>
 </template>
 
@@ -158,50 +147,10 @@ export default class CiteFilm extends Vue {
 </script>
 
 <style scoped lang="scss">
-#filmInputBox {
-  padding: 5px;
-  margin-bottom: 5vh;
-  min-width: 20vh;
-  min-height: 7vh;
-  border-style: solid;
-  background-color: #fff;
-  caret-color: #000;
-  border-radius: 5px;
-  font-size: 1.3rem;
-}
-#filmInputBox::placeholder {
-    font-size: 1rem;
-    color: #9ea7aa;
-}
-#filmInputBox:focus {
-    border-color: #0064ff;
-}
 #citeFilm {
-    height: 100vh;
+    min-height: 100vh;
     text-align: center;
     justify-content: center;
     background-color: #fff;
-}
-#nextColumn {
-    transform: translate(0, 35%);
-}
-
-@media (max-width: 991.97px) {
-    #filmInput {
-        width: 35vh;
-    }
-    #editForm {
-        margin-left: 5vh;
-        margin-right: 5vh;
-    }
-}
-@media (min-width: 991.98px) {
-    #editForm {
-        padding-left: 20%;
-        padding-right: 20%;
-    }
-    #filmInput {
-        width: 60vh;
-    }
 }
 </style>

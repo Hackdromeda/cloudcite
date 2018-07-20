@@ -8,14 +8,10 @@
                     </h2>
                 </div>
             </div>
-            <sui-form style="display: inline-flex; margin-top: 5vh;">
-                <sui-form-field style="margin-right: 3vh;">
-                    <sui-dropdown fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
-                </sui-form-field>
-                <sui-form-field>
-                    <input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData"/>
-                </sui-form-field>
-            </sui-form>
+            <div style="display: inline-flex; margin-top: 5vh;">
+                <sui-dropdown style="margin-right: 3vh;" fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
+                <sui-input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData" icon="search"/>
+            </div>
             <div v-if="isFetching">
                 <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
             </div>

@@ -1,6 +1,5 @@
 <template>
     <div id="citeWebsite">
-        <div v-if="!citationStarted">
             <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
                 <div class="container" style="padding: 7vh;">
                     <h1>Cite a Website</h1>
@@ -26,7 +25,6 @@
                 <sui-grid-column/>
             </sui-grid>
             <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"></moon-loader>
-        </div>
     </div>
 </template>
 

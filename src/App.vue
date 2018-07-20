@@ -1,18 +1,36 @@
 <template>
   <div id="app">
     <div id="appMain">
-        <nav class="navbar">
-            <a class="navbar-title" @click="$router.push({path: '/'})">CloudCite</a>
-            <a class="navbar-item" @click="$router.push({path: '/bibliography/'})">Bibliography</a>
-            <a class="navbar-item" @click="$router.push({path: '/about/'})">About</a>
-            <a class="navbar-item" @click="$router.push({path: '/api/'})">API</a>
-            <a class="navbar-item" @click="$router.push({path: '/pricing/'})">Pricing</a>
-            <a class="navbar-item" @click="$router.push({path: '/status/'})">Status</a>
-            <a class="navbar-item" @click="$router.push({path: '/support/'})">Help</a>
-            <a class="navbar-item" @click="$router.push({path: '/support/'})">Donate</a>
-            <sui-button class="navbar-item" style="float: right;" v-if="!authenticated" type="button" @click="login()">Log In / Register</sui-button>
-            <sui-button class="navbar-item" style="float: rightl" v-if="authenticated" type="button" @click="logout()">Log Out</sui-button>
-      </nav>
+      <nav class="navbar is-transparent">
+          <div class="navbar-brand">
+            <a class="navbar-item" @click="$router.push({path: '/'})">
+              <a style="color: #005eea; font-weight: 525; font-size: 1.5rem;">CloudCite</a>
+            </a>
+            <!--https://gitlab.com/snippets/1685935-->
+            <div class="navbar-burger burger" @click="toggleMenu" data-target="navbarMenu" :class="{'is-active': navIsActive}">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </div>
+          </div>
+          <div id="navbarMenu" class="navbar-menu" :class="{'is-active': navIsActive}">
+            <div class="navbar-start">
+              <a class="navbar-item" @click="$router.push({path: '/bibliography/'})">Bibliography</a>
+              <a class="navbar-item" @click="$router.push({path: '/about/'})">About</a>
+              <a class="navbar-item" @click="$router.push({path: '/api/'})">API</a>
+              <a class="navbar-item" @click="$router.push({path: '/pricing/'})">Pricing</a>
+              <a class="navbar-item" @click="$router.push({path: '/status/'})">Status</a>
+              <a class="navbar-item" @click="$router.push({path: '/support/'})">Help</a>
+              <a class="navbar-item" @click="$router.push({path: '/support/'})">Donate</a>
+            </div>
+            <div class="navbar-end">
+              <div class="navbar-item">
+                <sui-button class="navbar-item" style="float: right;" v-if="!authenticated" type="button" @click="login()">Log In / Register</sui-button>
+                <sui-button class="navbar-item" style="float: rightl" v-if="authenticated" type="button" @click="logout()">Log Out</sui-button>
+              </div>
+            </div>
+          </div>
+    </nav>
     <router-view :auth="auth" :authenticated="authenticated"/>
     </div>
     <footer class="footer" style="background-color: #eee;">
@@ -26,12 +44,12 @@
 </template>
 
 <script lang="ts">
-import 'semantic-ui-css/semantic.min.css';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 //@ts-ignore
 import AuthService from './Auth/AuthService';
 const auth = new AuthService()
 const { login, logout, authenticated, authNotifier } = auth
+import 'semantic-ui-css/semantic.min.css';
 
 @Component({
   components: {},
@@ -43,12 +61,16 @@ const { login, logout, authenticated, authNotifier } = auth
     })
     return {
       auth,
-      authenticated
+      authenticated,
+      navIsActive: false
     }
   },
   methods: {
     login,
-    logout
+    logout,
+    toggleMenu() {
+      this.$data.navIsActive = !this.$data.navIsActive
+    }
   }
 })
 export default class App extends Vue {
@@ -57,6 +79,36 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all";
+
+// Set your colors
+$primary: #005eea;
+$primary-invert: findColorInvert($primary);
+$twitter: #4099FF;
+$twitter-invert: findColorInvert($twitter);
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: (
+    "white": ($white, $black),
+    "black": ($black, $white),
+    "light": ($light, $light-invert),
+    "dark": ($dark, $dark-invert),
+    "primary": ($primary, $primary-invert),
+    "info": ($info, $info-invert),
+    "success": ($success, $success-invert),
+    "warning": ($warning, $warning-invert),
+    "danger": ($danger, $danger-invert),
+    "twitter": ($twitter, $twitter-invert)
+);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+@import 'bulma/sass/components/navbar.sass';
 
 [v-cloak] {
   display: none;
@@ -98,32 +150,6 @@ h1 {
 nav {
   padding: 5px;
   background-color: #fff;
-}
-
-@media (max-width: 800px) {
-  .navbar-item {
-    visibility: hidden;
-  }
-}
-
-.navbar {
-  width: 100%;
-  height: 10vh;
-  background-color: #fff;
-  text-align: left;
-  padding: 20px;
-}
-
-.navbar-title {
-  color: #005eea;
-  font-size: 1.2rem;
-  font-weight: 525;
-  padding: 10px;
-}
-
-.navbar-item {
-  padding: 2vh;
-  color: #000;
 }
 
 footer {

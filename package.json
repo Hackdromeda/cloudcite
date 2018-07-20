@@ -9,6 +9,7 @@
   "dependencies": {
     "EventEmitter": "^1.0.0",
     "auth0-js": "^9.6.1",
+    "bulma": "^0.7.1",
     "bulma-pricingtable": "^2.1.0",
     "fg-loadcss": "^2.0.1",
     "path": "^0.12.7",

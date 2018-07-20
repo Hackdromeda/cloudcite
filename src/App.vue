@@ -15,13 +15,13 @@
           </div>
           <div id="navbarMenu" class="navbar-menu" :class="{'is-active': navIsActive}">
             <div class="navbar-start">
-              <a class="navbar-item" @click="$router.push({path: '/bibliography/'})">Bibliography</a>
-              <a class="navbar-item" @click="$router.push({path: '/about/'})">About</a>
-              <a class="navbar-item" @click="$router.push({path: '/api/'})">API</a>
-              <a class="navbar-item" @click="$router.push({path: '/pricing/'})">Pricing</a>
-              <a class="navbar-item" @click="$router.push({path: '/status/'})">Status</a>
-              <a class="navbar-item" @click="$router.push({path: '/support/'})">Help</a>
-              <a class="navbar-item" @click="$router.push({path: '/support/'})">Donate</a>
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/bibliography/'})">Bibliography</a>
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/about/'})">About</a>
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/api/'})">API</a>
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/pricing/'})">Pricing</a>
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/status/'})">Status</a>
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/support/'})">Help</a>
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/support/'})">Donate</a>
             </div>
             <div class="navbar-end">
               <div class="navbar-item">

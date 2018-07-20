@@ -15,9 +15,9 @@
                     <sui-grid-column>
                         <sui-form>
                             <sui-form-field>
-                                <div style="display: inline-flex; margin-top: 5vh;">
-                                    <sui-input style="margin-right: 1vh; width: 40vh; height: 7vh;" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
-                                    <sui-button type="button" @click="citeURL()">Cite</sui-button>
+                                <div class="ui labeled action input" style="margin-top: 5vh;">
+                                    <input v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
+                                    <button type="button" class="ui button" @click="citeURL()">Cite</button>
                                 </div>
                             </sui-form-field>
                         </sui-form>

@@ -11,10 +11,10 @@
         </div>
         <div id="citationOptions" v-if="!refreshing">
           <span v-if="deleteButton">
-            <a @click="removeCitation"><i class="trash icon" size="small"></i></a>
+            <a @click="removeCitation"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
           </span>
           <span v-if="clipboardButton">
-            <a @click="copyCitation"><i class="clipboard icon" size="small"></i></a>
+            <a @click="copyCitation"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
           </span>
         </div>
       </div>

@@ -7,73 +7,54 @@
         </div>
             <sui-grid :columns="3">
                 <sui-grid-row>
-                    <sui-grid-column :width="4">
-                    <div style="height: 100%; width: 80%; margin-left: 10px; border-radius: 5px;">
-                        <aside class="menu">
-                            <p class="menu-label">
-                                Citations
-                            </p>
-                            <ul class="menu-list">
-                                <a>Creating a Citation</a>
-                                <a>Editing a Citation</a>
-                            </ul>
-                            <p class="menu-label">
-                                Bibliography
-                            </p>
-                            <ul class="menu-list">
-                                <a>Export Options</a>
-                                <a>Managing Citations</a>
-                            </ul>
-                        </aside>
-                    </div>
+                    <sui-grid-column :width="4"/>
+                    <sui-grid-column :width="8" stretched>
+                        <sui-form style="padding-top: 5%; padding-bottom: 5%; text-align: left;">
+                            <div v-for="(contributor, i) in citationData.contributors" :key="i">
+                                <sui-form-field>
+                                    <sui-dropdown fluid v-model="citationData.contributors[i].type" :options="contributorTypes" :placeholder="(format == 'Film') ? 'Director': 'Author'" direction="downward" selection/>
+                                </sui-form-field>
+                                <sui-form-field>
+                                    <input placeholder="First Name" @input="typing = true" v-model="contributor.given"/>
+                                </sui-form-field>
+                                <sui-form-field>
+                                    <input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle"/>
+                                </sui-form-field>
+                                <sui-form-field>
+                                    <input placeholder="Last Name" @input="typing = true" v-model="contributor.family"/>
+                                </sui-form-field>
+                                <sui-form-field>
+                                </sui-form-field>
+                                <sui-button v-if="citationData.contributors.length == 1" type="button" style="margin-right: 2vh; margin-bottom: 3vh;" @click="citationData.clearContributor(i)">Remove Contributor</sui-button><sui-button v-if="citationData.contributors.length > 1" type="button" @click="citationData.removeContributor(i)" style="margin-right: 2vh; margin-bottom: 3vh;">Remove Contributor</sui-button><sui-button type="button" @click="citationData.contributors.push({first: '', middle: '', last: '', type: 'Author'})" style="margin-bottom: 3vh;">Add Contributor</sui-button>
+                            </div>
+                            <sui-form-field v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'string'">
+                                <input @input="typing = true" v-model="citationData[field]" :placeholder="(field.substring(0, 1).toUpperCase() + field.substring(1, field.length))">
+                            </sui-form-field>
+                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field == 'issued'">
+                                <sui-form-field>
+                                    <sui-dropdown fluid v-model="citationData.issued.month" :options="monthNames" placeholder="Month Published" selection search/>
+                                </sui-form-field>
+                                <sui-form-field>
+                                    <input v-if="format != 'Film'" @input="typing = true" v-model.number="citationData.issued.day" type="number" maxlength="2" placeholder="Day"/>
+                                </sui-form-field>
+                                <sui-form-field>
+                                    <input @input="typing = true" v-model.number="citationData.issued.year" type="number" maxlength="4" placeholder="Year"/>
+                                </sui-form-field>
+                            </div>
+                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued'">
+                                <sui-form-field v-if="typeof citationData[field][property] === 'string'" v-for="(property, p) in Object.keys(citationData[field])" :key="p">
+                                    <input @input="typing = true" v-model="citationData[field][property]" :placeholder="property"/>
+                                </sui-form-field>
+                            </div>
+                            <sui-form-field style="margin-top: 3vh;">
+                                <Preview :cslObject="citationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
+                            </sui-form-field>
+                            <sui-form-field>
+                                <sui-button type="button" @click="cite()">Done Editing</sui-button>
+                            </sui-form-field>
+                        </sui-form>
                     </sui-grid-column>
-                <sui-grid-column :width="8" stretched>
-                    <sui-form style="padding-bottom: 5%; text-align: left;">
-                        <div v-for="(contributor, i) in citationData.contributors" :key="i">
-                            <sui-form-field>
-                                <sui-dropdown fluid v-model="citationData.contributors[i].type" :options="contributorTypes" :placeholder="(format == 'Film') ? 'Director': 'Author'" direction="downward" selection/>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <input placeholder="First Name" @input="typing = true" v-model="contributor.given"/>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle"/>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <input placeholder="Last Name" @input="typing = true" v-model="contributor.family"/>
-                            </sui-form-field>
-                            <sui-form-field>
-                            </sui-form-field>
-                            <sui-button v-if="citationData.contributors.length == 1" type="button" style="margin-right: 2vh; margin-bottom: 3vh;" @click="citationData.clearContributor(i)">Remove Contributor</sui-button><sui-button v-if="citationData.contributors.length > 1" type="button" @click="citationData.removeContributor(i)" style="margin-right: 2vh; margin-bottom: 3vh;">Remove Contributor</sui-button><sui-button type="button" @click="citationData.contributors.push({first: '', middle: '', last: '', type: 'Author'})" style="margin-bottom: 3vh;">Add Contributor</sui-button>
-                        </div>
-                        <sui-form-field v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'string'">
-                            <input @input="typing = true" v-model="citationData[field]" :placeholder="(field.substring(0, 1).toUpperCase() + field.substring(1, field.length))">
-                        </sui-form-field>
-                        <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field == 'issued'">
-                            <sui-form-field>
-                                <sui-dropdown fluid v-model="citationData.issued.month" :options="monthNames" placeholder="Month Published" selection search/>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <input v-if="format != 'Film'" @input="typing = true" v-model.number="citationData.issued.day" type="number" maxlength="2" placeholder="Day"/>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <input @input="typing = true" v-model.number="citationData.issued.year" type="number" maxlength="4" placeholder="Year"/>
-                            </sui-form-field>
-                        </div>
-                        <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued'">
-                            <sui-form-field v-if="typeof citationData[field][property] === 'string'" v-for="(property, p) in Object.keys(citationData[field])" :key="p">
-                                <input @input="typing = true" v-model="citationData[field][property]" :placeholder="property"/>
-                            </sui-form-field>
-                        </div>
-                        <sui-form-field style="margin-top: 3vh;">
-                            <Preview :cslObject="citationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
-                        </sui-form-field>
-                        <sui-form-field>
-                            <sui-button type="button" @click="cite()">Done Editing</sui-button>
-                        </sui-form-field>
-                    </sui-form>
-                </sui-grid-column>
-                <sui-grid-column :width="4">Currently Editing</sui-grid-column>
+                    <sui-grid-column :width="4"/>
             </sui-grid-row>
         </sui-grid>
     </div>

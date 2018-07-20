@@ -9,17 +9,23 @@
                     </h2>
                 </div>
             </div>
-            <div class="is-hidden-tablet" style="display: inline-flex;">
-                <b-input style="padding-left: 5vh; padding-right: 2vh;" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citeURL()" :loading="loadingCitation"/>
-                <a class="button is-primary" style="margin-right: 5vh;" @click="citeURL()">Cite</a>
-            </div>
-            <div class="is-hidden-mobile">
-                <input id="websiteInput" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
-                <a style="width: 10vh; height: 7vh; margin-left: 2vh;" class="button is-primary" @click="citeURL()">Cite</a>
-            </div>
-            <div v-if="loadingCitation">
-                <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"></moon-loader>
-            </div>
+            <sui-grid :columns="3">
+                <sui-grid-row>
+                    <sui-grid-column/>
+                    <sui-grid-column>
+                        <sui-form>
+                            <sui-form-field>
+                                <div style="display: inline-flex; margin-top: 5vh;">
+                                    <sui-input style="margin-right: 1vh; width: 40vh; height: 7vh;" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
+                                    <sui-button type="button" @click="citeURL()">Cite</sui-button>
+                                </div>
+                            </sui-form-field>
+                        </sui-form>
+                    </sui-grid-column>
+                </sui-grid-row>
+                <sui-grid-column/>
+            </sui-grid>
+            <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"></moon-loader>
         </div>
     </div>
 </template>
@@ -107,78 +113,10 @@ export default class CiteWebsite extends Vue {}
 </script>
 
 <style scoped lang="scss">
-#websiteInput {
-  padding: 5px;
-  min-width: 20vh;
-  min-height: 7vh;
-  border-style: solid;
-  background-color: #fff;
-  caret-color: #000;
-  border-radius: 5px;
-  font-size: 1.3rem;
-}
-#websiteInput::placeholder {
-    font-size: 1rem;
-    color: #9ea7aa;
-}
-#websiteInput:focus {
-    border-color: #0064ff;
-}
-input {
-    padding: 5px;
-    width: 20vh;
-    height: 5vh;
-    border-style: solid;
-    background-color: #fff;
-    caret-color: #000;
-    border-radius: 5px;
-    font-size: 1.05rem;
-}
-input::placeholder {
-    font-size: 1rem;
-    color: #9ea7aa;
-}
-input:focus {
-    border-color: #0064ff;
-}
-#editFormTitle {
-    color: #005eea;
-}
-#editForm {
-    margin-left: 5vh;
-    margin-right: 5vh;
-}
 #citeWebsite {
     min-height: 100vh;
     text-align: center;
     justify-content: center;
     background-color: #fff;
-}
-#nextColumn {
-    transform: translate(0, 35%);
-}
-#removeContributorButton {
-    color: red;
-}
-#addContributorButton {
-    color: #005eea;
-}
-#submitFormDiv {
-    text-align: left;
-    margin: 5vh;
-}
-@media (max-width: 991.97px) {
-    #websiteInput {
-        width: 35vh;
-    }
-}
-@media (min-width: 991.98px) {
-    #editForm {
-        padding-left: 20%;
-        padding-right: 20%;
-    }
-    #websiteInput {
-        width: 60vh;
-    }
 }
 </style>

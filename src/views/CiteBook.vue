@@ -1,15 +1,14 @@
 <template>
     <div id="citeBook">
-        <div v-if="!citationStarted">
             <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
-                <div class="container" style="padding: 7vh;">
+                <div style="padding: 7vh;">
                     <h1>Cite a Book</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">
                         You can start citing a book by typing the title and selecting the book you want to cite. You can also find books by ISBN, OCLC, and LCCN.
                     </h2>
                 </div>
             </div>
-            <sui-form style="display: inline-flex;">
+            <sui-form style="display: inline-flex; margin-top: 5vh;">
                 <sui-form-field style="margin-right: 3vh;">
                     <sui-dropdown fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
                 </sui-form-field>
@@ -20,39 +19,38 @@
             <div v-if="isFetching">
                 <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
             </div>
-            <div v-for="(book, i) in bookData" :key="i">
-                <a @click="citeBook(book)">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-left" v-if="book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.smallThumbnail">
-                                    <figure class="image is-48x48" style="margin-bottom: 25px;">
-                                    <img :src="book.volumeInfo.imageLinks.smallThumbnail" width="32">
-                                    </figure>
+            
+            <sui-grid :columns="3">
+                <sui-grid-row>
+                    <sui-grid-column/>
+                    <sui-grid-column>
+                    <sui-item-group style="text-align: left; padding: 5vh; width: 60vh;" divided v-for="(book, i) in bookData" :key="i">
+                        <sui-item>
+                            <sui-item-content>
+                                <sui-item-header v-if="book.volumeInfo.title" v-cloak>{{ book.volumeInfo.title }}</sui-item-header>
+                                <sui-item-meta>
+                                <span v-if="book.volumeInfo.publishedDate" v-cloak>{{ book.volumeInfo.publishedDate }}</span>
+                                </sui-item-meta>
+                                <sui-item-description v-if="book.volumeInfo.description" v-cloak>
+                                <div style="display: inline-flex;" v-for="(author, a) in book.volumeInfo.authors" :key="a">
+                                    <span v-if="book.volumeInfo.authors.length > 1 && a < (book.volumeInfo.authors.length - 1)" v-cloak><b style="margin-right: 5px;">{{author + ","}}</b></span>
+                                    <span v-else v-cloak>
+                                        <b>{{author}}</b>
+                                    </span>
                                 </div>
-                                <div class="media-content" v-cloak>
-                                    {{ book.volumeInfo.title }}
-                                    <small v-if="book.volumeInfo.authors && book.volumeInfo.authors.length > 1"><br>Authors: </small>
-                                    <small v-if="book.volumeInfo.authors && book.volumeInfo.authors.length == 1"><br>Author: </small>
-                                    <small v-for="(author, a) in book.volumeInfo.authors" :key="a">
-                                        <span v-if="book.volumeInfo.authors.length > 1 && a < (book.volumeInfo.authors.length - 1)" v-cloak>{{author + ", "}}</span>
-                                        <span v-else v-cloak>
-                                            {{author}}
-                                        </span>
-                                    </small>
-                                    <small v-if="book.volumeInfo.publishedDate" v-cloak>
-                                        <br/>Published on {{book.volumeInfo.publishedDate}}
-                                    </small>
-                                    <small v-if="book.volumeInfo.description" v-cloak>
-                                        <br/>{{book.volumeInfo.description}}
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+                                <br>
+                                <p>
+                                    {{ book.volumeInfo.description }}
+                                </p>
+                                </sui-item-description>
+                                <sui-button style="margin-top: 1vh;" @click="citeBook(book)" type="button"><sui-icon name="pencil alternatice" />Cite Book</sui-button>
+                            </sui-item-content>
+                        </sui-item>
+                    </sui-item-group>
+                    </sui-grid-column>
+                    <sui-grid-column/>
+                </sui-grid-row>
+            </sui-grid>
     </div>
 </template>
 

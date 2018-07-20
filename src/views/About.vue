@@ -1,16 +1,14 @@
 <template>
   <div>
-    <section class="hero is-primary" style="min-height: 35vh;">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title is-size-2">About Us</h1>
-            <h2 class="subtitle" style="margin-top: 10vh;">
-              CloudCite was developed by the Hackdromeda Team.
-            </h2>
-          </div>
-        </div>
-      </section>
-      <div class="content" id="about"></div>
+    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+      <div class="container" style="padding: 7vh;">
+        <h1>About Us</h1>
+        <h2 class="subtitle" style="margin-top: 10vh;">
+          CloudCite was developed by the Hackdromeda Team.
+        </h2>
+      </div>
+    </div>
+    <div id="about"></div>
   </div>
 </template>
 

@@ -1,38 +1,28 @@
 <template>
   <div>
-    <section class="hero is-primary" style="min-height: 35vh;">
-      <div class="hero-body">
-        <div class="container">
-          <div class="level is-hidden-tablet">
-            <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" v-cloak>{{bibliographyTitle}}</a>
-          </div>
-          <div class="level is-hidden-mobile">
-            <div class="level-item has-text-centered">
-              <a id="bibliographyTitle" v-if="!editingTitle" class="title is-size-2" @click="editingTitle = true" v-cloak>{{bibliographyTitle}}</a>
-              <div v-if="editingTitle" style="background-color: #005eea; color: #fff;" class="level-item has-text-centered">
-                <input id="bibliographyTitleInput" @keyup.enter="editingTitle = false" @mouseout="editingTitle = false" v-model="bibliographyTitle"/>
-              </div>
-            </div>
-          </div>
+    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+        <div class="container" style="padding: 7vh;">
+          <h1 v-cloak>{{ bibliographyTitle }}</h1>
           <h2 class="subtitle" style="margin-top: 10vh;">
             All of your citations will be here.
           </h2>
         </div>
-      </div>
-    </section>
-    <div class="content" id="bibliography">
+    </div>
+    <div id="bibliography">
       <div v-if="$store.getters.getCitations.length == 0" style="margin-top: 10vh;">
-        <p>This bibliography looks a little empty. You can create your first citation on the <router-link to="/">homepage</router-link>.</p>
+        This bibliography looks a little empty. You can create your first citation on the <a @click="$router.push({path: '/'})">homepage</a>.
       </div>
-      <div class="columns">
-        <div class="column"/>
-        <div class="column is-7">
-          <div id="preview" v-for="(citation, i) in $store.getters.getCitations" :key="i">
-            <Preview :cslObject="citation" :deleteOption="true" :copyOption="true"/>
-          </div>
-        </div>
-        <div class="column"/>
-      </div>
+      <sui-grid :columns="3">
+          <sui-grid-row>
+            <sui-grid-column/>
+            <sui-grid-column stretched>
+              <div id="preview" v-for="(citation, i) in $store.getters.getCitations" :key="i">
+                <Preview :cslObject="citation" :deleteOption="true" :copyOption="true"/>
+              </div>
+            </sui-grid-column>
+            <sui-grid-column/>
+        </sui-grid-row>
+      </sui-grid>
     </div>
   </div>
 </template>
@@ -46,9 +36,7 @@ import Preview from '../components/Preview.vue';
   },
   data () {
     return {
-      bibliographyTitle: "Bibliography",
-      editingTitle: false,
-      typingTitle: false
+      bibliographyTitle: "Bibliography"
     }
   }
 })
@@ -64,25 +52,20 @@ export default class Bibliography extends Vue {}
   background-color: #fff;
 }
 #bibliographyTitle {
-  padding: 5px;
+  color: #fff;
+  font-size: 2.3rem;
+  font-weight: 600;
 }
 #bibliographyTitle:hover {
   background-color: #104ba4;
 }
-#bibliographyTitleInput {
-  padding: 5px;
-  min-width: 20vh;
-  min-height: 5vh;
-  border: transparent;
-  background-color: #0036b7;
-  caret-color: #fff;
+#editTitle {
+  background-color: transparent;
+  border-color: transparent;
   color: #fff;
-  border-radius: 5px;
-  font-size:2rem;
 }
-#bibliographyTitleInput:focus {
-  border-color: #fff;
-  border: transparent;
+#editTitle::selection {
+  color: #fff;
 }
 #preview {
   margin-top: 10px;

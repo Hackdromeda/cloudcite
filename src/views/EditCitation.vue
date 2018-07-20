@@ -1,14 +1,13 @@
 <template>
     <div id="editcitation">
-        <section class="hero is-primary" style="min-height: 20vh;">
-            <div class="hero-body">
-                <div class="container">
-                    <h1 class="title is-size-2">Edit {{format}} Citation</h1>
-                </div>
+        <div style="min-height: 25vh; background-color: #005eea; color: #fff;">
+            <div class="container" style="padding: 7vh;">
+                <h1 v-cloak>Edit {{format}} Citation</h1>
             </div>
-        </section>
-            <div class="columns">
-                <div class="column is-hidden-mobile" style="margin-top: 8vh;">
+        </div>
+            <sui-grid :columns="3">
+                <sui-grid-row>
+                    <sui-grid-column :width="4">
                     <div style="height: 100%; width: 80%; margin-left: 10px; border-radius: 5px;">
                         <aside class="menu">
                             <p class="menu-label">
@@ -27,9 +26,8 @@
                             </ul>
                         </aside>
                     </div>
-                </div>
-                <div class="column is-6" style="margin-top: 5vh; margin-left: 2vh; margin-right: 2vh;">
-
+                    </sui-grid-column>
+                <sui-grid-column :width="8" stretched>
                     <sui-form style="padding-bottom: 5%; text-align: left;">
                         <div v-for="(contributor, i) in citationData.contributors" :key="i">
                             <sui-form-field>
@@ -46,7 +44,7 @@
                             </sui-form-field>
                             <sui-form-field>
                             </sui-form-field>
-                            <sui-grid-row><sui-button v-if="citationData.contributors.length == 1" type="button" style="margin-right: 2vh; margin-bottom: 3vh;" @click="citationData.clearContributor(i)">Remove Contributor</sui-button><sui-button v-if="citationData.contributors.length > 1" type="button" @click="citationData.removeContributor(i)" style="margin-right: 2vh; margin-bottom: 3vh;">Remove Contributor</sui-button><sui-button type="button" @click="citationData.contributors.push({first: '', middle: '', last: '', type: 'Author'})" style="margin-bottom: 3vh;">Add Contributor</sui-button></sui-grid-row>
+                            <sui-button v-if="citationData.contributors.length == 1" type="button" style="margin-right: 2vh; margin-bottom: 3vh;" @click="citationData.clearContributor(i)">Remove Contributor</sui-button><sui-button v-if="citationData.contributors.length > 1" type="button" @click="citationData.removeContributor(i)" style="margin-right: 2vh; margin-bottom: 3vh;">Remove Contributor</sui-button><sui-button type="button" @click="citationData.contributors.push({first: '', middle: '', last: '', type: 'Author'})" style="margin-bottom: 3vh;">Add Contributor</sui-button>
                         </div>
                         <sui-form-field v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'string'">
                             <input @input="typing = true" v-model="citationData[field]" :placeholder="(field.substring(0, 1).toUpperCase() + field.substring(1, field.length))">
@@ -74,9 +72,10 @@
                             <sui-button type="button" @click="cite()">Done Editing</sui-button>
                         </sui-form-field>
                     </sui-form>
-                </div>
-                <div class="column is-hidden-mobile"/>
-        </div>
+                </sui-grid-column>
+                <sui-grid-column :width="4">Currently Editing</sui-grid-column>
+            </sui-grid-row>
+        </sui-grid>
     </div>
 </template>
 

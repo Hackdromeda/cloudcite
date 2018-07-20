@@ -1,45 +1,18 @@
 <template>
   <div id="app">
     <div id="appMain">
-      <header>
-        <nav id="navbar" class="navbar is-transparent">
-          <div class="navbar-brand">
-            <a class="navbar-item" @click="$router.push({path: '/'})">
-              <h1 class="is-size-5" style="color: #005eea; font-weight: 525;">CloudCite</h1>
-            </a>
-            <div class="navbar-burger burger" data-target="navbarMenu">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </div>
-          </div>
-          <div id="navbarMenu" class="navbar-menu">
-            <div class="navbar-start">
-              <a class="navbar-item" @click="$router.push({path: '/bibliography/'})">Bibliography</a>
-              <a class="navbar-item" @click="$router.push({path: '/about/'})">About</a>
-              <a class="navbar-item" @click="$router.push({path: '/api/'})">API</a>
-              <a class="navbar-item" @click="$router.push({path: '/pricing/'})">Pricing</a>
-              <a class="navbar-item" @click="$router.push({path: '/status/'})">Status</a>
-              <a class="navbar-item" @click="$router.push({path: '/support/'})">Help</a>
-              <a class="navbar-item" @click="$router.push({path: '/support/'})">Donate</a>
-            </div>
-            <div class="navbar-end">
-              <div class="navbar-item">
-                <div class="field is-grouped">
-                  <p class="control">
-                    <a v-if="!authenticated" class="button is-primary is-rounded" @click="login()">
-                      <span>Log In / Register</span>
-                    </a>
-                    <a v-if="authenticated" class="button is-primary is-rounded" @click="logout()">
-                      <span>Log Out</span>
-                    </a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <nav class="navbar">
+            <a class="navbar-title" @click="$router.push({path: '/'})">CloudCite</a>
+            <a class="navbar-item" @click="$router.push({path: '/bibliography/'})">Bibliography</a>
+            <a class="navbar-item" @click="$router.push({path: '/about/'})">About</a>
+            <a class="navbar-item" @click="$router.push({path: '/api/'})">API</a>
+            <a class="navbar-item" @click="$router.push({path: '/pricing/'})">Pricing</a>
+            <a class="navbar-item" @click="$router.push({path: '/status/'})">Status</a>
+            <a class="navbar-item" @click="$router.push({path: '/support/'})">Help</a>
+            <a class="navbar-item" @click="$router.push({path: '/support/'})">Donate</a>
+            <sui-button class="navbar-item" style="float: right;" v-if="!authenticated" type="button" @click="login()">Log In / Register</sui-button>
+            <sui-button class="navbar-item" style="float: rightl" v-if="authenticated" type="button" @click="logout()">Log Out</sui-button>
       </nav>
-    </header>
     <router-view :auth="auth" :authenticated="authenticated"/>
     </div>
     <footer class="footer" style="background-color: #eee;">
@@ -76,23 +49,7 @@ const { login, logout, authenticated, authNotifier } = auth
   methods: {
     login,
     logout
-  },
-  mounted () {
-    var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-    var $navbarItems = Array.prototype.slice.call(document.querySelectorAll('.navbar-item'), 0);
-    if ($navbarBurgers.length > 0) {
-      $navbarBurgers.forEach(function ($el: any) {
-        $el.addEventListener('click', function () {
-          var target = $el.dataset.target;
-          var $target = document.getElementById(target);
-          $el.classList.toggle('is-active');
-          if ($target) {
-            $target.classList.toggle('is-active');
-          }
-        });
-      });
-    }
-  },
+  }
 })
 export default class App extends Vue {
 
@@ -100,33 +57,6 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-@import "~bulma/sass/utilities/_all";
-
-$primary: #005eea;
-$primary-invert: findColorInvert($primary);
-$twitter: #4099FF;
-$twitter-invert: findColorInvert($twitter);
-
-$colors: (
-    "white": ($white, $black),
-    "black": ($black, $white),
-    "light": ($light, $light-invert),
-    "dark": ($dark, $dark-invert),
-    "primary": ($primary, $primary-invert),
-    "info": ($info, $info-invert),
-    "success": ($success, $success-invert),
-    "warning": ($warning, $warning-invert),
-    "danger": ($danger, $danger-invert),
-    "twitter": ($twitter, $twitter-invert)
-);
-
-$link: $primary;
-$link-invert: $primary-invert;
-$link-focus-border: $primary;
-
-@import "~bulma";
-@import "~buefy/src/scss/buefy";
-@import '~bulma-pricingtable/src/sass/index';
 
 [v-cloak] {
   display: none;
@@ -144,6 +74,22 @@ html {
   background-color: #fff;
 }
 
+a:hover {
+  cursor: pointer;
+}
+
+h1 {
+  color: #fff;
+  font-size: 2.3rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.952);
+  font-size: 1.1rem;
+  font-weight: 505;
+}
+
 #appMain {
   min-height: 100vh;
   font-weight: 500;
@@ -152,6 +98,32 @@ html {
 nav {
   padding: 5px;
   background-color: #fff;
+}
+
+@media (max-width: 800px) {
+  .navbar-item {
+    visibility: hidden;
+  }
+}
+
+.navbar {
+  width: 100%;
+  height: 10vh;
+  background-color: #fff;
+  text-align: left;
+  padding: 20px;
+}
+
+.navbar-title {
+  color: #005eea;
+  font-size: 1.2rem;
+  font-weight: 525;
+  padding: 10px;
+}
+
+.navbar-item {
+  padding: 2vh;
+  color: #000;
 }
 
 footer {

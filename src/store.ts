@@ -15,6 +15,8 @@ export default new Vuex.Store({
     "selectedProject": 0,
     "projects": [
       {
+        "title": "New Project",
+        "bibliographyTitle": "Bibliography",
         "citations": [],
         "style": "modern-language-association",
         "locale": "locales-en-US",

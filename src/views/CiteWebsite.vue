@@ -1,16 +1,14 @@
 <template>
     <div id="citeWebsite">
         <div v-if="!citationStarted">
-            <section class="hero is-primary" style="min-height: 35vh; margin-bottom: 10vh;">
-                <div class="hero-body">
-                    <div class="container">
-                    <h1 class="title is-size-2">Cite a Website</h1>
+            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+                <div class="container" style="padding: 7vh;">
+                    <h1>Cite a Website</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">
                         You can start citing a website by typing the website link and clicking on cite.
                     </h2>
-                    </div>
                 </div>
-            </section>
+            </div>
             <div class="is-hidden-tablet" style="display: inline-flex;">
                 <b-input style="padding-left: 5vh; padding-right: 2vh;" v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter.native="citeURL()" :loading="loadingCitation"/>
                 <a class="button is-primary" style="margin-right: 5vh;" @click="citeURL()">Cite</a>

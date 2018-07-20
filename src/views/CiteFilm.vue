@@ -1,16 +1,14 @@
 <template>
     <div id="citeFilm">
         <div v-if="!citationStarted">
-            <section class="hero is-primary" style="min-height: 35vh; margin-bottom: 10vh;">
-                <div class="hero-body">
-                    <div class="container">
-                        <h1 class="title is-size-2">Cite a Film</h1>
-                        <h2 class="subtitle" style="margin-top: 10vh;">
-                            You can start citing a film by typing the title and selecting the film you want to cite.
-                        </h2>
-                    </div>
+            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+                <div class="container" style="padding: 7vh;">
+                    <h1>Cite a Film</h1>
+                    <h2 class="subtitle" style="margin-top: 10vh;">
+                        You can start citing a film by typing the title and selecting the film you want to cite.
+                    </h2>
                 </div>
-            </section>
+            </div>
 
             <div class="is-hidden-tablet">
                 <b-field style="margin-left: 2vh; margin-right: 2vh;">

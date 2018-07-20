@@ -11,10 +11,10 @@
         </div>
         <div id="citationOptions" v-if="!refreshing">
           <span v-if="deleteButton">
-            <a id="removeCitationButton" @click="removeCitation"><b-icon icon="delete" custom-size="mdi-24px"/></a>
+            <a @click="removeCitation"><i class="trash icon" size="small"></i></a>
           </span>
           <span v-if="clipboardButton">
-            <a id="copyToClipboardButton" @click="copyCitation"><b-icon icon="clipboard-outline" custom-size="mdi-24px"/></a>
+            <a @click="copyCitation"><i class="clipboard icon" size="small"></i></a>
           </span>
         </div>
       </div>
@@ -87,22 +87,26 @@ import rp from 'request-promise-native';
     copyCitation() {
       //@ts-ignore
       this.$copyText(this.$refs.cslBibRef.textContent)
+      /*
       this.$toast.open({
           duration: 3000,
           message: `Copied to Clipboard`,
           position: 'is-bottom-right',
           type: 'is-success'
       })
+      */
     },
     removeCitation() {
       //@ts-ignore
       this.$store.dispatch('removeCitationById', Object.keys(this.cslData)[0])
+      /*
       this.$toast.open({
           duration: 3000,
           message: `Removed Citation`,
           position: 'is-bottom-right',
           type: 'is-success'
       })
+      */
     }
   },
   watch: {
@@ -148,22 +152,6 @@ export default class Preview extends Vue {}
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-  }
-  #removeCitationButton {
-    margin-left: 1vh;
-    margin-right: 1vh;
-    color: #4b636e;
-  }
-  #removeCitationButton:hover {
-    color: #7f0000;
-  }
-  #copyToClipboardButton {
-    margin-left: 1vh;
-    margin-right: 1vh;
-    color: #4b636e;
-  }
-  #copyToClipboardButton:hover {
-    color: #087f23;
   }
   .hangingIndent {
     padding-left: 10vh;

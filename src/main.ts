@@ -3,14 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
-import Buefy from 'buefy'
 //@ts-ignore
 import VueClipboard from 'vue-clipboard2'
 //@ts-ignore
 import SuiVue from 'semantic-ui-vue';
 
 Vue.use(SuiVue)
-Vue.use(Buefy)
 Vue.use(VueClipboard)
 
 Vue.config.productionTip = false

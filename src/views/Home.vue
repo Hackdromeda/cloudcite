@@ -1,26 +1,24 @@
 <template>
   <div id="home">
-    <section class="hero is-primary" style="min-height: 35vh;">
-        <div class="hero-body">
-          <div class="container">
+    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+          <div class="container" style="padding: 3vh;">
             <img src="/static/favicons/icon-150x150.png" alt="CloudCite is the best bibliography generator"/>
-            <h1 class="title is-size-2">Welcome to CloudCite</h1>
-            <h2 class="subtitle" style="margin-top: 10vh;">
+            <h1>Welcome to CloudCite</h1>
+            <p class="subtitle" style="margin-top: 7vh;">
               CloudCite processes citations in the cloud so you never have to create citations manually again.
-            </h2>
+            </p>
           </div>
-        </div>
-      </section>
+      </div>
       <div class="container" id="mainContent">
         <h1 class="is-size-3" style="font-weight: 500;">Citation Options</h1>
         <div class="container" id="cite">
-            <a class="button is-rounded" id="citeButton" @click="cite('Website')">Website</a>
-            <a class="button is-rounded" id="citeButton">Journal</a>
-            <a class="button is-rounded" id="citeButton" @click="cite('Book')">Book</a>
-            <a class="button is-rounded" id="citeButton" @click="cite('Film')">Film/Movie</a>
-            <a class="button is-rounded" id="citeButton">Digital Image</a>
-            <a class="button is-rounded" id="citeButton">Podcast</a>
-            <a class="button is-rounded" id="citeButton">Music</a>
+            <sui-button type="button" id="citeButton" @click="cite('Website')">Website</sui-button>
+            <sui-button type="button" id="citeButton">Journal</sui-button>
+            <sui-button type="button" id="citeButton" @click="cite('Book')">Book</sui-button>
+            <sui-button type="button" id="citeButton" @click="cite('Film')">Film/Movie</sui-button>
+            <sui-button type="button" id="citeButton">Digital Image</sui-button>
+            <sui-button type="button" id="citeButton">Podcast</sui-button>
+            <sui-button type="button" id="citeButton">Music</sui-button>
           </div>
       </div>
   </div>

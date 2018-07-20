@@ -1,16 +1,14 @@
 <template>
     <div id="citeBook">
         <div v-if="!citationStarted">
-            <section class="hero is-primary" style="min-height: 35vh; margin-bottom: 10vh;">
-                <div class="hero-body">
-                    <div class="container">
-                    <h1 class="title is-size-2">Cite a Book</h1>
-                    <h2 class="subtitle" style="margin-top: 10vh; text-align: left;">
+            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+                <div class="container" style="padding: 7vh;">
+                    <h1>Cite a Book</h1>
+                    <h2 class="subtitle" style="margin-top: 10vh;">
                         You can start citing a book by typing the title and selecting the book you want to cite. You can also find books by ISBN, OCLC, and LCCN.
                     </h2>
-                    </div>
                 </div>
-            </section>
+            </div>
             <sui-form style="display: inline-flex;">
                 <sui-form-field style="margin-right: 3vh;">
                     <sui-dropdown fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>

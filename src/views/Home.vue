@@ -2,12 +2,12 @@
   <div id="home">
     <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
           <div class="container" style="padding: 3vh;">
-            <img src="/static/favicons/icon-150x150.png" alt="CloudCite is the best bibliography generator"/>
+            <img src="/static/favicons/icon-150x150.png" width="125" height="125" alt="CloudCite is the best bibliography generator"/>
             <h1>Welcome to CloudCite</h1>
             <p class="subtitle" style="margin-top: 7vh;">
               CloudCite processes citations in the cloud so you never have to create citations manually again.
             </p>
-            <div class="container" id="cite">
+            <div id="cite">
               <sui-button type="button" id="citeButton" @click="cite('Website')">Website</sui-button>
               <sui-button type="button" id="citeButton">Journal</sui-button>
               <sui-button type="button" id="citeButton" @click="cite('Book')">Book</sui-button>
@@ -18,8 +18,60 @@
             </div>
           </div>
       </div>
-      <div class="container" id="mainContent">
-        
+      <div id="mainContent">
+        <sui-grid :columns="3" stackable textAlign="left">
+          <sui-grid-row v-for="(row, r) in projects" :key="r" v-if="(r == 0) || ((r % 3) == 0)">
+            <sui-grid-column v-for="(project, p) in projects.slice((r * 3), (r * 3 + 3))" :key="p">
+              <div id="projectSegment" class="ui raised segment">
+                <p style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
+                  {{ project.title }}
+                </p>
+                <p v-if="project.style && project.style.length <= 27" style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Style</b>: {{ project.style }}
+                </p>
+                <p v-if="project.style && project.style.length > 27" style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Style</b>: {{ project.style.substring(0, 27) + '...' }}
+                </p>
+                <p v-if="project.locale && project.locale.length <= 27" style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Locale</b>: {{ project.locale }}
+                </p>
+                <p v-if="project.locale && project.locale.length > 27" style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Locale</b>: {{ project.locale.substring(0, 27) + '...'}}
+                </p>
+                <p style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Number of Citations</b>: {{ project.citations.length }}
+                </p>
+                <sui-button v-if="compareProject(project) == false" style="color: #006DFC;">Select</sui-button>
+                <sui-button v-if="compareProject(project) == true" style="color: #006DFC;" disabled>Selected</sui-button>
+                <sui-button style="color: #006DFC;">Edit</sui-button>
+              </div>
+            </sui-grid-column>
+            <sui-grid-column v-if="(projects.slice((r * 3), (r * 3 + 3)).length < 3)">
+              <div id="projectSegment" class="ui raised segment">
+                <p style="color: #005eea; font-size: 1.5rem; text-align: center;">
+                  New Project
+                </p>
+                <p style="font-size: 1rem; text-align: left;">
+                  <b>Style</b>: Select Style
+                </p>
+                <p style="font-size: 1rem; text-align: left;">
+                  <b>Locale</b>: Select Locale
+                </p>
+                <p style="font-size: 1rem; text-align: left;">
+                  <b>Number of Citations</b>: 0
+                </p>
+                <sui-button style="color: #006DFC;">Create Project</sui-button>
+              </div>
+            </sui-grid-column>
+          </sui-grid-row>
+          <sui-grid-row v-if="(projects.length % 3 == 0)">
+            <sui-grid-column>
+              <div id="projectSegment" class="ui raised segment" style="text-align: center; padding: vh;">
+                <sui-button style="color: #006DFC;">Create New Project</sui-button>
+              </div>
+            </sui-grid-column>
+          </sui-grid-row>
+        </sui-grid>
       </div>
   </div>
 </template>
@@ -124,6 +176,9 @@ import debounce from 'lodash/debounce';
         this.$data.selectedStyleField = null
         this.$data.isSearchingForStyle = false
       }
+    },
+    compareProject(project: any) {
+      return this.$store.getters.getSelectedProject.id === project.id
     }
   }
 })
@@ -165,13 +220,17 @@ export default class Home extends Vue {}
     #citeButton:hover {
       background-color: #207DF6;
     }
+    #projectSegment {
+      min-width: 35vh; 
+      min-height: 35vh;
+    }
   }
 
   @media (min-width: 991.98px) {
     #mainContent {
       margin: 10vh; 
       margin-bottom: 5vh;
-      margin-top: 5vh;
+      margin-top: 2vh;
       color: #000;
     }
     #cite {
@@ -193,6 +252,10 @@ export default class Home extends Vue {}
     }
     #styleDropdown {
       width: 18vh;
+    }
+    #projectSegment {
+      width: 35vh; 
+      height: 35vh;
     }
   }
 </style>

@@ -53,6 +53,9 @@ import 'semantic-ui-css/semantic.min.css';
 
 @Component({
   components: {},
+  created () {
+    this.$store.dispatch('setState')
+  },
   data () {
     //@ts-ignore
     authNotifier.on('authChange', authState => {

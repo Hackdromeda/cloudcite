@@ -2,21 +2,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 //@ts-ignore
 import * as _ from 'lodash';
-const PouchDB = require('pouchdb').default;
+
 
 Vue.use(Vuex)
 
-var db = new PouchDB('cloudcite')
-
 export default new Vuex.Store({
   state: {
-    "_id": "state",
-    "_rev": 0,
     "selectedProject": 0,
     "projects": [
       {
         "title": "New Project",
-        "bibliographyTitle": "Bibliography",
         "citations": [],
         "style": "modern-language-association",
         "locale": "locales-en-US",
@@ -47,8 +42,32 @@ export default new Vuex.Store({
         state.projects[state.selectedProject].csl = _.set(state.projects[state.selectedProject].csl, Object.keys(payload)[i], state.projects[state.selectedProject].citations[i][Object.keys(state.projects[state.selectedProject].citations[i])[0]])
       }
     },
-    setState(state: any, payload: any) {
-      state = Object.assign(payload.state, "_rev", payload._rev)
+    setState(state: any) {
+      var dbRequest = indexedDB.open("cloudcite");
+
+      dbRequest.onupgradeneeded = function() {
+        var db = dbRequest.result;
+        var store = db.createObjectStore("cloudcite", {keypath: "id"})
+        var selectedProjectIndex = store.createIndex("by_selectedProject", "selectedProject")
+        var citationsIndex = store.createIndex("by_projects", "projects")
+        var editingIndex = store.createIndex("by_editing", "style")
+        store.put({selectedProject: state.selectedProject, projects: state.projects, editing: state.editing}, 0)
+      };
+
+      dbRequest.onsuccess = function() {
+        var db = dbRequest.result;
+        var tx = db.transaction("cloudcite", "readonly");
+        var store = tx.objectStore("cloudcite");
+        if ('getAll' in store) {
+          store.getAll().onsuccess = function(event: any) {
+            if (event.target.result && event.target.result.length > 0) {
+              state.selectedProject = event.target.result[0].selectedProject
+              state.projects = event.target.result[0].projects
+              state.editing = event.target.result[0].editing
+            }
+          }
+        }
+      };
     },
     setStyle(state: any, payload: string) {
       state.projects[state.selectedProject].style = payload
@@ -58,239 +77,56 @@ export default new Vuex.Store({
     },
     setEditing(state: any, payload: any) {
       state.editing = payload
+    },
+    saveState(state: any) {
+      var dbRequest = indexedDB.open("cloudcite");
+
+      dbRequest.onupgradeneeded = function() {
+        var db = dbRequest.result;
+        var store = db.createObjectStore("cloudcite", {autoIncrement: true})
+        var selectedProjectIndex = store.createIndex("by_selectedProject", "selectedProject")
+        var citationsIndex = store.createIndex("by_projects", "projects")
+        var editingIndex = store.createIndex("by_editing", "style")
+        store.put({selectedProject: state.selectedProject, projects: state.projects, editing: state.editing}, 0)
+      };
+
+      dbRequest.onsuccess = function() {
+        var db = dbRequest.result;
+        var tx = db.transaction("cloudcite", "readwrite");
+        var store = tx.objectStore("cloudcite");
+        store.put(state, 0);
+      };
     }
   },
   actions: {
     addCitation(context: any, payload: object) {
       context.commit('addCitation', payload)
-      db.get('state').then(function (doc: any) {
-        db.put({
-          "_id": 'state',
-          "_rev": doc._rev,
-          "state": {
-            "selectedProject": context.state.selectedProject,
-            "projects": [
-              {
-                "citations": context.state.projects[context.state.selectedProject].citations,
-                "style": context.state.projects[context.state.selectedProject].style,
-                "locale": context.state.projects[context.state.selectedProject].locale,
-                "csl": context.state.projects[context.state.selectedProject].csl
-              }
-            ]
-          }
-        })
-      }).catch(function (err: any) {
-        console.log(err)
-        if (err.name == 'not_found') {
-          db.put({
-            _id: 'state',
-            state: {
-              selectedProject: 0,
-              projects: [
-                {
-                  citations: [],
-                  style: "modern-language-association",
-                  locale: "locales-en-US",
-                  csl: {}
-                }
-              ]
-            }
-          })
-        }
-      });
+      context.commit('saveState')
     },
     removeCitation(context: any, payload: number) {
       context.commit('removeCitation', payload)
-      db.get('state').then(function (doc: any) {
-        db.put({
-          "_id": 'state',
-          "_rev": doc._rev,
-          "state": {
-            "selectedProject": context.state.selectedProject,
-            "projects": [
-              {
-                "citations": context.state.projects[context.state.selectedProject].citations,
-                "style": context.state.projects[context.state.selectedProject].style,
-                "locale": context.state.projects[context.state.selectedProject].locale,
-                "csl": context.state.projects[context.state.selectedProject].csl
-              }
-            ]
-          }
-        })
-      }).catch(function (err: any) {
-        console.log(err)
-        if (err.name == 'not_found') {
-          db.put({
-            _id: 'state',
-            state: {
-              selectedProject: 0,
-              projects: [
-                {
-                  citations: [],
-                  style: "modern-language-association",
-                  locale: "locales-en-US",
-                  csl: {}
-                }
-              ]
-            }
-          })
-        }
-      });
+      context.commit('saveState')
     },
     removeCitationById(context: any, payload: string) {
       context.commit('removeCitationById', payload)
-      db.get('state').then(function (doc: any) {
-        db.put({
-          "_id": 'state',
-          "_rev": doc._rev,
-          "state": {
-            "selectedProject": context.state.selectedProject,
-            "projects": [
-              {
-                "citations": context.state.projects[context.state.selectedProject].citations,
-                "style": context.state.projects[context.state.selectedProject].style,
-                "locale": context.state.projects[context.state.selectedProject].locale,
-                "csl": context.state.projects[context.state.selectedProject].csl
-              }
-            ]
-          }
-        })
-      }).catch(function (err: any) {
-        console.log(err)
-        if (err.name == 'not_found') {
-          db.put({
-            _id: 'state',
-            state: {
-              selectedProject: 0,
-              projects: [
-                {
-                  citations: [],
-                  style: "modern-language-association",
-                  locale: "locales-en-US",
-                  csl: {}
-                }
-              ]
-            }
-          })
-        }
-      });
+      context.commit('saveState')
     },
     setCitations(context: any, payload: any[]) {
       context.commit('setCitations', payload)
-      db.get('state').then(function (doc: any) {
-        db.put({
-          "_id": 'state',
-          "_rev": doc._rev,
-          "state": {
-            "selectedProject": context.state.selectedProject,
-            "projects": [
-              {
-                "citations": context.state.projects[context.state.selectedProject].citations,
-                "style": context.state.projects[context.state.selectedProject].style,
-                "locale": context.state.projects[context.state.selectedProject].locale,
-                "csl": context.state.projects[context.state.selectedProject].csl
-              }
-            ]
-          }
-        })
-      }).catch(function (err: any) {
-        console.log(err)
-        if (err.name == 'not_found') {
-          db.put({
-            _id: 'state',
-            state: {
-              selectedProject: 0,
-              projects: [
-                {
-                  citations: [],
-                  style: "modern-language-association",
-                  locale: "locales-en-US",
-                  csl: {}
-                }
-              ]
-            }
-          })
-        }
-      });
+      context.commit('saveState')
     },
-    setState(context: any, payload: any) {
-      context.commit('setState', payload)
+    setState(context: any) {
+      context.commit('setState')
+    },
+    saveState(context: any) {
+      context.commit('saveState')
     },
     setStyle(context: any, payload: string) {
       context.commit('setStyle', payload)
-      db.get('state').then(function (doc: any) {
-        db.put({
-          "_id": 'state',
-          "_rev": doc._rev,
-          "state": {
-            "selectedProject": context.state.selectedProject,
-            "projects": [
-              {
-                "citations": context.state.projects[context.state.selectedProject].citations,
-                "style": context.state.projects[context.state.selectedProject].style,
-                "locale": context.state.projects[context.state.selectedProject].locale,
-                "csl": context.state.projects[context.state.selectedProject].csl
-              }
-            ]
-          }
-        })
-      }).catch(function (err: any) {
-        console.log(err)
-        if (err.name == 'not_found') {
-          db.put({
-            _id: 'state',
-            state: {
-              selectedProject: 0,
-              projects: [
-                {
-                  citations: [],
-                  style: "modern-language-association",
-                  locale: "locales-en-US",
-                  csl: {}
-                }
-              ]
-            }
-          })
-        }
-      });
+      context.commit('saveState')
     },
     selectProject(context: any, payload: number) {
       context.commit('selectProject', payload)
-      db.get('state').then(function (doc: any) {
-        db.put({
-          "_id": 'state',
-          "_rev": doc._rev,
-          "state": {
-            "selectedProject": context.state.selectedProject,
-            "projects": [
-              {
-                "citations": context.state.projects[context.state.selectedProject].citations,
-                "style": context.state.projects[context.state.selectedProject].style,
-                "locale": context.state.projects[context.state.selectedProject].locale,
-                "csl": context.state.projects[context.state.selectedProject].csl
-              }
-            ]
-          }
-        })
-      }).catch(function (err: any) {
-        console.log(err)
-        if (err.name == 'not_found') {
-          db.put({
-            _id: 'state',
-            state: {
-              selectedProject: 0,
-              projects: [
-                {
-                  citations: [],
-                  style: "modern-language-association",
-                  locale: "locales-en-US",
-                  csl: {}
-                }
-              ]
-            }
-          })
-        }
-      });
     },
     setEditing(context: any, payload: any) {
       context.commit('setEditing', payload)

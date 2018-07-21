@@ -43,7 +43,6 @@
                 </p>
                 <sui-button v-if="compareProject(project) == false" style="color: #006DFC;">Select</sui-button>
                 <sui-button v-if="compareProject(project) == true" style="color: #006DFC;" disabled>Selected</sui-button>
-                <sui-button style="color: #006DFC;">Edit</sui-button>
               </div>
             </sui-grid-column>
             <sui-grid-column v-if="(projects.slice((r * 3), (r * 3 + 3)).length < 3)">

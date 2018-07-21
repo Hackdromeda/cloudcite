@@ -21,7 +21,7 @@
       <div id="mainContent">
         <sui-grid :columns="3" stackable textAlign="left">
           <sui-grid-row v-for="(row, r) in projects" :key="r" v-if="(r == 0) || ((r % 3) == 0)">
-            <sui-grid-column v-for="(project, p) in projects.slice((r * 3), (r * 3 + 3))" :key="p">
+            <sui-grid-column :width="4" v-for="(project, p) in projects.slice((r * 3), (r * 3 + 3))" :key="p">
               <div id="projectSegment" class="ui raised segment">
                 <p style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
                   {{ project.title }}

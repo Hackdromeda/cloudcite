@@ -7,19 +7,19 @@
             <p class="subtitle" style="margin-top: 7vh;">
               CloudCite processes citations in the cloud so you never have to create citations manually again.
             </p>
+            <div class="container" id="cite">
+              <sui-button type="button" id="citeButton" @click="cite('Website')">Website</sui-button>
+              <sui-button type="button" id="citeButton">Journal</sui-button>
+              <sui-button type="button" id="citeButton" @click="cite('Book')">Book</sui-button>
+              <sui-button type="button" id="citeButton" @click="cite('Film')">Film/Movie</sui-button>
+              <sui-button type="button" id="citeButton">Digital Image</sui-button>
+              <sui-button type="button" id="citeButton">Podcast</sui-button>
+              <sui-button type="button" id="citeButton">Music</sui-button>
+            </div>
           </div>
       </div>
       <div class="container" id="mainContent">
-        <h1 class="is-size-3" style="font-weight: 500;">Citation Options</h1>
-        <div class="container" id="cite">
-            <sui-button type="button" id="citeButton" @click="cite('Website')">Website</sui-button>
-            <sui-button type="button" id="citeButton">Journal</sui-button>
-            <sui-button type="button" id="citeButton" @click="cite('Book')">Book</sui-button>
-            <sui-button type="button" id="citeButton" @click="cite('Film')">Film/Movie</sui-button>
-            <sui-button type="button" id="citeButton">Digital Image</sui-button>
-            <sui-button type="button" id="citeButton">Podcast</sui-button>
-            <sui-button type="button" id="citeButton">Music</sui-button>
-          </div>
+        
       </div>
   </div>
 </template>
@@ -55,6 +55,11 @@ import debounce from 'lodash/debounce';
             .toLowerCase()
             .indexOf(this.$data.formatTitle.toLowerCase()) >= 0
         })
+      }
+    },
+    projects: {
+      get() {
+        return this.$store.getters.getProjects
       }
     }
   },
@@ -155,12 +160,10 @@ export default class Home extends Vue {}
       padding: 10px;
       color: #fff;
       font-weight: 500;
-      border-color: #006DFC;
       background-color: #006DFC;
     }
     #citeButton:hover {
       background-color: #207DF6;
-      border-color: #207DF6;
     }
   }
 
@@ -183,12 +186,10 @@ export default class Home extends Vue {}
       padding: 10px;
       color: #fff;
       font-weight: 500;
-      border-color: #006DFC;
       background-color: #006DFC;
     }
     #citeButton:hover {
       background-color: #207DF6;
-      border-color: #207DF6;
     }
     #styleDropdown {
       width: 18vh;

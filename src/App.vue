@@ -25,7 +25,7 @@
             </div>
             <div class="navbar-end">
               <div class="navbar-item">
-                <sui-button class="navbar-item" style="float: right;" v-if="!authenticated" type="button" @click="login()">Log In / Register</sui-button>
+                <sui-button class="navbar-item" style="float: right; color: #006DFC; border-radius: 25px;" v-if="!authenticated" type="button" @click="login()">Log In / Register</sui-button>
                 <sui-button class="navbar-item" style="float: rightl" v-if="authenticated" type="button" @click="logout()">Log Out</sui-button>
               </div>
             </div>

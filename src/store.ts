@@ -15,10 +15,10 @@ export default new Vuex.Store({
         "citations": [],
         "style": "modern-language-association",
         "locale": "locales-en-US",
-        "csl": {}
+        "csl": {},
+        "editing": null
       }
     ],
-    "editing": null
   },
   mutations: {
     addCitation(state: any, payload: object) {
@@ -50,8 +50,7 @@ export default new Vuex.Store({
         var store = db.createObjectStore("cloudcite", {keypath: "id"})
         var selectedProjectIndex = store.createIndex("by_selectedProject", "selectedProject")
         var citationsIndex = store.createIndex("by_projects", "projects")
-        var editingIndex = store.createIndex("by_editing", "style")
-        store.put({selectedProject: state.selectedProject, projects: state.projects, editing: state.editing}, 0)
+        store.put({selectedProject: state.selectedProject, projects: state.projects}, 0)
       };
 
       dbRequest.onsuccess = function() {
@@ -63,7 +62,6 @@ export default new Vuex.Store({
             if (event.target.result && event.target.result.length > 0) {
               state.selectedProject = event.target.result[0].selectedProject
               state.projects = event.target.result[0].projects
-              state.editing = event.target.result[0].editing
             }
           }
         }
@@ -76,7 +74,7 @@ export default new Vuex.Store({
       state.selectedProject = payload
     },
     setEditing(state: any, payload: any) {
-      state.editing = payload
+      state.projects[state.selectedProject].editing = payload
     },
     saveState(state: any) {
       var dbRequest = indexedDB.open("cloudcite");
@@ -86,8 +84,7 @@ export default new Vuex.Store({
         var store = db.createObjectStore("cloudcite", {autoIncrement: true})
         var selectedProjectIndex = store.createIndex("by_selectedProject", "selectedProject")
         var citationsIndex = store.createIndex("by_projects", "projects")
-        var editingIndex = store.createIndex("by_editing", "style")
-        store.put({selectedProject: state.selectedProject, projects: state.projects, editing: state.editing}, 0)
+        store.put({selectedProject: state.selectedProject, projects: state.projects}, 0)
       };
 
       dbRequest.onsuccess = function() {
@@ -142,11 +139,11 @@ export default new Vuex.Store({
     getLocale(state: any) {
       return state.projects[state.selectedProject].locale
     },
+    getEditing(state: any) {
+      return state.projects[state.selectedProject].editing
+    },
     getProjects(state: any) {
       return state.projects
-    },
-    getEditing(state: any) {
-      return state.editing
     },
     getState(state: any) {
       return state

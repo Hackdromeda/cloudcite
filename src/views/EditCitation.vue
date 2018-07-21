@@ -32,9 +32,12 @@
                                         <input placeholder="Last Name" @input="typing = true" v-model="contributor.family" type="text">
                                     </div>
                                 </sui-form-field>
-                                <sui-form-field>
-                                </sui-form-field>
-                                <sui-button v-if="citationData.contributors.length == 1" type="button" style="margin-right: 2vh; margin-bottom: 3vh; background-color: #b71c1c; color: #fff;" @click="citationData.clearContributor(i)">Remove Contributor</sui-button><sui-button v-if="citationData.contributors.length > 1" type="button" @click="citationData.removeContributor(i)" style="margin-right: 2vh; margin-bottom: 3vh; background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button><sui-button type="button" @click="citationData.contributors.push({first: '', middle: '', last: '', type: 'Author'})" style="margin-bottom: 3vh; background-color: #2e7d32; color: #fff;">Add Contributor</sui-button>
+                                <div is="sui-button-group" style="margin-bottom: 3vh;">
+                                    <sui-button v-if="citationData.contributors.length == 1" type="button"  @click="citationData.clearContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
+                                    <sui-button v-if="citationData.contributors.length > 1" type="button" @click="citationData.removeContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
+                                    <sui-button-or />
+                                    <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="citationData.contributors.push({first: '', middle: '', last: '', type: 'Author'})" positive>Add Contributor</sui-button>
+                                </div>
                             </div>
                             <sui-form-field v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'string'">
                                 <div class="ui labeled input">
@@ -70,9 +73,11 @@
                             <sui-form-field style="margin-top: 3vh;">
                                 <Preview :cslObject="citationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
                             </sui-form-field>
-                            <sui-form-field>
-                                <sui-button style="background-color: #005eea; color: #fff;" type="button" @click="cite()">Done Editing</sui-button>
-                            </sui-form-field>
+                            <div is="sui-button-group">
+                                <sui-button type="button" @click="cancel()">Cancel</sui-button>
+                                <sui-button-or />
+                                <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="cite()" positive>Save</sui-button>
+                            </div>
                         </sui-form>
                     </sui-grid-column>
                     <sui-grid-column :width="4"/>
@@ -198,8 +203,13 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
       }
   },
     methods: {
+        cancel() {
+            this.$store.dispatch('setEditing', null)
+            this.$router.push({path: '/'})
+        },
         cite() {
             this.$store.dispatch('addCitation', this.$data.citationData.toCSL())
+            this.$store.dispatch('setEditing', null)
             this.$router.push({path: '/bibliography/'})
         }
     },

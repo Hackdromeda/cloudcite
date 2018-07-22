@@ -1,10 +1,30 @@
 {
   "name": "cloudcite",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.4.0",
+  "private": false,
+  "license": "AGPL-3.0-or-later",
+  "author": {
+    "name": "Naval Patel",
+    "email": "navalpatel384@gmail.com",
+    "url": "https://navalpatel.me"
+  },
+  "contributors": [
+    {
+      "name": "Naval Patel",
+      "email": "navalpatel384@gmail.com",
+      "url": "https://navalpatel.me"
+    },
+    {
+      "name": "Avi Shah",
+      "email": "me@avimshah.com",
+      "url": "https://avimshah.com"
+    }
+  ],
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "servealt": "node --max_old_space_size=4096 ./node_modules/.bin/vue-cli-service serve",
+    "serve": "node --max_old_space_size=3072 node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
+    "buildalt": "node --max_old_space_size=4096 ./node_modules/.bin/vue-cli-service build",
+    "build": "node --max_old_space_size=3072 node_modules/@vue/cli-service/bin/vue-cli-service.js build"
   },
   "dependencies": {
     "EventEmitter": "^1.0.0",

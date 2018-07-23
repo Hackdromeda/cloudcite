@@ -6930,6 +6930,10 @@ semantic-ui-css@^2.3.3:
   dependencies:
     jquery x.*
 
+semantic-ui-search@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/semantic-ui-search/-/semantic-ui-search-2.3.3.tgz#0f7bea24c92d5af55dc2833690ed8c800ffd9f50"
+
 semantic-ui-vue@^0.2.11:
   version "0.2.11"
   resolved "https://registry.yarnpkg.com/semantic-ui-vue/-/semantic-ui-vue-0.2.11.tgz#35faf098df4e4a58f883b77467ab912fbf27d98c"
@@ -7989,6 +7993,10 @@ vue-loader@^15.2.4:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
+
+vue-multiselect@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.1.0.tgz#9e8ee7087658f029d06778cdb8da0b34ee3f1e28"
 
 vue-parser@^1.1.5:
   version "1.1.6"

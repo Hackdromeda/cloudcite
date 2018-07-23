@@ -21,10 +21,10 @@
     }
   ],
   "scripts": {
-    "servealt": "node --max_old_space_size=4096 ./node_modules/.bin/vue-cli-service serve",
-    "serve": "node --max_old_space_size=3072 node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
-    "buildalt": "node --max_old_space_size=4096 ./node_modules/.bin/vue-cli-service build",
-    "build": "node --max_old_space_size=3072 node_modules/@vue/cli-service/bin/vue-cli-service.js build"
+    "servealt": "node ./node_modules/.bin/vue-cli-service serve",
+    "serve": "node ./node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
+    "buildalt": "node ./node_modules/.bin/vue-cli-service build",
+    "build": "node ./node_modules/@vue/cli-service/bin/vue-cli-service.js build"
   },
   "dependencies": {
     "EventEmitter": "^1.0.0",
@@ -38,10 +38,12 @@
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
     "semantic-ui-css": "^2.3.3",
+    "semantic-ui-search": "^2.3.3",
     "semantic-ui-vue": "^0.2.11",
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",
     "vue-clipboard2": "^0.2.0",
+    "vue-multiselect": "^2.1.0",
     "vue-property-decorator": "^6.0.0",
     "vue-router": "^3.0.1",
     "vue-spinner": "^1.0.3",

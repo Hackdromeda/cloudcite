@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 //@ts-ignore
 import * as _ from 'lodash';
 
@@ -9,6 +9,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     "selectedProject": 0,
+    "editingProject": null,
     "projects": [
       {
         "id": "Project/0",
@@ -17,7 +18,7 @@ export default new Vuex.Store({
         "style": "modern-language-association",
         "locale": "locales-en-US",
         "csl": {},
-        "editing": null
+        "editing": null,
       }
     ],
   },
@@ -71,7 +72,7 @@ export default new Vuex.Store({
     setStyle(state: any, payload: string) {
       state.projects[state.selectedProject].style = payload
     },
-    selectProject(state: any, payload: number) {
+    selectProject(state: any, payload: string) {
       //@ts-ignore
       var projectIndex = parseInt(payload.substring(9, payload.length))
       if ((typeof projectIndex) === 'number') {
@@ -111,6 +112,16 @@ export default new Vuex.Store({
         "csl": {},
         "editing": null
       })
+    },
+    setEditingProject(state: any, payload: any) {
+      state.editingProject = payload
+    },
+    setProjectStyle(state: any, payload: any) {
+      for (let i=0; i < state.projects.length; i++) {
+        if (state.projects[i].id == payload.id && payload.style != '' && payload.style != null) {
+          state.projects[i].style = payload.style
+        }
+      }
     }
   },
   actions: {
@@ -150,6 +161,13 @@ export default new Vuex.Store({
     createEmptyProject(context: any) {
       context.commit('createEmptyProject')
       context.commit('saveState')
+    },
+    setEditingProject(context: any, payload: any) {
+      context.commit('setEditingProject', payload)
+    },
+    setProjectStyle(context: any, payload: any) {
+      context.commit('setProjectStyle', payload)
+      context.commit('saveState')
     }
   },
   getters: {
@@ -167,6 +185,9 @@ export default new Vuex.Store({
     },
     getSelectedProject(state: any) {
       return state.projects[state.selectedProject]
+    },
+    getEditingProject(state: any) {
+      return state.editingProject
     },
     getProjects(state: any) {
       return state.projects

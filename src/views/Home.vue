@@ -1,10 +1,8 @@
 <template>
   <div id="home">
-    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+    <div style="min-height: 40vh; background-color: #005eea; color: #fff;">
       <div class="container" style="padding: 3vh;">
-        <img src="/static/favicons/icon-150x150.png" width="125" height="125" alt="CloudCite is the best bibliography generator"
-        />
-        <h1>Welcome to CloudCite</h1>
+        <h1 style="margin-top: 5vh;" >Welcome to CloudCite</h1>
         <p class="subtitle" style="margin-top: 5vh;">
           CloudCite processes citations in the cloud so you never have to create citations manually again.
         </p>
@@ -19,7 +17,8 @@
         </div>
       </div>
     </div>
-    <div id="mainContent">
+    <div id="mainContent" style="text-align: left;">
+      <h1 style="color: #000;">Projects</h1>
       <sui-grid :columns="3" stackable textAlign="left">
         <sui-grid-row v-for="(row, r) in projects" :key="r" v-if="(r == 0) || ((r % 3) == 0)">
           <sui-grid-column :width="4" v-for="(project, p) in projects.slice((r * 3), (r * 3 + 3))" :key="p">

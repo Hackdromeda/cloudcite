@@ -132,7 +132,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 //@ts-ignore
                 this.$data.filmCitationData = new FilmCitation(contributors, data.title ? data.title: "", data.publisher ? data.publisher: "", data["publisher-place"] ? data["publisher-place"]: "", {month: data.issued.month ? data.issued.month: "", day: data.issued.day ? data.issued.day: "", year: data.issued.year ? data.issued.year: ""}, data.abstract ? data.abstract: "")
                 //@ts-ignore
-                this.$store.dispatch('setEditing', this.$data.filmCitationData)
+                this.$store.dispatch('setEditingProject', this.$data.filmCitationData)
                 this.$router.push({path: '/edit/film/'})
                 //@ts-ignore
             }).catch(error => {

@@ -46,6 +46,8 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
     project: {
       get() {
         return this.$props.projectOption
+      },
+      set(value: any) {
       }
     }
   },
@@ -53,7 +55,13 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
     //@ts-ignore
     selectedStyle() {
       //@ts-ignore
-      this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle})
+      if (!this.project.creatingProject) {
+        //@ts-ignore
+        this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle})
+      } else {
+        //@ts-ignore
+        this.project.style = this.$data.selectedStyle
+      }
     }
   }
 })

@@ -105,7 +105,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
       return {
         typing: false,
         format: this.$route.params.format ? this.$route.params.format.substring(0, 1).toUpperCase() + this.$route.params.format.substring(1, this.$route.params.format.length): "",
-        citationData: this.$store.getters.getEditing,
+        citationData: this.$store.getters.getEditingProject,
         contributorTypes: [
             {
                 "key": "Author",
@@ -209,15 +209,8 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
         },
         cite() {
             this.$store.dispatch('addCitation', this.$data.citationData.toCSL())
-            this.$store.dispatch('setEditing', null)
+            this.$store.dispatch('setEditingProject', null)
             this.$router.push({path: '/bibliography/'})
-        }
-    },
-    computed: {
-        selectedMonth: {
-            get() {
-                return this.$data.citationData.issued.month
-            }
         }
     },
     watch: {

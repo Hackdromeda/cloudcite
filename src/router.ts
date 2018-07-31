@@ -10,6 +10,7 @@ const CiteFilm = () => import('./views/CiteFilm.vue')
 const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
 const Bibliography = () => import('./views/Bibliography.vue')
 const EditCitation = () => import('./views/EditCitation.vue')
+const CreateProject = () => import('./views/CreateProject.vue')
 
 Vue.use(Router)
 
@@ -113,6 +114,14 @@ export default new Router({
       component: Home,
       meta: {
         title: 'CloudCite · Donate'
+      }
+    },
+    {
+      path: '/create/project/',
+      name: 'createproject',
+      component: CreateProject,
+      meta: {
+        title: 'CloudCite · Create Project'
       }
     },
     {

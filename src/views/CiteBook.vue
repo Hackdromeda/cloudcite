@@ -191,7 +191,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 //@ts-ignore
                 this.$data.bookCitationData = new BookCitation(contributors, "", "", this.$data.selectedBook.volumeInfo.title, this.$data.selectedBook.volumeInfo.publisher, {month: "", day: "", year: yearPublished ? yearPublished: ""})
                 //@ts-ignore
-                this.$store.dispatch('setEditing', this.$data.bookCitationData)
+                this.$store.dispatch('setEditingProject', this.$data.bookCitationData)
                 this.$router.push({path: '/edit/book/'})
                 //@ts-ignore
             }).catch(error => {

@@ -97,7 +97,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
             this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.title ? data.title: "", this.websiteCitationData.url ? this.formatURL(this.websiteCitationData.url): "", data.publisher ? data.publisher: "", data.issued ? data.issued: {month: "", day: "", year: ""})
             this.$data.loadingCitation = false
             //@ts-ignore
-            this.$store.dispatch('setEditing', this.$data.websiteCitationData)
+            this.$store.dispatch('setEditingProject', this.$data.websiteCitationData)
             this.$router.push({path: '/edit/website/'})
             //@ts-ignore
         }).catch(error => {

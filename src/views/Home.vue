@@ -8,65 +8,48 @@
         </p>
         <div id="cite">
           <sui-button type="button" id="citeButton" @click="cite('Website')">Website</sui-button>
-          <sui-button type="button" id="citeButton">Journal</sui-button>
           <sui-button type="button" id="citeButton" @click="cite('Book')">Book</sui-button>
           <sui-button type="button" id="citeButton" @click="cite('Film')">Film/Movie</sui-button>
-          <sui-button type="button" id="citeButton">Digital Image</sui-button>
-          <sui-button type="button" id="citeButton">Podcast</sui-button>
-          <sui-button type="button" id="citeButton">Music</sui-button>
         </div>
       </div>
     </div>
     <div id="mainContent" style="text-align: left;">
       <h1 style="color: #000;">Projects</h1>
-      <sui-grid :columns="3" stackable textAlign="left">
-        <sui-grid-row v-for="(row, r) in projects" :key="r" v-if="(r == 0) || ((r % 3) == 0)">
-          <sui-grid-column :width="4" v-for="(project, p) in projects.slice((r * 3), (r * 3 + 3))" :key="p">
-            <div id="projectSegment" class="ui raised segment">
-              <p style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
-                {{ project.title }}
-              </p>
-              <p v-if="project.style" style="font-size: 1rem; text-align: left;" v-cloak>
-                <b>Style</b>: <SearchStyles :projectOption="project"/>
-              </p>
-              <p v-if="project.locale && project.locale.length <= 27" style="font-size: 1rem; text-align: left;" v-cloak>
-                <b>Locale</b>: {{ project.locale }}
-              </p>
-              <p v-if="project.locale && project.locale.length > 27" style="font-size: 1rem; text-align: left;" v-cloak>
-                <b>Locale</b>: {{ project.locale.substring(0, 27) + '...'}}
-              </p>
-              <p style="font-size: 1rem; text-align: left;" v-cloak>
-                <b>Number of Citations</b>: {{ project.citations.length }}
-              </p>
-              <sui-button v-if="compareProject(project) == false" style="color: #006DFC;">Select</sui-button>
-              <sui-button v-if="compareProject(project) == true" style="color: #006DFC;" disabled>Selected</sui-button>
-            </div>
-          </sui-grid-column>
-          <sui-grid-column v-if="(projects.slice((r * 3), (r * 3 + 3)).length < 3)">
-            <div id="projectSegment" class="ui raised segment">
-              <p style="color: #005eea; font-size: 1.5rem; text-align: center;">
-                New Project
-              </p>
-              <p style="font-size: 1rem; text-align: left;">
-                <b>Style</b>: Select Style
-              </p>
-              <p style="font-size: 1rem; text-align: left;">
-                <b>Locale</b>: Select Locale
-              </p>
-              <p style="font-size: 1rem; text-align: left;">
-                <b>Number of Citations</b>: 0
-              </p>
-              <sui-button style="color: #006DFC;">Create Project</sui-button>
-            </div>
-          </sui-grid-column>
-        </sui-grid-row>
-        <sui-grid-row v-if="(projects.length % 3 == 0)">
-          <sui-grid-column>
-            <div id="projectSegment" class="ui raised segment" style="text-align: center; padding: vh;">
-              <sui-button style="color: #006DFC;">Create New Project</sui-button>
-            </div>
-          </sui-grid-column>
-        </sui-grid-row>
+        <sui-grid>
+          <sui-grid-row :columns="projects.length + 1">
+            <sui-grid-column :mobile="16" :tablet="16" :computer="4" stretched v-for="(project, p) in projects" :key="p">
+              <div id="projectSegment" class="ui raised segment">
+                <p style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
+                  {{ project.title }}
+                </p>
+                <p v-if="project.style" style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Style</b>: <SearchStyles :projectOption="project"/>
+                </p>
+                <p v-if="project.locale && project.locale.length <= 27" style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Locale</b>: {{ project.locale }}
+                </p>
+                <p v-if="project.locale && project.locale.length > 27" style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Locale</b>: {{ project.locale.substring(0, 27) + '...'}}
+                </p>
+                <p style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Number of Citations</b>: {{ project.citations.length }}
+                </p>
+                <sui-button v-if="compareProject(project) == false" @click="selectProject(project)" style="color: #006DFC;">Select</sui-button>
+                <sui-button v-if="compareProject(project) == true" @click="selectProject(project)" style="color: #006DFC;" disabled>Selected</sui-button>
+              </div>
+            </sui-grid-column>
+            <sui-grid-column :mobile="16" :tablet="16" :computer="4" stretched>
+              <div id="projectSegment" class="ui raised segment" style="text-align: center;">
+                <p style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
+                  New Project
+                </p>
+                <p style="font-size: 1rem; text-align: left;">
+                  You can select the citation style on the new project page. Click on the button below to get started.
+                </p>
+                <sui-button style="color: #006DFC;" @click="createProject()">Create New Project</sui-button>
+              </div>
+            </sui-grid-column>
+          </sui-grid-row>
       </sui-grid>
     </div>
   </div>
@@ -109,7 +92,7 @@
       },
       projects: {
         get() {
-          return this.$store.getters.getProjects
+          return this.$store.state.projects
         }
       }
     },
@@ -122,7 +105,13 @@
         })
       },
       compareProject(project: any) {
-        return this.$store.getters.getSelectedProject.id === project.id
+        return ("Project/" + this.$store.state.selectedProject) === project.id
+      },
+      createProject() {
+        this.$router.push({name: 'createproject'})
+      },
+      selectProject(project: any) {
+        this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('/') + 1), project.id.length)))
       }
     }
   })
@@ -168,8 +157,8 @@
       background-color: #207DF6;
     }
     #projectSegment {
-      min-width: 35vh;
-      min-height: 35vh;
+      padding: 10px;
+      margin-bottom: 20px;
     }
   }
 
@@ -201,8 +190,8 @@
       width: 18vh;
     }
     #projectSegment {
-      width: 35vh;
-      height: 40vh;
+      padding: 10px;
+      margin-bottom: 20px;
     }
   }
   </style>

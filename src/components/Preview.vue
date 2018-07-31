@@ -38,7 +38,7 @@ import rp from 'request-promise-native';
         },
         method: 'POST',
         //@ts-ignore
-        body: {style: this.$store.getters.getStyle, locale: this.$store.getters.getLocale, csl: this.cslData},
+        body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: this.cslData},
         json: true
         //@ts-ignore
     })
@@ -121,7 +121,7 @@ import rp from 'request-promise-native';
               },
               method: 'POST',
               //@ts-ignore
-              body: {style: this.$store.getters.getStyle, locale: this.$store.getters.getLocale, csl: this.cslData},
+              body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: this.cslData},
               json: true
               //@ts-ignore
         }).then(data => {

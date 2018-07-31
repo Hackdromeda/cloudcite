@@ -17,8 +17,7 @@ export default new Vuex.Store({
         "citations": [],
         "style": "modern-language-association",
         "locale": "locales-en-US",
-        "csl": {},
-        "editing": null,
+        "csl": {}
       }
     ],
   },
@@ -72,12 +71,8 @@ export default new Vuex.Store({
     setStyle(state: any, payload: string) {
       state.projects[state.selectedProject].style = payload
     },
-    selectProject(state: any, payload: string) {
-      //@ts-ignore
-      var projectIndex = parseInt(payload.substring(9, payload.length))
-      if ((typeof projectIndex) === 'number') {
-          state.selectedProject = projectIndex
-      }
+    selectProject(state: any, payload: number) {
+      state.selectedProject = payload
     },
     setEditing(state: any, payload: any) {
       state.projects[state.selectedProject].editing = payload
@@ -100,19 +95,6 @@ export default new Vuex.Store({
         store.put(state, 0);
       };
     },
-    createEmptyProject(state: any) {
-      var id = ('Project/' + state.projects.length)
-
-      state.projects.push({
-        [id]: id,
-        "title": "Project " + state.projects.length + 1,
-        "citations": [],
-        "style": "modern-language-association",
-        "locale": "locales-en-US",
-        "csl": {},
-        "editing": null
-      })
-    },
     setEditingProject(state: any, payload: any) {
       state.editingProject = payload
     },
@@ -122,6 +104,17 @@ export default new Vuex.Store({
           state.projects[i].style = payload.style
         }
       }
+    },
+    setProject(state: any, payload: any) {
+      for (let i=0; i < state.projects.length; i++) {
+        //@ts-ignore
+        if (state.projects[i].id == payload.id) {
+          state.projects[i] = payload
+        }
+      }
+    },
+    createProject(state: any, payload: any) {
+      state.projects.push(payload)
     }
   },
   actions: {
@@ -151,16 +144,12 @@ export default new Vuex.Store({
       context.commit('setStyle', payload)
       context.commit('saveState')
     },
-    selectProject(context: any, payload: string) {
+    selectProject(context: any, payload: number) {
       context.commit('selectProject', payload)
       context.commit('saveState')
     },
     setEditing(context: any, payload: any) {
       context.commit('setEditing', payload)
-    },
-    createEmptyProject(context: any) {
-      context.commit('createEmptyProject')
-      context.commit('saveState')
     },
     setEditingProject(context: any, payload: any) {
       context.commit('setEditingProject', payload)
@@ -168,24 +157,17 @@ export default new Vuex.Store({
     setProjectStyle(context: any, payload: any) {
       context.commit('setProjectStyle', payload)
       context.commit('saveState')
+    },
+    setProject(context: any, payload: any) {
+      context.commit('setProject', payload)
+      context.commit('saveState')
+    },
+    createProject(context: any, payload: any) {
+      context.commit('createProject', payload)
+      context.commit('saveState')
     }
   },
   getters: {
-    getCitations(state: any) {
-      return state.projects[state.selectedProject].citations
-    },
-    getStyle(state: any) {
-      return state.projects[state.selectedProject].style
-    },
-    getLocale(state: any) {
-      return state.projects[state.selectedProject].locale
-    },
-    getEditing(state: any) {
-      return state.projects[state.selectedProject].editing
-    },
-    getSelectedProject(state: any) {
-      return state.projects[state.selectedProject]
-    },
     getEditingProject(state: any) {
       return state.editingProject
     },
@@ -194,6 +176,9 @@ export default new Vuex.Store({
     },
     getState(state: any) {
       return state
+    },
+    getCitations(state: any) {
+      return state.projects[state.selectedProject].citations
     }
   }
 })

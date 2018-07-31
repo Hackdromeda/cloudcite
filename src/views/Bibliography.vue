@@ -9,14 +9,14 @@
         </div>
     </div>
     <div id="bibliography">
-      <div v-if="$store.getters.getCitations.length == 0" style="margin-top: 10vh;">
+      <div v-if="$store.state.projects[$store.state.selectedProject].citations.length == 0" style="margin-top: 10vh;">
         This bibliography looks a little empty. You can create your first citation on the <a @click="$router.push({path: '/'})">homepage</a>.
       </div>
       <sui-grid :columns="3">
           <sui-grid-row>
             <sui-grid-column/>
             <sui-grid-column stretched>
-              <div id="preview" v-for="(citation, i) in $store.getters.getCitations" :key="i">
+              <div id="preview" v-for="(citation, i) in $store.state.projects[$store.state.selectedProject].citations" :key="i">
                 <Preview :cslObject="citation" :deleteOption="true" :copyOption="true"/>
               </div>
             </sui-grid-column>

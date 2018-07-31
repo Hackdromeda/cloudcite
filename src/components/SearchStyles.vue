@@ -32,7 +32,7 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
       this.$data.loading = true
       this.$data.stylesData = []
       //@ts-ignore
-      this.$data.stylesData = this.$data.styles.filter(style => style.text.toLowerCase().includes(query.toLowerCase()) || style.value.toLowerCase().includes(query.toLowerCase()))
+      this.$data.stylesData = this.$data.styles.filter(style => style.text.toLowerCase().includes(query.toLowerCase()) || style.key.toLowerCase().includes(query.toLowerCase()))
       this.$data.loading = false
     },
     clearStylesData () {

@@ -31,7 +31,7 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
       this.$data.loading = true
       this.$data.stylesData = []
       //@ts-ignore
-      this.$data.stylesData = this.$data.styles.filter(style => style.text.toLowerCase().includes(query.toLowerCase()) || style.key.toLowerCase().includes(query.toLowerCase()))
+      this.$data.stylesData = this.$data.styles.filter(style => style.text.toLowerCase().includes(query.toLowerCase()) || style.value.toLowerCase().includes(query.toLowerCase()))
       this.$data.loading = false
     },
     clearStylesData () {
@@ -49,7 +49,7 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
     getProjectStyle: {
       get() {
         //@ts-ignore
-        return require('./styles.json').filter(style => style.value === this.project.style)[0].text
+        return this.$data.styles.filter(style => style.key === this.project.style)[0].text
       }
     }
   },
@@ -59,10 +59,10 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
       //@ts-ignore
       if (!this.project.creatingProject) {
         //@ts-ignore
-        this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle.value})
+        this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle.key})
       } else {
         //@ts-ignore
-        this.project.style = this.$data.selectedStyle
+        this.project.style = this.$data.selectedStyle.key
       }
     }
   }

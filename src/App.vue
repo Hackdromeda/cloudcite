@@ -25,8 +25,8 @@
             </div>
             <div class="navbar-end">
               <div class="navbar-item">
-                <sui-button v-if="!authenticated" class="navbar-item" style="float: right; color: #006DFC; border-radius: 25px;" type="button" @click="login()">Log In / Register</sui-button>
-                <sui-button v-if="authenticated" class="navbar-item" style="float: right; color: #006DFC; border-radius: 25px;" type="button" @click="logout()">Log Out</sui-button>
+                <sui-button v-if="!authenticated" class="navbar-item" style="float: right; color: #006DFC; border-radius: 25px;" type="button" @click="login()" disabled>Log In / Register</sui-button>
+                <sui-button v-if="authenticated" class="navbar-item" style="float: right; color: #006DFC; border-radius: 25px;" type="button" @click="logout()" disabled>Log Out</sui-button>
               </div>
             </div>
           </div>

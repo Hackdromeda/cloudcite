@@ -2,7 +2,7 @@
   <div id="preview">
     <div class="csl-bib-body" :style="'line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
-        <div style="'clear: left; margin-bottom:' + entryspacing + 'em;'" v-html="cslEntry"/>
+        <div :style="'clear: left; margin-bottom:' + entryspacing + 'em;'" v-html="cslEntry"/>
         <div id="previewStatus" v-if="refreshing">
           Refreshing
         </div>
@@ -11,10 +11,10 @@
         </div>
         <div id="citationOptions" v-if="!refreshing">
           <span v-if="deleteButton">
-            <a @click="removeCitation"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
+            <a @click="removeCitation()"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
           </span>
           <span v-if="clipboardButton">
-            <a @click="copyCitation"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
+            <a @click="copyCitation()"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
           </span>
         </div>
       </div>

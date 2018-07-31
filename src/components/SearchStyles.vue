@@ -1,7 +1,6 @@
 <template>
   <div>
-    <multiselect v-model="selectedStyle" :placeholder="project.style" open-direction="bottom" :options="stylesData" :searchable="true" :loading="loading" :internal-search="false" :clear-on-select="true" :close-on-select="true" :options-limit="30" :limit="30" :max-height="100" :show-no-results="false" :hide-selected="true" @search-change="searchStyles">
-    </multiselect>
+    <multiselect v-model="selectedStyle" :placeholder="getProjectStyle" :options="stylesData" :searchable="true" :loading="loading" :internal-search="false" :clear-on-select="true" :close-on-select="true" :options-limit="30" :limit="30" :max-height="100" :show-no-results="false" :hide-selected="true" @search-change="searchStyles" label="text" track-by="text"></multiselect>
   </div>
 </template>
 <script lang="ts">
@@ -31,11 +30,8 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
     searchStyles(query) {
       this.$data.loading = true
       this.$data.stylesData = []
-      for (var i=0; i < this.$data.styles.length; i++) {
-        if (this.$data.styles[i].text.substring(0, query.length).toLowerCase().includes(query.toLowerCase()) || this.$data.styles[i].value.substring(0, query.length).toLowerCase().includes(query.toLowerCase())) {
-          this.$data.stylesData.push(this.$data.styles[i].value)
-        }
-      }
+      //@ts-ignore
+      this.$data.stylesData = this.$data.styles.filter(style => style.text.toLowerCase().includes(query.toLowerCase()) || style.key.toLowerCase().includes(query.toLowerCase()))
       this.$data.loading = false
     },
     clearStylesData () {
@@ -49,6 +45,12 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
       },
       set(value: any) {
       }
+    },
+    getProjectStyle: {
+      get() {
+        //@ts-ignore
+        return require('./styles.json').filter(style => style.value === this.project.style)[0].text
+      }
     }
   },
   watch: {
@@ -57,7 +59,7 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
       //@ts-ignore
       if (!this.project.creatingProject) {
         //@ts-ignore
-        this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle})
+        this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle.value})
       } else {
         //@ts-ignore
         this.project.style = this.$data.selectedStyle

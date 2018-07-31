@@ -17,7 +17,8 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
   data() {
     return {
       //styles.json file is based on styles from https://citationstyles.org/
-      styles: require('./styles.json'),
+      //@ts-ignore
+      styles: require('./styles.json').filter(style => style.key.toLowerCase().indexOf('dependent') == -1),
       selectedStyle: null,
       stylesData: [],
       loading: false

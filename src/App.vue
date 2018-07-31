@@ -21,7 +21,7 @@
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/pricing/'})">Pricing</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/status/'})">Status</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/support/'})">Help</a>
-              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/support/'})">Donate</a>
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/contribute/'})">Contribute</a>
             </div>
             <div class="navbar-end">
               <div class="navbar-item">

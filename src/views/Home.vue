@@ -53,7 +53,7 @@
       </sui-grid>
       <h3>About CloudCite</h3>
       <p>
-        CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.
+        CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago. You can contribute to CloudCite and support the longevity of this project by visiting the <router-link to="/contribute/">Contribute page</router-link> and either clicking on ads or donating through a supported platform.
         Learn more about our commitment to a privacy and a distraction-free bibliography generation environment on our <router-link to="/about/">about us page</router-link>.
       </p>
     </div>

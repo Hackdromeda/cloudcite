@@ -50,6 +50,17 @@ export default new Router({
       }
     },
     {
+      path: '/contribute/',
+      name: 'contribute',
+      beforeEnter(to: any, from: any, next: any) {
+        window.location.href = "/";
+        window.open('https://contribute.cloudcite.net','_blank');
+      },
+      meta: {
+        title: 'CloudCite · Contribute'
+      }
+    },
+    {
       path: '/status/',
       name: 'status',
       beforeEnter(to: any, from: any, next: any) {
@@ -106,14 +117,6 @@ export default new Router({
       component: Bibliography,
       meta: {
         title: 'CloudCite · Bibliography'
-      }
-    },
-    {
-      path: '/donate/',
-      name: 'donate',
-      component: Home,
-      meta: {
-        title: 'CloudCite · Donate'
       }
     },
     {

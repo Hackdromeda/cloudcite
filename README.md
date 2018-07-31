@@ -3,7 +3,7 @@
 
 This repository is for the frontend. The backend repository can be found [here](https://github.com/as0218PUSD/cloudcite-api).
 
-While our private repository of pre-production code is not open source, our production code is open source under [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://github.com/as0218PUSD/cloudcite/blob/master/LICENSE).
+While our private repository of pre-production code is not open source, our production code is open source under [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://github.com/Hackdromeda/cloudcite/blob/master/LICENSE).
 
 #### Build Setup
 

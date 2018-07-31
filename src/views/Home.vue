@@ -14,14 +14,14 @@
       </div>
     </div>
     <div id="mainContent" style="text-align: left;">
-      <h2 style="color: #000;">Projects</h2>
+      <h2>Projects</h2>
         <sui-grid>
           <sui-grid-row :columns="projects.length + 1">
             <sui-grid-column :mobile="16" :tablet="16" :computer="4" stretched v-for="(project, p) in projects" :key="p">
               <div id="projectSegment" class="ui raised segment">
-                <h3 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
+                <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
                   {{ project.title }}
-                </h3>
+                </h4>
                 <p v-if="project.style" style="font-size: 1rem; text-align: left;" v-cloak>
                   <b>Style</b>: <SearchStyles :projectOption="project"/>
                 </p>
@@ -40,9 +40,9 @@
             </sui-grid-column>
             <sui-grid-column :mobile="16" :tablet="16" :computer="4" stretched>
               <div id="projectSegment" class="ui raised segment" style="text-align: center;">
-                <h3 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
+                <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
                   New Project
-                </h3>
+                </h4>
                 <p style="font-size: 1rem; text-align: left;">
                   You can select the citation style on the new project page. Click on the button below to get started.
                 </p>
@@ -51,6 +51,11 @@
             </sui-grid-column>
           </sui-grid-row>
       </sui-grid>
+      <h3>About CloudCite</h3>
+      <p>
+        CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.
+        Learn more about our commitment to a privacy and a distraction-free bibliography generation environment on our <router-link to="/about/">about us page</router-link>.
+      </p>
     </div>
   </div>
 </template>

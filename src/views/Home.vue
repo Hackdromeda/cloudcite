@@ -14,14 +14,14 @@
       </div>
     </div>
     <div id="mainContent" style="text-align: left;">
-      <h1 style="color: #000;">Projects</h1>
+      <h2 style="color: #000;">Projects</h2>
         <sui-grid>
           <sui-grid-row :columns="projects.length + 1">
             <sui-grid-column :mobile="16" :tablet="16" :computer="4" stretched v-for="(project, p) in projects" :key="p">
               <div id="projectSegment" class="ui raised segment">
-                <p style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
+                <h3 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
                   {{ project.title }}
-                </p>
+                </h3>
                 <p v-if="project.style" style="font-size: 1rem; text-align: left;" v-cloak>
                   <b>Style</b>: <SearchStyles :projectOption="project"/>
                 </p>
@@ -40,9 +40,9 @@
             </sui-grid-column>
             <sui-grid-column :mobile="16" :tablet="16" :computer="4" stretched>
               <div id="projectSegment" class="ui raised segment" style="text-align: center;">
-                <p style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
+                <h3 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
                   New Project
-                </p>
+                </h3>
                 <p style="font-size: 1rem; text-align: left;">
                   You can select the citation style on the new project page. Click on the button below to get started.
                 </p>

@@ -1,8 +1,8 @@
 <template>
-  <div id="preview" :class="hangingIndent ? 'hangingIndent': ''">
-    <div class="csl-bib-body" ref="cslBibRef">
+  <div id="preview">
+    <div class="csl-bib-body" :style="'line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
-        <div v-html="cslEntry"/>
+        <div style="'clear: left; margin-bottom:' + entryspacing + 'em;'" v-html="cslEntry"/>
         <div id="previewStatus" v-if="refreshing">
           Refreshing
         </div>
@@ -45,6 +45,7 @@ import rp from 'request-promise-native';
     //@ts-ignore
     .then(data => {
       console.log(data)
+      this.$data.cslFormat = data[0]
       this.$data.cslHTML = data[1]
       this.$data.refreshing = false
     })
@@ -57,7 +58,7 @@ import rp from 'request-promise-native';
   data () {
     return {
       cslHTML: [],
-      hangingIndent: false,
+      cslFormat: null,
       refreshing: false
     }
   },
@@ -153,9 +154,10 @@ export default class Preview extends Vue {}
     flex-direction: row;
     justify-content: flex-end;
   }
-  .hangingIndent {
-    padding-left: 10vh;
-    text-indent: -5vh;
+  .csl-indent {
+    margin: .5em 0 0 2em;
+    padding: 0 0 .2em .5em;
+    border-left: 5px solid #ccc;
   }
 @media (max-width: 991.97px) {
   #preview {

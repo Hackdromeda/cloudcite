@@ -71,7 +71,7 @@
                                 </sui-form-field>
                             </div>
                             <sui-form-field style="margin-top: 3vh;">
-                                <Preview :cslObject="citationData.toCSL()" :deleteOption="false" :copyOption="true" :typing="typing"/>
+                                <Preview :cslObject="citationData.toCSL()" :copyOption="true" :editOption="false" :deleteOption="false" :typing="typing"/>
                             </sui-form-field>
                             <div is="sui-button-group">
                                 <sui-button type="button" @click="cancel()">Cancel</sui-button>

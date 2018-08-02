@@ -74,9 +74,6 @@ export default new Vuex.Store({
     selectProject(state: any, payload: number) {
       state.selectedProject = payload
     },
-    setEditing(state: any, payload: any) {
-      state.projects[state.selectedProject].editing = payload
-    },
     saveState(state: any) {
       var dbRequest = indexedDB.open("cloudcite");
 
@@ -147,9 +144,6 @@ export default new Vuex.Store({
     selectProject(context: any, payload: number) {
       context.commit('selectProject', payload)
       context.commit('saveState')
-    },
-    setEditing(context: any, payload: any) {
-      context.commit('setEditing', payload)
     },
     setEditingProject(context: any, payload: any) {
       context.commit('setEditingProject', payload)

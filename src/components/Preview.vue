@@ -1,8 +1,8 @@
 <template>
   <div id="preview">
-    <div class="csl-bib-body" :style="'line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'" ref="cslBibRef">
+    <div class="csl-bib-body" :style="cslHTML.indexOf('csl-left-margin') == -1 ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'): ''" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
-        <div :style="'clear: left; margin-bottom:' + entryspacing + 'em;'" v-html="cslEntry"/>
+        <div :style="'clear: left; margin-bottom:' + cslFormat.entryspacing + 'em;'" v-html="cslEntry"/>
         <div id="previewStatus" v-if="refreshing">
           Refreshing
         </div>
@@ -10,11 +10,10 @@
           Editing Citation
         </div>
         <div id="citationOptions" v-if="!refreshing">
-          <span v-if="deleteButton">
-            <a @click="removeCitation()"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
-          </span>
-          <span v-if="clipboardButton">
-            <a @click="copyCitation()"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
+          <span>
+            <a v-if="clipboardButton" @click="copyCitation()"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
+            <!--<a v-if="editButton" @click="editCitation()"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>-->
+            <a v-if="deleteButton" @click="removeCitation()"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
           </span>
         </div>
       </div>
@@ -27,7 +26,7 @@ import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
 @Component({
-  props: ['cslObject', 'deleteOption', 'copyOption', 'typing'],
+  props: ['cslObject', 'deleteOption', 'copyOption', 'editOption', 'typing'],
   components: {},
   mounted() {
     this.$data.refreshing = true;
@@ -46,7 +45,28 @@ import rp from 'request-promise-native';
     .then(data => {
       console.log(data)
       this.$data.cslFormat = data[0]
-      this.$data.cslHTML = data[1]
+      var cslHTML = data[1]
+      var cslIndentIndex = data[1].indexOf('class="csl-indent"')
+      var cslHTMLStart = ""
+      var cslHTMLEnd = ""
+      if (cslIndentIndex != -1) {
+        cslHTMLStart = cslHTML.substring(0, cslIndentIndex - 1)
+        cslHTMLEnd = cslHTML.substring(cslIndentIndex, cslHTML.length)
+        cslHTML = cslHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + cslHTMLEnd
+      }
+      var cslRightInlineIndex = data[1].indexOf('class="csl-right-inline"')
+      if (cslRightInlineIndex != -1) {
+        cslHTMLStart = cslHTML.substring(0, cslRightInlineIndex - 1)
+        cslHTMLEnd = cslHTML.substring(cslRightInlineIndex, cslHTML.length)
+        cslHTML = cslHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (this.$data.cslFormat.secondFieldAlign ? this.$data.cslFormat.maxOffset + this.$data.cslFormat.rightPadding : '0') + 'em;" ' + cslHTMLEnd
+      }
+      var cslLeftMarginIndex = data[1].indexOf('class="csl-left-margin"')
+      if (cslLeftMarginIndex != -1) {
+        cslHTMLStart = cslHTML.substring(0, cslLeftMarginIndex - 1)
+        cslHTMLEnd = cslHTML.substring(cslLeftMarginIndex, cslHTML.length)
+        cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
+      }
+      this.$data.cslHTML = cslHTML
       this.$data.refreshing = false
     })
     //@ts-ignore
@@ -78,6 +98,11 @@ import rp from 'request-promise-native';
         return this.$props.copyOption
       }
     },
+    editButton: {
+      get() {
+        return this.$props.editOption
+      }
+    },
     typingStatus: {
       get() {
         return this.$props.typing
@@ -96,6 +121,12 @@ import rp from 'request-promise-native';
           type: 'is-success'
       })
       */
+    },
+    editCitation() {
+      //@ts-ignore
+      this.$store.dispatch('setEditingProject', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].csl[Object.keys(this.cslData)[0]], {citationFormat: true})),
+      //@ts-ignore
+      this.$router.push({path: '/edit/' + this.cslData[Object.keys(this.cslData)[0]].type + '/'})
     },
     removeCitation() {
       //@ts-ignore
@@ -154,11 +185,6 @@ export default class Preview extends Vue {}
     flex-direction: row;
     justify-content: flex-end;
   }
-  .csl-indent {
-    margin: .5em 0 0 2em;
-    padding: 0 0 .2em .5em;
-    border-left: 5px solid #ccc;
-  }
 @media (max-width: 991.97px) {
   #preview {
     background-color: #f5f5f5;
@@ -167,6 +193,7 @@ export default class Preview extends Vue {}
     border-radius: 5px;
     min-height: 23vh;
     text-align: left;
+    font-weight: normal !important;
   }
 }
 @media (min-width: 991.98px) {
@@ -177,6 +204,7 @@ export default class Preview extends Vue {}
     border-radius: 5px;
     min-height: 16vh;
     text-align: left;
+    font-weight: normal !important;
   }
 }
 </style>

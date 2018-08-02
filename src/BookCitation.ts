@@ -8,15 +8,16 @@ export default class BookCitation {
     title: any
     publisher: any
     issued: any
+    id: string
 
-    constructor(contributors: any[], chapter: any, volNumber: any, title: any, publisher: any, issued: object) {
-        
+    constructor(contributors: any[], chapter: any, volNumber: any, title: any, publisher: any, issued: object, id: string) {
         this.contributors = contributors
         this.chapter = chapter
         this.volNumber = volNumber
         this.title = title
         this.publisher = publisher
         this.issued = issued
+        this.id = id
     }
 
     removeContributor(index: number) {
@@ -28,9 +29,8 @@ export default class BookCitation {
     toCSL() {
         var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
-        var id = ('Book/' + _.filter(store.default.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 4) === 'Book'}).length)
         return {
-            [id]:{
+            [this.id]:{
                 "accessed":{
                     "month": cslMonth ? cslMonth: "",
                     "year": accessedDate.getFullYear(),
@@ -42,7 +42,7 @@ export default class BookCitation {
                     "day": this.issued.day ? this.issued.day: ""
                 },
                 "type":"book",
-                "id": id,
+                "id": this.id,
                 "author": this.contributors.filter(c => c.type === "Author"),
                 "editor": this.contributors.filter(c => c.type === "Editor"),
                 "title": this.title ? this.title: "",

@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 //@ts-ignore
 import * as _ from 'lodash';
 
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -16,32 +15,34 @@ export default new Vuex.Store({
         "title": "Project 1",
         "citations": [],
         "style": "modern-language-association",
-        "locale": "locales-en-US",
-        "csl": {}
+        "locale": "locales-en-US"
       }
     ],
   },
   mutations: {
-    addCitation(state: any, payload: object) {
-      state.projects[state.selectedProject].citations.push(payload)
+    addCitation(state: any, payload: any) {
       //@ts-ignore
-      state.projects[state.selectedProject].csl = _.set(state.projects[state.selectedProject].csl, Object.keys(payload)[0], payload[Object.keys(payload)[0]])
+      if (state.projects[state.selectedProject].citations.filter(c => c.id === payload.id).length > 0) {
+        for (var i = 0; i < state.projects[state.selectedProject].citations.length; i++) {
+          //@ts-ignore
+          if (state.projects[state.selectedProject].citations[i].id == payload.id) {
+            //@ts-ignore
+            state.projects[state.selectedProject].citations[i] = {[payload.id]: payload}
+          }
+        }
+      } else {
+        state.projects[state.selectedProject].citations.push(payload)
+      }
     },
     removeCitation(state: any, payload: number) {
-      state.projects[state.selectedProject].csl = _.omit(state.projects[state.selectedProject].csl, [Object.keys(state.projects[state.selectedProject].citations[payload])[0]])
       state.projects[state.selectedProject].citations = state.projects[state.selectedProject].citations.splice(payload, 1)
     },
     removeCitationById(state: any, payload: string) {
-      state.projects[state.selectedProject].csl = _.omit(state.projects[state.selectedProject].csl, payload)
       //@ts-ignore
-      state.projects[state.selectedProject].citations = state.projects[state.selectedProject].citations.filter(citation => Object.keys(citation)[0] !== payload)
+      state.projects[state.selectedProject].citations = state.projects[state.selectedProject].citations.filter(citation => citation.id !== payload)
     },
     setCitations(state: any, payload: any[]) {
       state.projects[state.selectedProject].citations = payload;
-      state.projects[state.selectedProject].csl = {};
-      for (let i=0; i<state.projects[state.selectedProject].citations.length; i++) {
-        state.projects[state.selectedProject].csl = _.set(state.projects[state.selectedProject].csl, Object.keys(payload)[i], state.projects[state.selectedProject].citations[i][Object.keys(state.projects[state.selectedProject].citations[i])[0]])
-      }
     },
     setState(state: any) {
       var dbRequest = indexedDB.open("cloudcite");
@@ -115,7 +116,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addCitation(context: any, payload: object) {
+    addCitation(context: any, payload: any) {
       context.commit('addCitation', payload)
       context.commit('saveState')
     },

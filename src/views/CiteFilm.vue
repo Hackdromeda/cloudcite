@@ -53,6 +53,8 @@ import debounce from 'lodash/debounce';
 import rp from 'request-promise-native';
 import Preview from '../components/Preview.vue';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
+//@ts-ignore
+import * as  _ from 'lodash/core';
 
 @Component({
   components: {
@@ -62,7 +64,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
   data () {
       return {
         contributorTypes: ["Director", "Writer", "Producer", "Actor/Performer", "Author"],
-        filmCitationData: new FilmCitation([{first: "", middle: "", last: "", type: "Director"}], '', '', '', {month: null, day: null, year: null}, ''),
+        filmCitationData: new FilmCitation([{first: "", middle: "", last: "", type: "Director"}], '', '', '', {month: null, day: null, year: null}, '', ('Film/' + _.filter(this.$store.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 4) === 'Film'}).length)),
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
         filmData: [],
         filmTitle: '',
@@ -130,7 +132,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                     contributors = [{given: "", middle: "", family: "", type: "Director"}]
                 }
                 //@ts-ignore
-                this.$data.filmCitationData = new FilmCitation(contributors, data.title ? data.title: "", data.publisher ? data.publisher: "", data["publisher-place"] ? data["publisher-place"]: "", {month: data.issued.month ? data.issued.month: "", day: data.issued.day ? data.issued.day: "", year: data.issued.year ? data.issued.year: ""}, data.abstract ? data.abstract: "")
+                this.$data.filmCitationData = new FilmCitation(contributors, data.title ? data.title: "", data.publisher ? data.publisher: "", data["publisher-place"] ? data["publisher-place"]: "", {month: data.issued.month ? data.issued.month: "", day: data.issued.day ? data.issued.day: "", year: data.issued.year ? data.issued.year: ""}, data.abstract ? data.abstract: "", ('Film/' + _.filter(this.$store.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 4) === 'Film'}).length))
                 //@ts-ignore
                 this.$store.dispatch('setEditingProject', this.$data.filmCitationData)
                 this.$router.push({path: '/edit/film/'})

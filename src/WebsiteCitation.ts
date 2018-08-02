@@ -8,14 +8,16 @@ export default class WebsiteCitation {
     url: string
     publisher: string
     issued: any
+    id: string
 
-    constructor(contributors: any, source: any, title: any, url: any, publisher: any, issued: any) {
+    constructor(contributors: any, source: any, title: any, url: any, publisher: any, issued: any, id: string) {
         this.contributors = contributors
         this.source = source
         this.title = title
         this.url = url
         this.publisher = publisher
         this.issued = issued //date published
+        this.id = id
     }
 
     removeContributor(index: number) {
@@ -28,9 +30,8 @@ export default class WebsiteCitation {
     toCSL() {
         var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
-        var id = ('Website/' + _.filter(store.default.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 7) === 'Website'}).length)
         return {
-            [id]: {
+            [this.id]: {
                 "accessed":{
                     "month": cslMonth ? cslMonth: "",
                     "year": accessedDate.getFullYear(),
@@ -42,7 +43,7 @@ export default class WebsiteCitation {
                     "day": this.issued.day ? this.issued.day: ""
                 },
                 "type":"website",
-                "id": id,
+                "id": this.id,
                 "author": this.contributors.filter(c => c.type === "Author"),
                 "editor": this.contributors.filter(c => c.type === "Editor"),
                 "title": this.title ? this.title: "",

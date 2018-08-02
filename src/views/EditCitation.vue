@@ -39,7 +39,7 @@
                                     <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="citationData.contributors.push({first: '', middle: '', last: '', type: 'Author'})" positive>Add Contributor</sui-button>
                                 </div>
                             </div>
-                            <sui-form-field v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'string'">
+                            <sui-form-field v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'string' && field != 'id' && field != 'type'">
                                 <div class="ui labeled input">
                                     <div class="ui label" v-cloak>{{ (field.substring(0, 1).toUpperCase() + field.substring(1, field.length)) }}</div>
                                     <input :placeholder="(field.substring(0, 1).toUpperCase() + field.substring(1, field.length))" @input="typing = true" v-model="citationData[field]">
@@ -62,7 +62,7 @@
                                     </div>
                                 </sui-form-field>
                             </div>
-                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued'">
+                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued' && field != 'id' && field != 'type'">
                                 <sui-form-field v-if="typeof citationData[field][property] === 'string'" v-for="(property, p) in Object.keys(citationData[field])" :key="p">
                                     <div class="ui labeled input">
                                         <div class="ui label">{{ property }}</div>
@@ -71,7 +71,7 @@
                                 </sui-form-field>
                             </div>
                             <sui-form-field style="margin-top: 3vh;">
-                                <Preview :cslObject="citationData.toCSL()" :copyOption="true" :editOption="false" :deleteOption="false" :typing="typing"/>
+                                <Preview :cslObject="citationData" :copyOption="true" :editOption="false" :deleteOption="false" :typing="typing"/>
                             </sui-form-field>
                             <div is="sui-button-group">
                                 <sui-button type="button" @click="cancel()">Cancel</sui-button>
@@ -88,7 +88,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import WebsiteCitation from '../WebsiteCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
 import Preview from '../components/Preview.vue';
@@ -208,7 +207,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
             this.$router.push({path: '/'})
         },
         cite() {
-            this.$store.dispatch('addCitation', this.$data.citationData.toCSL())
+            this.$store.dispatch('addCitation', this.$data.citationData)
             this.$store.dispatch('setEditingProject', null)
             this.$router.push({path: '/bibliography/'})
         }

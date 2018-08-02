@@ -37,6 +37,8 @@ import Preview from '../components/Preview.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
+//@ts-ignore
+import * as  _ from 'lodash/core';
 
 @Component({
   components: {
@@ -46,7 +48,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
   data () {
       return {
         loadingCitation: false,
-        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], "", "", "", "", {month: null, day: null, year: null})
+        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], "", "", "", "", {month: null, day: null, year: null}, ('Website/' + _.filter(this.$store.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 7) === 'Website'}).length))
       }
   },
   methods: {
@@ -94,7 +96,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 contributors.push({given: "", middle: "", family: "", type: "Author"})
             }
             //@ts-ignore
-            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.title ? data.title: "", this.websiteCitationData.url ? this.formatURL(this.websiteCitationData.url): "", data.publisher ? data.publisher: "", data.issued ? data.issued: {month: "", day: "", year: ""})
+            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.title ? data.title: "", this.websiteCitationData.url ? this.formatURL(this.websiteCitationData.url): "", data.publisher ? data.publisher: "", data.issued ? data.issued: {month: "", day: "", year: ""}, ('Website/' + _.filter(this.$store.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 7) === 'Website'}).length))
             this.$data.loadingCitation = false
             //@ts-ignore
             this.$store.dispatch('setEditingProject', this.$data.websiteCitationData)

@@ -1,6 +1,6 @@
 <template>
   <div id="preview">
-    <div class="csl-bib-body" :style="cslHTML.indexOf('csl-left-margin') == -1 ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'): ''" ref="cslBibRef">
+    <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'): ''" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div :style="'clear: left; margin-bottom:' + cslFormat.entryspacing + 'em;'" v-html="cslEntry"/>
         <div id="previewStatus" v-if="refreshing">
@@ -12,7 +12,7 @@
         <div id="citationOptions" v-if="!refreshing">
           <span>
             <a v-if="clipboardButton" @click="copyCitation()"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
-            <!--<a v-if="editButton" @click="editCitation()"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>-->
+            <a v-if="editButton" @click="editCitation()"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>
             <a v-if="deleteButton" @click="removeCitation()"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
           </span>
         </div>
@@ -25,6 +25,9 @@
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
+import WebsiteCitation from '../WebsiteCitation';
+import generateCSL from '../generateCSL';
+
 @Component({
   props: ['cslObject', 'deleteOption', 'copyOption', 'editOption', 'typing'],
   components: {},
@@ -85,7 +88,7 @@ import rp from 'request-promise-native';
   computed: {
     cslData: {
       get() {
-        return this.$props.cslObject
+        return generateCSL(this.$props.cslObject)
       }
     },
     deleteButton: {
@@ -110,6 +113,23 @@ import rp from 'request-promise-native';
     }
   },
   methods: {
+    formatURL(url: string) {
+        var newURL: string = ""
+        switch (url.substring(0, 7)) {
+            case 'https:/':
+                newURL = url.substring(8, url.length)
+                break;
+            case 'http://':
+                newURL =  url.substring(7, url.length)
+                break;
+            default:
+                newURL = url
+        }
+        if (newURL.substring(0, 4) == "www.") {
+            newURL = newURL.substring(4, newURL.length)
+        }
+        return newURL
+    },
     copyCitation() {
       //@ts-ignore
       this.$copyText(this.$refs.cslBibRef.textContent)
@@ -124,7 +144,7 @@ import rp from 'request-promise-native';
     },
     editCitation() {
       //@ts-ignore
-      this.$store.dispatch('setEditingProject', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].csl[Object.keys(this.cslData)[0]], {citationFormat: true})),
+      this.$store.dispatch('setEditingProject', this.cslData[Object.keys(this.cslData)[0]])
       //@ts-ignore
       this.$router.push({path: '/edit/' + this.cslData[Object.keys(this.cslData)[0]].type + '/'})
     },

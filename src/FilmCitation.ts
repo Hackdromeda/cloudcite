@@ -8,14 +8,16 @@ export default class FilmCitation {
     issued: any
     abstract: string
     publisherPlace: string
+    id: string
 
-    constructor(contributors: any[], title: string, publisher: string, publisherPlace: string, issued: any, abstract: string) {
+    constructor(contributors: any[], title: string, publisher: string, publisherPlace: string, issued: any, abstract: string, id: string) {
         this.contributors = contributors
         this.title = title
         this.publisher = publisher
         this.publisherPlace = publisherPlace
         this.issued = issued
         this.abstract = abstract
+        this.id = id
     }
 
     removeContributor(index: number) {
@@ -27,9 +29,8 @@ export default class FilmCitation {
     toCSL() {
         var cslMonth = this.issued.month + 1
         var accessedDate = new Date()
-        var id = ('Film/' + _.filter(store.default.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 4) === 'Film'}).length)
         return {
-            [id]:{
+            [this.id]: {
                 "accessed":{
                     "month": cslMonth ? cslMonth: "",
                     "year": accessedDate.getFullYear(),
@@ -41,7 +42,7 @@ export default class FilmCitation {
                     "day": this.issued.day ? this.issued.day: ""
                 },
                 "type":"motion_picture",
-                "id": id,
+                "id": this.id,
                 "director": this.contributors.filter(c => c.type === "Director"),
                 "author": this.contributors.filter(c => c.type === "Writer" || c.type === "Actor/Performer" || c.type == "Author"),
                 "editorial-director": this.contributors.filter(c => c.type === "Producer"),

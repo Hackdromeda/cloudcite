@@ -56,7 +56,7 @@ import BookCitation from '../BookCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
 //@ts-ignore
-import lodash from 'lodash';
+import * as  _ from 'lodash/core';
 //@ts-ignore
 import debounce from 'lodash/debounce';
 import Preview from '../components/Preview.vue';
@@ -95,7 +95,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
             }
         ],
         bookIdentificationField: null,
-        bookCitationData: new BookCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {}),
+        bookCitationData: new BookCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {}, ('Book/' + _.filter(this.$store.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 4) === 'Book'}).length)),
         isFetching: false
     }
   },
@@ -189,7 +189,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 //@ts-ignore
                 var yearPublished = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): ""
                 //@ts-ignore
-                this.$data.bookCitationData = new BookCitation(contributors, "", "", this.$data.selectedBook.volumeInfo.title, this.$data.selectedBook.volumeInfo.publisher, {month: "", day: "", year: yearPublished ? yearPublished: ""})
+                this.$data.bookCitationData = new BookCitation(contributors, "", "", this.$data.selectedBook.volumeInfo.title, this.$data.selectedBook.volumeInfo.publisher, {month: "", day: "", year: yearPublished ? yearPublished: ""}, ('Book/' + _.filter(this.$store.getters.getCitations, function(c: any) { return Object.keys(c)[0].substring(0, 4) === 'Book'}).length))
                 //@ts-ignore
                 this.$store.dispatch('setEditingProject', this.$data.bookCitationData)
                 this.$router.push({path: '/edit/book/'})

@@ -1,8 +1,8 @@
 <template>
   <div id="home">
     <div v-if="showBanner && serviceMessage.length > 0" class="banner">
-      <div v-html="serviceMessage"/>
-      <!--<span style="float: right;"><a id="dismissButton" @click="showBanner = !showBanner"><sui-icon name="times"/></a></span>-->
+      <span v-html="serviceMessage"/>
+      <span style="float: right;"><a id="dismissButton" @click="showBanner = !showBanner"><sui-icon name="times"/></a></span>
     </div>
     <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
       <div class="container" style="padding: 3vh;">

@@ -10,7 +10,7 @@
     </div>
     <div id="bibliography">
       <div id="bibliographyActions" >
-        <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a>
+        <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
       <div v-if="$store.state.projects[$store.state.selectedProject].citations.length == 0" style="margin-top: 10vh;">
         This bibliography looks a little empty. You can create your first citation on the <a @click="$router.push({path: '/'})">homepage</a>.
@@ -21,7 +21,9 @@
             <sui-grid-column stretched>
               <div ref="cslBibRef">
                 <div id="preview" v-for="(citation, i) in this.$data.citationsData" :key="i">
-                  <Preview :cslObject="citation" :copyOption="true" :editOption="true" :deleteOption="true" :typing="false"/>
+                  <div v-if="checkCitation(citation.id)">
+                    <Preview :cslObject="citation" :copyOption="true" :editOption="true" :deleteOption="true" :typing="false"/>
+                  </div>
                 </div>
               </div>
             </sui-grid-column>
@@ -82,6 +84,14 @@ import generateCSL from '../generateCSL';
     copyBibliography() {
       //@ts-ignore
       this.$copyText(this.$refs.cslBibRef.textContent)
+    },
+    checkCitation(id: string) {
+      //@ts-ignore
+      if (this.$store.getters.getCitations.filter(c => c.id == id).length > 0) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 })
@@ -111,6 +121,8 @@ export default class Bibliography extends Vue {}
   padding: 10px;
   margin-bottom: 3vh;
   min-width: 30vh;
+  color: #fff;
+  font-weight: 550;
 }
 #editTitle {
   background-color: transparent;

@@ -2,7 +2,7 @@
   <div id="preview">
     <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'): ''" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
-        <div :style="'clear: left; margin-bottom:' + cslFormat.entryspacing + 'em;'" v-html="cslEntry"/>
+        <div :style="'clear: left;' + cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry"/>
         <div id="previewStatus" v-if="refreshing">
           Refreshing
         </div>
@@ -33,6 +33,16 @@ import generateCSL from '../generateCSL';
   components: {},
   mounted() {
     this.$data.refreshing = true;
+    //@ts-ignore
+    if (this.$store.getters.getPreviewsCache.filter(previewCache => previewCache.id == this.cslData.id).length > 0 && !this.$store.getters.getPreviewsCache.filter(previewCache => previewCache.id == this.cslData.id)[0].outdated) {
+      //@ts-ignore
+      this.$data.cslFormat = this.$store.getters.getPreviewsCache.filter(previewCache => previewCache.id == this.cslData.id)[0].format
+      //@ts-ignore
+      this.$data.cslHTML = this.$store.getters.getPreviewsCache.filter(previewCache => previewCache.id == this.cslData.id)[0].html
+      console.log('Preview was cached')
+      this.$data.refreshing = false
+    }
+    else {
     rp({
         uri: 'https://api.cloudcite.net/cite',
         headers: {
@@ -70,6 +80,10 @@ import generateCSL from '../generateCSL';
         cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
       }
       this.$data.cslHTML = cslHTML
+      console.log('CSL HTML: ')
+      console.log(cslHTML)
+      //@ts-ignore
+      this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: cslHTML, outdated: false})
       this.$data.refreshing = false
     })
     //@ts-ignore
@@ -77,6 +91,7 @@ import generateCSL from '../generateCSL';
       console.log(error)
       this.$data.refreshing = false
     })
+    }
   },
   data () {
     return {
@@ -89,6 +104,9 @@ import generateCSL from '../generateCSL';
     cslData: {
       get() {
         return this.$props.cslObject
+      },
+      set(value: any) {
+        this.$props.cslObject = value
       }
     },
     deleteButton: {
@@ -144,6 +162,8 @@ import generateCSL from '../generateCSL';
     },
     editCitation() {
       //@ts-ignore
+      this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: this.$data.cslHTML, outdated: true})
+      //@ts-ignore
       if (this.cslData && this.cslData.id.includes('Website')) {
         //@ts-ignore
         this.$store.dispatch('setEditingProject', this.cslData)
@@ -165,6 +185,8 @@ import generateCSL from '../generateCSL';
     removeCitation() {
       //@ts-ignore
       this.$store.dispatch('removeCitationById', this.cslData.id)
+      //@ts-ignore
+      this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: this.$data.cslHTML, outdated: false, delete: true})
       /*
       this.$toast.open({
           duration: 3000,
@@ -192,7 +214,33 @@ import generateCSL from '../generateCSL';
               //@ts-ignore
         }).then(data => {
           console.log(data)
-          this.$data.cslHTML = data[1]
+          this.$data.cslFormat = data[0]
+          var cslHTML = data[1]
+          var cslIndentIndex = data[1].indexOf('class="csl-indent"')
+          var cslHTMLStart = ""
+          var cslHTMLEnd = ""
+          if (cslIndentIndex != -1) {
+            cslHTMLStart = cslHTML.substring(0, cslIndentIndex - 1)
+            cslHTMLEnd = cslHTML.substring(cslIndentIndex, cslHTML.length)
+            cslHTML = cslHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + cslHTMLEnd
+          }
+          var cslRightInlineIndex = data[1].indexOf('class="csl-right-inline"')
+          if (cslRightInlineIndex != -1) {
+            cslHTMLStart = cslHTML.substring(0, cslRightInlineIndex - 1)
+            cslHTMLEnd = cslHTML.substring(cslRightInlineIndex, cslHTML.length)
+            cslHTML = cslHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (this.$data.cslFormat.secondFieldAlign ? this.$data.cslFormat.maxOffset + this.$data.cslFormat.rightPadding : '0') + 'em;" ' + cslHTMLEnd
+          }
+          var cslLeftMarginIndex = data[1].indexOf('class="csl-left-margin"')
+          if (cslLeftMarginIndex != -1) {
+            cslHTMLStart = cslHTML.substring(0, cslLeftMarginIndex - 1)
+            cslHTMLEnd = cslHTML.substring(cslLeftMarginIndex, cslHTML.length)
+            cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
+          }
+          this.$data.cslHTML = cslHTML
+          console.log('CSL HTML: ')
+          console.log(cslHTML)
+          //@ts-ignore
+          this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: cslHTML, outdated: true})
           this.$data.refreshing = false
         })
         //@ts-ignore

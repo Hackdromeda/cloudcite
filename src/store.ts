@@ -14,6 +14,7 @@ export default new Vuex.Store({
         "id": "Project/0",
         "title": "Project 1",
         "citations": [],
+        "previewsHTMLCache": [],
         "style": "modern-language-association",
         "locale": "locales-en-US"
       }
@@ -113,6 +114,23 @@ export default new Vuex.Store({
     },
     createProject(state: any, payload: any) {
       state.projects.push(payload)
+    },
+    cachePreview(state: any, payload: any) {
+      //@ts-ignore
+      if (state.projects[state.selectedProject].previewsHTMLCache.filter(preview => preview.id == payload.id).length > 0) {
+        for (let i=0; i < state.projects[state.selectedProject].previewsHTMLCache.length; i++) {
+          if (state.projects[state.selectedProject].previewsHTMLCache[i].id == payload.id) {
+            state.projects[state.selectedProject].previewsHTMLCache[i] = payload
+          }
+        }
+      } else {
+        state.projects[state.selectedProject].previewsHTMLCache.push(payload)
+      }
+      //@ts-ignore
+      if (payload.delete && state.projects[state.selectedProject].previewsHTMLCache.filter(preview => preview.id == payload.id).length > 0) {
+        //@ts-ignore
+        state.projects[state.selectedProject].previewsHTMLCache = state.projects[state.selectedProject].previewsHTMLCache.filter(preview => preview.id != payload.id)
+      }
     }
   },
   actions: {
@@ -160,6 +178,10 @@ export default new Vuex.Store({
     createProject(context: any, payload: any) {
       context.commit('createProject', payload)
       context.commit('saveState')
+    },
+    cachePreview(context: any, payload: any) {
+      context.commit('cachePreview', payload)
+      context.commit('saveState')
     }
   },
   getters: {
@@ -174,6 +196,9 @@ export default new Vuex.Store({
     },
     getCitations(state: any) {
       return state.projects[state.selectedProject].citations
+    },
+    getPreviewsCache(state: any) {
+      return state.projects[state.selectedProject].previewsHTMLCache
     }
   }
 })

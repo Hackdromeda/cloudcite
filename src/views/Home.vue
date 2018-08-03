@@ -1,8 +1,14 @@
 <template>
   <div id="home">
-    <div style="min-height: 40vh; background-color: #005eea; color: #fff;">
+    <div v-if="showBanner" class="banner">
+      We are excited to announce that CloudCite has reached its first alpha version! Visit our <a href="https://blog.cloudcite.net/" target="_blank">blog</a> to see our latest announcements and progress.
+      <span style="float: right;">
+        <a id="dismissButton" @click="showBanner = !showBanner"><sui-icon name="times"/></a>
+      </span>
+    </div>
+    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
       <div class="container" style="padding: 3vh;">
-        <h1 style="margin-top: 5vh;" >Welcome to CloudCite</h1>
+        <h1 style="margin-top: 5vh;" >Welcome to CloudCite<sub style="font-size: 0.9rem; font-weight: 800;">alpha</sub></h1>
         <p class="subtitle" style="margin-top: 5vh;">
           CloudCite processes citations in the cloud so you never have to create citations manually again.
         </p>
@@ -73,6 +79,7 @@
     },
     data() {
       return {
+        showBanner: true,
         formats: [
           "Website",
           "Journal",
@@ -81,7 +88,7 @@
           "Digital Image",
           "Podcast",
           "Music"
-        ],
+        ]
       }
     },
     computed: {
@@ -128,6 +135,25 @@
   #home {
     text-align: center;
     color: #000;
+  }
+
+  .banner {
+    width: 100%;
+    min-height: 5vh;
+    background-color: #0036b7;
+    color: #fff;
+    text-align: center;
+    padding-top: 1vh;
+    padding-bottom: 2vh;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  #dismissButton {
+    color: #658aff;
+  }
+  #dismissButton:hover {
+    color: #fff;
   }
 
   #formatSelectBox {

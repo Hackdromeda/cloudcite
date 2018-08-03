@@ -4,7 +4,7 @@
       <nav class="navbar is-transparent">
           <div class="navbar-brand">
             <a class="navbar-item" @click="$router.push({path: '/'})">
-              <a style="color: #005eea; font-weight: 525; font-size: 1.5rem;">CloudCite</a>
+              <a style="color: #005eea; font-weight: 600; font-size: 1.5rem;">CloudCite</a>
             </a>
             <!--https://gitlab.com/snippets/1685935-->
             <div class="navbar-burger burger" @click="toggleMenu" data-target="navbarMenu" :class="{'is-active': navIsActive}">

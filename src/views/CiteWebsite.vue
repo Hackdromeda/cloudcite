@@ -12,14 +12,10 @@
                 <sui-grid-row>
                     <sui-grid-column/>
                     <sui-grid-column>
-                        <sui-form>
-                            <sui-form-field>
-                                <div class="ui labeled action input" style="margin-top: 5vh;">
-                                    <input v-model="websiteCitationData.url" type="text" placeholder="Enter website link" @keyup.enter="citeURL()"/>
-                                    <button type="button" class="ui button" @click="citeURL()">Cite</button>
-                                </div>
-                            </sui-form-field>
-                        </sui-form>
+                        <div style="margin-top: 5vh;">
+                            <sui-input style="margin-right: 1vh;" v-model="websiteCitationData.url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
+                            <sui-button type="button" @click="citeURL()">Cite</sui-button>
+                        </div>
                     </sui-grid-column>
                 </sui-grid-row>
                 <sui-grid-column/>

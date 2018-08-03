@@ -15,7 +15,7 @@
                         <sui-form>
                             <sui-form-field>
                                 <div class="ui labeled action input" style="margin-top: 5vh;">
-                                    <input v-model="websiteCitationData.url" type="url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
+                                    <input v-model="websiteCitationData.url" type="text" placeholder="Enter website link" @keyup.enter="citeURL()"/>
                                     <button type="button" class="ui button" @click="citeURL()">Cite</button>
                                 </div>
                             </sui-form-field>

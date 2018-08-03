@@ -1,7 +1,7 @@
 <template>
   <div id="home">
-    <div v-if="showBanner" class="banner">
-      We are excited to announce that CloudCite has reached its first alpha version! Visit our <a href="https://blog.cloudcite.net/" target="_blank">blog</a> to see our latest announcements and progress.
+    <div v-if="showBanner && serviceMessage.length > 0" class="banner">
+      <div v-html="serviceMessage"/>
       <span style="float: right;">
         <a id="dismissButton" @click="showBanner = !showBanner"><sui-icon name="times"/></a>
       </span>
@@ -72,14 +72,26 @@
   //@ts-ignore
   import debounce from 'lodash/debounce';
   import SearchStyles from '../components/SearchStyles.vue';
-
   @Component({
     components: {
       SearchStyles
     },
+    mounted() {
+      fetch('/static/servicemessages.json')
+        .then(response => {
+          return response.json()
+        })
+        .then(message => {
+          this.$data.serviceMessage = message
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     data() {
       return {
         showBanner: true,
+        serviceMessage: "",
         formats: [
           "Website",
           "Journal",

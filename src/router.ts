@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 const About = () => import('./views/About.vue')
 const Pricing = () => import('./views/Pricing.vue')
+const Contribute = () => import('./views/Contribute.vue')
 const LoadingPage = () => import('./views/LoadingPage.vue')
 const CiteWebsite = () => import('./views/CiteWebsite.vue')
 const CiteBook = () => import('./views/CiteBook.vue')
@@ -52,10 +53,7 @@ export default new Router({
     {
       path: '/contribute/',
       name: 'contribute',
-      beforeEnter(to: any, from: any, next: any) {
-        window.location.href = "/";
-        window.open('https://contribute.cloudcite.net','_blank');
-      },
+      component: Contribute,
       meta: {
         title: 'CloudCite · Contribute'
       }

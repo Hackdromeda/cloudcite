@@ -39,7 +39,7 @@
     <footer class="footer" style="background-color: #eee; padding: 5vh;">
       <div class="content" style="text-align: left;">
         <p class="footer-text"><strong>CloudCite</strong> by the Hackdromeda team. The source code is licensed under 
-          <a href="https://github.com/Hackdromeda/cloudcite/blob/master/LICENSE">GNU AGPL v3.0</a>. The citation styles are based on styles from <a href="https://citationstyles.org/">https://citationstyles.org/</a>. Please read the <router-link to="/privacy/">privacy policy</router-link> before using this service.
+          <a href="https://github.com/Hackdromeda/cloudcite/blob/master/LICENSE">GNU AGPL v3.0</a>. CloudCite uses industry-standard citation styles from the <a href="https://citationstyles.org/">Citation Styles Language project</a>. Please read the <router-link to="/privacy/">privacy policy</router-link> before using this service.
         </p>
       </div>
       <div style="display: inline-flex; text-align: center;">

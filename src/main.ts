@@ -6,9 +6,15 @@ import './registerServiceWorker'
 //@ts-ignore
 import VueClipboard from 'vue-clipboard2'
 //@ts-ignore
+import Ads from 'vue-google-adsense'
+//@ts-ignore
+import VueScript from 'vue-script2'
+//@ts-ignore
 import SuiVue from 'semantic-ui-vue';
-import 'semantic-ui-css/semantic.min.css';
-
+Vue.use(VueScript)
+Vue.use(Ads.Adsense)
+Vue.use(Ads.InArticleAdsense)
+Vue.use(Ads.InFeedAdsense)
 Vue.use(SuiVue)
 Vue.use(VueClipboard)
 

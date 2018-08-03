@@ -4,7 +4,7 @@
       <div class="container" style="padding: 7vh;">
         <h1>Pricing</h1>
         <h2 class="subtitle" style="margin-top: 10vh;">
-          CloudCite is free forever and open source. Not all of the features listed in the table below are available yet. Some features are planned but may or may not ever be available.
+          CloudCite is free forever and open source. Not all of the features listed in the table below are available yet. <router-link to="/contribute/">Help us develop these features.</router-link>
         </h2>
       </div>
     </div>

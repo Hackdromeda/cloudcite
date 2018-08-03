@@ -4,7 +4,7 @@
       <nav class="navbar is-transparent">
           <div class="navbar-brand">
             <a class="navbar-item" @click="$router.push({path: '/'})">
-              <a style="color: #005eea; font-weight: 525; font-size: 1.5rem;">CloudCite</a>
+              <a id="title" style="color: #005eea; font-weight: 600; font-size: 1.5rem;">CloudCite</a>
             </a>
             <!--https://gitlab.com/snippets/1685935-->
             <div class="navbar-burger burger" @click="toggleMenu" data-target="navbarMenu" :class="{'is-active': navIsActive}">
@@ -32,6 +32,9 @@
           </div>
     </nav>
     <router-view :auth="auth" :authenticated="authenticated"/>
+    <div id="scrollToTopDiv">
+      <a @click="scrollToTop()"><sui-icon size="large" name="arrow up icon"/></a>
+    </div>
     </div>
     <footer class="footer" style="background-color: #eee; padding: 5vh;">
       <div class="content" style="text-align: left;">
@@ -76,6 +79,12 @@ import 'semantic-ui-css/semantic.min.css';
     logout,
     toggleMenu() {
       this.$data.navIsActive = !this.$data.navIsActive
+    },
+    scrollToTop() {
+      //@ts-ignore
+      document.querySelector('#title').scrollIntoView({ 
+        behavior: 'smooth' 
+      });
     }
   }
 })
@@ -151,6 +160,12 @@ h1 {
 #appMain {
   min-height: 100vh;
   font-weight: 500;
+}
+
+#scrollToTopDiv {
+  position: fixed;
+  bottom: 5vh;
+  right: 5vh;
 }
 
 nav {

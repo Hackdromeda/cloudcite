@@ -103,7 +103,9 @@ import { Component, Vue } from 'vue-property-decorator';
   methods: {
     selectCoin(coin: string) {
       var selectedCoin = this.$data.coins[coin]
-      console.log(selectedCoin)
+      console.log(selectedCoin.name)
+      console.log(selectedCoin.address)
+      console.log(selectedCoin.path)
     }
   }
 })

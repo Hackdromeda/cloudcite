@@ -49,7 +49,7 @@ import * as  _ from 'lodash/core';
       return {
         loadingCitation: false,
         //@ts-ignore
-        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], "", "", "", "", {month: null, day: null, year: null}, ('Website/' + this.$store.getters.getCitations.filter(c => c.id.includes('Website')).length))
+        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], "", "", "", "", {month: "", day: "", year: ""}, {month: "", day: "", year: ""}, ('Website/' + this.$store.getters.getCitations.filter(c => c.id.includes('Website')).length))
       }
   },
   methods: {
@@ -97,7 +97,7 @@ import * as  _ from 'lodash/core';
                 contributors.push({given: "", middle: "", family: "", type: "Author"})
             }
             //@ts-ignore
-            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.title ? data.title: "", this.websiteCitationData.url ? this.formatURL(this.websiteCitationData.url): "", data.publisher ? data.publisher: "", data.issued ? data.issued: {month: "", day: "", year: ""}, ('Website/' + this.$store.getters.getCitations.filter(c => c.id.includes('Website')).length))
+            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.title ? data.title: "", this.websiteCitationData.url ? this.formatURL(this.websiteCitationData.url): "", data.publisher ? data.publisher: "", {month: "", day: "", year: ""}, data.issued ? data.issued: {month: "", day: "", year: ""}, ('Website/' + this.$store.getters.getCitations.filter(c => c.id.includes('Website')).length))
             this.$data.loadingCitation = false
             //@ts-ignore
             this.$store.dispatch('setEditingProject', this.$data.websiteCitationData)

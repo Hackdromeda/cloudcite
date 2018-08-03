@@ -96,7 +96,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
         ],
         bookIdentificationField: null,
         //@ts-ignore
-        bookCitationData: new BookCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {}, ('Book/' + this.$store.getters.getCitations.filter(c => c.id.includes('Book')).length)),
+        bookCitationData: new BookCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {month: "", day: "", year: ""}, {month: "", day: "", year: ""}, ('Book/' + this.$store.getters.getCitations.filter(c => c.id.includes('Book')).length)),
         isFetching: false
     }
   },

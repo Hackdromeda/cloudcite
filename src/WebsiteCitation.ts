@@ -7,15 +7,17 @@ export default class WebsiteCitation {
     title: string
     url: string
     publisher: string
+    accessed: any
     issued: any
     id: string
 
-    constructor(contributors: any, source: any, title: any, url: any, publisher: any, issued: any, id: string) {
+    constructor(contributors: any, source: any, title: any, url: any, publisher: any, accessed: any, issued: any, id: string) {
         this.contributors = contributors
         this.source = source
         this.title = title
         this.url = url
         this.publisher = publisher
+        this.accessed = accessed
         this.issued = issued //date published
         this.id = id
     }
@@ -28,14 +30,12 @@ export default class WebsiteCitation {
     }
 
     toCSL() {
-        var cslMonth = this.issued.month + 1
-        var accessedDate = new Date()
         return {
             [this.id]: {
                 "accessed":{
-                    "month": cslMonth ? cslMonth: "",
-                    "year": accessedDate.getFullYear(),
-                    "day": accessedDate.getDay()
+                    "month": (this.accessed.month && this.accessed.month >= 1 && this.accessed.month <= 12) ? this.accessed.month: "",
+                    "year": this.accessed.year ? this.accessed.year: "",
+                    "day": this.accessed.day ? this.accessed.day: ""
                 },
                 "issued":{
                     "month": (this.issued.month && this.issued.month >= 1 && this.issued.month <= 12) ? this.issued.month: "",

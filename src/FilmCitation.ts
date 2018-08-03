@@ -5,16 +5,18 @@ export default class FilmCitation {
     contributors: any[]
     title: string
     publisher: string
+    accessed: any
     issued: any
     abstract: string
     publisherPlace: string
     id: string
 
-    constructor(contributors: any[], title: string, publisher: string, publisherPlace: string, issued: any, abstract: string, id: string) {
+    constructor(contributors: any[], title: string, publisher: string, publisherPlace: string, accessed: any, issued: any, abstract: string, id: string) {
         this.contributors = contributors
         this.title = title
         this.publisher = publisher
         this.publisherPlace = publisherPlace
+        this.accessed = accessed
         this.issued = issued
         this.abstract = abstract
         this.id = id
@@ -27,14 +29,12 @@ export default class FilmCitation {
         this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Director"})
     }
     toCSL() {
-        var cslMonth = this.issued.month + 1
-        var accessedDate = new Date()
         return {
             [this.id]: {
                 "accessed":{
-                    "month": cslMonth ? cslMonth: "",
-                    "year": accessedDate.getFullYear(),
-                    "day": accessedDate.getDay()
+                    "month": (this.accessed.month && this.accessed.month >= 1 && this.accessed.month <= 12) ? this.accessed.month: "",
+                    "year": this.accessed.year ? this.accessed.year: "",
+                    "day": this.accessed.day ? this.accessed.day: ""
                 },
                 "issued":{
                     "month": (this.issued.month && this.issued.month >= 1 && this.issued.month <= 12) ? this.issued.month: "",

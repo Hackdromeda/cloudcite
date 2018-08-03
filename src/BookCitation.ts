@@ -7,15 +7,17 @@ export default class BookCitation {
     volNumber: any
     title: any
     publisher: any
+    accessed: any
     issued: any
     id: string
 
-    constructor(contributors: any[], chapter: any, volNumber: any, title: any, publisher: any, issued: object, id: string) {
+    constructor(contributors: any[], chapter: any, volNumber: any, title: any, publisher: any, accessed: object, issued: object, id: string) {
         this.contributors = contributors
         this.chapter = chapter
         this.volNumber = volNumber
         this.title = title
         this.publisher = publisher
+        this.accessed = accessed
         this.issued = issued
         this.id = id
     }
@@ -27,14 +29,12 @@ export default class BookCitation {
         this.contributors[index] = Object.assign(this.contributors[index], {first: null, middle: null, last: null, type: "Author"})
     }
     toCSL() {
-        var cslMonth = this.issued.month + 1
-        var accessedDate = new Date()
         return {
             [this.id]:{
                 "accessed":{
-                    "month": cslMonth ? cslMonth: "",
-                    "year": accessedDate.getFullYear(),
-                    "day": accessedDate.getDay()
+                    "month": (this.accessed.month && this.accessed.month >= 1 && this.accessed.month <= 12) ? this.accessed.month: "",
+                    "year": this.accessed.year ? this.accessed.year: "",
+                    "day": this.accessed.day ? this.accessed.day: ""
                 },
                 "issued":{
                     "month": (this.issued.month && this.issued.month >= 1 && this.issued.month <= 12) ? this.issued.month: "",

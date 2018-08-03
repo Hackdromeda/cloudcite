@@ -45,24 +45,41 @@
                                     <input :placeholder="(field.substring(0, 1).toUpperCase() + field.substring(1, field.length))" @input="typing = true" v-model="citationData[field]">
                                 </div>
                             </sui-form-field>
-                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field == 'issued'">
+                            <div style="margin-bottom: 15px;" v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field == 'accessed'">
                                 <sui-form-field>
-                                    <sui-dropdown fluid v-model="citationData.issued.month" :options="monthNames" placeholder="Month Published" selection search/>
+                                    <sui-dropdown fluid v-model="citationData.accessed.month" :options="monthAccessedNames" placeholder="Month Accessed" selection search/>
                                 </sui-form-field>
                                 <sui-form-field>
                                     <div v-if="format != 'Film'" class="ui labeled input">
-                                        <div class="ui label">Day</div>
+                                        <div class="ui label">Day Accessed</div>
+                                        <input @input="typing = true" v-model.number="citationData.accessed.day" type="number" maxlength="2" placeholder="Day">
+                                    </div>
+                                </sui-form-field>
+                                <sui-form-field>
+                                    <div class="ui labeled input">
+                                        <div class="ui label">Year Accessed</div>
+                                        <input @input="typing = true" v-model.number="citationData.accessed.year" type="number" maxlength="4" placeholder="Year">
+                                    </div>
+                                </sui-form-field>
+                            </div>
+                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field == 'issued'">
+                                <sui-form-field>
+                                    <sui-dropdown fluid v-model="citationData.issued.month" :options="monthPublishedNames" placeholder="Month Published" selection search/>
+                                </sui-form-field>
+                                <sui-form-field>
+                                    <div v-if="format != 'Film'" class="ui labeled input">
+                                        <div class="ui label">Day Published</div>
                                         <input @input="typing = true" v-model.number="citationData.issued.day" type="number" maxlength="2" placeholder="Day">
                                     </div>
                                 </sui-form-field>
                                 <sui-form-field>
                                     <div class="ui labeled input">
-                                        <div class="ui label">Year</div>
+                                        <div class="ui label">Year Published</div>
                                         <input @input="typing = true" v-model.number="citationData.issued.year" type="number" maxlength="4" placeholder="Year">
                                     </div>
                                 </sui-form-field>
                             </div>
-                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued' && field != 'id'">
+                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued' && field != 'accessed' && field != 'id'">
                                 <sui-form-field v-if="typeof citationData[field][property] === 'string'" v-for="(property, p) in Object.keys(citationData[field])" :key="p">
                                     <div class="ui labeled input">
                                         <div class="ui label">{{ property }}</div>
@@ -132,7 +149,74 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 "value": "Writer"
             }
         ],
-        monthNames: [
+        monthAccessedNames: [
+            {
+                "key": "Month Accessed",
+                "text": "Month Accessed",
+                "value": ""
+            },
+            {
+                "key": "January",
+                "text": "January",
+                "value": 1
+            },
+            {
+                "key": "February",
+                "text": "February",
+                "value": 2
+            },
+            {
+                "key": "March",
+                "text": "March",
+                "value": 3
+            },
+            {
+                "key": "April",
+                "text": "April",
+                "value": 4
+            },
+            {
+                "key": "May",
+                "text": "May",
+                "value": 5
+            },
+            {
+                "key": "June",
+                "text": "June",
+                "value": 6
+            },
+            {
+                "key": "July",
+                "text": "July",
+                "value": 7
+            },
+            {
+                "key": "August",
+                "text": "August",
+                "value": 8
+            },
+            {
+                "key": "September",
+                "text": "September",
+                "value": 9
+            },
+            {
+                "key": "October",
+                "text": "October",
+                "value": 10
+            },
+            {
+                "key": "November",
+                "text": "November",
+                "value": 11
+            },
+            {
+                "key": "December",
+                "text": "December",
+                "value": 12
+            }
+        ],
+        monthPublishedNames: [
             {
                 "key": "Month Published",
                 "text": "Month Published",

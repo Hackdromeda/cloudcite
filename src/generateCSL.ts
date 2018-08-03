@@ -1,13 +1,11 @@
 export default function generateCSL(cslData: any) {
     if (cslData.id && cslData.id.includes('Website')) {
-        var cslMonth = cslData.issued.month + 1
-        var accessedDate = new Date()
         return {
             [cslData.id]: {
                 "accessed":{
-                    "month": cslMonth ? cslMonth: "",
-                    "year": accessedDate.getFullYear(),
-                    "day": accessedDate.getDay()
+                    "month": (cslData.accessed.month && cslData.accessed.month >= 1 && cslData.accessed.month <= 12) ? cslData.accessed.month: "",
+                    "year": cslData.accessed.year ? cslData.accessed.year: "",
+                    "day": cslData.accessed.day ? cslData.accessed.day: ""
                 },
                 "issued":{
                     "month": (cslData.issued && cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: "",
@@ -26,14 +24,12 @@ export default function generateCSL(cslData: any) {
         }
     }
     else if (cslData.id && cslData.id.includes('Book')) {
-        var cslMonth = cslData.issued.month + 1
-        var accessedDate = new Date()
         return {
             [cslData.id]:{
                 "accessed":{
-                    "month": cslMonth ? cslMonth: "",
-                    "year": accessedDate.getFullYear(),
-                    "day": accessedDate.getDay()
+                    "month": (cslData.accessed.month && cslData.accessed.month >= 1 && cslData.accessed.month <= 12) ? cslData.accessed.month: "",
+                    "year": cslData.accessed.year ? cslData.accessed.year: "",
+                    "day": cslData.accessed.day ? cslData.accessed.day: ""
                 },
                 "issued":{
                     "month": (cslData.issued && cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: "",
@@ -51,14 +47,12 @@ export default function generateCSL(cslData: any) {
         }
     }
     else if (cslData.id && cslData.id.includes('Film')) {
-        var cslMonth = cslData.issued.month + 1
-        var accessedDate = new Date()
         return {
             [cslData.id]: {
                 "accessed":{
-                    "month": cslMonth ? cslMonth: "",
-                    "year": accessedDate.getFullYear(),
-                    "day": accessedDate.getDay()
+                    "month": (cslData.accessed.month && cslData.accessed.month >= 1 && cslData.accessed.month <= 12) ? cslData.accessed.month: "",
+                    "year": cslData.accessed.year ? cslData.accessed.year: "",
+                    "day": cslData.accessed.day ? cslData.accessed.day: ""
                 },
                 "issued":{
                     "month": (cslData.issued && cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: "",

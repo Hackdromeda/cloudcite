@@ -1,6 +1,9 @@
+//@ts-ignore
+import _ from 'lodash'
+
 export default function generateCSL(cslData: any) {
     if (cslData.id && cslData.id.includes('Website')) {
-        return {
+        return _.pickBy({
             [cslData.id]: {
                 "accessed":{
                     "month": (cslData.accessed.month && cslData.accessed.month >= 1 && cslData.accessed.month <= 12) ? cslData.accessed.month: "",
@@ -21,10 +24,10 @@ export default function generateCSL(cslData: any) {
                 "title": cslData.title ? cslData.title: "",
                 "URL": cslData.url ? cslData.url: ""
             }
-        }
+        })
     }
     else if (cslData.id && cslData.id.includes('Book')) {
-        return {
+        return _.pickBy({
             [cslData.id]:{
                 "accessed":{
                     "month": (cslData.accessed.month && cslData.accessed.month >= 1 && cslData.accessed.month <= 12) ? cslData.accessed.month: "",
@@ -44,10 +47,10 @@ export default function generateCSL(cslData: any) {
                 "editor": cslData.contributors.filter(c => c.type === "Editor"),
                 "title": cslData.title ? cslData.title: "",
             }
-        }
+        })
     }
     else if (cslData.id && cslData.id.includes('Film')) {
-        return {
+        return _.pickBy({
             [cslData.id]: {
                 "accessed":{
                     "month": (cslData.accessed.month && cslData.accessed.month >= 1 && cslData.accessed.month <= 12) ? cslData.accessed.month: "",
@@ -72,6 +75,6 @@ export default function generateCSL(cslData: any) {
                 "title": cslData.title ? cslData.title: "",
                 "abstract": cslData.abstract ? cslData.abstract: ""
             }
-        }
+        })
     }
 }

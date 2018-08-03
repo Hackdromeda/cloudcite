@@ -207,6 +207,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
             this.$router.push({path: '/'})
         },
         cite() {
+            console.log('CITATION DATA')
             this.$store.dispatch('addCitation', this.$data.citationData)
             this.$store.dispatch('setEditingProject', null)
             this.$router.push({path: '/bibliography/'})

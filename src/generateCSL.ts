@@ -1,5 +1,5 @@
 export default function generateCSL(cslData: any) {
-    if (cslData.id.includes('Website')) {
+    if (cslData.id && cslData.id.includes('Website')) {
         var cslMonth = cslData.issued.month + 1
         var accessedDate = new Date()
         return {
@@ -10,9 +10,9 @@ export default function generateCSL(cslData: any) {
                     "day": accessedDate.getDay()
                 },
                 "issued":{
-                    "month": (cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: "",
-                    "year": cslData.issued.year ? cslData.issued.year: "",
-                    "day": cslData.issued.day ? cslData.issued.day: ""
+                    "month": (cslData.issued && cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: "",
+                    "year": (cslData.issued && cslData.issued.year) ? cslData.issued.year: "",
+                    "day": (cslData.issued && cslData.issued.day) ? cslData.issued.day: ""
                 },
                 "type":"website",
                 "id": cslData.id,
@@ -25,7 +25,7 @@ export default function generateCSL(cslData: any) {
             }
         }
     }
-    else if (cslData.id.includes('Book')) {
+    else if (cslData.id && cslData.id.includes('Book')) {
         var cslMonth = cslData.issued.month + 1
         var accessedDate = new Date()
         return {
@@ -36,9 +36,9 @@ export default function generateCSL(cslData: any) {
                     "day": accessedDate.getDay()
                 },
                 "issued":{
-                    "month": (cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: "",
-                    "year": cslData.issued.year ? cslData.issued.year: "",
-                    "day": cslData.issued.day ? cslData.issued.day: ""
+                    "month": (cslData.issued && cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: "",
+                    "year": (cslData.issued && cslData.issued.year) ? cslData.issued.year: "",
+                    "day": (cslData.issued && cslData.issued.day) ? cslData.issued.day: ""
                 },
                 "type":"book",
                 "id": cslData.id,
@@ -50,7 +50,7 @@ export default function generateCSL(cslData: any) {
             }
         }
     }
-    else if (cslData.id.includes('Film')) {
+    else if (cslData.id && cslData.id.includes('Film')) {
         var cslMonth = cslData.issued.month + 1
         var accessedDate = new Date()
         return {
@@ -61,9 +61,9 @@ export default function generateCSL(cslData: any) {
                     "day": accessedDate.getDay()
                 },
                 "issued":{
-                    "month": (cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: "",
-                    "year": cslData.issued.year ? cslData.issued.year: "",
-                    "day": cslData.issued.day ? cslData.issued.day: ""
+                    "month": (cslData.issued && cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: "",
+                    "year": (cslData.issued && cslData.issued.year) ? cslData.issued.year: "",
+                    "day": (cslData.issued && cslData.issued.day) ? cslData.issued.day: ""
                 },
                 "type":"motion_picture",
                 "id": cslData.id,

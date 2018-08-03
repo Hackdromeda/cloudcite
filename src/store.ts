@@ -27,7 +27,7 @@ export default new Vuex.Store({
           //@ts-ignore
           if (state.projects[state.selectedProject].citations[i].id == payload.id) {
             //@ts-ignore
-            state.projects[state.selectedProject].citations[i] = {[payload.id]: payload}
+            state.projects[state.selectedProject].citations[i] = payload
           }
         }
       } else {

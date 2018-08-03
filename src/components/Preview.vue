@@ -144,19 +144,19 @@ import generateCSL from '../generateCSL';
     },
     editCitation() {
       //@ts-ignore
-      if (this.cslData.id.includes('Website')) {
+      if (this.cslData && this.cslData.id.includes('Website')) {
         //@ts-ignore
         this.$store.dispatch('setEditingProject', this.cslData)
         this.$router.push({path: '/edit/website/'})
       }
       //@ts-ignore
-      else if (this.cslData.id.includes('Book')) {
+      else if (this.cslData && this.cslData.id.includes('Book')) {
         //@ts-ignore
         this.$store.dispatch('setEditingProject', this.cslData)
         this.$router.push({path: '/edit/book/'})
       }
       //@ts-ignore
-      else if (this.cslData.id.includes('Film')) {
+      else if (this.cslData && this.cslData.id.includes('Film')) {
         //@ts-ignore
         this.$store.dispatch('setEditingProject', this.cslData)
         this.$router.push({path: '/edit/film/'})

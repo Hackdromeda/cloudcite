@@ -17,7 +17,7 @@
             <sui-grid-column/>
             <sui-grid-column stretched>
               <div id="preview" v-for="(citation, i) in $store.state.projects[$store.state.selectedProject].citations" :key="i">
-                <Preview :cslObject="citation" :copyOption="true" :editOption="true" :deleteOption="true" />
+                <Preview :cslObject="citation" :copyOption="true" :editOption="true" :deleteOption="true" :typing="false"/>
               </div>
             </sui-grid-column>
             <sui-grid-column/>

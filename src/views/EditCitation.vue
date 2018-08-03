@@ -39,7 +39,7 @@
                                     <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="citationData.contributors.push({first: '', middle: '', last: '', type: 'Author'})" positive>Add Contributor</sui-button>
                                 </div>
                             </div>
-                            <sui-form-field v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'string' && field != 'id' && field != 'type'">
+                            <sui-form-field v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'string' && field != 'id'">
                                 <div class="ui labeled input">
                                     <div class="ui label" v-cloak>{{ (field.substring(0, 1).toUpperCase() + field.substring(1, field.length)) }}</div>
                                     <input :placeholder="(field.substring(0, 1).toUpperCase() + field.substring(1, field.length))" @input="typing = true" v-model="citationData[field]">
@@ -62,7 +62,7 @@
                                     </div>
                                 </sui-form-field>
                             </div>
-                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued' && field != 'id' && field != 'type'">
+                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued' && field != 'id'">
                                 <sui-form-field v-if="typeof citationData[field][property] === 'string'" v-for="(property, p) in Object.keys(citationData[field])" :key="p">
                                     <div class="ui labeled input">
                                         <div class="ui label">{{ property }}</div>
@@ -203,7 +203,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
   },
     methods: {
         cancel() {
-            this.$store.dispatch('setEditing', null)
+            this.$store.dispatch('setEditingProject', null)
             this.$router.push({path: '/'})
         },
         cite() {

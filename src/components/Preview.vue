@@ -40,7 +40,7 @@ import generateCSL from '../generateCSL';
         },
         method: 'POST',
         //@ts-ignore
-        body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: this.cslData},
+        body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData)},
         json: true
         //@ts-ignore
     })
@@ -88,7 +88,7 @@ import generateCSL from '../generateCSL';
   computed: {
     cslData: {
       get() {
-        return generateCSL(this.$props.cslObject)
+        return this.$props.cslObject
       }
     },
     deleteButton: {
@@ -144,13 +144,27 @@ import generateCSL from '../generateCSL';
     },
     editCitation() {
       //@ts-ignore
-      this.$store.dispatch('setEditingProject', this.cslData[Object.keys(this.cslData)[0]])
+      if (this.cslData.id.includes('Website')) {
+        //@ts-ignore
+        this.$store.dispatch('setEditingProject', this.cslData)
+        this.$router.push({path: '/edit/website/'})
+      }
       //@ts-ignore
-      this.$router.push({path: '/edit/' + this.cslData[Object.keys(this.cslData)[0]].type + '/'})
+      else if (this.cslData.id.includes('Book')) {
+        //@ts-ignore
+        this.$store.dispatch('setEditingProject', this.cslData)
+        this.$router.push({path: '/edit/book/'})
+      }
+      //@ts-ignore
+      else if (this.cslData.id.includes('Film')) {
+        //@ts-ignore
+        this.$store.dispatch('setEditingProject', this.cslData)
+        this.$router.push({path: '/edit/film/'})
+      }
     },
     removeCitation() {
       //@ts-ignore
-      this.$store.dispatch('removeCitationById', Object.keys(this.cslData)[0])
+      this.$store.dispatch('removeCitationById', this.cslData.id)
       /*
       this.$toast.open({
           duration: 3000,
@@ -173,7 +187,7 @@ import generateCSL from '../generateCSL';
               },
               method: 'POST',
               //@ts-ignore
-              body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: this.cslData},
+              body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData)},
               json: true
               //@ts-ignore
         }).then(data => {

@@ -4,13 +4,10 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 //@ts-ignore
-import VueClipboard from 'vue-clipboard2'
-//@ts-ignore
 import SuiVue from 'semantic-ui-vue';
 import 'semantic-ui-css/semantic.min.css';
 
 Vue.use(SuiVue)
-Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 

@@ -9,7 +9,7 @@
         </div>
     </div>
     <div id="bibliography">
-      <div id="bibliographyActions" >
+      <div v-if="$store.state.projects[$store.state.selectedProject].citations.length > 0" id="bibliographyActions" >
         <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
       <div v-if="$store.state.projects[$store.state.selectedProject].citations.length == 0" style="margin-top: 10vh;">
@@ -40,6 +40,9 @@ import Preview from '../components/Preview.vue';
 //@ts-ignore
 import rp from 'request-promise-native';
 import generateCSL from '../generateCSL';
+//@ts-ignore
+import clipboard from "clipboard-polyfill";
+
 @Component({
   components: {
     Preview
@@ -83,7 +86,23 @@ import generateCSL from '../generateCSL';
   methods: {
     copyBibliography() {
       //@ts-ignore
-      this.$copyText(this.$refs.cslBibRef.textContent)
+      var bibliographyPlainText = ""
+      var bibliographyRichText = ""
+
+      for (let i=0; i < this.$data.citationsData.length; i++) {
+        //@ts-ignore
+        if (this.$store.getters.getPreviewsCache.filter(preview => preview.id == this.$data.citationsData[i].id).length > 0) {
+          //@ts-ignore
+          bibliographyPlainText += this.$store.getters.getPreviewsCache.filter(preview => preview.id == this.$data.citationsData[i].id)[0].copyPlainText
+          //@ts-ignore
+          bibliographyRichText += this.$store.getters.getPreviewsCache.filter(preview => preview.id == this.$data.citationsData[i].id)[0].copyRichText
+        }
+      }
+      var dt = new clipboard.DT();
+      //@ts-ignore
+      dt.setData("text/plain", bibliographyPlainText);
+      dt.setData("text/html", bibliographyRichText);
+      clipboard.write(dt);
     },
     checkCitation(id: string) {
       //@ts-ignore

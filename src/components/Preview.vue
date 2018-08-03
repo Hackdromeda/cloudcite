@@ -27,6 +27,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import rp from 'request-promise-native';
 import WebsiteCitation from '../WebsiteCitation';
 import generateCSL from '../generateCSL';
+//@ts-ignore
+import clipboard from "clipboard-polyfill";
 
 @Component({
   props: ['cslObject', 'deleteOption', 'copyOption', 'editOption', 'typing'],
@@ -83,7 +85,22 @@ import generateCSL from '../generateCSL';
       console.log('CSL HTML: ')
       console.log(cslHTML)
       //@ts-ignore
-      this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: cslHTML, outdated: false})
+          var html = '<div class="csl-bib-body" style="'
+          //@ts-ignore
+          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
+          //@ts-ignore
+          for (let i=0; i < this.$data.cslHTML.length; i++) {
+            html += '<div style="clear: left;'
+            //@ts-ignore
+            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+            //@ts-ignore
+            html += this.$data.cslHTML[i]
+            html += '</div>'
+          }
+          html += '</div>'
+      console.log(cslHTML)
+      //@ts-ignore
+      this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: cslHTML, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html, outdated: false})
       this.$data.refreshing = false
     })
     //@ts-ignore
@@ -92,6 +109,15 @@ import generateCSL from '../generateCSL';
       this.$data.refreshing = false
     })
     }
+  },
+  updated() {
+    //@ts-ignore
+    if (this.$store.getters.getPreviewsCache.filter(preview => preview.id == this.cslData.id).length > 0) {
+      //@ts-ignore
+      var preview = this.$store.getters.getPreviewsCache.filter(preview => preview.id == this.cslData.id)[0]
+    }
+    //@ts-ignore
+    this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: preview.html, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: preview.copyRichText, outdated: false})
   },
   data () {
     return {
@@ -150,7 +176,24 @@ import generateCSL from '../generateCSL';
     },
     copyCitation() {
       //@ts-ignore
-      this.$copyText(this.$refs.cslBibRef.textContent)
+          var html = '<div class="csl-bib-body" style="'
+          //@ts-ignore
+          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
+          //@ts-ignore
+          for (let i=0; i < this.$data.cslHTML.length; i++) {
+            html += '<div style="clear: left;'
+            //@ts-ignore
+            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+            //@ts-ignore
+            html += this.$data.cslHTML[i]
+            html += '</div>'
+          }
+          html += '</div>'
+      var dt = new clipboard.DT();
+      //@ts-ignore
+      dt.setData("text/plain", this.$refs.cslBibRef.textContent);
+      dt.setData("text/html", html);
+      clipboard.write(dt);
       /*
       this.$toast.open({
           duration: 3000,
@@ -162,7 +205,21 @@ import generateCSL from '../generateCSL';
     },
     editCitation() {
       //@ts-ignore
-      this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: this.$data.cslHTML, outdated: true})
+          var html = '<div class="csl-bib-body" style="'
+          //@ts-ignore
+          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
+          //@ts-ignore
+          for (let i=0; i < this.$data.cslHTML.length; i++) {
+            html += '<div style="clear: left;'
+            //@ts-ignore
+            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+            //@ts-ignore
+            html += this.$data.cslHTML[i]
+            html += '</div>'
+          }
+          html += '</div>'
+      //@ts-ignore
+      this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html, html: this.$data.cslHTML, outdated: true})
       //@ts-ignore
       if (this.cslData && this.cslData.id.includes('Website')) {
         //@ts-ignore
@@ -240,7 +297,21 @@ import generateCSL from '../generateCSL';
           console.log('CSL HTML: ')
           console.log(cslHTML)
           //@ts-ignore
-          this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: cslHTML, outdated: true})
+          var html = '<div class="csl-bib-body" style="'
+          //@ts-ignore
+          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
+          //@ts-ignore
+          for (let i=0; i < this.$data.cslHTML.length; i++) {
+            html += '<div style="clear: left;'
+            //@ts-ignore
+            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+            //@ts-ignore
+            html += this.$data.cslHTML[i]
+            html += '</div>'
+          }
+          html += '</div>'
+          //@ts-ignore
+          this.$store.dispatch('cachePreview', {id: this.cslData.id, format: this.$data.cslFormat, html: cslHTML, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html, outdated: true})
           this.$data.refreshing = false
         })
         //@ts-ignore

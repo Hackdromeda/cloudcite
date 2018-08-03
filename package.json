@@ -21,10 +21,8 @@
     }
   ],
   "scripts": {
-    "servealt": "node ./node_modules/.bin/vue-cli-service serve",
-    "serve": "node ./node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
-    "buildalt": "node ./node_modules/.bin/vue-cli-service build",
-    "build": "node ./node_modules/@vue/cli-service/bin/vue-cli-service.js build"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "EventEmitter": "^1.0.0",

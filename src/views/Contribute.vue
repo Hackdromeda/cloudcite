@@ -4,14 +4,14 @@
       <div class="container" style="padding: 7vh;">
         <h1>Contribute</h1>
         <h2 class="subtitle" style="margin-top: 10vh;">
-          Help support future CloudCite development.
+          CloudCite is an AGPLv3 licensed open source project and completely free to use. However, the amount of effort needed to maintain CloudCite and its APIs, develop new features, and store your references is not sustainable without proper financial backing. You can support CloudCite development and maintenance costs via the following methods:
         </h2>
       </div>
     </div>
     <div id="contribute">
       <div id="financial">
           <h3>One-Time Donation</h3>
-          <p>Buy us a coffee, lunch, or even a new computer through these channels</p>
+          <p>Buy us a coffee, lunch, or even a new computer through these channels:</p>
           <div id="one-time-donations" style="display: block;">
             <a href="https://www.paypal.me/avishah395" target="_blank">
               <img src="/static/images/paypal.png" style="width:100px">
@@ -26,20 +26,21 @@
           LTC
             </a>
         </div>
-        <div id="coin-details"></div>
+        <div v-if="showCoin" id="coin-details">
+          <p>{{ selectedCoin.name }} Address:<br> {{ selectedCoin.address }} </p>
+          <img v-bind:src="selectedCoin.path">
+        </div>
         <div id="recurring-dontaions">
           <h3>Recurring Pledge</h3>
-          <p>Donate a fixed amount with each release.</p>
+          <p>Donate a fixed amount with each release. You can support us through Patreon or OpenCollective.</p>
           <div id="one-time-donations" style="display: block;">
             <a href="https://patreon.com/cloudcite" target="_blank">
               <img src="/static/images/patreon-min.png" style="width:38px">
             </a>
-            <a href="https://opencollective.com/vue" target="_blank">
+            <a href="https://opencollective.com/cloudcite" target="_blank">
               <img src="/static/images/open-collective.jpg" style="width:38px">
             </a>
           </div>            
-          <p>Support us on Patreon or OpenCollective</p>
-          <br>
         </div>
       </div>
       <div id="code">
@@ -76,6 +77,8 @@ import { Component, Vue } from 'vue-property-decorator';
   components: {},
   data () {
     return {
+      showCoin: false,
+      selectedCoin: "",
       coins: {
         btc: {
           name: 'Bitcoin',
@@ -102,10 +105,8 @@ import { Component, Vue } from 'vue-property-decorator';
   },
   methods: {
     selectCoin(coin: string) {
-      var selectedCoin = this.$data.coins[coin]
-      console.log(selectedCoin.name)
-      console.log(selectedCoin.address)
-      console.log(selectedCoin.path)
+      this.$data.selectedCoin = this.$data.coins[coin]
+      this.$data.showCoin = true;
     }
   }
 })
@@ -131,8 +132,8 @@ export default class About extends Vue {}
     }
     p {
       text-align: center;
-      padding-left: 30%;
-      padding-right: 30%;
+      padding-left: 20%;
+      padding-right: 20%;
     }
   }
   #one-time-donations a,
@@ -159,5 +160,6 @@ export default class About extends Vue {}
   #coin-details p {
     padding: 0;
     margin: 0 0 20px;
+    word-break: break-all;
   }
 </style>

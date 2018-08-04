@@ -22,7 +22,7 @@
             <div style="padding-left: 25px; padding-bottom: 5px;">
               <img style="border-radius: 50%;" src="/static/images/Avi.jpg" width="128" height="128"/>
               <h4>Avi Shah</h4>
-              <p>Project co-founder and backend developer. You can learn more about me on <a href="https://avimshah.tk/#about" target="_blank">my website</a>.</p>
+              <p>Project co-founder and backend developer. You can learn more about me on <a href="https://avimshah.com/" target="_blank">my website</a>.</p>
             </div>
             </div>
           </sui-grid-column>

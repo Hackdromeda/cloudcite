@@ -3,3 +3,9 @@ Allow: /
 Disallow: /callback/
 Disallow: /error/
 Disallow: /edit/
+Disallow: seznam-wmt-NpMRQmudwsIGo7LzFVukueZDw4L6oi7v.txt
+Disallow: naver5afa9779421be1462565a1ebf0042d52.html
+Disallow: google1b0379b504ca75f3.html
+Disallow: d286aad00e82.html
+Disallow: baidu_verify_yyP3D5cvLD.html
+Disallow: baidu_verify_wY2JYlSEbM.html

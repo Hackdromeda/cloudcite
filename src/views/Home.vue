@@ -40,6 +40,7 @@
                 </p>
                 <sui-button v-if="compareProject(project) == false" @click="selectProject(project)" style="color: #006DFC;">Select</sui-button>
                 <sui-button v-if="compareProject(project) == true" @click="selectProject(project)" style="color: #006DFC;" disabled>Selected</sui-button>
+                <sui-button @click="editProject(project)" style="color: #006DFC;">Edit</sui-button>
               </div>
             </sui-grid-column>
             <sui-grid-column :mobile="16" :tablet="16" :computer="4" stretched>
@@ -127,13 +128,16 @@
         })
       },
       compareProject(project: any) {
-        return ("Project/" + this.$store.state.selectedProject) === project.id
+        return ("Project-" + this.$store.state.selectedProject) == project.id
       },
       createProject() {
         this.$router.push({name: 'createproject'})
       },
+      editProject(project: any) {
+        this.$router.push({path: '/projects/edit/' + project.id + '/'})
+      },
       selectProject(project: any) {
-        this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('/') + 1), project.id.length)))
+        this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)))
       }
     }
   })

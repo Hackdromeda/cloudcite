@@ -12,6 +12,7 @@ const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
 const Bibliography = () => import('./views/Bibliography.vue')
 const EditCitation = () => import('./views/EditCitation.vue')
 const CreateProject = () => import('./views/CreateProject.vue')
+const EditProject = () => import('./views/EditProject.vue')
 const ErrorPage = () => import('./views/Error.vue')
 
 Vue.use(Router)
@@ -122,6 +123,14 @@ export default new Router({
       component: CreateProject,
       meta: {
         title: 'CloudCite · Create Project'
+      }
+    },
+    {
+      path: '/projects/edit/:id/',
+      name: 'editproject',
+      component: EditProject,
+      meta: {
+        title: 'CloudCite · Edit Project'
       }
     },
     {

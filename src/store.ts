@@ -11,7 +11,7 @@ export default new Vuex.Store({
     "editingProject": null,
     "projects": [
       {
-        "id": "Project/0",
+        "id": "Project-0",
         "title": "Project 1",
         "citations": [],
         "previewsHTMLCache": [],
@@ -115,6 +115,13 @@ export default new Vuex.Store({
     createProject(state: any, payload: any) {
       state.projects.push(payload)
     },
+    editProject(state: any, payload: any) {
+      for (let i=0; i < state.projects.length; i++) {
+        if (state.projects[i].id == payload.id) {
+          state.projects[i] = payload
+        }
+      }
+    },
     cachePreview(state: any, payload: any) {
       //@ts-ignore
       if (state.projects[state.selectedProject].previewsHTMLCache.filter(preview => preview.id == payload.id).length > 0) {
@@ -177,6 +184,10 @@ export default new Vuex.Store({
     },
     createProject(context: any, payload: any) {
       context.commit('createProject', payload)
+      context.commit('saveState')
+    },
+    editProject(context: any, payload: any) {
+      context.commit('editProject', payload)
       context.commit('saveState')
     },
     cachePreview(context: any, payload: any) {

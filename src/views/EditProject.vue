@@ -1,14 +1,11 @@
 <template>
     <div>
-        <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+        <div style="min-height: 20vh; background-color: #005eea; color: #fff; margin-bottom: 5vh;">
             <div class="container" style="padding: 7vh;">
-                <h1>Create Project</h1>
-                <h2 class="subtitle" style="margin-top: 10vh;">
-                    You can edit the title and style of your new project here.
-                </h2>
+                <h1 v-cloak>Editing {{ project.title }}</h1>
             </div>
         </div>
-        <div id="createProject">
+        <div id="editProject">
             <sui-grid :columns="3">
                 <sui-grid-row>
                     <sui-grid-column :mobile="2" :tablet="2" :computer="5"/>
@@ -53,29 +50,29 @@ import * as _ from 'lodash';
   },
   data() {
     return {
-        project: {
-            "id": "Project-" + (this.$store.state.projects.length),
-            "title": "Project " + (this.$store.state.projects.length + 1),
-            "citations": [],
-            "style": "modern-language-association",
-            "locale": "locales-en-US",
-            "csl": {},
-            "creatingProject": true
-        }
+        //@ts-ignore
+        project: this.$store.getters.getProjects.filter(project => project.id == this.$route.params.id)[0],
+        //@ts-ignore
+        projectTitle: this.$store.getters.getProjects.filter(project => project.id == this.$route.params.id)[0] ? this.$store.getters.getProjects.filter(project => project.id == this.$route.params.id)[0].title: ""
     }
   },
   methods: {
       createProject() {
-        this.$store.dispatch('createProject', _.pickBy(Object.assign(this.$data.project, {creatingProject: null}), _.identity))
+        if (this.$data.project && this.$data.project.title && this.$data.project.title.length > 0) {
+            this.$store.dispatch('editProject', this.$data.project)
+        } 
+        else if (this.$data.project && this.$data.project.title) {
+            this.$store.dispatch('editProject', Object.assign(this.$data.project, {title: this.$data.projectTitle}))
+        }
         this.$router.push({path: '/'})
       }
   }
 })
-export default class CreateProject extends Vue {}
+export default class EditProject extends Vue {}
 </script>
 
 <style scoped lang="scss">
-  #createProject {
+  #editProject {
     padding: 10px;
     min-height: 100vh;
     text-align: left;

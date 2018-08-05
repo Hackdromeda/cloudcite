@@ -61,6 +61,8 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
       if (!this.project.creatingProject) {
         //@ts-ignore
         this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle.key})
+        //@ts-ignore
+        this.$store.dispatch('clearProjectsCacheById', this.project.id)
       } else {
         //@ts-ignore
         this.project.style = this.$data.selectedStyle.key

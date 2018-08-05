@@ -79,7 +79,7 @@
                                     </div>
                                 </sui-form-field>
                             </div>
-                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued' && field != 'accessed' && field != 'id'">
+                            <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field != 'issued' && field != 'accessed' && field != 'id' && field != 'cache'">
                                 <sui-form-field v-if="typeof citationData[field][property] === 'string'" v-for="(property, p) in Object.keys(citationData[field])" :key="p">
                                     <div class="ui labeled input">
                                         <div class="ui label">{{ property }}</div>
@@ -88,7 +88,7 @@
                                 </sui-form-field>
                             </div>
                             <sui-form-field style="margin-top: 3vh;">
-                                <Preview :cslObject="citationData" :copyOption="true" :editOption="false" :deleteOption="false" :typing="typing"/>
+                                <Preview :cslObject="citationData" :copyOption="true" :editOption="false" :deleteOption="false" :typing="typing" :bibliographyOption="false"/>
                             </sui-form-field>
                             <div is="sui-button-group">
                                 <sui-button type="button" @click="cancel()">Cancel</sui-button>

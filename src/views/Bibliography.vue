@@ -19,12 +19,8 @@
           <sui-grid-row>
             <sui-grid-column :mobile="2" :tablet="3" :computer="5"/>
             <sui-grid-column :mobile="12" :tablet="10" :computer="6" stretched>
-              <div ref="cslBibRef">
-                <div id="preview" v-for="(citation, i) in this.$data.citationsData" :key="i">
-                  <div v-if="checkCitation(citation.id)">
-                    <Preview :cslObject="citation" :copyOption="true" :editOption="true" :deleteOption="true" :typing="false"/>
-                  </div>
-                </div>
+              <div v-if="this.$store.getters.getCitations.length >= 1" ref="cslBibRef">
+                <BibliographyPreview/>
               </div>
             </sui-grid-column>
             <sui-grid-column :mobile="2" :tablet="3" :computer="5"/>
@@ -36,7 +32,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Preview from '../components/Preview.vue';
+import BibliographyPreview from '../components/BibliographyPreview.vue';
 //@ts-ignore
 import rp from 'request-promise-native';
 import generateCSL from '../generateCSL';
@@ -45,7 +41,7 @@ import clipboard from "clipboard-polyfill";
 
 @Component({
   components: {
-    Preview
+    BibliographyPreview
   },
   created () {
     var cslObject = {}
@@ -67,10 +63,7 @@ import clipboard from "clipboard-polyfill";
     //@ts-ignore
     .then(data => {
       console.log(data)
-      for (let i=0; i < data[0].entry_ids.length; i++) {
-        //@ts-ignore
-        this.$data.citationsData.push(this.$store.getters.getCitations.filter(c => c.id == data[0].entry_ids[i])[0])
-      }
+      this.$store.dispatch('changeCitationsOrder', data[0].entry_ids)
     })
     //@ts-ignore
     .catch(error => {
@@ -89,28 +82,18 @@ import clipboard from "clipboard-polyfill";
       var bibliographyPlainText = ""
       var bibliographyRichText = ""
 
-      for (let i=0; i < this.$data.citationsData.length; i++) {
+      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
         //@ts-ignore
-        if (this.$store.getters.getPreviewsCache.filter(preview => preview.id == this.$data.citationsData[i].id).length > 0) {
-          //@ts-ignore
-          bibliographyPlainText += this.$store.getters.getPreviewsCache.filter(preview => preview.id == this.$data.citationsData[i].id)[0].copyPlainText
-          //@ts-ignore
-          bibliographyRichText += this.$store.getters.getPreviewsCache.filter(preview => preview.id == this.$data.citationsData[i].id)[0].copyRichText
-        }
+        bibliographyPlainText += this.$store.getters.getCitations[i].cache.copyPlainText
+        //@ts-ignore
+        bibliographyRichText += this.$store.getters.getCitations[i].cache.copyRichText
       }
+
       var dt = new clipboard.DT();
       //@ts-ignore
       dt.setData("text/plain", bibliographyPlainText);
       dt.setData("text/html", bibliographyRichText);
       clipboard.write(dt);
-    },
-    checkCitation(id: string) {
-      //@ts-ignore
-      if (this.$store.getters.getCitations.filter(c => c.id == id).length > 0) {
-        return true
-      } else {
-        return false
-      }
     }
   }
 })

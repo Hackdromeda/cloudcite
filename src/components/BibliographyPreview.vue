@@ -1,20 +1,17 @@
 <template>
-  <div id="preview">
+  <div id="bibliographyPreview">
     <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'): ''" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry"/>
-        <div id="previewStatus" v-if="refreshing">
+        <div id="bibliographyPreviewStatus" v-if="refreshing">
           Refreshing
         </div>
-        <div id="previewStatus" v-if="typingStatus">
-          Editing Citation
-        </div>
         <div id="citationOptions" v-if="!refreshing">
-          <span>
+          <!--<span>
             <a v-if="clipboardButton" @click="copyCitation()"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
             <a v-if="editButton" @click="editCitation()"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>
             <a v-if="deleteButton" @click="removeCitation()"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
-          </span>
+          </span>-->
         </div>
       </div>
     </div>
@@ -31,32 +28,16 @@ import generateCSL from '../generateCSL';
 import clipboard from "clipboard-polyfill";
 
 @Component({
-  props: ['cslObject', 'deleteOption', 'copyOption', 'editOption', 'typing', 'bibliographyOption'],
   components: {},
   mounted() {
+    //@ts-ignore
     this.$data.refreshing = true;
     //@ts-ignore
-    if (this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0] && this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache) {
+    var cslData = {}
+    for (let i=0; i < this.$store.getters.getCitations.length; i++) {
       //@ts-ignore
-      let cache = this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache
-      //@ts-ignore
-      this.$data.cslFormat = cache.format
-      //@ts-ignore
-      this.$data.cslHTML = cache.html
-      console.log('Preview was cached')
-      this.$data.refreshing = false
+      cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
     }
-    else {
-      /*
-    //@ts-ignore
-    if (this.bibliography) {
-      var csl = {}
-      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
-        //@ts-ignore
-        csl[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
-      }
-    }
-    */
     rp({
         uri: 'https://api.cloudcite.net/cite',
         headers: {
@@ -64,63 +45,47 @@ import clipboard from "clipboard-polyfill";
         },
         method: 'POST',
         //@ts-ignore
-        body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData)},
+        body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData},
         json: true
         //@ts-ignore
     })
     //@ts-ignore
     .then(data => {
-      console.log(data)
       this.$data.cslFormat = data[0]
-      var cslHTML = data[1]
-      var cslIndentIndex = data[1].indexOf('class="csl-indent"')
-      var cslHTMLStart = ""
-      var cslHTMLEnd = ""
-      if (cslIndentIndex != -1) {
-        cslHTMLStart = cslHTML.substring(0, cslIndentIndex - 1)
-        cslHTMLEnd = cslHTML.substring(cslIndentIndex, cslHTML.length)
-        cslHTML = cslHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + cslHTMLEnd
+      for (let i=0; i < data[1].length; i++) {
+        var cslHTML = data[1][i]
+        var cslIndentIndex = data[1][i].indexOf('class="csl-indent"')
+        var cslHTMLStart = ""
+        var cslHTMLEnd = ""
+        if (cslIndentIndex != -1) {
+          cslHTMLStart = cslHTML.substring(0, cslIndentIndex - 1)
+          cslHTMLEnd = cslHTML.substring(cslIndentIndex, cslHTML.length)
+          cslHTML = cslHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + cslHTMLEnd
+        }
+        var cslRightInlineIndex = data[1].indexOf('class="csl-right-inline"')
+        if (cslRightInlineIndex != -1) {
+          cslHTMLStart = cslHTML.substring(0, cslRightInlineIndex - 1)
+          cslHTMLEnd = cslHTML.substring(cslRightInlineIndex, cslHTML.length)
+          cslHTML = cslHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (this.$data.cslFormat.secondFieldAlign ? this.$data.cslFormat.maxOffset + this.$data.cslFormat.rightPadding : '0') + 'em;" ' + cslHTMLEnd
+        }
+        var cslLeftMarginIndex = data[1].indexOf('class="csl-left-margin"')
+        if (cslLeftMarginIndex != -1) {
+          cslHTMLStart = cslHTML.substring(0, cslLeftMarginIndex - 1)
+          cslHTMLEnd = cslHTML.substring(cslLeftMarginIndex, cslHTML.length)
+          cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
+        }
+        this.$data.cslHTML.push(cslHTML)
       }
-      var cslRightInlineIndex = data[1].indexOf('class="csl-right-inline"')
-      if (cslRightInlineIndex != -1) {
-        cslHTMLStart = cslHTML.substring(0, cslRightInlineIndex - 1)
-        cslHTMLEnd = cslHTML.substring(cslRightInlineIndex, cslHTML.length)
-        cslHTML = cslHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (this.$data.cslFormat.secondFieldAlign ? this.$data.cslFormat.maxOffset + this.$data.cslFormat.rightPadding : '0') + 'em;" ' + cslHTMLEnd
-      }
-      var cslLeftMarginIndex = data[1].indexOf('class="csl-left-margin"')
-      if (cslLeftMarginIndex != -1) {
-        cslHTMLStart = cslHTML.substring(0, cslLeftMarginIndex - 1)
-        cslHTMLEnd = cslHTML.substring(cslLeftMarginIndex, cslHTML.length)
-        cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
-      }
-      this.$data.cslHTML = cslHTML
-      console.log('CSL HTML: ')
-      console.log(cslHTML)
       //@ts-ignore
-          var html = '<div class="csl-bib-body" style="'
-          //@ts-ignore
-          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
-          //@ts-ignore
-          for (let i=0; i < this.$data.cslHTML.length; i++) {
-            html += '<div style="clear: left;'
-            //@ts-ignore
-            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
-            //@ts-ignore
-            html += this.$data.cslHTML[i]
-            html += '</div>'
-          }
-          html += '</div>'
-      console.log(cslHTML)
-      //@ts-ignore
-      this.$store.dispatch('cachePreview', {id: this.cslData.id, html: cslHTML, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html})
+      //this.$store.dispatch('cachebibliographyPreview', {id: this.cslData.id, html: cslHTML, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html})
       this.$data.refreshing = false
     })
     //@ts-ignore
     .catch((error) => {
       console.log(error)
+      //@ts-ignore
       this.$data.refreshing = false
     })
-    }
   },
   data () {
     return {
@@ -130,46 +95,13 @@ import clipboard from "clipboard-polyfill";
     }
   },
   updated() {
+    /*
     //@ts-ignore
     if (this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0] && this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache) {
       //@ts-ignore
-      this.$store.dispatch('cachePreview', Object.assign(this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache, {copyPlainText: this.$refs.cslBibRef.textContent}))
+      this.$store.dispatch('cachebibliographyPreview', Object.assign(this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache, {copyPlainText: this.$refs.cslBibRef.textContent}))
     }
-  },
-  computed: {
-    cslData: {
-      get() {
-        return this.$props.cslObject
-      },
-      set(value: any) {
-        this.$props.cslObject = value
-      }
-    },
-    deleteButton: {
-      get() {
-        return this.$props.deleteOption
-      }
-    },
-    clipboardButton: {
-      get() {
-        return this.$props.copyOption
-      }
-    },
-    editButton: {
-      get() {
-        return this.$props.editOption
-      }
-    },
-    typingStatus: {
-      get() {
-        return this.$props.typing
-      }
-    },
-    bibliography: {
-      get() {
-        return this.$props.bibliographyOption
-      }
-    }
+    */
   },
   methods: {
     formatURL(url: string) {
@@ -219,22 +151,6 @@ import clipboard from "clipboard-polyfill";
       */
     },
     editCitation() {
-      //@ts-ignore
-          var html = '<div class="csl-bib-body" style="'
-          //@ts-ignore
-          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
-          //@ts-ignore
-          for (let i=0; i < this.$data.cslHTML.length; i++) {
-            html += '<div style="clear: left;'
-            //@ts-ignore
-            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
-            //@ts-ignore
-            html += this.$data.cslHTML[i]
-            html += '</div>'
-          }
-          html += '</div>'
-      //@ts-ignore
-      this.$store.dispatch('cachePreview', {id: this.cslData.id, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html, html: this.$data.cslHTML})
       //@ts-ignore
       if (this.cslData && this.cslData.id.includes('Website')) {
         //@ts-ignore
@@ -324,7 +240,7 @@ import clipboard from "clipboard-polyfill";
           }
           html += '</div>'
           //@ts-ignore
-          this.$store.dispatch('cachePreview', {id: this.cslData.id, html: cslHTML, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html})
+          //this.$store.dispatch('cachebibliographyPreview', {id: this.cslData.id, html: cslHTML, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html})
           this.$data.refreshing = false
         })
         //@ts-ignore
@@ -336,11 +252,11 @@ import clipboard from "clipboard-polyfill";
     }
   }
 })
-export default class Preview extends Vue {}
+export default class bibliographyPreview extends Vue {}
 </script>
 
 <style scoped lang="scss">
-  #previewStatus {
+  #bibliographyPreviewStatus {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -352,7 +268,7 @@ export default class Preview extends Vue {}
     justify-content: flex-end;
   }
 @media (max-width: 991.97px) {
-  #preview {
+  #bibliographyPreview {
     background-color: #f5f5f5;
     color: #000;
     padding: 20px;
@@ -363,7 +279,7 @@ export default class Preview extends Vue {}
   }
 }
 @media (min-width: 991.98px) {
-  #preview {
+  #bibliographyPreview {
     background-color: #f5f5f5;
     color: #000;
     padding: 20px;

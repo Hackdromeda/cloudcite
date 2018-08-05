@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 //@ts-ignore
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 Vue.use(Vuex)
 
@@ -14,7 +14,6 @@ export default new Vuex.Store({
         "id": "Project-0",
         "title": "Project 1",
         "citations": [],
-        "previewsHTMLCache": [],
         "style": "modern-language-association",
         "locale": "locales-en-US"
       }
@@ -123,20 +122,31 @@ export default new Vuex.Store({
       }
     },
     cachePreview(state: any, payload: any) {
+      for (let i=0; i < state.projects[state.selectedProject].citations.length; i++) {
+        if (state.projects[state.selectedProject].citations[i].id == payload.id) {
+          state.projects[state.selectedProject].citations[i].cache = _.pickBy(Object.assign(payload, {id: null}))
+        }
+      }
+    },
+    clearProjectsCacheById(state: any, payload: string) {
       //@ts-ignore
-      if (state.projects[state.selectedProject].previewsHTMLCache.filter(preview => preview.id == payload.id).length > 0) {
-        for (let i=0; i < state.projects[state.selectedProject].previewsHTMLCache.length; i++) {
-          if (state.projects[state.selectedProject].previewsHTMLCache[i].id == payload.id) {
-            state.projects[state.selectedProject].previewsHTMLCache[i] = payload
+      if (state.projects.filter(project => project.id == payload).length > 0) {
+        //@ts-ignore
+        var project = state.projects.filter(project => project.id == payload)[0]
+        for (let i=0; i < project.citations.length; i++) {
+          project.citations[i] = _.pickBy(Object.assign(project.citations[i], {cache: null}))
+        }
+      }
+    },
+    changeCitationsOrder(state: any, payload: string[]) {
+      if (payload.length == state.projects[state.selectedProject].citations.length) {
+        var newCitations = []
+        for (let i = 0; i < payload.length; i++) {
+          if (state.projects[state.selectedProject].citations[i].id == payload[i]) {
+            newCitations.push(state.projects[state.selectedProject].citations[i])
           }
         }
-      } else {
-        state.projects[state.selectedProject].previewsHTMLCache.push(payload)
-      }
-      //@ts-ignore
-      if (payload.delete && state.projects[state.selectedProject].previewsHTMLCache.filter(preview => preview.id == payload.id).length > 0) {
-        //@ts-ignore
-        state.projects[state.selectedProject].previewsHTMLCache = state.projects[state.selectedProject].previewsHTMLCache.filter(preview => preview.id != payload.id)
+        state.projects[state.selectedProject].citations = newCitations
       }
     }
   },
@@ -193,6 +203,14 @@ export default new Vuex.Store({
     cachePreview(context: any, payload: any) {
       context.commit('cachePreview', payload)
       context.commit('saveState')
+    },
+    clearProjectsCacheById(context: any, payload: string) {
+      context.commit('clearProjectsCacheById', payload)
+      context.commit('saveState')
+    },
+    changeCitationsOrder(context: any, payload: string[]) {
+      context.commit('changeCitationsOrder', payload)
+      context.commit('saveState')
     }
   },
   getters: {
@@ -207,9 +225,6 @@ export default new Vuex.Store({
     },
     getCitations(state: any) {
       return state.projects[state.selectedProject].citations
-    },
-    getPreviewsCache(state: any) {
-      return state.projects[state.selectedProject].previewsHTMLCache
     }
   }
 })

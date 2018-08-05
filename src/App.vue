@@ -18,6 +18,7 @@
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/bibliography/'})">Bibliography</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/about/'})">About</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/api/'})">API</a>
+              <a href="https://cloudcite.net/blog/" target="_blank" class="navbar-item" @click="navIsActive = false;">Blog</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/pricing/'})">Pricing</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/status/'})">Status</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/support/'})">Help</a>
@@ -25,8 +26,8 @@
             </div>
             <div class="navbar-end">
               <div class="navbar-item">
-                <sui-button v-if="!authenticated" class="navbar-item" style="float: right; color: #006DFC; border-radius: 25px;" type="button" @click="login()" disabled>Log In / Register</sui-button>
-                <sui-button v-if="authenticated" class="navbar-item" style="float: right; color: #006DFC; border-radius: 25px;" type="button" @click="logout()" disabled>Log Out</sui-button>
+                <sui-button v-if="!authenticated" class="navbar-item" style="color: #006DFC; border-radius: 25px;" type="button" @click="login()" disabled>Log In / Register</sui-button>
+                <sui-button v-if="authenticated" class="navbar-item" style="color: #006DFC; border-radius: 25px;" type="button" @click="logout()" disabled>Log Out</sui-button>
               </div>
             </div>
           </div>

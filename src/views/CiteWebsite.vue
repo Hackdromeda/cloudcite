@@ -8,18 +8,10 @@
                     </h2>
                 </div>
             </div>
-            <sui-grid :columns="3">
-                <sui-grid-row>
-                    <sui-grid-column/>
-                    <sui-grid-column>
-                        <div style="margin-top: 5vh;">
-                            <sui-input style="margin-right: 1vh;" v-model="websiteCitationData.url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
-                            <sui-button type="button" @click="citeURL()">Cite</sui-button>
-                        </div>
-                    </sui-grid-column>
-                </sui-grid-row>
-                <sui-grid-column/>
-            </sui-grid>
+            <div style="margin-top: 5vh;">
+                <sui-input style="margin-right: 1vh;" v-model="websiteCitationData.url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
+                <sui-button type="button" @click="citeURL()">Cite</sui-button>
+            </div>
             <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"></moon-loader>
     </div>
 </template>

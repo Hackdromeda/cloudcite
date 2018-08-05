@@ -17,8 +17,8 @@
       </div>
       <sui-grid :columns="3">
           <sui-grid-row>
-            <sui-grid-column/>
-            <sui-grid-column stretched>
+            <sui-grid-column :mobile="2" :tablet="3" :computer="5"/>
+            <sui-grid-column :mobile="12" :tablet="10" :computer="6" stretched>
               <div ref="cslBibRef">
                 <div id="preview" v-for="(citation, i) in this.$data.citationsData" :key="i">
                   <div v-if="checkCitation(citation.id)">
@@ -27,7 +27,7 @@
                 </div>
               </div>
             </sui-grid-column>
-            <sui-grid-column/>
+            <sui-grid-column :mobile="2" :tablet="3" :computer="5"/>
         </sui-grid-row>
       </sui-grid>
     </div>

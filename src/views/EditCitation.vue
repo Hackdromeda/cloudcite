@@ -7,8 +7,8 @@
         </div>
             <sui-grid :columns="3">
                 <sui-grid-row>
-                    <sui-grid-column :width="4"/>
-                    <sui-grid-column :width="8" stretched>
+                    <sui-grid-column :mobile="2" :tablet="3" :computer="4"/>
+                    <sui-grid-column :mobile="12" :tablet="10" :computer="8" stretched>
                         <sui-form style="padding-top: 5%; padding-bottom: 5%; text-align: left;">
                             <div v-for="(contributor, i) in citationData.contributors" :key="i">
                                 <sui-form-field>
@@ -97,7 +97,7 @@
                             </div>
                         </sui-form>
                     </sui-grid-column>
-                    <sui-grid-column :width="4"/>
+                    <sui-grid-column :mobile="2" :tablet="3" :computer="4"/>
             </sui-grid-row>
         </sui-grid>
     </div>

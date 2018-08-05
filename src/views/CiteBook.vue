@@ -18,9 +18,9 @@
             
             <sui-grid :columns="3">
                 <sui-grid-row>
-                    <sui-grid-column/>
-                    <sui-grid-column>
-                    <sui-item-group style="text-align: left; padding: 5vh; width: 60vh;" divided v-for="(book, i) in bookData" :key="i">
+                    <sui-grid-column :mobile="2" :tablet="2" :computer="5"/>
+                    <sui-grid-column :mobile="12" :tablet="12" :computer="6">
+                    <sui-item-group style="text-align: left; padding: 5vh;" divided v-for="(book, i) in bookData" :key="i">
                         <sui-item>
                             <sui-item-content>
                                 <sui-item-header v-if="book.volumeInfo.title" v-cloak>{{ book.volumeInfo.title }}</sui-item-header>
@@ -44,7 +44,7 @@
                         </sui-item>
                     </sui-item-group>
                     </sui-grid-column>
-                    <sui-grid-column/>
+                    <sui-grid-column :mobile="2" :tablet="2" :computer="5"/>
                 </sui-grid-row>
             </sui-grid>
     </div>

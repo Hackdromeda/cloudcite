@@ -26,7 +26,7 @@ new Vue({
     document.dispatchEvent(new Event('vue-render-event'))
   }
 })
-
+//@ts-ignore
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title
   next()

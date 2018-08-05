@@ -12,9 +12,10 @@ const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
 const Bibliography = () => import('./views/Bibliography.vue')
 const EditCitation = () => import('./views/EditCitation.vue')
 const CreateProject = () => import('./views/CreateProject.vue')
+const ErrorPage = () => import('./views/Error.vue')
 
 Vue.use(Router)
-
+//@ts-ignore
 export default new Router({
   mode: 'history',
   routes: [
@@ -94,9 +95,7 @@ export default new Router({
     {
       path: '*',
       name: 'error',
-      beforeEnter(to: any, from: any, next: any) {
-        window.location.href = "/error/";
-      },
+      component: ErrorPage,
       meta: {
         title: 'CloudCite · Error'
       }

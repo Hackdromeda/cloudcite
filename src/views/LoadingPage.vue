@@ -8,18 +8,17 @@
 
 <script>
   import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
-
-  export default {
-    name: 'LodingPage',
+  @Component({
+    props: ['auth'],
     components: {
       MoonLoader
     },
-    props: ['auth'],
     data () {
-      this.auth.handleAuthentication()
-      return {}
-    }
-  }
+        this.auth.handleAuthentication()
+        return {}
+      }
+  })
+  export default class LoadingPage extends Vue {}
 </script>
 
 <style scoped lang="scss">

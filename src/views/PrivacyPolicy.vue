@@ -3,7 +3,7 @@
         <div class="columns">
             <div class="column"></div>
             <div class="column is-four-fifths">
-                <h1 id="policy">Privacy Policy</h1>
+                <h1 style="color: #000;">Privacy Policy</h1>
                 <p>The Privacy Policy was last updated on July 7, 2018. CloudCite and its developers may without notice to you and at its sole discretion, amend this policy. Please review this policy from time to time.</p>
                 <h6>CloudCite can collect the following information and/or perform the following actions automatically:</h6>
                 <ol>
@@ -38,5 +38,8 @@ export default class PrivacyPolicy extends Vue {}
     background-color: #fff;
     min-height: 100vh;
     padding: 20px;
+  }
+  h6 {
+    font-size: 1.1rem;
   }
 </style>

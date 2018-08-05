@@ -2,16 +2,18 @@
   <div id="bibliographyPreview">
     <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'): ''">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
-        <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
-        <div id="bibliographyPreviewStatus" v-if="refreshing">
-          Refreshing
-        </div>
-        <div id="citationOptions" v-if="!refreshing">
-          <span>
-            <a @click="copyCitation(cslEntry.id)"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
-            <a @click="editCitation(cslEntry.id)"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>
-            <a @click="removeCitation(cslEntry.id)"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
-          </span>
+        <div v-if="this.$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
+          <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
+            <div id="bibliographyPreviewStatus" v-if="refreshing">
+              Refreshing
+            </div>
+            <div id="citationOptions" v-if="!refreshing">
+              <span>
+                <a @click="copyCitation(cslEntry.id)"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
+                <a @click="editCitation(cslEntry.id)"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>
+                <a @click="removeCitation(cslEntry.id)"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
+              </span>
+            </div>
         </div>
       </div>
     </div>
@@ -153,29 +155,31 @@ import clipboard from "clipboard-polyfill";
           */
         }
     },
-    editCitation() {
+    editCitation(id: string) {
       //@ts-ignore
-      if (this.cslData && this.cslData.id.includes('Website')) {
+      var cslData = this.$store.getters.getCitations.filter(citation => citation.id == id)[0]
+      //@ts-ignore
+      if (id.includes('Website') && cslData) {
         //@ts-ignore
-        this.$store.dispatch('setEditingProject', this.cslData)
+        this.$store.dispatch('setEditingProject', cslData)
         this.$router.push({path: '/edit/website/'})
       }
       //@ts-ignore
-      else if (this.cslData && this.cslData.id.includes('Book')) {
+      else if (id.includes('Book') && cslData) {
         //@ts-ignore
-        this.$store.dispatch('setEditingProject', this.cslData)
+        this.$store.dispatch('setEditingProject', cslData)
         this.$router.push({path: '/edit/book/'})
       }
       //@ts-ignore
-      else if (this.cslData && this.cslData.id.includes('Film')) {
+      else if (id.includes('Film') && cslData) {
         //@ts-ignore
-        this.$store.dispatch('setEditingProject', this.cslData)
+        this.$store.dispatch('setEditingProject', cslData)
         this.$router.push({path: '/edit/film/'})
       }
     },
-    removeCitation() {
+    removeCitation(id: string) {
       //@ts-ignore
-      this.$store.dispatch('removeCitationById', this.cslData.id)
+      this.$store.dispatch('removeCitationById', id)
       /*
       this.$toast.open({
           duration: 3000,

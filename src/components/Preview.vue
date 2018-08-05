@@ -36,7 +36,7 @@ import clipboard from "clipboard-polyfill";
   mounted() {
     this.$data.refreshing = true;
     //@ts-ignore
-    if (this.$store.getters.getPreviewsCache.filter(previewCache => previewCache.id == this.cslData.id).length > 0 && !this.$store.getters.getPreviewsCache.filter(previewCache => previewCache.id == this.cslData.id)[0].outdated) {
+    if (this.$store.getters.getPreviewsCache && this.$store.getters.getPreviewsCache.filter(previewCache => previewCache.id == this.cslData.id).length > 0 && !this.$store.getters.getPreviewsCache.filter(previewCache => previewCache.id == this.cslData.id)[0].outdated) {
       //@ts-ignore
       this.$data.cslFormat = this.$store.getters.getPreviewsCache.filter(previewCache => previewCache.id == this.cslData.id)[0].format
       //@ts-ignore

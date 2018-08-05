@@ -2,7 +2,7 @@
   <div id="bibliographyPreview">
     <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'): ''">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
-        <div v-if="this.$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
+        <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
           <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
             <div id="bibliographyPreviewStatus" v-if="refreshing">
               Refreshing

@@ -50,7 +50,7 @@
                                     <sui-dropdown fluid v-model="citationData.accessed.month" :options="monthAccessedNames" placeholder="Month Accessed" selection search/>
                                 </sui-form-field>
                                 <sui-form-field>
-                                    <div v-if="format != 'Film'" class="ui labeled input">
+                                    <div class="ui labeled input">
                                         <div class="ui label">Day Accessed</div>
                                         <input @input="typing = true" v-model.number="citationData.accessed.day" type="number" maxlength="2" placeholder="Day">
                                     </div>
@@ -67,7 +67,7 @@
                                     <sui-dropdown fluid v-model="citationData.issued.month" :options="monthPublishedNames" placeholder="Month Published" selection search/>
                                 </sui-form-field>
                                 <sui-form-field>
-                                    <div v-if="format != 'Film'" class="ui labeled input">
+                                    <div class="ui labeled input">
                                         <div class="ui label">Day Published</div>
                                         <input @input="typing = true" v-model.number="citationData.issued.day" type="number" maxlength="2" placeholder="Day">
                                     </div>

@@ -133,7 +133,7 @@ import * as  _ from 'lodash/core';
                     contributors = [{given: "", middle: "", family: "", type: "Director"}]
                 }
                 //@ts-ignore
-                this.$data.filmCitationData = new FilmCitation(contributors, data.title ? data.title: "", data.publisher ? data.publisher: "", data["publisher-place"] ? data["publisher-place"]: "", {month: "", day: "", year: ""}, {month: data.issued.month ? data.issued.month: "", day: data.issued.day ? data.issued.day: "", year: data.issued.year ? data.issued.year: ""}, data.abstract ? data.abstract: "", ('Film/' + this.$store.getters.getCitations.filter(c => c.id.includes('Film')).length))
+                this.$data.filmCitationData = new FilmCitation(contributors, data.title ? data.title: "", data.publisher ? data.publisher: "", data["publisher-place"] ? data["publisher-place"]: "", {month: "", day: "", year: ""}, {month: data.issued && data.issued.month ? parseInt(data.issued.month): "", day: data.issued && data.issued.day ? parseInt(data.issued.day): "", year: data.issued && data.issued.year ? parseInt(data.issued.year): ""}, data.abstract ? data.abstract: "", ('Film/' + this.$store.getters.getCitations.filter(c => c.id.includes('Film')).length))
                 //@ts-ignore
                 this.$store.dispatch('setEditingProject', this.$data.filmCitationData)
                 this.$router.push({path: '/edit/film/'})

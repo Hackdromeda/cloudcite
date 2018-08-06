@@ -108,19 +108,19 @@ import clipboard from "clipboard-polyfill";
   updated() {
     if (this.$data.cslFormat && this.$data.cslHTML.length > 0) {
       //@ts-ignore
-      var html = '<div class="csl-bib-body" style="'
+      var html = '<p class="csl-bib-body" style="'
       //@ts-ignore
       html += ((this.$data.cslHTML[0].html.indexOf("csl-left-margin") != -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
       //@ts-ignore
       for (let i=0; i < this.$data.cslHTML.length; i++) {
-        html += '<div style="clear: left;'
+        html += '<p style="clear: left;'
         //@ts-ignore
         html += (this.$data.cslFormat && this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
         //@ts-ignore
         html += this.$data.cslHTML[i].html
-        html += '</div>'
+        html += '</p>'
       }
-      html += '</div>'
+      html += '</p>'
       //@ts-ignore
       this.$store.dispatch('cacheBibliography', {html: this.$data.cslHTML, format: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
       this.$store.dispatch('updateCache', false)

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <multiselect v-model="selectedStyle" :placeholder="getProjectStyle" :options="stylesData" :searchable="true" :loading="loading" :internal-search="false" :clear-on-select="true" :close-on-select="true" :options-limit="30" :limit="30" :max-height="100" :show-no-results="false" :hide-selected="true" @search-change="searchStyles" label="text" track-by="text"></multiselect>
+    <multiselect style="overflow-y: false;" v-model="selectedStyle" :placeholder="getProjectStyle" :options="stylesData" :searchable="true" :loading="loading" :internal-search="false" :clear-on-select="true" :close-on-select="true" :options-limit="30" :limit="30" :max-height="100" :show-no-results="false" :hide-selected="true" @search-change="searchStyles" label="text" track-by="text"></multiselect>
   </div>
 </template>
 <script lang="ts">

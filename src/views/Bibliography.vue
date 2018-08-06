@@ -78,22 +78,13 @@ import clipboard from "clipboard-polyfill";
   },
   methods: {
     copyBibliography() {
-      //@ts-ignore
-      var bibliographyPlainText = ""
-      var bibliographyRichText = ""
-
-      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+      if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.plainText && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.richText) {
+        var dt = new clipboard.DT();
         //@ts-ignore
-        bibliographyPlainText += this.$store.getters.getCitations[i].cache.copyPlainText
-        //@ts-ignore
-        bibliographyRichText += this.$store.getters.getCitations[i].cache.copyRichText
+        dt.setData("text/plain", this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.plainText);
+        dt.setData("text/html", this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.richText);
+        clipboard.write(dt);
       }
-
-      var dt = new clipboard.DT();
-      //@ts-ignore
-      dt.setData("text/plain", bibliographyPlainText);
-      dt.setData("text/html", bibliographyRichText);
-      clipboard.write(dt);
     }
   }
 })

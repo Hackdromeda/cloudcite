@@ -15,7 +15,8 @@ export default new Vuex.Store({
         "title": "Project 1",
         "citations": [],
         "style": "modern-language-association",
-        "locale": "locales-en-US"
+        "locale": "locales-en-US",
+        "cachedBibliography": null
       }
     ],
   },
@@ -121,12 +122,8 @@ export default new Vuex.Store({
         }
       }
     },
-    cachePreview(state: any, payload: any) {
-      for (let i=0; i < state.projects[state.selectedProject].citations.length; i++) {
-        if (state.projects[state.selectedProject].citations[i].id == payload.id) {
-          state.projects[state.selectedProject].citations[i].cache = _.pickBy(Object.assign(payload, {id: null}))
-        }
-      }
+    cacheBibliography(state: any, payload: any) {
+      state.projects[state.selectedProject].cachedBibliography = payload
     },
     clearProjectsCacheById(state: any, payload: string) {
       //@ts-ignore
@@ -136,17 +133,6 @@ export default new Vuex.Store({
         for (let i=0; i < project.citations.length; i++) {
           project.citations[i] = _.pickBy(Object.assign(project.citations[i], {cache: null}))
         }
-      }
-    },
-    changeCitationsOrder(state: any, payload: string[]) {
-      if (payload.length == state.projects[state.selectedProject].citations.length) {
-        var newCitations = []
-        for (let i = 0; i < payload.length; i++) {
-          if (state.projects[state.selectedProject].citations[i].id == payload[i]) {
-            newCitations.push(state.projects[state.selectedProject].citations[i])
-          }
-        }
-        state.projects[state.selectedProject].citations = newCitations
       }
     }
   },
@@ -200,16 +186,12 @@ export default new Vuex.Store({
       context.commit('editProject', payload)
       context.commit('saveState')
     },
-    cachePreview(context: any, payload: any) {
-      context.commit('cachePreview', payload)
+    cacheBibliography(context: any, payload: any) {
+      context.commit('cacheBibliography', payload)
       context.commit('saveState')
     },
     clearProjectsCacheById(context: any, payload: string) {
       context.commit('clearProjectsCacheById', payload)
-      context.commit('saveState')
-    },
-    changeCitationsOrder(context: any, payload: string[]) {
-      context.commit('changeCitationsOrder', payload)
       context.commit('saveState')
     }
   },

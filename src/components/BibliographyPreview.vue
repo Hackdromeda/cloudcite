@@ -78,8 +78,6 @@ import clipboard from "clipboard-polyfill";
         }
         this.$data.cslHTML.push({id: this.$data.cslFormat.entry_ids[i][0], html: cslHTML})
       }
-      //@ts-ignore
-      //this.$store.dispatch('cachebibliographyPreview', {id: this.cslData.id, html: cslHTML, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html})
       this.$data.refreshing = false
     })
     //@ts-ignore
@@ -97,13 +95,22 @@ import clipboard from "clipboard-polyfill";
     }
   },
   updated() {
-    /*
     //@ts-ignore
-    if (this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0] && this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache) {
+    var html = '<div class="csl-bib-body" style="'
+    //@ts-ignore
+    html += ((this.$data.cslHTML[0].html.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
+    //@ts-ignore
+    for (let i=0; i < this.$data.cslHTML.length; i++) {
+      html += '<div style="clear: left;'
       //@ts-ignore
-      this.$store.dispatch('cachebibliographyPreview', Object.assign(this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache, {copyPlainText: this.$refs.cslBibRef.textContent}))
+      html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+      //@ts-ignore
+      html += this.$data.cslHTML[i].html
+      html += '</div>'
     }
-    */
+    html += '</div>'
+    //@ts-ignore
+    this.$store.dispatch('cacheBibliography', {html: this.$data.cslHTML, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
   },
   methods: {
     formatURL(url: string) {

@@ -12,6 +12,9 @@
               </span>
             </div>
         </div>
+        <div v-if="$store.getters.getCitations.length > 1 && i < $store.getters.getCitations.length - 1">
+          <sui-divider />
+        </div>
       </div>
       <div id="bibliographyPreviewStatus" v-if="refreshing">
         Refreshing

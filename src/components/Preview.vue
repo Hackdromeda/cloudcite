@@ -94,25 +94,6 @@ import clipboard from "clipboard-polyfill";
         cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
       }
       this.$data.cslHTML = cslHTML
-      console.log('CSL HTML: ')
-      console.log(cslHTML)
-      //@ts-ignore
-          var html = '<div class="csl-bib-body" style="'
-          //@ts-ignore
-          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
-          //@ts-ignore
-          for (let i=0; i < this.$data.cslHTML.length; i++) {
-            html += '<div style="clear: left;'
-            //@ts-ignore
-            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
-            //@ts-ignore
-            html += this.$data.cslHTML[i]
-            html += '</div>'
-          }
-          html += '</div>'
-      console.log(cslHTML)
-      //@ts-ignore
-      this.$store.dispatch('cachePreview', {id: this.cslData.id, html: cslHTML, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html})
       this.$data.refreshing = false
     })
     //@ts-ignore
@@ -127,13 +108,6 @@ import clipboard from "clipboard-polyfill";
       cslHTML: [],
       cslFormat: null,
       refreshing: false
-    }
-  },
-  updated() {
-    //@ts-ignore
-    if (this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0] && this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache) {
-      //@ts-ignore
-      this.$store.dispatch('cachePreview', Object.assign(this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache, {copyPlainText: this.$refs.cslBibRef.textContent}))
     }
   },
   computed: {
@@ -220,22 +194,6 @@ import clipboard from "clipboard-polyfill";
     },
     editCitation() {
       //@ts-ignore
-          var html = '<div class="csl-bib-body" style="'
-          //@ts-ignore
-          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
-          //@ts-ignore
-          for (let i=0; i < this.$data.cslHTML.length; i++) {
-            html += '<div style="clear: left;'
-            //@ts-ignore
-            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
-            //@ts-ignore
-            html += this.$data.cslHTML[i]
-            html += '</div>'
-          }
-          html += '</div>'
-      //@ts-ignore
-      this.$store.dispatch('cachePreview', {id: this.cslData.id, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html, html: this.$data.cslHTML})
-      //@ts-ignore
       if (this.cslData && this.cslData.id.includes('Website')) {
         //@ts-ignore
         this.$store.dispatch('setEditingProject', this.cslData)
@@ -307,24 +265,6 @@ import clipboard from "clipboard-polyfill";
             cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
           }
           this.$data.cslHTML = cslHTML
-          console.log('CSL HTML: ')
-          console.log(cslHTML)
-          //@ts-ignore
-          var html = '<div class="csl-bib-body" style="'
-          //@ts-ignore
-          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
-          //@ts-ignore
-          for (let i=0; i < this.$data.cslHTML.length; i++) {
-            html += '<div style="clear: left;'
-            //@ts-ignore
-            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
-            //@ts-ignore
-            html += this.$data.cslHTML[i]
-            html += '</div>'
-          }
-          html += '</div>'
-          //@ts-ignore
-          this.$store.dispatch('cachePreview', {id: this.cslData.id, html: cslHTML, copyPlainText: this.$refs.cslBibRef.textContent, copyRichText: html})
           this.$data.refreshing = false
         })
         //@ts-ignore

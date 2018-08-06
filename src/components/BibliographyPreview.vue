@@ -4,9 +4,6 @@
       <div v-for="(cslEntry, i) in cslHTML" :key="i" style="margin-bottom: 5vh;">
         <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
           <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
-            <div id="bibliographyPreviewStatus" v-if="refreshing">
-              Refreshing
-            </div>
             <div id="citationOptions" v-if="!refreshing">
               <span>
                 <a @click="copyCitation(cslEntry.id)"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
@@ -15,6 +12,9 @@
               </span>
             </div>
         </div>
+      </div>
+      <div id="bibliographyPreviewStatus" v-if="refreshing">
+        Refreshing
       </div>
     </div>
   </div>
@@ -34,58 +34,64 @@ import clipboard from "clipboard-polyfill";
   mounted() {
     //@ts-ignore
     this.$data.refreshing = true;
-    //@ts-ignore
-    var cslData = {}
-    for (let i=0; i < this.$store.getters.getCitations.length; i++) {
-      //@ts-ignore
-      cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
+    if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography) {
+      this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
+      this.$data.refreshing = false
     }
-    rp({
-        uri: 'https://api.cloudcite.net/cite',
-        headers: {
-          'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-        },
-        method: 'POST',
-        //@ts-ignore
-        body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData},
-        json: true
-        //@ts-ignore
-    })
-    //@ts-ignore
-    .then(data => {
-      this.$data.cslFormat = data[0]
-      for (let i=0; i < data[1].length; i++) {
-        var cslHTML = data[1][i]
-        var cslIndentIndex = data[1][i].indexOf('class="csl-indent"')
-        var cslHTMLStart = ""
-        var cslHTMLEnd = ""
-        if (cslIndentIndex != -1) {
-          cslHTMLStart = cslHTML.substring(0, cslIndentIndex - 1)
-          cslHTMLEnd = cslHTML.substring(cslIndentIndex, cslHTML.length)
-          cslHTML = cslHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + cslHTMLEnd
-        }
-        var cslRightInlineIndex = data[1].indexOf('class="csl-right-inline"')
-        if (cslRightInlineIndex != -1) {
-          cslHTMLStart = cslHTML.substring(0, cslRightInlineIndex - 1)
-          cslHTMLEnd = cslHTML.substring(cslRightInlineIndex, cslHTML.length)
-          cslHTML = cslHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (this.$data.cslFormat.secondFieldAlign ? this.$data.cslFormat.maxOffset + this.$data.cslFormat.rightPadding : '0') + 'em;" ' + cslHTMLEnd
-        }
-        var cslLeftMarginIndex = data[1].indexOf('class="csl-left-margin"')
-        if (cslLeftMarginIndex != -1) {
-          cslHTMLStart = cslHTML.substring(0, cslLeftMarginIndex - 1)
-          cslHTMLEnd = cslHTML.substring(cslLeftMarginIndex, cslHTML.length)
-          cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
-        }
-        this.$data.cslHTML.push({id: this.$data.cslFormat.entry_ids[i][0], html: cslHTML})
-      }
-      this.$data.refreshing = false
-    })
-    //@ts-ignore
-    .catch((error) => {
-      console.log(error)
+    else {
       //@ts-ignore
-      this.$data.refreshing = false
-    })
+      var cslData = {}
+      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+        //@ts-ignore
+        cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
+      }
+      rp({
+          uri: 'https://api.cloudcite.net/cite',
+          headers: {
+            'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+          },
+          method: 'POST',
+          //@ts-ignore
+          body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData},
+          json: true
+          //@ts-ignore
+      })
+      //@ts-ignore
+      .then(data => {
+        this.$data.cslFormat = data[0]
+        for (let i=0; i < data[1].length; i++) {
+          var cslHTML = data[1][i]
+          var cslIndentIndex = data[1][i].indexOf('class="csl-indent"')
+          var cslHTMLStart = ""
+          var cslHTMLEnd = ""
+          if (cslIndentIndex != -1) {
+            cslHTMLStart = cslHTML.substring(0, cslIndentIndex - 1)
+            cslHTMLEnd = cslHTML.substring(cslIndentIndex, cslHTML.length)
+            cslHTML = cslHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + cslHTMLEnd
+          }
+          var cslRightInlineIndex = data[1].indexOf('class="csl-right-inline"')
+          if (cslRightInlineIndex != -1) {
+            cslHTMLStart = cslHTML.substring(0, cslRightInlineIndex - 1)
+            cslHTMLEnd = cslHTML.substring(cslRightInlineIndex, cslHTML.length)
+            cslHTML = cslHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (this.$data.cslFormat.secondFieldAlign ? this.$data.cslFormat.maxOffset + this.$data.cslFormat.rightPadding : '0') + 'em;" ' + cslHTMLEnd
+          }
+          var cslLeftMarginIndex = data[1].indexOf('class="csl-left-margin"')
+          if (cslLeftMarginIndex != -1) {
+            cslHTMLStart = cslHTML.substring(0, cslLeftMarginIndex - 1)
+            cslHTMLEnd = cslHTML.substring(cslLeftMarginIndex, cslHTML.length)
+            cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
+          }
+          this.$data.cslHTML.push({id: this.$data.cslFormat.entry_ids[i][0], html: cslHTML})
+        }
+        this.$data.refreshing = false
+      })
+      //@ts-ignore
+      .catch((error) => {
+        console.log(error)
+        //@ts-ignore
+        this.$data.refreshing = false
+      })
+    }
   },
   data () {
     return {
@@ -95,22 +101,24 @@ import clipboard from "clipboard-polyfill";
     }
   },
   updated() {
-    //@ts-ignore
-    var html = '<div class="csl-bib-body" style="'
-    //@ts-ignore
-    html += ((this.$data.cslHTML[0].html.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
-    //@ts-ignore
-    for (let i=0; i < this.$data.cslHTML.length; i++) {
-      html += '<div style="clear: left;'
+    if (this.$data.cslFormat && this.$data.cslHTML.length > 0) {
       //@ts-ignore
-      html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+      var html = '<div class="csl-bib-body" style="'
       //@ts-ignore
-      html += this.$data.cslHTML[i].html
+      html += ((this.$data.cslHTML[0].html.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
+      //@ts-ignore
+      for (let i=0; i < this.$data.cslHTML.length; i++) {
+        html += '<div style="clear: left;'
+        //@ts-ignore
+        html += (this.$data.cslFormat && this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+        //@ts-ignore
+        html += this.$data.cslHTML[i].html
+        html += '</div>'
+      }
       html += '</div>'
+      //@ts-ignore
+      this.$store.dispatch('cacheBibliography', {html: this.$data.cslHTML, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
     }
-    html += '</div>'
-    //@ts-ignore
-    this.$store.dispatch('cacheBibliography', {html: this.$data.cslHTML, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
   },
   methods: {
     formatURL(url: string) {

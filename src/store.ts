@@ -126,12 +126,9 @@ export default new Vuex.Store({
       state.projects[state.selectedProject].cachedBibliography = payload
     },
     clearProjectsCacheById(state: any, payload: string) {
-      //@ts-ignore
-      if (state.projects.filter(project => project.id == payload).length > 0) {
-        //@ts-ignore
-        var project = state.projects.filter(project => project.id == payload)[0]
-        for (let i=0; i < project.citations.length; i++) {
-          project.citations[i] = _.pickBy(Object.assign(project.citations[i], {cache: null}))
+      for (let i=0; i < state.projects.length; i++) {
+        if (state.projects[i].id == payload) {
+          state.projects[i].cachedBibliography = null
         }
       }
     }

@@ -63,7 +63,7 @@ import clipboard from "clipboard-polyfill";
     //@ts-ignore
     .then(data => {
       console.log(data)
-      this.$store.dispatch('changeCitationsOrder', data[0].entry_ids)
+      this.$store.dispatch('clearProjectsCacheById', this.$store.state.projects[this.$store.state.selectedProject].id)
     })
     //@ts-ignore
     .catch(error => {

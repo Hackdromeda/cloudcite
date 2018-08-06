@@ -190,7 +190,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 //@ts-ignore
                 var yearPublished = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): ""
                 //@ts-ignore
-                this.$data.bookCitationData = new BookCitation(contributors, "", "", this.$data.selectedBook.volumeInfo.title, this.$data.selectedBook.volumeInfo.publisher, {month: "", day: "", year: yearPublished ? yearPublished: ""}, ('Book/' + this.$store.getters.getCitations.filter(c => c.id.includes('Book')).length))
+                this.$data.bookCitationData = new BookCitation(contributors, "", "", this.$data.selectedBook.volumeInfo.title, this.$data.selectedBook.volumeInfo.publisher, {month: "", day: "", year: ""}, {month: "", day: "", year: yearPublished ? yearPublished: ""}, ('Book/' + this.$store.getters.getCitations.filter(c => c.id.includes('Book')).length))
                 //@ts-ignore
                 this.$store.dispatch('setEditingProject', this.$data.bookCitationData)
                 this.$router.push({path: '/edit/book/'})

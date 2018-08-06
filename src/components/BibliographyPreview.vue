@@ -36,6 +36,7 @@ import clipboard from "clipboard-polyfill";
     this.$data.refreshing = true;
     if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography) {
       this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
+      this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.format
       this.$data.refreshing = false
     }
     else {
@@ -117,7 +118,7 @@ import clipboard from "clipboard-polyfill";
       }
       html += '</div>'
       //@ts-ignore
-      this.$store.dispatch('cacheBibliography', {html: this.$data.cslHTML, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
+      this.$store.dispatch('cacheBibliography', {html: this.$data.cslHTML, format: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
     }
   },
   methods: {

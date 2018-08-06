@@ -167,7 +167,7 @@ import clipboard from "clipboard-polyfill";
       //@ts-ignore
           var html = '<p class="csl-bib-body" style="'
           //@ts-ignore
-          html += ((this.$data.cslHTML.indexOf("csl-left-margin") == -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
+          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? ('margin-left: ' + this.$data.cslFormat.hangingindent + 'em;'): '') + (this.$data.cslFormat.hangingindent ? ('text-indent:-' + this.$data.cslFormat.hangingindent + 'em;'): '')): '') + '">'
           //@ts-ignore
           for (let i=0; i < this.$data.cslHTML.length; i++) {
             html += '<p style="clear: left;'
@@ -178,6 +178,8 @@ import clipboard from "clipboard-polyfill";
             html += '</p>'
           }
           html += '</p>'
+          html = html.replace(/<div/g, '<p')
+          html = html.replace(/<\/div>/g, '</p>')
       var dt = new clipboard.DT();
       //@ts-ignore
       dt.setData("text/plain", this.$refs.cslBibRef.textContent);

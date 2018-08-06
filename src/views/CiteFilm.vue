@@ -12,7 +12,10 @@
             <div style="display: inline-flex; margin-top: 5vh;">
                 <sui-input v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" icon="search"/>
             </div>
-
+            <div style="margin-top: 3vh;">
+                <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
+            </div>
+            
             <div v-if="isFetching">
                 <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
             </div>
@@ -142,7 +145,12 @@ import * as  _ from 'lodash/core';
                 console.log(error)
             })
         }
-      }
+      },
+      citeEmpty() {
+        //@ts-ignore
+        this.$store.dispatch('setEditingProject', this.$data.filmCitationData)
+        this.$router.push({path: '/edit/film/'})
+    }
   },
 })
 export default class CiteFilm extends Vue {

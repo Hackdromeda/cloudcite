@@ -12,6 +12,10 @@
                 <sui-dropdown style="margin-right: 3vh;" fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
                 <sui-input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData" icon="search"/>
             </div>
+            <div style="margin-top: 3vh;">
+                <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
+            </div>
+
             <div v-if="isFetching">
                 <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
             </div>
@@ -96,7 +100,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
         ],
         bookIdentificationField: null,
         //@ts-ignore
-        bookCitationData: new BookCitation([{first: "", middle: "", last: "", type: "Author"}], null, null, null, null, {month: "", day: "", year: ""}, {month: "", day: "", year: ""}, ('Book/' + this.$store.getters.getCitations.filter(c => c.id.includes('Book')).length)),
+        bookCitationData: new BookCitation([{first: "", middle: "", last: "", type: "Author"}], "", "", "", "", {month: "", day: "", year: ""}, {month: "", day: "", year: ""}, ('Book/' + this.$store.getters.getCitations.filter(c => c.id.includes('Book')).length)),
         isFetching: false
     }
   },
@@ -200,6 +204,11 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
             })
         }
     },
+    citeEmpty() {
+        //@ts-ignore
+        this.$store.dispatch('setEditingProject', this.$data.bookCitationData)
+        this.$router.push({path: '/edit/book/'})
+    }
   }
 })
 

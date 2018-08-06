@@ -12,6 +12,9 @@
                 <sui-input style="margin-right: 1vh;" v-model="websiteCitationData.url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
                 <sui-button type="button" @click="citeURL()">Cite</sui-button>
             </div>
+            <div style="margin-top: 3vh;">
+                <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
+            </div>
             <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"></moon-loader>
     </div>
 </template>
@@ -95,6 +98,11 @@ import * as  _ from 'lodash/core';
             console.log(error)
             this.$data.loadingCitation = false
         })
+    },
+    citeEmpty() {
+        //@ts-ignore
+        this.$store.dispatch('setEditingProject', this.$data.websiteCitationData)
+        this.$router.push({path: '/edit/website/'})
     }
   }
 })

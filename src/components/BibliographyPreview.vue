@@ -34,7 +34,7 @@ import clipboard from "clipboard-polyfill";
   mounted() {
     //@ts-ignore
     this.$data.refreshing = true;
-    if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography) {
+    if (!this.$store.state.projects[this.$store.state.selectedProject].outdatedCache && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography) {
       this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
       this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.format
       this.$data.refreshing = false
@@ -83,6 +83,7 @@ import clipboard from "clipboard-polyfill";
             cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
           }
           this.$data.cslHTML.push({id: this.$data.cslFormat.entry_ids[i][0], html: cslHTML})
+          this.$store.dispatch('updateCache', false)
         }
         this.$data.refreshing = false
       })
@@ -119,6 +120,7 @@ import clipboard from "clipboard-polyfill";
       html += '</div>'
       //@ts-ignore
       this.$store.dispatch('cacheBibliography', {html: this.$data.cslHTML, format: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
+      this.$store.dispatch('updateCache', false)
     }
   },
   methods: {

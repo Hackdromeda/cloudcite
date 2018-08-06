@@ -26,7 +26,7 @@
                                     <p style="padding: 5px;" v-cloak>{{ project.locale }}</p>
                                 </div>
                             </sui-form-field>
-                            <sui-button type="button" @click="createProject()">Done Editing</sui-button>
+                            <sui-button type="button" @click="editProject()">Done Editing</sui-button>
                         </sui-form>
                     </sui-grid-column>
                     <sui-grid-column :mobile="2" :tablet="2" :computer="5"/>
@@ -57,12 +57,14 @@ import * as _ from 'lodash';
     }
   },
   methods: {
-      createProject() {
+      editProject() {
         if (this.$data.project && this.$data.project.title && this.$data.project.title.length > 0) {
             this.$store.dispatch('editProject', this.$data.project)
+            this.$store.dispatch('updateCache', true)
         } 
         else if (this.$data.project && this.$data.project.title) {
             this.$store.dispatch('editProject', Object.assign(this.$data.project, {title: this.$data.projectTitle}))
+            this.$store.dispatch('updateCache', true)
         }
         this.$router.push({path: '/'})
       }

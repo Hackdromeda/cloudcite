@@ -12,12 +12,6 @@
               </span>
             </div>
         </div>
-        <div v-if="$store.getters.getCitations.length > 1 && i < $store.getters.getCitations.length - 1 && cslHTML[i + 1]">
-          <sui-divider />
-        </div>
-      </div>
-      <div id="bibliographyPreviewStatus" v-if="refreshing">
-        Refreshing
       </div>
     </div>
   </div>
@@ -39,10 +33,8 @@ import clipboard from "clipboard-polyfill";
     if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && !this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.outdated) {
       this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
       this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.format
-      this.$data.refreshing = false
     }
     else {
-      this.$data.refreshing = true;
       //@ts-ignore
       var cslData = {}
       for (let i=0; i < this.$store.getters.getCitations.length; i++) {
@@ -106,21 +98,17 @@ import clipboard from "clipboard-polyfill";
             this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: html}))
           }
         }
-        this.$data.refreshing = false
       })
       //@ts-ignore
       .catch((error) => {
         console.log(error)
-        //@ts-ignore
-        this.$data.refreshing = false
       })
     }
   },
   data () {
     return {
       cslHTML: [],
-      cslFormat: null,
-      refreshing: false
+      cslFormat: null
     }
   },
   updated() {

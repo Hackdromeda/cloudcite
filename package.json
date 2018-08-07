@@ -39,6 +39,7 @@
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-search": "^2.3.3",
     "semantic-ui-vue": "^0.2.11",
+    "typescript": "^3.0.1",
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",
     "vue-google-adsense": "^1.2.0",
@@ -47,7 +48,8 @@
     "vue-router": "^3.0.1",
     "vue-script2": "^2.0.3",
     "vue-spinner": "^1.0.3",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "webpack": "^4.16.5"
   },
   "devDependencies": {
     "@prerenderer/renderer-jsdom": "^0.1.4",

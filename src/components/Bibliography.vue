@@ -10,13 +10,13 @@
       </p>
       <sui-grid :columns="3">
           <sui-grid-row>
-            <sui-grid-column :mobile="2" :tablet="3" :computer="5"/>
-            <sui-grid-column :mobile="12" :tablet="10" :computer="6" stretched>
+            <sui-grid-column :mobile="1" :tablet="3" :computer="5"/>
+            <sui-grid-column :mobile="16" :tablet="10" :computer="6" stretched>
               <div v-if="this.$store.getters.getCitations.length >= 1" ref="cslBibRef">
                 <BibliographyPreview/>
               </div>
             </sui-grid-column>
-            <sui-grid-column :mobile="2" :tablet="3" :computer="5"/>
+            <sui-grid-column :mobile="1" :tablet="3" :computer="5"/>
         </sui-grid-row>
       </sui-grid>
     </div>

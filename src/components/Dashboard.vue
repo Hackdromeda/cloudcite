@@ -17,8 +17,20 @@ import Bibliography from './Bibliography.vue';
 
     }
   },
+  computed: {
+    projects: {
+      get() {
+        return this.$store.getters.getProjects
+      }
+    }
+  },
   methods: {
-
+    isActive(project): boolean {
+      return this.$store.state.projects[this.$store.state.selectedProject].id == project.id
+    },
+    select(project) {
+      this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)))
+    }
   }
 })
 export default class ErrorPage extends Vue {}

@@ -1,6 +1,6 @@
 <template>
   <div id="bibliographyPreview">
-    <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent: -' + cslFormat.hangingindent + 'em;'): ''">
+    <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
       <div v-for="(cslEntry, i) in cslHTML" :key="i" style="margin-bottom: 5vh;">
         <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
           <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
@@ -34,9 +34,9 @@ import clipboard from "clipboard-polyfill";
 
 @Component({
   components: {},
-  mounted() {
+  created() {
     //@ts-ignore
-    if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.outdated) {
+    if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && !this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.outdated) {
       this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
       this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.format
       this.$data.refreshing = false

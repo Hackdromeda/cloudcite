@@ -16,8 +16,7 @@ export default new Vuex.Store({
         "citations": [],
         "style": "modern-language-association",
         "locale": "locales-en-US",
-        "cachedBibliography": null,
-        "outdatedCache": true
+        "cachedBibliography": {outdated: true}
       }
     ],
   },
@@ -125,16 +124,6 @@ export default new Vuex.Store({
     },
     cacheBibliography(state: any, payload: any) {
       state.projects[state.selectedProject].cachedBibliography = payload
-    },
-    clearProjectsCacheById(state: any, payload: string) {
-      for (let i=0; i < state.projects.length; i++) {
-        if (state.projects[i].id == payload) {
-          state.projects[i].cachedBibliography = null
-        }
-      }
-    },
-    updateCache(state: any, payload: boolean) {
-      state.projects[state.selectedProject].outdatedCache = payload
     }
   },
   actions: {
@@ -189,14 +178,6 @@ export default new Vuex.Store({
     },
     cacheBibliography(context: any, payload: any) {
       context.commit('cacheBibliography', payload)
-      context.commit('saveState')
-    },
-    clearProjectsCacheById(context: any, payload: string) {
-      context.commit('clearProjectsCacheById', payload)
-      context.commit('saveState')
-    },
-    updateCache(context: any, payload: boolean) {
-      context.commit('updateCache', payload)
       context.commit('saveState')
     }
   },

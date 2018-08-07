@@ -36,13 +36,13 @@ import clipboard from "clipboard-polyfill";
   components: {},
   mounted() {
     //@ts-ignore
-    this.$data.refreshing = true;
-    if (!this.$store.state.projects[this.$store.state.selectedProject].outdatedCache && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography) {
+    if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.outdated) {
       this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
       this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.format
       this.$data.refreshing = false
     }
     else {
+      this.$data.refreshing = true;
       //@ts-ignore
       var cslData = {}
       for (let i=0; i < this.$store.getters.getCitations.length; i++) {
@@ -65,7 +65,7 @@ import clipboard from "clipboard-polyfill";
         this.$data.cslFormat = data[0]
         for (let i=0; i < data[1].length; i++) {
           var cslHTML = data[1][i]
-          var cslIndentIndex = data[1][i].indexOf('class="csl-indent"')
+          var cslIndentIndex = (data[1] && data[1][i]) ? data[1][i].indexOf('class="csl-indent"'): -1
           var cslHTMLStart = ""
           var cslHTMLEnd = ""
           if (cslIndentIndex != -1) {
@@ -73,20 +73,38 @@ import clipboard from "clipboard-polyfill";
             cslHTMLEnd = cslHTML.substring(cslIndentIndex, cslHTML.length)
             cslHTML = cslHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + cslHTMLEnd
           }
-          var cslRightInlineIndex = data[1].indexOf('class="csl-right-inline"')
+          var cslRightInlineIndex = (data[1] && data[1][i]) ? data[1].indexOf('class="csl-right-inline"'): -1
           if (cslRightInlineIndex != -1) {
             cslHTMLStart = cslHTML.substring(0, cslRightInlineIndex - 1)
             cslHTMLEnd = cslHTML.substring(cslRightInlineIndex, cslHTML.length)
             cslHTML = cslHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (this.$data.cslFormat.secondFieldAlign ? this.$data.cslFormat.maxOffset + this.$data.cslFormat.rightPadding : '0') + 'em;" ' + cslHTMLEnd
           }
-          var cslLeftMarginIndex = data[1].indexOf('class="csl-left-margin"')
+          var cslLeftMarginIndex = (data[1] && data[1][i]) ? data[1].indexOf('class="csl-left-margin"'): -1
           if (cslLeftMarginIndex != -1) {
             cslHTMLStart = cslHTML.substring(0, cslLeftMarginIndex - 1)
             cslHTMLEnd = cslHTML.substring(cslLeftMarginIndex, cslHTML.length)
             cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
           }
           this.$data.cslHTML.push({id: this.$data.cslFormat.entry_ids[i][0], html: cslHTML})
-          this.$store.dispatch('updateCache', false)
+
+          if (this.$data.cslFormat && this.$data.cslHTML.length > 0) {
+            //@ts-ignore
+            var html = '<div class="csl-bib-body" style="'
+            //@ts-ignore
+            html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? ('margin-left: ' + this.$data.cslFormat.hangingindent + 'em;'): '') + (this.$data.cslFormat.hangingindent ? (' text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '')): '') + '">'
+            //@ts-ignore
+            for (let i=0; i < this.$data.cslHTML.length; i++) {
+              html += '<div style="clear: left;'
+              //@ts-ignore
+              html += (this.$data.cslFormat && this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+              //@ts-ignore
+              html += this.$data.cslHTML[i].html
+              html += '</div>'
+            }
+            html += '</div>'
+            //@ts-ignore
+            this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: html}))
+          }
         }
         this.$data.refreshing = false
       })
@@ -122,8 +140,7 @@ import clipboard from "clipboard-polyfill";
       }
       html += '</div>'
       //@ts-ignore
-      this.$store.dispatch('cacheBibliography', {html: this.$data.cslHTML, format: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
-      this.$store.dispatch('updateCache', false)
+      this.$store.dispatch('cacheBibliography', {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
     }
   },
   methods: {
@@ -161,6 +178,7 @@ import clipboard from "clipboard-polyfill";
           html += cslHTML
           html += '</div>'
           html += '</div>'
+          console.log(html)
           var dt = new clipboard.DT();
           //@ts-ignore
           dt.setData("text/plain", document.getElementById(id).textContent);

@@ -178,8 +178,7 @@ import clipboard from "clipboard-polyfill";
             html += '</div>'
           }
           html += '</div>'
-          html = html.replace(/<div/g, '<div')
-          html = html.replace(/<\/div>/g, '</div>')
+          console.log(html)
       var dt = new clipboard.DT();
       //@ts-ignore
       dt.setData("text/plain", this.$refs.cslBibRef.textContent);

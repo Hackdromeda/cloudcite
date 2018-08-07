@@ -79,6 +79,7 @@ import clipboard from "clipboard-polyfill";
   methods: {
     copyBibliography() {
       if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.plainText && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.richText) {
+        console.log(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.richText)
         var dt = new clipboard.DT();
         //@ts-ignore
         dt.setData("text/plain", this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.plainText);

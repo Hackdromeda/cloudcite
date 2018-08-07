@@ -1,26 +1,17 @@
 <template>
   <div>
     <div id="bibliography">
-      <!-- START HERE -->
+      <input id="titleInput" placeholder="Enter Project Title" @input="saveProject()" v-model="$store.state.projects[$store.state.selectedProject].title"/>
       <div v-if="$store.state.projects[$store.state.selectedProject].citations.length > 0" id="bibliographyActions" >
         <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
-      <p v-if="$store.state.projects[$store.state.selectedProject].citations.length == 0" style="margin-top: 10vh;">
-        Your bibliography will be here after you cite a website, book, or film.
-      </p>
-      <sui-grid :columns="3">
-          <sui-grid-row>
-            <sui-grid-column :mobile="1" :tablet="3" :computer="5"/>
-            <sui-grid-column :mobile="16" :tablet="10" :computer="6" stretched>
-              <div v-if="this.$store.getters.getCitations.length >= 1" ref="cslBibRef">
-                <BibliographyPreview/>
-              </div>
-            </sui-grid-column>
-            <sui-grid-column :mobile="1" :tablet="3" :computer="5"/>
-        </sui-grid-row>
-      </sui-grid>
+      <div v-if="$store.state.projects[$store.state.selectedProject].citations.length == 0" style="margin-top: 10vh;">
+        <p>Your bibliography will be here after you cite a website, book, or film.</p>
+      </div>
+      <div v-else>
+        <BibliographyPreview/>
+      </div>
     </div>
-    <!-- END HERE -->
   </div>
 </template>
 
@@ -53,6 +44,9 @@ import clipboard from "clipboard-polyfill";
         dt.setData("text/html", this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.richText);
         clipboard.write(dt);
       }
+    },
+    saveProject() {
+      this.$store.dispatch('saveState')
     }
   }
 })
@@ -95,5 +89,18 @@ export default class Bibliography extends Vue {}
 #preview {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+#titleInput {
+  text-align: center;
+  display: inline-flex;
+  color: #005eea;
+  min-height: 60px;
+  font-size: 2rem;
+  font-weight: 550;
+  border-color: transparent;
+  margin-bottom: 3vh;
+}
+#titleInput:focus {
+  outline: none;
 }
 </style>

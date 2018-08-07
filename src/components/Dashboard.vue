@@ -1,12 +1,27 @@
 <template>
   <div id="dashboard">
-    <Bibliography/>
+  <vaadin-tabs :selected="selectedProject">
+    <vaadin-tab v-for="(project, p) in projects" :key="p" @click="selectProject(project)" v-cloak> {{ project.title }}</vaadin-tab>
+  </vaadin-tabs>
+  <sui-grid :columns="3" stackable>
+    <sui-grid-row>
+      <sui-grid-column :mobile="2" :tablet="2" :computer="4">
+        <h2 style="color: #000; margin-top: 20px;">Overview</h2>
+        <p style="font-size: 1.3rem;">{{ projects[selectedProject].citations.length }} <span v-if="projects[selectedProject].citations.length == 1">Citation</span><span v-else>Citations</span></p>
+      </sui-grid-column>
+      <sui-grid-column :mobile="12" :tablet="10" :computer="8">
+        <Bibliography/>
+      </sui-grid-column>
+      <sui-grid-column :mobile="2" :tablet="2" :computer="4"/>
+    </sui-grid-row>
+  </sui-grid>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Bibliography from './Bibliography.vue';
+import '@vaadin/vaadin-tabs/vaadin-tabs.js';
 
 @Component({
   components: {
@@ -22,13 +37,15 @@ import Bibliography from './Bibliography.vue';
       get() {
         return this.$store.getters.getProjects
       }
+    },
+    selectedProject: {
+      get() {
+        return this.$store.state.selectedProject
+      }
     }
   },
   methods: {
-    isActive(project): boolean {
-      return this.$store.state.projects[this.$store.state.selectedProject].id == project.id
-    },
-    select(project) {
+    selectProject(project) {
       this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)))
     }
   }
@@ -37,4 +54,7 @@ export default class ErrorPage extends Vue {}
 </script>
 
 <style scoped lang="scss">
+  #dashboard {
+    color: #000;
+  }
 </style>

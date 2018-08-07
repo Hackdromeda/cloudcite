@@ -19,6 +19,7 @@
     </div>
     <div id="mainContent" style="text-align: left;">
       <Dashboard/>
+      <br/><br/><br/><br/><br/>
       <h2>Projects</h2>
         <sui-grid>
           <sui-grid-row :columns="projects.length + 1">

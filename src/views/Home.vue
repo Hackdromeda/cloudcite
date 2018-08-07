@@ -19,11 +19,10 @@
     </div>
     <div id="mainContent" style="text-align: left;">
       <Dashboard/>
-      <br/><br/><br/><br/><br/>
       <h2>Projects</h2>
         <sui-grid>
           <sui-grid-row :columns="projects.length + 1">
-            <sui-grid-column :mobile="16" :tablet="16" :computer="4" stretched v-for="(project, p) in projects" :key="p">
+            <sui-grid-column :mobile="16" :tablet="8" :computer="4" stretched v-for="(project, p) in projects" :key="p">
               <div id="projectSegment" class="ui raised segment">
                 <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
                   {{ project.title }}
@@ -45,7 +44,7 @@
                 <sui-button @click="editProject(project)" style="color: #006DFC;">Edit</sui-button>
               </div>
             </sui-grid-column>
-            <sui-grid-column :mobile="16" :tablet="16" :computer="4" stretched>
+            <sui-grid-column :mobile="16" :tablet="8" :computer="4" stretched>
               <div id="projectSegment" class="ui raised segment" style="text-align: center;">
                 <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
                   New Project

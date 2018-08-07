@@ -54,6 +54,11 @@ export default class Bibliography extends Vue {}
 </script>
 
 <style scoped lang="scss">
+@media (max-width: 991.97px) {
+  #bibliographyActions {
+    font-size: 0.9rem;
+  }
+}
 #bibliography {
   padding: 10px;
   text-align: center;
@@ -74,17 +79,9 @@ export default class Bibliography extends Vue {}
   border-radius: 20px;
   padding: 10px;
   margin-bottom: 3vh;
-  min-width: 30vh;
+  min-width: 25vh;
   color: #fff;
   font-weight: 550;
-}
-#editTitle {
-  background-color: transparent;
-  border-color: transparent;
-  color: #fff;
-}
-#editTitle::selection {
-  color: #fff;
 }
 #preview {
   margin-top: 10px;

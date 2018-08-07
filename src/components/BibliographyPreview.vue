@@ -169,7 +169,7 @@ import clipboard from "clipboard-polyfill";
           //@ts-ignore
           var html = '<div class="csl-bib-body" style="'
           //@ts-ignore
-          html += ((cslHTML.indexOf("csl-left-margin") != -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent: -' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
+          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + ';'): '') + ((this.$data.cslFormat.hangingindent) ? ('margin-left: ' + this.$data.cslFormat.hangingindent + 'em;text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '') + ''): '') + '">'
           //@ts-ignore
           html += '<div style="clear: left;'
           //@ts-ignore

@@ -231,7 +231,7 @@ export default class bibliographyPreview extends Vue {}
   #bibliographyPreview {
     background-color: #f5f5f5;
     color: #000;
-    padding: 20px;
+    padding: 15px;
     border-radius: 5px;
     text-align: left;
     font-weight: normal !important;
@@ -241,7 +241,7 @@ export default class bibliographyPreview extends Vue {}
   #bibliographyPreview {
     background-color: #f5f5f5;
     color: #000;
-    padding: 20px;
+    padding: 15px;
     border-radius: 5px;
     min-height: 16vh;
     text-align: left;

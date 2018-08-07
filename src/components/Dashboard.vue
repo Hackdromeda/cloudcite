@@ -9,10 +9,9 @@
         <h2 style="color: #000; margin-top: 20px;">Overview</h2>
         <p style="font-size: 1.3rem;">{{ projects[selectedProject].citations.length }} <span v-if="projects[selectedProject].citations.length == 1">Citation</span><span v-else>Citations</span></p>
       </sui-grid-column>
-      <sui-grid-column :mobile="10" :tablet="10" :computer="8">
+      <sui-grid-column :mobile="10" :tablet="14" :computer="8">
         <Bibliography/>
       </sui-grid-column>
-      <sui-grid-column :mobile="1" :tablet="2" :computer="4"/>
     </sui-grid-row>
   </sui-grid>
   </div>

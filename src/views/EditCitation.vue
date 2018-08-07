@@ -47,7 +47,7 @@
                             </sui-form-field>
                             <div style="margin-bottom: 15px;" v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field == 'accessed'">
                                 <sui-form-field>
-                                    <sui-dropdown fluid v-model="citationData.accessed.month" :options="monthAccessedNames" placeholder="Month Accessed" selection search/>
+                                    <sui-dropdown fluid @input="typing = true" v-model="citationData.accessed.month" :options="monthAccessedNames" placeholder="Month Accessed" selection search/>
                                 </sui-form-field>
                                 <sui-form-field>
                                     <div class="ui labeled input">
@@ -64,7 +64,7 @@
                             </div>
                             <div v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'object' && field == 'issued'">
                                 <sui-form-field>
-                                    <sui-dropdown fluid v-model="citationData.issued.month" :options="monthPublishedNames" placeholder="Month Published" selection search/>
+                                    <sui-dropdown fluid @input="typing = true" v-model="citationData.issued.month" :options="monthPublishedNames" placeholder="Month Published" selection search/>
                                 </sui-form-field>
                                 <sui-form-field>
                                     <div class="ui labeled input">
@@ -299,8 +299,9 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
         }
     },
     watch: {
-        selectedMonth() {
-            this.$data.typing = true
+        //@ts-ignore
+        citationData() {
+            console.log('VALUE CHANGED')
         },
         typing: debounce(function () {
         //@ts-ignore

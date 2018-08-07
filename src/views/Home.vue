@@ -19,45 +19,7 @@
     </div>
     <div id="mainContent" style="text-align: left;">
       <Dashboard/>
-      <h2>Projects</h2>
-        <sui-grid>
-          <sui-grid-row :columns="projects.length + 1">
-            <sui-grid-column :mobile="16" :tablet="8" :computer="4" stretched v-for="(project, p) in projects" :key="p">
-              <div id="projectSegment" class="ui raised segment">
-                <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
-                  {{ project.title }}
-                </h4>
-                <p v-if="project.style" style="font-size: 1rem; text-align: left;" v-cloak>
-                  <b>Style</b>: <SearchStyles :projectOption="project"/>
-                </p>
-                <p v-if="project.locale && project.locale.length <= 27" style="font-size: 1rem; text-align: left;" v-cloak>
-                  <b>Locale</b>: {{ project.locale }}
-                </p>
-                <p v-if="project.locale && project.locale.length > 27" style="font-size: 1rem; text-align: left;" v-cloak>
-                  <b>Locale</b>: {{ project.locale.substring(0, 27) + '...'}}
-                </p>
-                <p style="font-size: 1rem; text-align: left;" v-cloak>
-                  <b>Number of Citations</b>: {{ project.citations.length }}
-                </p>
-                <sui-button v-if="compareProject(project) == false" @click="selectProject(project)" style="color: #006DFC;">Select</sui-button>
-                <sui-button v-if="compareProject(project) == true" @click="selectProject(project)" style="color: #006DFC;" disabled>Selected</sui-button>
-                <sui-button @click="editProject(project)" style="color: #006DFC;">Edit</sui-button>
-              </div>
-            </sui-grid-column>
-            <sui-grid-column :mobile="16" :tablet="8" :computer="4" stretched>
-              <div id="projectSegment" class="ui raised segment" style="text-align: center;">
-                <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
-                  New Project
-                </h4>
-                <p style="font-size: 1rem; text-align: left;">
-                  You can select the citation style on the new project page. Click on the button below to get started.
-                </p>
-                <sui-button style="color: #006DFC;" @click="createProject()">Create New Project</sui-button>
-              </div>
-            </sui-grid-column>
-          </sui-grid-row>
-      </sui-grid>
-      <h2>About CloudCite</h2>
+      <h2 style="margin-top: 20vh;">About CloudCite</h2>
       <h3>
         CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago. You can contribute to CloudCite and support the longevity of this project by visiting the <router-link to="/contribute/">contribute page</router-link> and either donating through a supported platform or lending us your coding skills. Disabling ad-block and interacting with ads placed on the contribute page and our blog also helps support this project. We have no ads throughout the bibliography generation process to provide a focused experience.
         Learn more about our commitment to a privacy and a distraction-free bibliography generation environment on our <router-link to="/about/">about us page</router-link>.
@@ -172,13 +134,6 @@
   }
   #dismissButton:hover {
     color: #fff;
-  }
-
-  #formatSelectBox {
-    display: inline-flex;
-    justify-content: center;
-    margin: 20px;
-    padding: 0;
   }
 
   h3 {

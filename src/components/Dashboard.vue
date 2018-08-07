@@ -49,7 +49,7 @@ import '@vaadin/vaadin-tabs/vaadin-tabs.js';
     }
   }
 })
-export default class ErrorPage extends Vue {}
+export default class Dashboard extends Vue {}
 </script>
 
 <style scoped lang="scss">

@@ -13,6 +13,7 @@ const EditCitation = () => import('./views/EditCitation.vue')
 const CreateProject = () => import('./views/CreateProject.vue')
 const EditProject = () => import('./views/EditProject.vue')
 const ErrorPage = () => import('./views/Error.vue')
+const Projects = () => import('./views/Projects.vue')
 
 Vue.use(Router)
 //@ts-ignore
@@ -25,6 +26,14 @@ export default new Router({
       component: Home,
       meta: {
         title: 'CloudCite · The Best Automatic Bibliography Generator'
+      }
+    },
+    {
+      path: '/projects/',
+      name: 'projects',
+      component: Projects,
+      meta: {
+        title: 'CloudCite · Projects'
       }
     },
     {

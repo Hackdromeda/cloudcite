@@ -18,6 +18,7 @@
       </div>
     </div>
     <div id="mainContent" style="text-align: left;">
+      <Dashboard/>
       <h2>Projects</h2>
         <sui-grid>
           <sui-grid-row :columns="projects.length + 1">
@@ -71,11 +72,14 @@
   //@ts-ignore
   import debounce from 'lodash/debounce';
   import SearchStyles from '../components/SearchStyles.vue';
+  import Dashboard from '../components/Dashboard.vue';
+
   @Component({
     components: {
-      SearchStyles
+      SearchStyles,
+      Dashboard
     },
-    mounted() {
+    created() {
       fetch('/static/servicemessages.json')
         .then(response => {
           return response.json()

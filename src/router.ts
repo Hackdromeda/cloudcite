@@ -9,7 +9,6 @@ const CiteWebsite = () => import('./views/CiteWebsite.vue')
 const CiteBook = () => import('./views/CiteBook.vue')
 const CiteFilm = () => import('./views/CiteFilm.vue')
 const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
-const Bibliography = () => import('./views/Bibliography.vue')
 const EditCitation = () => import('./views/EditCitation.vue')
 const CreateProject = () => import('./views/CreateProject.vue')
 const EditProject = () => import('./views/EditProject.vue')
@@ -107,14 +106,6 @@ export default new Router({
       component: PrivacyPolicy,
       meta: {
         title: 'CloudCite · Privacy'
-      }
-    },
-    {
-      path: '/bibliography/',
-      name: 'bibliography',
-      component: Bibliography,
-      meta: {
-        title: 'CloudCite · Bibliography'
       }
     },
     {

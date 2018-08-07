@@ -1,20 +1,13 @@
 <template>
   <div>
-    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
-        <div class="container" style="padding: 7vh;">
-          <h1 v-cloak>{{ bibliographyTitle }}</h1>
-          <h2 class="subtitle" style="margin-top: 10vh;">
-            All of your citations will be here.
-          </h2>
-        </div>
-    </div>
     <div id="bibliography">
+      <!-- START HERE -->
       <div v-if="$store.state.projects[$store.state.selectedProject].citations.length > 0" id="bibliographyActions" >
         <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
-      <div v-if="$store.state.projects[$store.state.selectedProject].citations.length == 0" style="margin-top: 10vh;">
-        This bibliography looks a little empty. You can create your first citation on the <a @click="$router.push({path: '/'})">homepage</a>.
-      </div>
+      <p v-if="$store.state.projects[$store.state.selectedProject].citations.length == 0" style="margin-top: 10vh;">
+        Your bibliography will be here after you cite a website, book, or film.
+      </p>
       <sui-grid :columns="3">
           <sui-grid-row>
             <sui-grid-column :mobile="2" :tablet="3" :computer="5"/>
@@ -27,12 +20,13 @@
         </sui-grid-row>
       </sui-grid>
     </div>
+    <!-- END HERE -->
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BibliographyPreview from '../components/BibliographyPreview.vue';
+import BibliographyPreview from './BibliographyPreview.vue';
 //@ts-ignore
 import rp from 'request-promise-native';
 import generateCSL from '../generateCSL';
@@ -68,7 +62,6 @@ export default class Bibliography extends Vue {}
 <style scoped lang="scss">
 #bibliography {
   padding: 10px;
-  min-height: 100vh;
   text-align: center;
   justify-content: center;
   background-color: #fff;

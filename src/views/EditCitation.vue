@@ -296,7 +296,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
             console.log(Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
             this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
             this.$store.dispatch('setEditingProject', null)
-            this.$router.push({path: '/bibliography/'})
+            this.$router.push({path: '/'})
         }
     },
     watch: {

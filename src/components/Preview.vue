@@ -1,6 +1,6 @@
 <template>
   <div id="preview">
-    <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'): ''" ref="cslBibRef">
+    <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent: -' + cslFormat.hangingindent + 'em;'): ''" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry"/>
         <div id="previewStatus" v-if="refreshing">
@@ -165,21 +165,21 @@ import clipboard from "clipboard-polyfill";
     },
     copyCitation() {
       //@ts-ignore
-          var html = '<p class="csl-bib-body" style="'
+          var html = '<div class="csl-bib-body" style="'
           //@ts-ignore
-          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? ('margin-left: ' + this.$data.cslFormat.hangingindent + 'em;'): '') + (this.$data.cslFormat.hangingindent ? ('text-indent:-' + this.$data.cslFormat.hangingindent + 'em;'): '')): '') + '">'
+          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? ('margin-left: ' + this.$data.cslFormat.hangingindent + 'em;'): '') + (this.$data.cslFormat.hangingindent ? (' text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '')): '') + '">'
           //@ts-ignore
           for (let i=0; i < this.$data.cslHTML.length; i++) {
-            html += '<p style="clear: left;'
+            html += '<div style="clear: left;'
             //@ts-ignore
             html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
             //@ts-ignore
             html += this.$data.cslHTML[i]
-            html += '</p>'
+            html += '</div>'
           }
-          html += '</p>'
-          html = html.replace(/<div/g, '<p')
-          html = html.replace(/<\/div>/g, '</p>')
+          html += '</div>'
+          html = html.replace(/<div/g, '<div')
+          html = html.replace(/<\/div>/g, '</div>')
       var dt = new clipboard.DT();
       //@ts-ignore
       dt.setData("text/plain", this.$refs.cslBibRef.textContent);

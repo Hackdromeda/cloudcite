@@ -1,6 +1,6 @@
 <template>
   <div id="bibliographyPreview">
-    <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent:-' + cslFormat.hangingindent + 'em;'): ''">
+    <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent: -' + cslFormat.hangingindent + 'em;'): ''">
       <div v-for="(cslEntry, i) in cslHTML" :key="i" style="margin-bottom: 5vh;">
         <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
           <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
@@ -108,21 +108,19 @@ import clipboard from "clipboard-polyfill";
   updated() {
     if (this.$data.cslFormat && this.$data.cslHTML.length > 0) {
       //@ts-ignore
-      var html = '<p class="csl-bib-body" style="'
+      var html = '<div class="csl-bib-body" style="'
       //@ts-ignore
-      html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? ('margin-left: ' + this.$data.cslFormat.hangingindent + 'em;'): '') + (this.$data.cslFormat.hangingindent ? ('text-indent:-' + this.$data.cslFormat.hangingindent + 'em;'): '')): '') + '">'
+      html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? ('margin-left: ' + this.$data.cslFormat.hangingindent + 'em;'): '') + (this.$data.cslFormat.hangingindent ? (' text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '')): '') + '">'
       //@ts-ignore
       for (let i=0; i < this.$data.cslHTML.length; i++) {
-        html += '<p style="clear: left;'
+        html += '<div style="clear: left;'
         //@ts-ignore
         html += (this.$data.cslFormat && this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
         //@ts-ignore
         html += this.$data.cslHTML[i].html
-        html += '</p>'
+        html += '</div>'
       }
-      html += '</p>'
-      html = html.replace(/<div/g, '<p')
-      html = html.replace(/<\/div>/g, '</p>')
+      html += '</div>'
       //@ts-ignore
       this.$store.dispatch('cacheBibliography', {html: this.$data.cslHTML, format: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
       this.$store.dispatch('updateCache', false)
@@ -154,7 +152,7 @@ import clipboard from "clipboard-polyfill";
           //@ts-ignore
           var html = '<div class="csl-bib-body" style="'
           //@ts-ignore
-          html += ((cslHTML.indexOf("csl-left-margin") != -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent:-' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
+          html += ((cslHTML.indexOf("csl-left-margin") != -1 && this.$data.cslFormat) ? ('line-height: ' + this.$data.cslFormat.linespacing + '; ' + 'margin-left: ' + this.$data.cslFormat.hangingindent + 'em; text-indent: -' + this.$data.cslFormat.hangingindent + 'em;' + '"'): "") + '>'
           //@ts-ignore
           html += '<div style="clear: left;'
           //@ts-ignore

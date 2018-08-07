@@ -43,33 +43,6 @@ import clipboard from "clipboard-polyfill";
   components: {
     BibliographyPreview
   },
-  created () {
-    var cslObject = {}
-    for (let i=0; i < this.$store.getters.getCitations.length; i++) {
-      //@ts-ignore
-      cslObject[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
-    }
-    rp({
-        uri: 'https://api.cloudcite.net/cite',
-        headers: {
-          'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-        },
-        method: 'POST',
-        //@ts-ignore
-        body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslObject},
-        json: true
-        //@ts-ignore
-    })
-    //@ts-ignore
-    .then(data => {
-      console.log(data)
-      this.$store.dispatch('clearProjectsCacheById', this.$store.state.projects[this.$store.state.selectedProject].id)
-    })
-    //@ts-ignore
-    .catch(error => {
-      console.log(error)
-    })
-  },
   data () {
     return {
       bibliographyTitle: "Bibliography",

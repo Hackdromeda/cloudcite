@@ -12,7 +12,7 @@
               </span>
             </div>
         </div>
-        <div v-if="$store.getters.getCitations.length > 1 && i < $store.getters.getCitations.length - 1 && cslHTML[i - 1]">
+        <div v-if="$store.getters.getCitations.length > 1 && i < $store.getters.getCitations.length - 1 && cslHTML[i + 1]">
           <sui-divider />
         </div>
       </div>

@@ -222,12 +222,6 @@ export default class bibliographyPreview extends Vue {}
 </script>
 
 <style scoped lang="scss">
-  #bibliographyPreviewStatus {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    color: #8d8d8d;
-  }
   #citationOptions {
     display: flex;
     flex-direction: row;
@@ -239,7 +233,6 @@ export default class bibliographyPreview extends Vue {}
     color: #000;
     padding: 20px;
     border-radius: 5px;
-    min-height: 23vh;
     text-align: left;
     font-weight: normal !important;
   }

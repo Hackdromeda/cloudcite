@@ -1,0 +1,209 @@
+[{
+    "key": "locales-af-ZA",
+    "text": "Afrikaans",
+    "value": "Afrikaans"
+}, {
+    "key": "locales-ar",
+    "text": "Arabic",
+    "value": "العربية"
+}, {
+    "key": "locales-bg-BG",
+    "text": "Bulgarian",
+    "value": "Български"
+}, {
+    "key": "locales-ca-AD",
+    "text": "Catalan",
+    "value": "Català"
+}, {
+    "key": "locales-cs-CZ",
+    "text": "Czech",
+    "value": "Čeština"
+}, {
+    "key": "locales-cy-GB",
+    "text": "Welsh",
+    "value": "Cymraeg"
+}, {
+    "key": "locales-da-DK",
+    "text": "Danish",
+    "value": "Dansk"
+}, {
+    "key": "locales-de-AT",
+    "text": "German (Austria)",
+    "value": "Deutsch (Österreich)"
+}, {
+    "key": "locales-de-CH",
+    "text": "German (Switzerland)",
+    "value": "Deutsch (Schweiz)"
+}, {
+    "key": "locales-de-DE",
+    "text": "German (Germany)",
+    "value": "Deutsch (Deutschland)"
+}, {
+    "key": "locales-el-GR",
+    "text": "Greek",
+    "value": "Ελληνικά"
+}, {
+    "key": "locales-en-GB",
+    "text": "English (UK)",
+    "value": "English (UK)"
+}, {
+    "key": "locales-en-US",
+    "text": "English (US)",
+    "value": "English (US)"
+}, {
+    "key": "locales-es-CL",
+    "text": "Spanish (Chile)",
+    "value": "Español (Chile)"
+}, {
+    "key": "locales-es-ES",
+    "text": "Spanish (Spain)",
+    "value": "Español (España)"
+}, {
+    "key": "locales-es-MX",
+    "text": "Spanish (Mexico)",
+    "value": "Español (México)"
+}, {
+    "key": "locales-et-EE",
+    "text": "Estonian",
+    "value": "Eesti"
+}, {
+    "key": "locales-eu",
+    "text": "Basque",
+    "value": "Euskara"
+}, {
+    "key": "locales-fa-IR",
+    "text": "Persian",
+    "value": "فارسی"
+}, {
+    "key": "locales-fi-FI",
+    "text": "Finnish",
+    "value": "Suomi"
+}, {
+    "key": "locales-fr-CA",
+    "text": "French (Canada)",
+    "value": "Français (Canada)"
+}, {
+    "key": "locales-fr-FR",
+    "text": "French (France)",
+    "value": "Français (France)"
+}, {
+    "key": "locales-he-IL",
+    "text": "Hebrew",
+    "value": "עברית"
+}, {
+    "key": "locales-hr-HR",
+    "text": "Croatian",
+    "value": "Hrvatski"
+}, {
+    "key": "locales-hu-HU",
+    "text": "Hungarian",
+    "value": "Magyar"
+}, {
+    "key": "locales-id-ID",
+    "text": "Indonesian",
+    "value": "Bahasa Indonesia"
+}, {
+    "key": "locales-is-IS",
+    "text": "Icelandic",
+    "value": "Íslenska"
+}, {
+    "key": "locales-it-IT",
+    "text": "Italian",
+    "value": "Italiano"
+}, {
+    "key": "locales-ja-JP",
+    "text": "Japanese",
+    "value": "日本語"
+}, {
+    "key": "locales-km-KH",
+    "text": "Khmer",
+    "value": "ភាសាខ្មែរ"
+}, {
+    "key": "locales-ko-KR",
+    "text": "Korean",
+    "value": "한국어"
+}, {
+    "key": "locales-lt-LT",
+    "text": "Lithuanian",
+    "value": "Lietuvių"
+}, {
+    "key": "locales-lv-LV",
+    "text": "Latvian",
+    "value": "Latviešu"
+}, {
+    "key": "locales-mn-MN",
+    "text": "Mongolian",
+    "value": "Монгол"
+}, {
+    "key": "locales-nb-NO",
+    "text": "Norwegian (Bokmål)",
+    "value": "Norsk bokmål"
+}, {
+    "key": "locales-nl-NL",
+    "text": "Dutch",
+    "value": "Nederlands"
+}, {
+    "key": "locales-nn-NO",
+    "text": "Norwegian (Nynorsk)",
+    "value": "Norsk nynorsk"
+}, {
+    "key": "locales-pl-PL",
+    "text": "Polish",
+    "value": "Polski"
+}, {
+    "key": "locales-pt-BR",
+    "text": "Portuguese (Brazil)",
+    "value": "Português (Brasil)"
+}, {
+    "key": "locales-pt-PT",
+    "text": "Portuguese (Portugal)",
+    "value": "Português (Portugal)"
+}, {
+    "key": "locales-ro-RO",
+    "text": "Romanian",
+    "value": "Română"
+}, {
+    "key": "locales-ru-RU",
+    "text": "Russian",
+    "value": "Русский"
+}, {
+    "key": "locales-sk-SK",
+    "text": "Slovak",
+    "value": "Slovenčina"
+}, {
+    "key": "locales-sl-SI",
+    "text": "Slovenian",
+    "value": "Slovenščina"
+}, {
+    "key": "locales-sr-RS",
+    "text": "Serbian",
+    "value": "Српски / Srpski"
+}, {
+    "key": "locales-sv-SE",
+    "text": "Swedish",
+    "value": "Svenska"
+}, {
+    "key": "locales-th-TH",
+    "text": "Thai",
+    "value": "ไทย"
+}, {
+    "key": "locales-tr-TR",
+    "text": "Turkish",
+    "value": "Türkçe"
+}, {
+    "key": "locales-uk-UA",
+    "text": "Ukrainian",
+    "value": "Українська"
+}, {
+    "key": "locales-vi-VN",
+    "text": "Vietnamese",
+    "value": "Tiếng Việt"
+}, {
+    "key": "locales-zh-CN",
+    "text": "Chinese (PRC)",
+    "value": "中文 (中国大陆)"
+}, {
+    "key": "locales-zh-TW",
+    "text": "Chinese (Taiwan)",
+    "value": "中文 (台灣)"
+}]

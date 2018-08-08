@@ -66,6 +66,7 @@ export default new Vuex.Store({
           store.getAll().onsuccess = function(event: any) {
             if (event.target.result && event.target.result.length > 0) {
               state.selectedProject = event.target.result[0].selectedProject
+              state.favoriteStyles = event.target.result[0].favoriteStyles
               state.projects = event.target.result[0].projects
             }
           }
@@ -129,11 +130,11 @@ export default new Vuex.Store({
       state.projects[state.selectedProject].cachedBibliography = payload
     },
     addFavoriteStyle(state: any, payload: any) {
-      state.favoriteStyles = state.favoriteStyles.push(payload)
+      state.favoriteStyles.unshift(payload)
     },
     removeFavoriteStyle(state: any, payload: any) {
       //@ts-ignore
-      state.favoriteStyles = state.favoriteStyles.filter(style => style.key != payload.key)
+      state.favoriteStyles = state.favoriteStyles.filter(style => style.key !== payload.key)
     }
   },
   actions: {
@@ -192,9 +193,11 @@ export default new Vuex.Store({
     },
     addFavoriteStyle(context: any, payload: any) {
       context.commit('addFavoriteStyle', payload)
+      context.commit('saveState')
     },
     removeFavoriteStyle(context: any, payload: any) {
       context.commit('removeFavoriteStyle', payload)
+      context.commit('saveState')
     }
   },
   getters: {

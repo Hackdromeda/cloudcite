@@ -3,7 +3,7 @@
     <div id="bibliography">
       <input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="$store.state.projects[$store.state.selectedProject].title"/>
       <SearchStyles :projectOption="$store.state.projects[$store.state.selectedProject]"/>
-      <div v-if="$store.state.projects[$store.state.selectedProject].citations.length > 0" id="bibliographyActions" >
+      <div style="margin-top: 5vh;" v-if="$store.state.projects[$store.state.selectedProject].citations.length > 0" id="bibliographyActions" >
         <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
       <div v-if="$store.state.projects[$store.state.selectedProject].citations.length == 0" style="margin-top: 10vh;">

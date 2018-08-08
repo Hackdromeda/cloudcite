@@ -4,7 +4,7 @@
       <div v-for="(cslEntry, i) in cslHTML" :key="i" style="margin-bottom: 5vh;">
         <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
           <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
-            <div id="citationOptions" v-if="!refreshing">
+            <div id="citationOptions">
               <span>
                 <a @click="copyCitation(cslEntry.id)"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
                 <a @click="editCitation(cslEntry.id)"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>

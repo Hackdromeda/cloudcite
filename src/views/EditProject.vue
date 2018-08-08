@@ -66,7 +66,7 @@ import * as _ from 'lodash';
             this.$store.dispatch('editProject', Object.assign(this.$data.project, {title: this.$data.projectTitle}))
             this.$store.dispatch('updateCache', true)
         }
-        this.$router.push({path: '/'})
+        this.$router.push({path: '/projects/'})
       }
   }
 })

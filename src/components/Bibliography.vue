@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="bibliography">
-      <input id="titleInput" placeholder="Enter Project Title" @input="saveProject()" v-model="$store.state.projects[$store.state.selectedProject].title"/>
+      <input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="$store.state.projects[$store.state.selectedProject].title"/>
       <div v-if="$store.state.projects[$store.state.selectedProject].citations.length > 0" id="bibliographyActions" >
         <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
@@ -23,6 +23,8 @@ import rp from 'request-promise-native';
 import generateCSL from '../generateCSL';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
+//@ts-ignore
+import debounce from 'lodash/debounce';
 
 @Component({
   components: {
@@ -31,7 +33,8 @@ import clipboard from "clipboard-polyfill";
   data () {
     return {
       bibliographyTitle: "Bibliography",
-      citationsData: []
+      citationsData: [],
+      typing: false
     }
   },
   methods: {
@@ -44,10 +47,20 @@ import clipboard from "clipboard-polyfill";
         dt.setData("text/html", this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.richText);
         clipboard.write(dt);
       }
-    },
-    saveProject() {
-      this.$store.dispatch('saveState')
     }
+  },
+  watch: {
+    typing: debounce(function () {
+      //@ts-ignore
+      if (this.$store.getters.getProjects[this.$store.state.selectedProject].title == "" || !this.$store.getters.getProjects[this.$store.state.selectedProject].title) {
+        //@ts-ignore
+        this.$store.getters.getProjects[this.$store.state.selectedProject].title = "Untitled Project"
+      }
+      //@ts-ignore
+        this.$store.dispatch('saveState')
+        //@ts-ignore
+        this.$data.typing = false
+    }, 3000)
   }
 })
 export default class Bibliography extends Vue {}
@@ -82,10 +95,6 @@ export default class Bibliography extends Vue {}
   min-width: 25vh;
   color: #fff;
   font-weight: 550;
-}
-#preview {
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 #titleInput {
   text-align: center;

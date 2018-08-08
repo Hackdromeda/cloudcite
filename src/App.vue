@@ -15,6 +15,7 @@
           </div>
           <div id="navbarMenu" class="navbar-menu" :class="{'is-active': navIsActive}">
             <div class="navbar-start">
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/projects/'})">Projects</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/about/'})">About</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/api/'})">API</a>
               <a href="https://cloudcite.net/blog/" target="_blank" class="navbar-item" @click="navIsActive = false;">Blog</a>

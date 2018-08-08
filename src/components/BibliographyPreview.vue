@@ -1,19 +1,21 @@
 <template>
   <div id="bibliographyPreview">
+    <sui-segment>
     <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
-      <div v-for="(cslEntry, i) in cslHTML" :key="i" style="margin-bottom: 5vh;">
+      <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
           <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
             <div id="citationOptions">
               <span>
-                <a @click="copyCitation(cslEntry.id)"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
-                <a @click="editCitation(cslEntry.id)"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>
-                <a @click="removeCitation(cslEntry.id)"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
+                <a @click="copyCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="clipboard" /></a>
+                <a @click="editCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
+                <a @click="removeCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="trash" /></a>
               </span>
             </div>
         </div>
       </div>
     </div>
+    </sui-segment>
   </div>
 </template>
 
@@ -316,20 +318,14 @@ export default class bibliographyPreview extends Vue {}
   }
 @media (max-width: 991.97px) {
   #bibliographyPreview {
-    background-color: #f5f5f5;
     color: #000;
-    padding: 15px;
-    border-radius: 5px;
     text-align: left;
     font-weight: normal !important;
   }
 }
 @media (min-width: 991.98px) {
   #bibliographyPreview {
-    background-color: #f5f5f5;
     color: #000;
-    padding: 15px;
-    border-radius: 5px;
     min-height: 16vh;
     text-align: left;
     font-weight: normal !important;

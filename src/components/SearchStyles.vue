@@ -10,6 +10,9 @@
             </sui-form-field>
         </sui-form>
         <div>
+          <div v-if="stylesData.length == 0 && typing" style="text-align: center;">
+            <moon-loader :loading="typing" color="#005eea"></moon-loader>
+          </div>
           <div v-for="(style, i) in stylesData" :key="i" style="font-size: 1.8rem; text-align: left; margin-top: 5vh;">
             {{ style.text }} <sui-button @click="addFavoriteStyle(style)" v-if="favoriteStyles.filter(favorite => favorite.value == style.value).length == 0" type="button" circular icon="plus"/><sui-button @click="removeFavoriteStyle(style)" v-else type="button" circular icon="minus"/>
             <sui-divider/>
@@ -38,10 +41,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import debounce from 'lodash/debounce';
+import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 
 @Component({
   props: ['projectOption'],
-  components: {},
+  components: {
+    MoonLoader
+  },
   data() {
     return {
       //styles.json file is based on styles from https://citationstyles.org/
@@ -104,7 +110,7 @@ import debounce from 'lodash/debounce';
     },
     typing: debounce(function () {
       //@ts-ignore
-      this.$data.stylesData = this.$data.styles.filter(style => style.text.toLowerCase().includes(this.$data.searchInput.toLowerCase()) || style.value.toLowerCase().includes(this.$data.searchInput.toLowerCase()))
+      this.$data.stylesData = this.$data.styles.filter(style => style.text.toLowerCase().includes(this.$data.searchInput.toLowerCase()) || style.value.toLowerCase().includes(this.$data.searchInput.toLowerCase())).slice(0, 50)
       //@ts-ignore
       this.$data.typing = false
     }, 500)

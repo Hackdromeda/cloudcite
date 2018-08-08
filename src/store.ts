@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     "selectedProject": 0,
     "editingProject": null,
+    "favoriteStyles": [{"key":"modern-language-association","text":"Modern Language Association 8th edition (MLA)","value":"modern-language-association"},{"key":"apa","text":"American Psychological Association 6th edition (APA)","value":"apa"},{"key":"chicago-note-bibliography","text":"Chicago Manual of Style 17th edition (note)","value":"chicago-note-bibliography"},{"key":"turabian-fullnote-bibliography","text":"Turabian 8th edition (full note)","value":"turabian-fullnote-bibliography"},{"key":"ieee","text":"IEEE","value":"ieee"},{"key":"bluebook-law-review","text":"Bluebook Law Review","value":"bluebook-law-review"},{"key":"elsevier-harvard","text":"Elsevier - Harvard (with titles)","value":"elsevier-harvard"},{"key":"american-medical-association","value":"american-medical-association","text":"American Medical Association (AMA)"},{"key":"american-sociological-association","text":"American Sociological Association (ASA)","value":"american-sociological-association"},{"key":"din-1505-2","text":"DIN 1505-2 (author-date, German)","value":"din-1505-2","loc":["locales-de-DE", "locales-de-CH", "locales-de-AT"]},{"key":"vancouver","text":"Vancouver","value":"vancouver"}],
     "projects": [
       {
         "id": "Project-0",
@@ -53,7 +54,8 @@ export default new Vuex.Store({
         var store = db.createObjectStore("cloudcite", {keypath: "id"})
         var selectedProjectIndex = store.createIndex("by_selectedProject", "selectedProject")
         var citationsIndex = store.createIndex("by_projects", "projects")
-        store.put({selectedProject: state.selectedProject, projects: state.projects}, 0)
+        var favoriteStylesIndex = store.createIndex("by_favoriteStyles", "favoriteStyles")
+        store.put({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles}, 0)
       };
 
       dbRequest.onsuccess = function() {
@@ -84,7 +86,8 @@ export default new Vuex.Store({
         var store = db.createObjectStore("cloudcite", {autoIncrement: true})
         var selectedProjectIndex = store.createIndex("by_selectedProject", "selectedProject")
         var citationsIndex = store.createIndex("by_projects", "projects")
-        store.put({selectedProject: state.selectedProject, projects: state.projects}, 0)
+        var favoriteStylesIndex = store.createIndex("by_favoriteStyles", "favoriteStyles")
+        store.put({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles}, 0)
       };
 
       dbRequest.onsuccess = function() {
@@ -124,6 +127,13 @@ export default new Vuex.Store({
     },
     cacheBibliography(state: any, payload: any) {
       state.projects[state.selectedProject].cachedBibliography = payload
+    },
+    addFavoriteStyle(state: any, payload: any) {
+      state.favoriteStyles = state.favoriteStyles.push(payload)
+    },
+    removeFavoriteStyle(state: any, payload: any) {
+      //@ts-ignore
+      state.favoriteStyles = state.favoriteStyles.filter(style => style.key != payload.key)
     }
   },
   actions: {
@@ -179,6 +189,12 @@ export default new Vuex.Store({
     cacheBibliography(context: any, payload: any) {
       context.commit('cacheBibliography', payload)
       context.commit('saveState')
+    },
+    addFavoriteStyle(context: any, payload: any) {
+      context.commit('addFavoriteStyle', payload)
+    },
+    removeFavoriteStyle(context: any, payload: any) {
+      context.commit('removeFavoriteStyle', payload)
     }
   },
   getters: {
@@ -193,6 +209,9 @@ export default new Vuex.Store({
     },
     getCitations(state: any) {
       return state.projects[state.selectedProject].citations
+    },
+    getFavoriteStyles(state: any) {
+      return state.favoriteStyles
     }
   }
 })

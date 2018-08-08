@@ -1,4 +1,5 @@
 <template>
+  <div><!--
     <sui-dropdown
       button
       class="icon"
@@ -9,7 +10,8 @@
       search
       text="Select Language"
       v-model="current"
-    />
+    />-->
+    </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
@@ -17,9 +19,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   props: ['projectOption'],
-  components: {
-    Multiselect
-  },
+  components: {},
   data() {
     return {
       //locales.json file is based on locales from https://citationstyles.org/

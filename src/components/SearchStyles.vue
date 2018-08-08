@@ -1,19 +1,21 @@
 <template>
   <div>
-    <multiselect v-model="selectedStyle" :placeholder="getProjectStyle" :options="stylesData" :searchable="true" :loading="loading" :internal-search="false" :clear-on-select="true" :close-on-select="true" :options-limit="30" :limit="30" :max-height="100" :show-no-results="false" :hide-selected="true" @search-change="searchStyles" label="text" track-by="text"></multiselect>
+    <sui-form>
+      <sui-form-field>
+        <sui-dropdown fluid :options="favoriteStyles" :placeholder="getProjectStyle" search selection v-model="selectedStyle" direction="downward"/>
+      </sui-form-field>
+      <sui-form-field>
+        <sui-button type="button" basic primary size="mini">More Styles Available</sui-button>
+      </sui-form-field>
+    </sui-form>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-//@ts-ignore
-import Multiselect from 'vue-multiselect';
-import 'vue-multiselect/dist/vue-multiselect.min.css';
 
 @Component({
   props: ['projectOption'],
-  components: {
-    Multiselect
-  },
+  components: {},
   data() {
     return {
       //styles.json file is based on styles from https://citationstyles.org/
@@ -50,22 +52,21 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
     getProjectStyle: {
       get() {
         //@ts-ignore
-        return this.$data.styles.filter(style => style.key === this.project.style)[0].text
+        return this.$data.styles.filter(style => style.key == this.$store.state.projects[this.$store.state.selectedProject].style)[0].text
+      }
+    },
+    favoriteStyles: {
+      get() {
+        return this.$store.getters.getFavoriteStyles
       }
     }
   },
   watch: {
     //@ts-ignore
     selectedStyle() {
-      this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
       //@ts-ignore
-      if (!this.project.creatingProject) {
-        //@ts-ignore
-        this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle.key})
-      } else {
-        //@ts-ignore
-        this.project.style = this.$data.selectedStyle.key
-      }
+      this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle})
+      this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
     }
   }
 })

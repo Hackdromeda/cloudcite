@@ -1,7 +1,7 @@
 <template>
   <div>
     <sui-modal v-model="showMoreStyles">
-      <sui-modal-header style="text-align: center;">Add Favorite Styles</sui-modal-header>
+      <sui-modal-header style="text-align: center; font-size: 1.8rem; font-weight: 400;">Add Favorite Styles</sui-modal-header>
       <sui-modal-content style="min-height: 80vh;" scrolling>
         <sui-modal-description>
           <sui-form>
@@ -10,11 +10,12 @@
             </sui-form-field>
         </sui-form>
         <div>
-          <div v-if="stylesData.length == 0 && typing" style="text-align: center;">
-            <moon-loader :loading="typing" color="#005eea"></moon-loader>
-          </div>
-          <div v-for="(style, i) in stylesData" :key="i" style="font-size: 1.8rem; text-align: left; margin-top: 5vh;">
-            {{ style.text }} <sui-button @click="addFavoriteStyle(style)" v-if="favoriteStyles.filter(favorite => favorite.value == style.value).length == 0" type="button" circular icon="plus"/><sui-button @click="removeFavoriteStyle(style)" v-else type="button" circular icon="minus"/>
+          <div v-for="(style, i) in stylesData" :key="i" style="text-align: left; margin-top: 5vh;">
+            <span style="font-size: 1.8rem; font-weight: 400; margin-top: 5vh;">{{ style.text }}</span>
+            <span style="text-align: right; float: right;">
+            <sui-button @click="addFavoriteStyle(style)" v-if="favoriteStyles.filter(favorite => favorite.value == style.value).length == 0" type="button" basic primary>Add Favorite</sui-button>
+            <sui-button @click="removeFavoriteStyle(style)" v-else type="button" basic negative>Remove Favorite</sui-button>
+            </span>
             <sui-divider/>
           </div>
         </div>
@@ -41,13 +42,10 @@
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import debounce from 'lodash/debounce';
-import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 
 @Component({
   props: ['projectOption'],
-  components: {
-    MoonLoader
-  },
+  components: {},
   data() {
     return {
       //styles.json file is based on styles from https://citationstyles.org/

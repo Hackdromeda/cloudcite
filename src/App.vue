@@ -132,6 +132,13 @@ html {
   overflow-y: auto; // override Vue default
 }
 
+@supports (-webkit-overflow-scrolling: touch) {
+  html {
+    overflow-y: scroll !important; /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

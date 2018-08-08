@@ -34,7 +34,7 @@
     </nav>
     <router-view :auth="auth" :authenticated="authenticated"/>
     <div id="scrollToTopDiv">
-      <a @click="scrollToTop()"><sui-icon size="large" name="arrow up icon"/></a>
+      <sui-button @click="scrollToTop()" type="button" style="background-color: #005eea; color: #fff;" circular icon="arrow up"/>
     </div>
     </div>
     <footer class="footer" style="background-color: #eee; padding: 5vh;">

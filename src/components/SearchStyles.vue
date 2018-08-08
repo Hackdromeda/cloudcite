@@ -17,6 +17,11 @@
         </div>
         </sui-modal-description>
       </sui-modal-content>
+      <sui-modal-actions>
+        <sui-button type="button" primary @click="showMoreStyles = false">
+          Finished Adding Styles
+        </sui-button>
+      </sui-modal-actions>
     </sui-modal>
     <sui-form>
       <sui-form-field>

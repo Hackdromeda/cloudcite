@@ -166,5 +166,10 @@ export default new Router({
         title: 'CloudCite · Cite a Film'
       }
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    //@ts-ignore
+    document.getElementById('app').scrollIntoView();
+    return { x: 0, y: 0 }
+  }
 })

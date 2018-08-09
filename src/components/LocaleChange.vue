@@ -1,6 +1,6 @@
 <template>
   <div id="localeChange">
-    <sui-dropdown button class="icon" floating icon="world" labeled :options="languages" search :text="languages.filter(language => language.value == project.locale)[0].text" v-model="selectedLocale"/>
+    <sui-dropdown button class="icon" floating icon="world" labeled :options="filteredLocales" search :text="languages.filter(language => language.value == project.locale)[0].text" v-model="selectedLocale"/>
   </div>
 </template>
 <script lang="ts">
@@ -12,11 +12,11 @@ import { Component, Vue } from 'vue-property-decorator';
   components: {},
   data() {
     return {
+      styles: require('./styles.json'),
       //locales.json file is based on locales from https://citationstyles.org/
       //@ts-ignore
       languages: require('./locales.json'),
-      selectedLocale: null,
-      languageForced: false
+      selectedLocale: null
     }
   },
   computed: {
@@ -26,6 +26,12 @@ import { Component, Vue } from 'vue-property-decorator';
       },
       set() {
 
+      }
+    },
+    filteredLocales: {
+      get() {
+        //@ts-ignore
+        return ((this.$data.styles.filter(style => style.value == this.project.style)[0].loc) ? (this.$data.styles.filter(style => style.value == this.project.style)[0].loc): this.$data.languages)
       }
     }
   },

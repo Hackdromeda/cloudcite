@@ -37,7 +37,7 @@
                 <a v-if="dataPosition.page < dataPosition.total_pages" @click="updatePage(dataPosition.page + 1)" class="pagination-next">Next page</a>
                 <ul class="pagination-list">
                     <li v-if="dataPosition.page > 1"><a @click="updatePage(1)" class="pagination-link" aria-label="Goto page 1">1</a></li>
-                    <li v-if="dataPosition.total_pages - dataPosition.page > 2"><span class="pagination-ellipsis">&hellip;</span></li>
+                    <li v-if="dataPosition.total_pages - dataPosition.page > 1 || (Math.abs(dataPosition.total_pages - dataPosition.page) <= 1 && dataPosition.page > 3)"><span class="pagination-ellipsis">&hellip;</span></li>
                     <li v-if="dataPosition.page > 2"><a @click="updatePage(dataPosition.page - 1)" class="pagination-link" aria-label="Goto page">{{ dataPosition.page - 1 }}</a></li>
                     <li><a class="pagination-link is-current" aria-label="Page" aria-current="page">{{ dataPosition.page }}</a></li>
                     <li v-if="dataPosition.page + 1 <= dataPosition.total_pages"><a @click="updatePage(dataPosition.page + 1)" class="pagination-link" aria-label="Goto page">{{ dataPosition.page + 1 }}</a></li>
@@ -76,7 +76,8 @@ import * as  _ from 'lodash/core';
         dataPosition: null,
         selectedFilm: '',
         isFetching: false,
-        filmPage: 1
+        filmPage: 1,
+        empty: false
       }
   },
   methods: {

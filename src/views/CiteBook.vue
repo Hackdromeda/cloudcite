@@ -19,38 +19,25 @@
             <div v-if="isFetching">
                 <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
             </div>
-            
-            <sui-grid :columns="3">
-                <sui-grid-row>
-                    <sui-grid-column :mobile="2" :tablet="2" :computer="5"/>
-                    <sui-grid-column :mobile="12" :tablet="12" :computer="6">
-                    <sui-item-group style="text-align: left; padding: 5vh;" divided v-for="(book, i) in bookData" :key="i">
-                        <sui-item>
-                            <sui-item-content>
-                                <sui-item-header v-if="book.volumeInfo.title" v-cloak>{{ book.volumeInfo.title }}</sui-item-header>
-                                <sui-item-meta>
-                                <span v-if="book.volumeInfo.publishedDate" v-cloak>{{ book.volumeInfo.publishedDate }}</span>
-                                </sui-item-meta>
-                                <sui-item-description v-if="book.volumeInfo.description" v-cloak>
+
+            <div class="cardGroup" style="margin-left: 5%; margin-right: 5%; margin-top: 15px; margin-bottom: 15px; word-break: break-all;">
+                <sui-card-group :items-per-row="numOfRows">
+                    <sui-card v-for="(book, i) in bookData" :key="i" class="centered" @click="citeBook(book)">
+                        <sui-image v-if="book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail" :src="book.volumeInfo.imageLinks.thumbnail" />
+                        <sui-image v-if="!book.volumeInfo.imageLinks || !book.volumeInfo.imageLinks.thumbnail" src="/static/images/poster-placeholder-min.png" />
+                        <sui-card-content>
+                            <sui-card-header>{{ book.volumeInfo.title }}</sui-card-header>
                                 <div style="display: inline-flex;" v-for="(author, a) in book.volumeInfo.authors" :key="a">
                                     <span v-if="book.volumeInfo.authors.length > 1 && a < (book.volumeInfo.authors.length - 1)" v-cloak><b style="margin-right: 5px;">{{author + ","}}</b></span>
                                     <span v-else v-cloak>
                                         <b>{{author}}</b>
                                     </span>
                                 </div>
-                                <br>
-                                <p>
-                                    {{ book.volumeInfo.description }}
-                                </p>
-                                </sui-item-description>
-                                <sui-button style="margin-top: 1vh;" @click="citeBook(book)" type="button"><sui-icon name="pencil alternatice" />Cite Book</sui-button>
-                            </sui-item-content>
-                        </sui-item>
-                    </sui-item-group>
-                    </sui-grid-column>
-                    <sui-grid-column :mobile="2" :tablet="2" :computer="5"/>
-                </sui-grid-row>
-            </sui-grid>
+                        </sui-card-content>
+                    </sui-card>
+                </sui-card-group>
+                <h4 style="font-weight: normal;" v-if="bookData.length == 0 && bookIdentificationField != null &&  bookIdentificationField.length > 0 && !isFetching && empty">There were no books matching your query <b>{{ bookIdentificationField }}.</b></h4>
+            </div>
     </div>
 </template>
 
@@ -76,6 +63,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
         bookData: [],
         selectedBook: null,
         bookIdentificationSelected: 'Title',
+        empty: false,
         bookIdentification: [
             {
                 "key": "Title",
@@ -141,7 +129,18 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
             //@ts-ignore
         }).then(data => {
                 //@ts-ignore
-                data.items.forEach((item) => this.bookData.push(item))
+                if(data.items != null){
+                    //@ts-ignore
+                    data.items.forEach((item) => this.bookData.push(item))
+                }
+                if(data.items != null && data.items.length > 0){
+                    //@ts-ignore
+                    this.empty = false;
+                }
+                else{
+                    //@ts-ignore
+                    this.empty = true;
+                }
                 //@ts-ignore
                 this.isFetching = false
             })
@@ -209,6 +208,17 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
         this.$store.dispatch('setEditingProject', this.$data.bookCitationData)
         this.$router.push({path: '/edit/book/'})
     }
+  },
+    computed: {
+      numOfRows: function () {
+          //@ts-ignore
+          if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
+              return 8;
+          }
+          else{
+              return 4;
+          }
+      }
   }
 })
 

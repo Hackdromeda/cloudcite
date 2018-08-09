@@ -1,17 +1,7 @@
 <template>
-  <div><!--
-    <sui-dropdown
-      button
-      class="icon"
-      floating
-      icon="world"
-      labeled
-      :options="languages"
-      search
-      text="Select Language"
-      v-model="current"
-    />-->
-    </div>
+  <div id="localeChange">
+    <sui-dropdown button class="icon" floating icon="world" labeled :options="languages" search :text="languages.filter(language => language.value == project.locale)[0].text" v-model="selectedLocale"/>
+  </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
@@ -25,21 +15,8 @@ import { Component, Vue } from 'vue-property-decorator';
       //locales.json file is based on locales from https://citationstyles.org/
       //@ts-ignore
       languages: require('./locales.json'),
-      selectedLanguage: null,
-      languageForced: false,
-      loading: false
-    }
-  },
-  methods: {
-    selectStyle(option: string) {
-      console.log(option)
-    },
-    searchStyles(query) {
-      this.$data.loading = true
-      this.$data.languagesData = []
-      //@ts-ignore
-      this.$data.languagesData = this.$data.languages.filter(language => language.text.toLowerCase().includes(query.toLowerCase()) || language.key.toLowerCase().includes(query.toLowerCase()) || language.value.includes(query.toLowerCase()))
-      this.$data.loading = false
+      selectedLocale: null,
+      languageForced: false
     }
   },
   computed: {
@@ -47,33 +24,25 @@ import { Component, Vue } from 'vue-property-decorator';
       get() {
         return this.$props.projectOption
       },
-      set(value: any) {
-      }
-    },
-    getProjectLanguage: {
-      get() {
-        //@ts-ignore
-        return this.$data.languages.filter(language => language.key === this.project.language)[0].text
+      set() {
+
       }
     }
   },
   watch: {
     //@ts-ignore
-    selectedStyle() {
+    selectedLocale() {
       this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
       //@ts-ignore
-      if (!this.project.creatingProject) {
-        //@ts-ignore
-        this.$store.dispatch('setProjectLanguage', {id: this.project.id, style: this.$data.selectedLanguage.key})
-      } else {
-        //@ts-ignore
-        this.project.style = this.$data.selectedLanguage.key
-      }
+      this.project.locale = this.$data.selectedLocale
     }
   }
 })
-export default class SearchStyles extends Vue {}
+export default class LocaleChange extends Vue {}
 </script>
 
 <style scoped lang="scss">
+  #localeChange {
+    padding: 1vh;
+  }
 </style>

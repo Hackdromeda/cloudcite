@@ -76,8 +76,12 @@ export default new Vuex.Store({
     setStyle(state: any, payload: string) {
       //state.projects[state.selectedProject].style = payload
     },
-    setLocale(state: any, payload: string) {
-      state.projects[state.selectedProject].locale = payload
+    setProjectLocale(state: any, payload: any) {
+      for (let i=0; i < state.projects.length; i++) {
+        if (state.projects[i].id == payload.id && payload.locale != '' && payload.locale != null) {
+          state.projects[i].locale = payload.locale
+        }
+      }
     },
     selectProject(state: any, payload: number) {
       state.selectedProject = payload
@@ -167,8 +171,8 @@ export default new Vuex.Store({
       context.commit('setStyle', payload)
       context.commit('saveState')
     },
-    setLocale(context: any, payload: string) {
-      context.commit('setLocale', payload)
+    setProjectLocale(context: any, payload: any) {
+      context.commit('setProjectLocale', payload)
       context.commit('saveState')
     },
     selectProject(context: any, payload: number) {

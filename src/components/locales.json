@@ -1,209 +1,209 @@
 [{
-    "key": "locales-af-ZA",
+    "value": "locales-af-ZA",
     "text": "Afrikaans",
-    "value": "Afrikaans"
+    "key": "Afrikaans"
 }, {
-    "key": "locales-ar",
+    "value": "locales-ar",
     "text": "Arabic",
-    "value": "العربية"
+    "key": "العربية"
 }, {
-    "key": "locales-bg-BG",
+    "value": "locales-bg-BG",
     "text": "Bulgarian",
-    "value": "Български"
+    "key": "Български"
 }, {
-    "key": "locales-ca-AD",
+    "value": "locales-ca-AD",
     "text": "Catalan",
-    "value": "Català"
+    "key": "Català"
 }, {
-    "key": "locales-cs-CZ",
+    "value": "locales-cs-CZ",
     "text": "Czech",
-    "value": "Čeština"
+    "key": "Čeština"
 }, {
-    "key": "locales-cy-GB",
+    "value": "locales-cy-GB",
     "text": "Welsh",
-    "value": "Cymraeg"
+    "key": "Cymraeg"
 }, {
-    "key": "locales-da-DK",
+    "value": "locales-da-DK",
     "text": "Danish",
-    "value": "Dansk"
+    "key": "Dansk"
 }, {
-    "key": "locales-de-AT",
+    "value": "locales-de-AT",
     "text": "German (Austria)",
-    "value": "Deutsch (Österreich)"
+    "key": "Deutsch (Österreich)"
 }, {
-    "key": "locales-de-CH",
+    "value": "locales-de-CH",
     "text": "German (Switzerland)",
-    "value": "Deutsch (Schweiz)"
+    "key": "Deutsch (Schweiz)"
 }, {
-    "key": "locales-de-DE",
+    "value": "locales-de-DE",
     "text": "German (Germany)",
-    "value": "Deutsch (Deutschland)"
+    "key": "Deutsch (Deutschland)"
 }, {
-    "key": "locales-el-GR",
+    "value": "locales-el-GR",
     "text": "Greek",
-    "value": "Ελληνικά"
+    "key": "Ελληνικά"
 }, {
-    "key": "locales-en-GB",
+    "value": "locales-en-GB",
     "text": "English (UK)",
-    "value": "English (UK)"
+    "key": "English (UK)"
 }, {
-    "key": "locales-en-US",
+    "value": "locales-en-US",
     "text": "English (US)",
-    "value": "English (US)"
+    "key": "English (US)"
 }, {
-    "key": "locales-es-CL",
+    "value": "locales-es-CL",
     "text": "Spanish (Chile)",
-    "value": "Español (Chile)"
+    "key": "Español (Chile)"
 }, {
-    "key": "locales-es-ES",
+    "value": "locales-es-ES",
     "text": "Spanish (Spain)",
-    "value": "Español (España)"
+    "key": "Español (España)"
 }, {
-    "key": "locales-es-MX",
+    "value": "locales-es-MX",
     "text": "Spanish (Mexico)",
-    "value": "Español (México)"
+    "key": "Español (México)"
 }, {
-    "key": "locales-et-EE",
+    "value": "locales-et-EE",
     "text": "Estonian",
-    "value": "Eesti"
+    "key": "Eesti"
 }, {
-    "key": "locales-eu",
+    "value": "locales-eu",
     "text": "Basque",
-    "value": "Euskara"
+    "key": "Euskara"
 }, {
-    "key": "locales-fa-IR",
+    "value": "locales-fa-IR",
     "text": "Persian",
-    "value": "فارسی"
+    "key": "فارسی"
 }, {
-    "key": "locales-fi-FI",
+    "value": "locales-fi-FI",
     "text": "Finnish",
-    "value": "Suomi"
+    "key": "Suomi"
 }, {
-    "key": "locales-fr-CA",
+    "value": "locales-fr-CA",
     "text": "French (Canada)",
-    "value": "Français (Canada)"
+    "key": "Français (Canada)"
 }, {
-    "key": "locales-fr-FR",
+    "value": "locales-fr-FR",
     "text": "French (France)",
-    "value": "Français (France)"
+    "key": "Français (France)"
 }, {
-    "key": "locales-he-IL",
+    "value": "locales-he-IL",
     "text": "Hebrew",
-    "value": "עברית"
+    "key": "עברית"
 }, {
-    "key": "locales-hr-HR",
+    "value": "locales-hr-HR",
     "text": "Croatian",
-    "value": "Hrvatski"
+    "key": "Hrvatski"
 }, {
-    "key": "locales-hu-HU",
+    "value": "locales-hu-HU",
     "text": "Hungarian",
-    "value": "Magyar"
+    "key": "Magyar"
 }, {
-    "key": "locales-id-ID",
+    "value": "locales-id-ID",
     "text": "Indonesian",
-    "value": "Bahasa Indonesia"
+    "key": "Bahasa Indonesia"
 }, {
-    "key": "locales-is-IS",
+    "value": "locales-is-IS",
     "text": "Icelandic",
-    "value": "Íslenska"
+    "key": "Íslenska"
 }, {
-    "key": "locales-it-IT",
+    "value": "locales-it-IT",
     "text": "Italian",
-    "value": "Italiano"
+    "key": "Italiano"
 }, {
-    "key": "locales-ja-JP",
+    "value": "locales-ja-JP",
     "text": "Japanese",
-    "value": "日本語"
+    "key": "日本語"
 }, {
-    "key": "locales-km-KH",
+    "value": "locales-km-KH",
     "text": "Khmer",
-    "value": "ភាសាខ្មែរ"
+    "key": "ភាសាខ្មែរ"
 }, {
-    "key": "locales-ko-KR",
+    "value": "locales-ko-KR",
     "text": "Korean",
-    "value": "한국어"
+    "key": "한국어"
 }, {
-    "key": "locales-lt-LT",
+    "value": "locales-lt-LT",
     "text": "Lithuanian",
-    "value": "Lietuvių"
+    "key": "Lietuvių"
 }, {
-    "key": "locales-lv-LV",
+    "value": "locales-lv-LV",
     "text": "Latvian",
-    "value": "Latviešu"
+    "key": "Latviešu"
 }, {
-    "key": "locales-mn-MN",
+    "value": "locales-mn-MN",
     "text": "Mongolian",
-    "value": "Монгол"
+    "key": "Монгол"
 }, {
-    "key": "locales-nb-NO",
+    "value": "locales-nb-NO",
     "text": "Norwegian (Bokmål)",
-    "value": "Norsk bokmål"
+    "key": "Norsk bokmål"
 }, {
-    "key": "locales-nl-NL",
+    "value": "locales-nl-NL",
     "text": "Dutch",
-    "value": "Nederlands"
+    "key": "Nederlands"
 }, {
-    "key": "locales-nn-NO",
+    "value": "locales-nn-NO",
     "text": "Norwegian (Nynorsk)",
-    "value": "Norsk nynorsk"
+    "key": "Norsk nynorsk"
 }, {
-    "key": "locales-pl-PL",
+    "value": "locales-pl-PL",
     "text": "Polish",
-    "value": "Polski"
+    "key": "Polski"
 }, {
-    "key": "locales-pt-BR",
+    "value": "locales-pt-BR",
     "text": "Portuguese (Brazil)",
-    "value": "Português (Brasil)"
+    "key": "Português (Brasil)"
 }, {
-    "key": "locales-pt-PT",
+    "value": "locales-pt-PT",
     "text": "Portuguese (Portugal)",
-    "value": "Português (Portugal)"
+    "key": "Português (Portugal)"
 }, {
-    "key": "locales-ro-RO",
+    "value": "locales-ro-RO",
     "text": "Romanian",
-    "value": "Română"
+    "key": "Română"
 }, {
-    "key": "locales-ru-RU",
+    "value": "locales-ru-RU",
     "text": "Russian",
-    "value": "Русский"
+    "key": "Русский"
 }, {
-    "key": "locales-sk-SK",
+    "value": "locales-sk-SK",
     "text": "Slovak",
-    "value": "Slovenčina"
+    "key": "Slovenčina"
 }, {
-    "key": "locales-sl-SI",
+    "value": "locales-sl-SI",
     "text": "Slovenian",
-    "value": "Slovenščina"
+    "key": "Slovenščina"
 }, {
-    "key": "locales-sr-RS",
+    "value": "locales-sr-RS",
     "text": "Serbian",
-    "value": "Српски / Srpski"
+    "key": "Српски / Srpski"
 }, {
-    "key": "locales-sv-SE",
+    "value": "locales-sv-SE",
     "text": "Swedish",
-    "value": "Svenska"
+    "key": "Svenska"
 }, {
-    "key": "locales-th-TH",
+    "value": "locales-th-TH",
     "text": "Thai",
-    "value": "ไทย"
+    "key": "ไทย"
 }, {
-    "key": "locales-tr-TR",
+    "value": "locales-tr-TR",
     "text": "Turkish",
-    "value": "Türkçe"
+    "key": "Türkçe"
 }, {
-    "key": "locales-uk-UA",
+    "value": "locales-uk-UA",
     "text": "Ukrainian",
-    "value": "Українська"
+    "key": "Українська"
 }, {
-    "key": "locales-vi-VN",
+    "value": "locales-vi-VN",
     "text": "Vietnamese",
-    "value": "Tiếng Việt"
+    "key": "Tiếng Việt"
 }, {
-    "key": "locales-zh-CN",
+    "value": "locales-zh-CN",
     "text": "Chinese (PRC)",
-    "value": "中文 (中国大陆)"
+    "key": "中文 (中国大陆)"
 }, {
-    "key": "locales-zh-TW",
+    "value": "locales-zh-TW",
     "text": "Chinese (Taiwan)",
-    "value": "中文 (台灣)"
+    "key": "中文 (台灣)"
 }]

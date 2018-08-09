@@ -59,9 +59,6 @@ import debounce from 'lodash/debounce';
     }
   },
   methods: {
-    selectStyle(option: string) {
-      console.log(option)
-    },
     searchStyles(query) {
       this.$data.loading = true
       this.$data.stylesData = []

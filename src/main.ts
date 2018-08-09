@@ -9,6 +9,7 @@ import VueScript from 'vue-script2'
 import Ads from 'vue-google-adsense'
 //@ts-ignore
 import SuiVue from 'semantic-ui-vue';
+
 Vue.use(VueScript)
 Vue.use(Ads.Adsense)
 Vue.use(Ads.InArticleAdsense)

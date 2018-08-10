@@ -2,7 +2,7 @@
   <div id="bibliographyPreview">
     <sui-segment>
     <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
-      <div v-for="(cslEntry, i) in filteredHTML" :key="i">
+      <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
         <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
           <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
             <div id="citationOptions">
@@ -35,7 +35,7 @@ import _ from 'lodash';
   created() {
     //@ts-ignore
     if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && !this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.outdated) {
-      this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
+      this.$data.cslHTML = _.uniqBy(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html, 'id')
       this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.format
     }
     else {
@@ -98,10 +98,10 @@ import _ from 'lodash';
                 html += '</div>'
               }
               html += '</div>'
-              //@ts-ignore
-              this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: _.uniqBy(this.$data.cslHTML, 'id'), format: this.$data.cslFormat, richText: html}))
             }
           }
+          //@ts-ignore
+          this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: _.uniqBy(this.$data.cslHTML, 'id'), format: this.$data.cslFormat, richText: html}))
         }
       })
       //@ts-ignore
@@ -149,11 +149,6 @@ import _ from 'lodash';
       get() {
         return this.$store.state.projects[this.$store.state.selectedProject].locale
       }
-    },
-    filteredHTML: {
-      get() {
-        return _.uniqBy(this.$data.cslHTML, 'id')
-      }
     }
   },
   methods: {
@@ -176,9 +171,9 @@ import _ from 'lodash';
     },
     copyCitation(id: string) {
       //@ts-ignore
-        if (this.filteredHTML.filter(entry => entry.id == id)[0] && this.filteredHTML.filter(entry => entry.id == id)[0].html) {
+        if (this.$data.cslHTML.filter(entry => entry.id == id)[0] && this.$data.cslHTML.filter(entry => entry.id == id)[0].html) {
           //@ts-ignore
-          var cslHTML = this.filteredHTML.filter(entry => entry.id == id)[0].html
+          var cslHTML = this.$data.cslHTML.filter(entry => entry.id == id)[0].html
           //@ts-ignore
           var html = '<div class="csl-bib-body" style="'
           //@ts-ignore
@@ -307,10 +302,10 @@ import _ from 'lodash';
                 html += '</div>'
               }
               html += '</div>'
-              //@ts-ignore
-              this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: html}))
             }
           }
+          //@ts-ignore
+          this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: html}))
         }
       })
       //@ts-ignore
@@ -342,6 +337,7 @@ import _ from 'lodash';
       .then(data => {
         if (data[0] && data[1].length > 0) {
           this.$data.cslFormat = data[0]
+          console.log(data[1])
           for (let i=0; i < data[1].length; i++) {
             var cslHTML = data[1][i]
             var cslIndentIndex = (data[1] && data[1][i]) ? data[1][i].indexOf('class="csl-indent"'): -1
@@ -365,7 +361,6 @@ import _ from 'lodash';
               cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
             }
             this.$data.cslHTML.push({id: this.$data.cslFormat.entry_ids[i][0], html: cslHTML})
-
             if (this.$data.cslFormat && this.$data.cslHTML.length > 0) {
               //@ts-ignore
               var html = '<div class="csl-bib-body" style="'
@@ -381,10 +376,12 @@ import _ from 'lodash';
                 html += '</div>'
               }
               html += '</div>'
-              //@ts-ignore
-              this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: html}))
+              console.log('LOCALE HTML')
+              console.log(html)
             }
           }
+          //@ts-ignore
+          this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: html}))
         }
       })
       //@ts-ignore

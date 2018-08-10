@@ -51,6 +51,7 @@ import debounce from 'lodash/debounce';
       //styles.json file is based on styles from https://citationstyles.org/
       //@ts-ignore
       styles: require('./styles.json'),
+      locales: require('./locales.json'),
       selectedStyle: null,
       searchInput: null,
       stylesData: [],
@@ -93,6 +94,12 @@ import debounce from 'lodash/debounce';
     favoriteStyles: {
       get() {
         return this.$store.getters.getFavoriteStyles
+      }
+    },
+    filteredStyles: {
+      get() {
+        //@ts-ignore
+        return this.$data.styles.filter(style => style.loc ? style.loc.filter(locale => locale == this.project.locale): style)
       }
     }
   },

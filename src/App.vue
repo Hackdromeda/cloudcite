@@ -17,11 +17,11 @@
             <div class="navbar-start">
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/projects/'})">Projects</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/about/'})">About</a>
-              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/api/'})">API</a>
+              <a href="https://api.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">API</a>
               <a href="https://cloudcite.net/blog/" target="_blank" class="navbar-item" @click="navIsActive = false;">Blog</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/pricing/'})">Pricing</a>
-              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/status/'})">Status</a>
-              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/support/'})">Help</a>
+              <a href="https://status.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Status</a>
+              <a href="https://help.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Help</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/contribute/'})">Contribute</a>
             </div>
             <div class="navbar-end">

@@ -2,7 +2,7 @@
   <div id="bibliographyPreview">
     <sui-segment>
     <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
-      <div v-for="(cslEntry, i) in cslHTML" :key="i">
+      <div v-for="(cslEntry, i) in filteredHTML" :key="i">
         <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
           <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
             <div id="citationOptions">
@@ -27,6 +27,8 @@ import WebsiteCitation from '../WebsiteCitation';
 import generateCSL from '../generateCSL';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
+//@ts-ignore
+import _ from 'lodash';
 
 @Component({
   components: {},
@@ -50,7 +52,7 @@ import clipboard from "clipboard-polyfill";
           },
           method: 'POST',
           //@ts-ignore
-          body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData},
+          body: _.pickBy({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')}),
           json: true
           //@ts-ignore
       })
@@ -81,7 +83,6 @@ import clipboard from "clipboard-polyfill";
               cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
             }
             this.$data.cslHTML.push({id: this.$data.cslFormat.entry_ids[i][0], html: cslHTML})
-
             if (this.$data.cslFormat && this.$data.cslHTML.length > 0) {
               //@ts-ignore
               var html = '<div class="csl-bib-body" style="'
@@ -98,7 +99,7 @@ import clipboard from "clipboard-polyfill";
               }
               html += '</div>'
               //@ts-ignore
-              this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: html}))
+              this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: _.uniqBy(this.$data.cslHTML, 'id'), format: this.$data.cslFormat, richText: html}))
             }
           }
         }
@@ -113,7 +114,8 @@ import clipboard from "clipboard-polyfill";
     return {
       cslHTML: [],
       cslFormat: null,
-      showPreview: true
+      showPreview: true,
+      styles: require('./styles.json')
     }
   },
   updated() {
@@ -132,8 +134,9 @@ import clipboard from "clipboard-polyfill";
         html += '</div>'
       }
       html += '</div>'
+      console.log(this.$data.cslHTML)
       //@ts-ignore
-      this.$store.dispatch('cacheBibliography', {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
+      this.$store.dispatch('cacheBibliography', {outdated: false, html: _.uniqBy(this.$data.cslHTML, 'id'), format: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
     }
   },
   computed: {
@@ -145,6 +148,11 @@ import clipboard from "clipboard-polyfill";
     locale: {
       get() {
         return this.$store.state.projects[this.$store.state.selectedProject].locale
+      }
+    },
+    filteredHTML: {
+      get() {
+        return _.uniqBy(this.$data.cslHTML, 'id')
       }
     }
   },
@@ -168,9 +176,9 @@ import clipboard from "clipboard-polyfill";
     },
     copyCitation(id: string) {
       //@ts-ignore
-        if (this.$data.cslHTML.filter(entry => entry.id == id)[0] && this.$data.cslHTML.filter(entry => entry.id == id)[0].html) {
+        if (this.filteredHTML.filter(entry => entry.id == id)[0] && this.filteredHTML.filter(entry => entry.id == id)[0].html) {
           //@ts-ignore
-          var cslHTML = this.$data.cslHTML.filter(entry => entry.id == id)[0].html
+          var cslHTML = this.filteredHTML.filter(entry => entry.id == id)[0].html
           //@ts-ignore
           var html = '<div class="csl-bib-body" style="'
           //@ts-ignore
@@ -252,7 +260,7 @@ import clipboard from "clipboard-polyfill";
           },
           method: 'POST',
           //@ts-ignore
-          body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData},
+          body: _.pickBy({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')}),
           json: true
           //@ts-ignore
       })
@@ -326,7 +334,7 @@ import clipboard from "clipboard-polyfill";
           },
           method: 'POST',
           //@ts-ignore
-          body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData},
+          body: _.pickBy({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')}),
           json: true
           //@ts-ignore
       })

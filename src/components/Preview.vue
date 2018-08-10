@@ -29,6 +29,8 @@ import WebsiteCitation from '../WebsiteCitation';
 import generateCSL from '../generateCSL';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
+//@ts-ignore
+import _ from 'lodash';
 
 @Component({
   props: ['cslObject', 'deleteOption', 'copyOption', 'editOption', 'typing', 'bibliographyOption'],
@@ -64,7 +66,7 @@ import clipboard from "clipboard-polyfill";
         },
         method: 'POST',
         //@ts-ignore
-        body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData)},
+        body: _.pickBy({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')}),
         json: true
         //@ts-ignore
     })
@@ -107,7 +109,8 @@ import clipboard from "clipboard-polyfill";
     return {
       cslHTML: [],
       cslFormat: null,
-      refreshing: false
+      refreshing: false,
+      styles: require('./styles.json')
     }
   },
   computed: {
@@ -238,7 +241,7 @@ import clipboard from "clipboard-polyfill";
               },
               method: 'POST',
               //@ts-ignore
-              body: {style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData)},
+              body: _.pickBy({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')}),
               json: true
               //@ts-ignore
         }).then(data => {

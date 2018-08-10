@@ -107,7 +107,7 @@ import debounce from 'lodash/debounce';
         //@ts-ignore
         this.$store.dispatch('setProjectLocale', {id: this.project.id, locale: this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc[0]})
       }
-      this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
+      this.$store.dispatch('cacheBibliography', {outdated: true})
     },
     typing: debounce(function () {
       //@ts-ignore

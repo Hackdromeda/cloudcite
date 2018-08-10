@@ -8,6 +8,7 @@
       <sui-grid-column :mobile="5" :tablet="2" :computer="4">
         <h2 style="color: #000; margin-top: 20px;">Overview</h2>
         <p style="font-size: 1.3rem;">{{ projects[selectedProject].citations.length }} <span v-if="projects[selectedProject].citations.length == 1">Citation</span><span v-else>Citations</span></p>
+        <LocaleChange :projectOption="$store.state.projects[$store.state.selectedProject]"/>
       </sui-grid-column>
       <sui-grid-column :mobile="10" :tablet="14" :computer="8">
         <Bibliography/>
@@ -21,10 +22,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Bibliography from './Bibliography.vue';
 import '@vaadin/vaadin-tabs/vaadin-tabs.js';
+import LocaleChange from './LocaleChange.vue';
 
 @Component({
   components: {
-    Bibliography
+    Bibliography,
+    LocaleChange
   },
   data() {
     return {

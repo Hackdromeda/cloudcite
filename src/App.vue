@@ -43,7 +43,6 @@
       </div>
       <div style="display: inline-flex;">
         <img width="150" height="50" src="/static/a0-badge-light.png" alt="CloudCite uses Auth0 Token Based Authentication for secure logins"/>
-        <LocaleChange :projectOption="$store.state.projects[$store.state.selectedProject]"/>
       </div>
     </footer>
   </div>
@@ -56,12 +55,9 @@ import AuthService from './Auth/AuthService';
 const auth = new AuthService()
 const { login, logout, authenticated, authNotifier } = auth
 import 'semantic-ui-css/semantic.min.css';
-import LocaleChange from './components/LocaleChange.vue';
 
 @Component({
-  components: {
-    LocaleChange
-  },
+  components: {},
   created () {
     this.$store.dispatch('setState')
   },

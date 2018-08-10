@@ -95,12 +95,6 @@ import debounce from 'lodash/debounce';
       get() {
         return this.$store.getters.getFavoriteStyles
       }
-    },
-    filteredStyles: {
-      get() {
-        //@ts-ignore
-        return this.$data.styles.filter(style => style.loc ? style.loc.filter(locale => locale == this.project.locale): style)
-      }
     }
   },
   watch: {

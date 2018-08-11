@@ -223,7 +223,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
               return 8;
           }
           else{
-              return 4;
+              return 2;
           }
       }
   }

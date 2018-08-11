@@ -3,17 +3,17 @@ import _ from 'lodash'
 //@ts-ignore
 import rp from 'request-promise-native';
 
-export default async function generateHTML(data: any) {
+export default async function generatePreviewHTML(data: any) {
     try {
         const response = await rp({
-                                uri: 'https://api.cloudcite.net/cite',
-                                headers: {
-                                    'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-                                },
-                                method: 'POST',
-                                body: _.pickBy({style: data.style, locale: data.locale, csl: data.csl, lang: data.lang}),
-                                json: true
-                            })
+            uri: 'https://api.cloudcite.net/cite',
+            headers: {
+                'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+            },
+            method: 'POST',
+            body: _.pickBy({style: data.style, locale: data.locale, csl: data.csl, lang: data.lang}),
+            json: true
+        })
         const format = response[0]
         var generatedHTML = response[1]
         var generatedHTMLStart = ""

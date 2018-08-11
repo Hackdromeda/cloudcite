@@ -51,7 +51,7 @@ import _ from 'lodash';
       } 
       else {
         this.$data.cslFormat = generatedHTML.format
-        this.$data.cslHTML.push(generatedHTML.html)
+        this.$data.cslHTML = generatedHTML.html
       }
       this.$data.refreshing = false
     }

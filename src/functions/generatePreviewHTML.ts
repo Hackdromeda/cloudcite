@@ -15,23 +15,22 @@ export default async function generateHTML(data: any) {
                                 json: true
                             })
         const format = response[0]
-        const html = response[1]
-        var generatedHTML = ""
+        var generatedHTML = response[1]
         var generatedHTMLStart = ""
         var generatedHTMLEnd = ""
-        var cslIndentIndex = html.indexOf('class="csl-indent"')
+        var cslIndentIndex = generatedHTML.indexOf('class="csl-indent"')
         if (cslIndentIndex != -1) {
             generatedHTMLStart = generatedHTML.substring(0, cslIndentIndex - 1)
             generatedHTMLEnd = generatedHTML.substring(cslIndentIndex, generatedHTML.length)
             generatedHTML = generatedHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + generatedHTMLEnd
         }
-        var cslRightInlineIndex = html.indexOf('class="csl-right-inline"')
+        var cslRightInlineIndex = generatedHTML.indexOf('class="csl-right-inline"')
         if (cslRightInlineIndex != -1) {
             generatedHTMLStart = generatedHTML.substring(0, cslRightInlineIndex - 1)
             generatedHTMLEnd = generatedHTML.substring(cslRightInlineIndex, generatedHTML.length)
             generatedHTML = generatedHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (format.secondFieldAlign ? format.maxOffset + format.rightPadding : '0') + 'em;" ' + generatedHTMLEnd
         }
-        var cslLeftMarginIndex = html.indexOf('class="csl-left-margin"')
+        var cslLeftMarginIndex = generatedHTML.indexOf('class="csl-left-margin"')
         if (cslLeftMarginIndex != -1) {
             generatedHTMLStart = generatedHTML.substring(0, cslLeftMarginIndex - 1)
             generatedHTMLEnd = generatedHTML.substring(cslLeftMarginIndex, generatedHTML.length)
@@ -40,7 +39,6 @@ export default async function generateHTML(data: any) {
         return {format: format, html: generatedHTML}
     }
     catch (error) {
-        console.log(error)
         return {error: error}
     }
 }

@@ -33,9 +33,6 @@
           </div>
     </nav>
     <router-view :auth="auth" :authenticated="authenticated"/>
-    <div id="scrollToTopDiv">
-      <sui-button @click="scrollToTop()" type="button" style="background-color: #005eea; color: #fff;" circular icon="arrow up"/>
-    </div>
     </div>
     <footer class="footer" style="background-color: #eee; padding: 5vh;">
       <div class="content" style="display: inline-flex; text-align: center;">
@@ -166,12 +163,6 @@ h1 {
 #appMain {
   min-height: 100vh;
   font-weight: 500;
-}
-
-#scrollToTopDiv {
-  position: fixed;
-  bottom: 5vh;
-  right: 5vh;
 }
 
 nav {

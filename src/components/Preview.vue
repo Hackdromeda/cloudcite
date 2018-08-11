@@ -24,7 +24,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import rp from 'request-promise-native';
 import WebsiteCitation from '../WebsiteCitation';
 import generateCSL from '../functions/generateCSL';
-import generatePreviewHTML from '../functions/generatePreviewHTML';
+import generateHTML from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore
@@ -46,13 +46,20 @@ import _ from 'lodash';
     }
     else {
       //@ts-ignore
-      const generatedHTML = await generatePreviewHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')})
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: []})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       } 
       else {
         this.$data.cslFormat = generatedHTML.format
-        this.$data.cslHTML = generatedHTML.html
+        var html = []
+        if (generatedHTML.html && generatedHTML.html.length > 0) {
+          for (let i=0; i < generatedHTML.html.length; i++) {
+            html.push(generatedHTML.html[i].html)
+          }
+        }
+        //@ts-ignore
+        this.$data.cslHTML = html
       }
     }
   },
@@ -166,16 +173,20 @@ import _ from 'lodash';
   watch: {
     async typingStatus() {
       //@ts-ignore
-      if (this.typingStatus == false) {
-        //@ts-ignore
-        const generatedHTML = await generatePreviewHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')})
-        if (generatedHTML.error) {
-          console.log(generatedHTML.error)
-        } 
-        else {
-          this.$data.cslFormat = generatedHTML.format
-          this.$data.cslHTML = generatedHTML.html
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: []})
+      if (generatedHTML.error) {
+        console.log(generatedHTML.error)
+      } 
+      else {
+        this.$data.cslFormat = generatedHTML.format
+        var html = []
+        if (generatedHTML.html && generatedHTML.html.length > 0) {
+          for (let i=0; i < generatedHTML.html.length; i++) {
+            html.push(generatedHTML.html[i].html)
+          }
         }
+        //@ts-ignore
+        this.$data.cslHTML = html
       }
     }
   }

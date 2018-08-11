@@ -25,7 +25,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import rp from 'request-promise-native';
 import WebsiteCitation from '../WebsiteCitation';
 import generateCSL from '../functions/generateCSL';
-import generateBibliographyHTML from '../functions/generateBibliographyHTML';
+import generateHTML from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore
@@ -47,7 +47,7 @@ import _ from 'lodash';
         cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
       }
       //@ts-ignore
-      const generatedHTML = await generateBibliographyHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       }
@@ -197,7 +197,7 @@ import _ from 'lodash';
         cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
       }
       //@ts-ignore
-      const generatedHTML = await generateBibliographyHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       }
@@ -218,7 +218,7 @@ import _ from 'lodash';
         cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
       }
       //@ts-ignore
-      const generatedHTML = await generateBibliographyHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       }

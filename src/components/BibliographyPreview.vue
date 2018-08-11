@@ -125,7 +125,7 @@ import _ from 'lodash';
           //@ts-ignore
           var html = '<div class="csl-bib-body" style="'
           //@ts-ignore
-          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + ';'): '') + ((this.$data.cslFormat.hangingindent) ? ('margin-left: ' + this.$data.cslFormat.hangingindent + 'em;text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '') + ''): '') + '">'
+          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + ';'): '') + ((this.$data.cslFormat.hangingindent) ? ('text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '') + ''): '') + '">'
           //@ts-ignore
           html += '<div style="clear: left;'
           //@ts-ignore

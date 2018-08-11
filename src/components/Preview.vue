@@ -3,13 +3,10 @@
     <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent: -' + cslFormat.hangingindent + 'em;'): ''" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry"/>
-        <div id="previewStatus" v-if="refreshing">
-          Refreshing
-        </div>
         <div id="previewStatus" v-if="typingStatus">
           Editing Citation
         </div>
-        <div id="citationOptions" v-if="!refreshing">
+        <div id="citationOptions">
           <span>
             <a v-if="clipboardButton" @click="copyCitation()"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
             <a v-if="editButton" @click="editCitation()"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>
@@ -36,12 +33,16 @@ import _ from 'lodash';
 @Component({
   props: ['cslObject', 'deleteOption', 'copyOption', 'editOption', 'typing', 'bibliographyOption'],
   components: {},
-  async mounted() {
-    this.$data.refreshing = true;
+  async created() {
     //@ts-ignore
-    if (true == false) {
-      
-      this.$data.refreshing = false
+    if (this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0] && this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache) {
+      //@ts-ignore
+      let cache = this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache
+      //@ts-ignore
+      this.$data.cslFormat = cache.format
+      //@ts-ignore
+      this.$data.cslHTML = cache.html
+      console.log('Preview was cached')
     }
     else {
       //@ts-ignore
@@ -53,14 +54,12 @@ import _ from 'lodash';
         this.$data.cslFormat = generatedHTML.format
         this.$data.cslHTML = generatedHTML.html
       }
-      this.$data.refreshing = false
     }
   },
   data () {
     return {
       cslHTML: [],
       cslFormat: null,
-      refreshing: false,
       styles: require('./styles.json')
     }
   },
@@ -181,52 +180,18 @@ import _ from 'lodash';
     }
   },
   watch: {
-    typingStatus() {
+    async typingStatus() {
       //@ts-ignore
       if (this.typingStatus == false) {
-        this.$data.refreshing = true;
-        rp({
-              uri: 'https://api.cloudcite.net/cite',
-              headers: {
-                  'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-              },
-              method: 'POST',
-              //@ts-ignore
-              body: _.pickBy({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')}),
-              json: true
-              //@ts-ignore
-        }).then(data => {
-          console.log(data)
-          this.$data.cslFormat = data[0]
-          var cslHTML = data[1]
-          var cslIndentIndex = data[1].indexOf('class="csl-indent"')
-          var cslHTMLStart = ""
-          var cslHTMLEnd = ""
-          if (cslIndentIndex != -1) {
-            cslHTMLStart = cslHTML.substring(0, cslIndentIndex - 1)
-            cslHTMLEnd = cslHTML.substring(cslIndentIndex, cslHTML.length)
-            cslHTML = cslHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + cslHTMLEnd
-          }
-          var cslRightInlineIndex = data[1].indexOf('class="csl-right-inline"')
-          if (cslRightInlineIndex != -1) {
-            cslHTMLStart = cslHTML.substring(0, cslRightInlineIndex - 1)
-            cslHTMLEnd = cslHTML.substring(cslRightInlineIndex, cslHTML.length)
-            cslHTML = cslHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (this.$data.cslFormat.secondFieldAlign ? this.$data.cslFormat.maxOffset + this.$data.cslFormat.rightPadding : '0') + 'em;" ' + cslHTMLEnd
-          }
-          var cslLeftMarginIndex = data[1].indexOf('class="csl-left-margin"')
-          if (cslLeftMarginIndex != -1) {
-            cslHTMLStart = cslHTML.substring(0, cslLeftMarginIndex - 1)
-            cslHTMLEnd = cslHTML.substring(cslLeftMarginIndex, cslHTML.length)
-            cslHTML = cslHTMLStart + ' style="' + 'float: left; padding-right: ' + this.$data.cslFormat.rightpadding + 'em;' + (this.$data.cslFormat.secondFieldAlign ? 'text-align: right; width: ' + this.$data.cslFormat.maxoffset + 'em;': '') + '" ' + cslHTMLEnd
-          }
-          this.$data.cslHTML = cslHTML
-          this.$data.refreshing = false
-        })
         //@ts-ignore
-        .catch((error) => {
-          console.log(error)
-          this.$data.refreshing = false
-        })
+        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')})
+        if (generatedHTML.error) {
+          console.log(generatedHTML.error)
+        } 
+        else {
+          this.$data.cslFormat = generatedHTML.format
+          this.$data.cslHTML = generatedHTML.html
+        }
       }
     }
   }

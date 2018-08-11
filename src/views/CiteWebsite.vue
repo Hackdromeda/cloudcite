@@ -88,7 +88,7 @@ import * as  _ from 'lodash/core';
                 contributors.push({given: "", middle: "", family: "", type: "Author"})
             }
             //@ts-ignore
-            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.title ? data.title: "", this.websiteCitationData.url ? this.formatURL(this.websiteCitationData.url): "", data.publisher ? data.publisher: "", {month: "", day: "", year: ""}, {month: data.issued && data.issued.month ? parseInt(data.issued.month): "", day: data.issued && data.issued.day ? parseInt(data.issued.day): "", year: data.issued && data.issued.year ? parseInt(data.issued.year): ""}, ('Website/' + this.$store.getters.getCitations.filter(c => c.id.includes('Website')).length))
+            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.container-title ? data.container-title: "", this.websiteCitationData.url ? this.formatURL(this.websiteCitationData.url): "", data.publisher ? data.publisher: "", {month: "", day: "", year: ""}, {month: data.issued && data.issued.month ? parseInt(data.issued.month): "", day: data.issued && data.issued.day ? parseInt(data.issued.day): "", year: data.issued && data.issued.year ? parseInt(data.issued.year): ""}, ('Website/' + this.$store.getters.getCitations.filter(c => c.id.includes('Website')).length))
             this.$data.loadingCitation = false
             //@ts-ignore
             this.$store.dispatch('setEditingProject', this.$data.websiteCitationData)

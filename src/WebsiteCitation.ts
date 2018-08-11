@@ -4,7 +4,7 @@ import * as  _ from 'lodash/core';
 export default class WebsiteCitation {
     contributors: any[]
     source: string
-    title: string
+    title: string //container-title
     url: string
     publisher: string
     accessed: any
@@ -33,21 +33,21 @@ export default class WebsiteCitation {
         return {
             [this.id]: {
                 "accessed":{
-                    "month": (this.accessed.month && this.accessed.month >= 1 && this.accessed.month <= 12) ? this.accessed.month: "",
-                    "year": this.accessed.year ? this.accessed.year: "",
-                    "day": this.accessed.day ? this.accessed.day: ""
+                    "month": (this.accessed.month && this.accessed.month >= 1 && this.accessed.month <= 12) ? this.accessed.month: null,
+                    "year": this.accessed.year ? this.accessed.year: null,
+                    "day": this.accessed.day ? this.accessed.day: null
                 },
                 "issued":{
-                    "month": (this.issued.month && this.issued.month >= 1 && this.issued.month <= 12) ? this.issued.month: "",
-                    "year": this.issued.year ? this.issued.year: "",
-                    "day": this.issued.day ? this.issued.day: ""
+                    "month": (this.issued.month && this.issued.month >= 1 && this.issued.month <= 12) ? this.issued.month: null,
+                    "year": this.issued.year ? this.issued.year: null,
+                    "day": this.issued.day ? this.issued.day: null
                 },
                 "type":"website",
                 "id": this.id,
                 "author": this.contributors.filter(c => c.type === "Author"),
                 "editor": this.contributors.filter(c => c.type === "Editor"),
-                "title": this.title ? this.title: "",
-                "URL": this.url ? this.url: ""
+                "container-title": this.title ? this.title: null,
+                "URL": this.url ? this.url: null
             }
         }
     }

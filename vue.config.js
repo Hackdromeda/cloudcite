@@ -29,7 +29,9 @@ module.exports = {
               '/cite/website/': 'CloudCite · Cite a Website · MLA, APA, Chicago, Harvard Citation Styles',
               '/cite/book/': 'CloudCite · Cite a Book · MLA, APA, Chicago, Harvard Citation Styles',
               '/cite/film/': 'CloudCite · Cite a Film · MLA, APA, Chicago, Harvard Citation Styles',
-              '/create/project/': 'CloudCite · Create Project · MLA, APA, Chicago, Harvard Citation Styles'
+              '/create/project/': 'CloudCite · Create Project · MLA, APA, Chicago, Harvard Citation Styles',
+              '/support/': 'CloudCite · Support',
+              '/status/': 'CloudCite · Status'
             }
             var descriptions = {
               '/': 'CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.',
@@ -42,7 +44,9 @@ module.exports = {
               '/cite/website/': 'CloudCite can create website citations.',
               '/cite/book/': 'CloudCite can create book citations.',
               '/cite/film/': 'CloudCite can create film citations.',
-              '/create/project/': 'CloudCite can create projects.'
+              '/create/project/': 'CloudCite can create projects.',
+              '/support/': 'CloudCite can help you if you encounter any issues. Feedback is always welcome.',
+              '/status/': 'CloudCite has a status page to be transparent about issues with our service.'
             }
             context.html = context.html.replace(
               /<title>[^<]*<\/title>/i,

@@ -131,7 +131,14 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 //@ts-ignore
                 if(data.items != null){
                     //@ts-ignore
-                    data.items.forEach((item) => this.bookData.push(item))
+                    data.items.forEach(item => {
+                        //@ts-ignore
+                        if (item.volumeInfo && item.volumeInfo.imageLinks && item.volumeInfo.imageLinks.thumbnail) {
+                            item.volumeInfo.imageLinks.thumbnail = item.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://')
+                        }
+                        //@ts-ignore
+                        this.bookData.push(item)
+                    })
                 }
                 if(data.items != null && data.items.length > 0){
                     //@ts-ignore

@@ -24,7 +24,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import rp from 'request-promise-native';
 import WebsiteCitation from '../WebsiteCitation';
 import generateCSL from '../functions/generateCSL';
-import generateHTML from '../functions/generatePreviewHTML';
+import generatePreviewHTML from '../functions/generatePreviewHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore
@@ -46,7 +46,7 @@ import _ from 'lodash';
     }
     else {
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')})
+      const generatedHTML = await generatePreviewHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       } 
@@ -137,14 +137,6 @@ import _ from 'lodash';
       dt.setData("text/plain", this.$refs.cslBibRef.textContent);
       dt.setData("text/html", html);
       clipboard.write(dt);
-      /*
-      this.$toast.open({
-          duration: 3000,
-          message: `Copied to Clipboard`,
-          position: 'is-bottom-right',
-          type: 'is-success'
-      })
-      */
     },
     editCitation() {
       //@ts-ignore
@@ -169,14 +161,6 @@ import _ from 'lodash';
     removeCitation() {
       //@ts-ignore
       this.$store.dispatch('removeCitationById', this.cslData.id)
-      /*
-      this.$toast.open({
-          duration: 3000,
-          message: `Removed Citation`,
-          position: 'is-bottom-right',
-          type: 'is-success'
-      })
-      */
     }
   },
   watch: {
@@ -184,7 +168,7 @@ import _ from 'lodash';
       //@ts-ignore
       if (this.typingStatus == false) {
         //@ts-ignore
-        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')})
+        const generatedHTML = await generatePreviewHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US')})
         if (generatedHTML.error) {
           console.log(generatedHTML.error)
         } 

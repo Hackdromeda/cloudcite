@@ -23,7 +23,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import BibliographyPreview from './BibliographyPreview.vue';
 //@ts-ignore
 import rp from 'request-promise-native';
-import generateCSL from '../generateCSL';
+import generateCSL from '../functions/generateCSL';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore

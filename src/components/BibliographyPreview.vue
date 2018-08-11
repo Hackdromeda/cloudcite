@@ -24,7 +24,7 @@ import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
 import WebsiteCitation from '../WebsiteCitation';
-import generateCSL from '../generateCSL';
+import generateCSL from '../functions/generateCSL';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore

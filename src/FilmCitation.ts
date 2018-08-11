@@ -1,4 +1,4 @@
-import * as store from './store';
+import * as store from '@/store';
 //@ts-ignore
 import * as  _ from 'lodash/core';
 export default class FilmCitation {

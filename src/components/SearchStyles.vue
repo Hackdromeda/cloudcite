@@ -11,7 +11,7 @@
         </sui-form>
         <div>
           <div v-for="(style, i) in stylesData" :key="i" style="text-align: left; margin-top: 5vh;">
-            <span style="font-size: 1.8rem; font-weight: 400; margin-top: 5vh;">{{ style.text }}</span>
+            <span style="font-size: 1.8rem; font-weight: 400; margin-top: 5vh;" v-cloak>{{ style.text.substring(0, 55)}}{{(style.text.length > 55) ? '...': ''}}</span>
             <span style="text-align: right; float: right;">
             <sui-button @click="addFavoriteStyle(style)" v-if="favoriteStyles.filter(favorite => favorite.value == style.value).length == 0" type="button" basic primary>Add Favorite</sui-button>
             <sui-button @click="removeFavoriteStyle(style)" v-else type="button" basic negative>Remove Favorite</sui-button>

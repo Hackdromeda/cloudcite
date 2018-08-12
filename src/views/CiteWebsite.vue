@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import WebsiteCitation from '../WebsiteCitation';
 import generateCitation from '../functions/generateCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
@@ -31,7 +30,6 @@ import debounce from 'lodash/debounce';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 //@ts-ignore
 import * as  _ from 'lodash/core';
-import * as Immutable from 'immutable';
 
 @Component({
   components: {
@@ -42,7 +40,7 @@ import * as Immutable from 'immutable';
       return {
         loadingCitation: false,
          //@ts-ignore
-        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], "", "", "", "", {month: "", day: "", year: ""}, {month: "", day: "", year: ""}, 'citation-' + this.$store.getters.getCitations.length),
+        websiteCitationData: {"contributors": [{given: "", middle: "", family: "", type: "Author"}], source: "", title: "", URL: "", publisher: "", accessed: {month: "", day: "", year: ""}, issued: {month: "", day: "", year: ""}, id: 'citation-' + this.$store.getters.getCitations.length},
         URL: null
       }
   },

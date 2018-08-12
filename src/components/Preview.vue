@@ -20,7 +20,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
-import WebsiteCitation from '../WebsiteCitation';
 import generateCSL from '../functions/generateCSL';
 import generateHTML from '../functions/generateHTML';
 //@ts-ignore

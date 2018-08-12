@@ -50,7 +50,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import FilmCitation from '../FilmCitation';
 import generateCitation from '../functions/generateCitation';
 //@ts-ignore
 import debounce from 'lodash/debounce';
@@ -71,7 +70,7 @@ import * as Immutable from 'immutable';
       return {
         contributorTypes: ["Director", "Writer", "Producer", "Actor/Performer", "Author"],
         //@ts-ignore
-        filmCitationData: new FilmCitation([{first: "", middle: "", last: "", type: "Director"}], '', '', '', {month: "", day: "", year: ""}, {month: "", day: "", year: ""}, '', ('Film/' + this.$store.getters.getCitations.filter(c => c.id.includes('Film')).length)),
+        filmCitationData: {"contributors": [{first: "", middle: "", last: "", type: "Director"}], "title": '', "publisher": '', "publisher-place": '', "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, "abstract": '', "id": 'citation-' + this.$store.getters.getCitations.length},
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
         filmData: [],
         filmTitle: '',

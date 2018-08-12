@@ -134,7 +134,7 @@ export default new Router({
       }
     },
     {
-      path: '/edit/:format/',
+      path: '/edit/:type/',
       name: 'editcitation',
       component: EditCitation,
       props: true,

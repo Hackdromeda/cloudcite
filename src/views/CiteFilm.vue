@@ -154,11 +154,11 @@ import * as Immutable from 'immutable';
                     data.contributors = [{given: "", middle: "", family: "", type: "Director"}]
                 }
                 const id = ('citation-' + this.$store.getters.getCitations.length)
-                const citation = generateCitation(id, "film", data)
+                const citation = generateCitation(id, "motion_picture", data)
                 console.log(citation.toObject())
                 //@ts-ignore
                 this.$store.dispatch('setEditingCitation', citation.toObject())
-                this.$router.push({path: '/edit/film/'})
+                this.$router.push({path: '/edit/motion_picture/'})
                 //@ts-ignore
             }).catch(error => {
                 console.log(error)

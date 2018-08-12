@@ -8,7 +8,7 @@
             <div id="citationOptions">
               <span>
                 <a @click="copyCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="clipboard" /></a>
-                <a @click="editCitation(cslEntry.id, cslEntry.format)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
+                <a @click="editCitation(cslEntry.id, cslEntry.type)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
                 <a @click="removeCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="trash" /></a>
               </span>
             </div>
@@ -37,7 +37,7 @@ import _ from 'lodash';
     //@ts-ignore
     if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && !this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.outdated) {
       this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
-      this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.format
+      this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.type
     }
     else {
       //@ts-ignore
@@ -55,7 +55,7 @@ import _ from 'lodash';
         this.$data.cslFormat = generatedHTML.format
         this.$data.cslHTML = generatedHTML.html
         //@ts-ignore
-        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
       }
     }
   },
@@ -84,7 +84,7 @@ import _ from 'lodash';
       }
       html += '</div>'
       //@ts-ignore
-      this.$store.dispatch('cacheBibliography', {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
+      this.$store.dispatch('cacheBibliography', {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, plainText: document.getElementById('bibliographyPreview').textContent, richText: html})
     }
   },
   computed: {
@@ -100,7 +100,7 @@ import _ from 'lodash';
     }
   },
   methods: {
-    formatURL(url: string) {
+    typeURL(url: string) {
         var newURL: string = ""
         switch (url.substring(0, 7)) {
             case 'https:/':
@@ -150,23 +150,23 @@ import _ from 'lodash';
           */
         }
     },
-    editCitation(id: string, format: string) {
+    editCitation(id: string, type: string) {
       //@ts-ignore
       var cslData = this.$store.getters.getCitations.filter(citation => citation.id == id)[0]
       //@ts-ignore
-      if (cslData && cslData.format && cslData.format == "website") {
+      if (cslData && cslData.type && cslData.type == "website") {
         //@ts-ignore
         this.$store.dispatch('setEditingCitation', cslData)
         this.$router.push({path: '/edit/website/'})
       }
       //@ts-ignore
-      else if (cslData && cslData.format && cslData.format == "book") {
+      else if (cslData && cslData.type && cslData.type == "book") {
         //@ts-ignore
         this.$store.dispatch('setEditingCitation', cslData)
         this.$router.push({path: '/edit/book/'})
       }
       //@ts-ignore
-      else if (cslData && cslData.format && cslData.format == "film") {
+      else if (cslData && cslData.type && cslData.type == "motion_picture") {
         //@ts-ignore
         this.$store.dispatch('setEditingCitation', cslData)
         this.$router.push({path: '/edit/film/'})
@@ -205,7 +205,7 @@ import _ from 'lodash';
         this.$data.cslFormat = generatedHTML.format
         this.$data.cslHTML = generatedHTML.html
         //@ts-ignore
-        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
       }
     },
     async locale() {
@@ -226,7 +226,7 @@ import _ from 'lodash';
         this.$data.cslFormat = generatedHTML.format
         this.$data.cslHTML = generatedHTML.html
         //@ts-ignore
-        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, format: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
       }
     }
   }

@@ -2,10 +2,10 @@
 import * as _ from 'lodash';
 import * as Immutable from 'immutable';
 
-export default function generateCitation(id: string, format: string, data: any) {
+export default function generateCitation(id: string, type: string, data: any) {
     var citation = Immutable.Map({
         "id": id,
-        "format": format,
+        "type": type,
         "URL": data.URL,
         "contributors": data.contributors,
         "source": data.source,

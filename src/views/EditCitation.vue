@@ -2,7 +2,7 @@
     <div id="editcitation">
         <div style="min-height: 25vh; background-color: #005eea; color: #fff;">
             <div class="container" style="padding: 7vh;">
-                <h1 v-cloak>Edit {{format}} Citation</h1>
+                <h1 v-cloak>Edit {{type}} Citation</h1>
             </div>
         </div>
             <sui-grid :columns="3">
@@ -12,7 +12,7 @@
                         <sui-form style="padding-top: 5%; padding-bottom: 5%; text-align: left;">
                             <div v-for="(contributor, i) in citationData.contributors" :key="i">
                                 <sui-form-field>
-                                    <sui-dropdown fluid v-model="citationData.contributors[i].type" :options="contributorTypes" :placeholder="(format == 'Film') ? 'Director': 'Author'" direction="downward" selection/>
+                                    <sui-dropdown fluid v-model="citationData.contributors[i].type" :options="contributorTypes" :placeholder="(type == 'motion_picture') ? 'Director': 'Author'" direction="downward" selection/>
                                 </sui-form-field>
                                 <sui-form-field>
                                     <div class="ui labeled input">
@@ -121,7 +121,7 @@ import * as _ from 'lodash';
   data () {
       return {
         typing: false,
-        format: this.$route.params.format ? this.$route.params.format.substring(0, 1).toUpperCase() + this.$route.params.format.substring(1, this.$route.params.format.length): "",
+        type: this.$route.params.type ? this.$route.params.type: "",
         citationData: _.pickBy(this.$store.getters.getEditingCitation, _.identity),
         contributorTypes: [
             {

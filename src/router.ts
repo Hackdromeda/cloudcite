@@ -9,7 +9,8 @@ const CiteWebsite = () => import('./views/CiteWebsite.vue')
 const CiteBook = () => import('./views/CiteBook.vue')
 const CiteFilm = () => import('./views/CiteFilm.vue')
 const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
-const EditCitation = () => import('./views/EditCitation.vue')
+const WebsiteForm = () => import('./views/CitationForms/WebsiteForm.vue')
+const BookForm = () => import('./views/CitationForms/BookForm.vue')
 const CreateProject = () => import('./views/CreateProject.vue')
 const EditProject = () => import('./views/EditProject.vue')
 const ErrorPage = () => import('./views/Error.vue')
@@ -134,12 +135,19 @@ export default new Router({
       }
     },
     {
-      path: '/edit/:type/',
-      name: 'editcitation',
-      component: EditCitation,
-      props: true,
+      path: '/edit/website/',
+      name: 'websiteform',
+      component: WebsiteForm,
       meta: {
-        title: 'CloudCite · Edit Citation'
+        title: 'CloudCite · Edit Website Citation'
+      }
+    },
+    {
+      path: '/edit/book/',
+      name: 'bookform',
+      component: BookForm,
+      meta: {
+        title: 'CloudCite · Edit Book Citation'
       }
     },
     {

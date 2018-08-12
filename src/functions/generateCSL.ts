@@ -9,8 +9,8 @@ export default function generateCSL(cslData: any) {
             [cslData.id]: {
                 "accessed": _.pickBy({
                     "month": (cslData.accessed.month && cslData.accessed.month >= 1 && cslData.accessed.month <= 12) ? cslData.accessed.month: null,
-                    "year": cslData.accessed.year ? cslData.accessed.year: null,
-                    "day": cslData.accessed.day ? cslData.accessed.day: null
+                    "year": cslData.accessed.year,
+                    "day": cslData.accessed.day
                 }),
                 "issued": _.pickBy({
                     "month": (cslData.issued && cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: null,
@@ -27,12 +27,25 @@ export default function generateCSL(cslData: any) {
                 "director": contributors.filter(c => c.type == "Director" && (c.family || c.given || c.middle)).map(director => _.pickBy(director)),
                 //@ts-ignore
                 "editorial-director": contributors.filter(c => c.type == "Producer" && (c.family || c.given || c.middle)).map(producer => _.pickBy(producer)),
-                "container-title": cslData.containerTitle ? cslData.containerTitle: null,
-                "title": cslData.title ? cslData.title: null,
-                "publisher": cslData.publisher ? cslData.publisher: null,
-                "publisher-place": cslData.publisherPlace ? cslData.publisherPlace: null,
-                "URL": cslData.URL ? cslData.URL: null,
-                "abstract": cslData.abstract ? cslData.abstract: null
+                "title": cslData.title,
+                "title-short": cslData["title-short"],
+                "genre": cslData.genre,
+                "publisher": cslData.publisher,
+                "publisher-place": cslData.publisherPlace,
+                "URL": cslData.URL,
+                "source": cslData.source,
+                "archive": cslData.archive,
+                "archive_location": cslData["archive_location"],
+                "call-number": cslData["call-number"],
+                "container-title": cslData["container-title"],
+                "dimensions": cslData.dimensions,
+                "edition": cslData.edition,
+                "ISBN": cslData.ISBN,
+                "medium": cslData.medium,
+                "number-of-volumes": cslData["number-of-volumes"],
+                "number-of-pages": cslData["number-of-pages"],
+                "volume": cslData.volume,
+                "abstract": cslData.abstract
             }
         })
 }

@@ -11,6 +11,7 @@ const CiteFilm = () => import('./views/CiteFilm.vue')
 const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
 const WebsiteForm = () => import('./views/CitationForms/WebsiteForm.vue')
 const BookForm = () => import('./views/CitationForms/BookForm.vue')
+const FilmForm = () => import('./views/CitationForms/FilmForm.vue')
 const CreateProject = () => import('./views/CreateProject.vue')
 const EditProject = () => import('./views/EditProject.vue')
 const ErrorPage = () => import('./views/Error.vue')
@@ -148,6 +149,14 @@ export default new Router({
       component: BookForm,
       meta: {
         title: 'CloudCite · Edit Book Citation'
+      }
+    },
+    {
+      path: '/edit/film/',
+      name: 'filmform',
+      component: FilmForm,
+      meta: {
+        title: 'CloudCite · Edit Film Citation'
       }
     },
     {

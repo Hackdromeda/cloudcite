@@ -157,7 +157,7 @@ import * as Immutable from 'immutable';
                 console.log(citation.toObject())
                 //@ts-ignore
                 this.$store.dispatch('setEditingCitation', citation.toObject())
-                this.$router.push({path: '/edit/motion_picture/'})
+                this.$router.push({path: '/edit/film/'})
                 //@ts-ignore
             }).catch(error => {
                 console.log(error)

@@ -43,7 +43,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BookCitation from '../BookCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
 //@ts-ignore

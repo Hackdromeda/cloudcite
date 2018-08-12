@@ -24,6 +24,7 @@ import BibliographyPreview from './BibliographyPreview.vue';
 //@ts-ignore
 import rp from 'request-promise-native';
 import generateCSL from '../functions/generateCSL';
+import generateHTML from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore

@@ -3,7 +3,7 @@ import _ from 'lodash'
 //@ts-ignore
 import rp from 'request-promise-native';
 
-export default async function generateBibliographyHTML(data: any) {
+export default async function generateHTML(data: any) {
     try {
         const response = await rp({
             uri: 'https://api.cloudcite.net/cite',

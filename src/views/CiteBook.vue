@@ -88,7 +88,7 @@ import generateCitation from '@/functions/generateCitation';
         ],
         bookIdentificationField: null,
         //@ts-ignore
-        bookCitationData: {"contributors": [{first: "", middle: "", last: "", type: "Author"}], "chapter": "", "volNumber": "", "title": "", "publisher": "", "accessed": {month: "", day: "", year: ""}, "published": {month: "", day: "", year: ""}, id: 'citation-' + this.$store.getters.getCitations.length},
+        bookCitationData: {"contributors": [{first: "", middle: "", last: "", type: "Author"}], "chapter": "", "volNumber": "", "title": "", "publisher": "", "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, id: 'citation-' + this.$store.getters.getCitations.length},
         isFetching: false
     }
   },

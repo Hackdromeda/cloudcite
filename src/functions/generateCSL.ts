@@ -1,8 +1,11 @@
 //@ts-ignore
-import _ from 'lodash'
+import * as _ from 'lodash'
 
 export default function generateCSL(cslData: any) {
-    if (cslData.id && cslData.id.includes('Website')) {
+    //@ts-ignore
+    var contributors = cslData.contributors.map(contributor => _.pickBy(Object.assign(contributor, {family: (contributor.middle && contributor.middle != "" ? (contributor.middle + " " + contributor.family): contributor.family), middle: null})));
+
+    if (cslData.format && cslData.format == 'website') {
         return _.pickBy({
             [cslData.id]: {
                 "accessed": _.pickBy({
@@ -18,15 +21,15 @@ export default function generateCSL(cslData: any) {
                 "type":"website",
                 "id": cslData.id,
                 //@ts-ignore
-                "author": cslData.contributors.filter(c => c.type === "Author" && (c.family || c.given || c.middle)).map(author => _.pickBy(author)),
+                "author": contributors.filter(c => c.type == "Author" && (c.family || c.given || c.middle)).map(author => _.pickBy(author)),
                 //@ts-ignore
-                "editor": cslData.contributors.filter(c => c.type === "Editor" && (c.family || c.given || c.middle)).map(editor => _.pickBy(editor)),
+                "editor": contributors.filter(c => c.type == "Editor" && (c.family || c.given || c.middle)).map(editor => _.pickBy(editor)),
                 "container-title": cslData.containerTitle ? cslData.containerTitle: null,
-                "URL": cslData.url ? cslData.url: null
+                "URL": cslData.URL ? cslData.URL: null
             }
         })
     }
-    else if (cslData.id && cslData.id.includes('Book')) {
+    else if (cslData.format && cslData.format == 'book') {
         return _.pickBy({
             [cslData.id]:{
                 "accessed": _.pickBy({
@@ -42,14 +45,14 @@ export default function generateCSL(cslData: any) {
                 "type":"book",
                 "id": cslData.id,
                 //@ts-ignore
-                "author": cslData.contributors.filter(c => c.type === "Author" && (c.family || c.given || c.middle)).map(author => _.pickBy(author)),
+                "author": contributors.filter(c => c.type == "Author" && (c.family || c.given || c.middle)).map(author => _.pickBy(author)),
                 //@ts-ignore
-                "editor": cslData.contributors.filter(c => c.type === "Editor" && (c.family || c.given || c.middle)).map(editor => _.pickBy(editor)),
+                "editor": contributors.filter(c => c.type == "Editor" && (c.family || c.given || c.middle)).map(editor => _.pickBy(editor)),
                 "title": cslData.title ? cslData.title: null,
             }
         })
     }
-    else if (cslData.id && cslData.id.includes('Film')) {
+    else if (cslData.format && cslData.format == 'film') {
         return _.pickBy({
             [cslData.id]: {
                 "accessed": _.pickBy({
@@ -65,11 +68,11 @@ export default function generateCSL(cslData: any) {
                 "type":"motion_picture",
                 "id": cslData.id,
                 //@ts-ignore
-                "director": cslData.contributors.filter(c => c.type === "Director"),
+                "director": contributors.filter(c => c.type == "Director"),
                 //@ts-ignore
-                "author": cslData.contributors.filter(c => c.type === "Writer" || c.type === "Actor/Performer" || c.type == "Author" && (c.family || c.given || c.middle)).map(author => _.pickBy(author)),
+                "author": contributors.filter(c => c.type == "Writer" || c.type == "Actor/Performer" || c.type == "Author" && (c.family || c.given || c.middle)).map(author => _.pickBy(author)),
                 //@ts-ignore
-                "editorial-director": cslData.contributors.filter(c => c.type === "Producer" && (c.family || c.given || c.middle)).map(producer => _.pickBy(producer)),
+                "editorial-director": contributors.filter(c => c.type == "Producer" && (c.family || c.given || c.middle)).map(producer => _.pickBy(producer)),
                 "publisher": cslData.publisher ? cslData.publisher: null,
                 "publisher-place": cslData.publisherPlace ? cslData.publisherPlace: null,
                 "title": cslData.title ? cslData.title: null,

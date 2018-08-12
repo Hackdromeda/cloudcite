@@ -51,6 +51,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import FilmCitation from '../FilmCitation';
+import generateCitation from '../functions/generateCitation';
 //@ts-ignore
 import debounce from 'lodash/debounce';
 //@ts-ignore
@@ -59,6 +60,7 @@ import Preview from '../components/Preview.vue';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 //@ts-ignore
 import * as  _ from 'lodash/core';
+import * as Immutable from 'immutable';
 
 @Component({
   components: {
@@ -138,23 +140,24 @@ import * as  _ from 'lodash/core';
             }).then(data => {
                 console.log(data)
                 //@ts-ignore
-                var contributors = [];
+                data.contributors = [];
                 //@ts-ignore
                 if (data.director && data.director.length > 0) {
                     //@ts-ignore
                     data.director.forEach(director => {
                         //@ts-ignore
-                        contributors.push({given: director.given ? director.given: "", middle: director.given ? (director.given.split(" ").length == 2 ? director.given.split(" ")[1]: ""): "", family: director.family ? director.family: "", type: "Director"})
+                        data.contributors.push({given: director.given ? director.given: "", middle: director.given ? (director.given.split(" ").length == 2 ? director.given.split(" ")[1]: ""): "", family: director.family ? director.family: "", type: "Director"})
                     });
                 }
                 //@ts-ignore
-                if (contributors.length == 0) {
-                    contributors = [{given: "", middle: "", family: "", type: "Director"}]
+                if (data.contributors.length == 0) {
+                    data.contributors = [{given: "", middle: "", family: "", type: "Director"}]
                 }
+                const id = ('citation-' + this.$store.getters.getCitations.length)
+                const citation = generateCitation(id, "film", data)
+                console.log(citation.toObject())
                 //@ts-ignore
-                this.$data.filmCitationData = new FilmCitation(contributors, data.title ? data.title: "", data.publisher ? data.publisher: "", data["publisher-place"] ? data["publisher-place"]: "", {month: "", day: "", year: ""}, {month: data.issued && data.issued.month ? parseInt(data.issued.month): "", day: data.issued && data.issued.day ? parseInt(data.issued.day): "", year: data.issued && data.issued.year ? parseInt(data.issued.year): ""}, data.abstract ? data.abstract: "", ('Film/' + this.$store.getters.getCitations.filter(c => c.id.includes('Film')).length))
-                //@ts-ignore
-                this.$store.dispatch('setEditingProject', this.$data.filmCitationData)
+                this.$store.dispatch('setEditingCitation', citation.toObject())
                 this.$router.push({path: '/edit/film/'})
                 //@ts-ignore
             }).catch(error => {
@@ -164,7 +167,7 @@ import * as  _ from 'lodash/core';
       },
       citeEmpty() {
         //@ts-ignore
-        this.$store.dispatch('setEditingProject', this.$data.filmCitationData)
+        this.$store.dispatch('setEditingCitation', this.$data.filmCitationData)
         this.$router.push({path: '/edit/film/'})
     },
     updatePage(page) {

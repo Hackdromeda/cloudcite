@@ -33,10 +33,10 @@
                                     </div>
                                 </sui-form-field>
                                 <div is="sui-button-group" style="margin-bottom: 3vh;">
-                                    <sui-button v-if="citationData.contributors.length == 1" type="button"  @click="citationData.clearContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
-                                    <sui-button v-if="citationData.contributors.length > 1" type="button" @click="citationData.removeContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
+                                    <sui-button v-if="citationData.contributors.length == 1" type="button"  @click="clearContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
+                                    <sui-button v-if="citationData.contributors.length > 1" type="button" @click="removeContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
                                     <sui-button-or />
-                                    <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="citationData.contributors.push({first: '', middle: '', last: '', type: 'Author'})" positive>Add Contributor</sui-button>
+                                    <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="addContributor()" positive>Add Contributor</sui-button>
                                 </div>
                             </div>
                             <sui-form-field v-for="(field, f) in Object.keys(citationData)" :key="f" v-if="typeof citationData[field] === 'string' && field != 'id'">
@@ -88,7 +88,7 @@
                                 </sui-form-field>
                             </div>
                             <sui-form-field style="margin-top: 3vh;">
-                                <Preview :cslObject="citationData" :copyOption="true" :editOption="false" :deleteOption="false" :typing="typing" :bibliographyOption="false"/>
+                                <Preview :cslObject="filteredCitationData" :typing="typing"/>
                             </sui-form-field>
                             <div is="sui-button-group">
                                 <sui-button type="button" @click="cancel()">Cancel</sui-button>
@@ -110,8 +110,9 @@ import rp from 'request-promise-native';
 import Preview from '../components/Preview.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
-import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
-
+import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
+//@ts-ignore
+import * as _ from 'lodash';
 @Component({
     components: {
         Preview,
@@ -121,7 +122,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
       return {
         typing: false,
         format: this.$route.params.format ? this.$route.params.format.substring(0, 1).toUpperCase() + this.$route.params.format.substring(1, this.$route.params.format.length): "",
-        citationData: this.$store.getters.getEditingProject,
+        citationData: _.pickBy(this.$store.getters.getEditingCitation, _.identity),
         contributorTypes: [
             {
                 "key": "Author",
@@ -285,9 +286,16 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
         ]
       }
   },
+  computed: {
+    filteredCitationData: {
+        get() {
+            return _.pickBy(this.$data.citationData)
+        }
+    }
+  },
     methods: {
         cancel() {
-            this.$store.dispatch('setEditingProject', null)
+            this.$store.dispatch('setEditingCitation', null)
             this.$router.push({path: '/'})
         },
         cite() {
@@ -295,19 +303,25 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
             this.$store.dispatch('addCitation', this.$data.citationData)
             console.log(Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
             this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
-            this.$store.dispatch('setEditingProject', null)
+            this.$store.dispatch('setEditingCitation', null)
             this.$router.push({path: '/'})
+        },
+        clearContributor(index: number) {
+            this.$data.citationData.contributors[index] = Object.assign(this.$data.citationData.contributors[index], {given: null, middle: null, family: null, type: "Author"})
+        },
+        removeContributor(index: number) {
+            //@ts-ignore
+            this.$data.citationData.contributors = this.$data.citationData.contributors.slice(0, index).concat(this.$data.citationData.contributors.slice(index + 1, this.$data.citationData.contributors.length))
+        },
+        addContributor() {
+            this.$data.citationData.contributors.push({given: '', middle: '', family: '', type: 'Author'})
         }
     },
     watch: {
-        //@ts-ignore
-        citationData() {
-            console.log('VALUE CHANGED')
-        },
         typing: debounce(function () {
         //@ts-ignore
         this.$data.typing = false
-        }, 5000)
+        }, 3000)
     }
 })
 export default class EditCitation extends Vue {}

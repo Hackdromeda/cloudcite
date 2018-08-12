@@ -5,17 +5,17 @@ export default class WebsiteCitation {
     contributors: any[]
     source: string
     title: string //container-title
-    url: string
+    URL: string
     publisher: string
     accessed: any
     issued: any
     id: string
 
-    constructor(contributors: any, source: any, title: any, url: any, publisher: any, accessed: any, issued: any, id: string) {
+    constructor(contributors: any, source: any, title: any, URL: any, publisher: any, accessed: any, issued: any, id: string) {
         this.contributors = contributors
         this.source = source
         this.title = title
-        this.url = url
+        this.URL = URL
         this.publisher = publisher
         this.accessed = accessed
         this.issued = issued //date published
@@ -47,7 +47,7 @@ export default class WebsiteCitation {
                 "author": this.contributors.filter(c => c.type === "Author"),
                 "editor": this.contributors.filter(c => c.type === "Editor"),
                 "container-title": this.title ? this.title: null,
-                "URL": this.url ? this.url: null
+                "URL": this.URL ? this.URL: null
             }
         }
     }

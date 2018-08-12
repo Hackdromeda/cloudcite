@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div style="margin-top: 5vh;">
-                <sui-input style="margin-right: 1vh;" v-model="websiteCitationData.url" placeholder="Enter website link" @keyup.enter="citeURL()"/>
+                <sui-input style="margin-right: 1vh;" v-model="URL" placeholder="Enter website link" @keyup.enter="citeURL()"/>
                 <sui-button type="button" @click="citeURL()">Cite</sui-button>
             </div>
             <div style="margin-top: 3vh;">
@@ -22,6 +22,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import WebsiteCitation from '../WebsiteCitation';
+import generateCitation from '../functions/generateCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
 import Preview from '../components/Preview.vue';
@@ -30,6 +31,7 @@ import debounce from 'lodash/debounce';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 //@ts-ignore
 import * as  _ from 'lodash/core';
+import * as Immutable from 'immutable';
 
 @Component({
   components: {
@@ -39,22 +41,23 @@ import * as  _ from 'lodash/core';
   data () {
       return {
         loadingCitation: false,
-        //@ts-ignore
-        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], "", "", "", "", {month: "", day: "", year: ""}, {month: "", day: "", year: ""}, ('Website/' + this.$store.getters.getCitations.filter(c => c.id.includes('Website')).length))
+         //@ts-ignore
+        websiteCitationData: new WebsiteCitation([{given: "", middle: "", family: "", type: "Author"}], "", "", "", "", {month: "", day: "", year: ""}, {month: "", day: "", year: ""}, 'citation-' + this.$store.getters.getCitations.length),
+        URL: null
       }
   },
   methods: {
-      formatURL(url: string) {
+      formatURL(URL: string) {
         var newURL: string = ""
-        switch (url.substring(0, 7)) {
+        switch (URL.substring(0, 7)) {
             case 'https:/':
-                newURL = url.substring(8, url.length)
+                newURL = URL.substring(8, URL.length)
                 break;
             case 'http://':
-                newURL =  url.substring(7, url.length)
+                newURL =  URL.substring(7, URL.length)
                 break;
             default:
-                newURL = url
+                newURL = URL
         }
         if (newURL.substring(0, 4) == "www.") {
             newURL = newURL.substring(4, newURL.length)
@@ -70,28 +73,28 @@ import * as  _ from 'lodash/core';
                 },
                 method: 'POST',
                 //@ts-ignore
-                body: {"url": (this.websiteCitationData.url.substring(0, 4) == 'http') ? this.websiteCitationData.url: ('http://' + this.websiteCitationData.url), "format": "website"},
+                body: {"URL": (this.$data.URL.substring(0, 4) == 'http') ? this.$data.URL: ('http://' + this.$data.URL), "format": "website"},
                 json: true
                 //@ts-ignore
         }).then(data => {
-            console.log(data)
+            data.URL = this.$data.URL
             //@ts-ignore
-            var contributors = [];
+            data.contributors = [];
             if (data.author && data.author.length > 0) {
                 //@ts-ignore
                 data.author.forEach(author => {
                     //@ts-ignore
-                    contributors.push({given: author.given ? author.given: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
+                    data.contributors.push({given: author.given ? author.given: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
                 });
             }
-            if (contributors.length == 0) {
-                contributors.push({given: "", middle: "", family: "", type: "Author"})
+            if (data.contributors.length == 0) {
+                data.contributors.push({given: "", middle: "", family: "", type: "Author"})
             }
-            //@ts-ignore
-            this.$data.websiteCitationData = new WebsiteCitation(contributors, data.source ? data.source: "", data.container-title ? data.container-title: "", this.websiteCitationData.url ? this.formatURL(this.websiteCitationData.url): "", data.publisher ? data.publisher: "", {month: "", day: "", year: ""}, {month: data.issued && data.issued.month ? parseInt(data.issued.month): "", day: data.issued && data.issued.day ? parseInt(data.issued.day): "", year: data.issued && data.issued.year ? parseInt(data.issued.year): ""}, ('Website/' + this.$store.getters.getCitations.filter(c => c.id.includes('Website')).length))
+            const id = ('citation-' + this.$store.getters.getCitations.length)
+            const citation = generateCitation(id, "website", data)
             this.$data.loadingCitation = false
             //@ts-ignore
-            this.$store.dispatch('setEditingProject', this.$data.websiteCitationData)
+            this.$store.dispatch('setEditingCitation', citation.toObject())
             this.$router.push({path: '/edit/website/'})
             //@ts-ignore
         }).catch(error => {
@@ -101,7 +104,7 @@ import * as  _ from 'lodash/core';
     },
     citeEmpty() {
         //@ts-ignore
-        this.$store.dispatch('setEditingProject', this.$data.websiteCitationData)
+        this.$store.dispatch('setEditingCitation', this.$data.websiteCitationData)
         this.$router.push({path: '/edit/website/'})
     }
   }

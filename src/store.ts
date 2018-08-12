@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     "selectedProject": 0,
-    "editingProject": null,
+    "editingCitation": null,
     "favoriteStyles": [{"key":"modern-language-association","text":"Modern Language Association 8th edition (MLA)","value":"modern-language-association"},{"key":"apa","text":"American Psychological Association 6th edition (APA)","value":"apa"},{"key":"chicago-note-bibliography","text":"Chicago Manual of Style 17th edition (note)","value":"chicago-note-bibliography"},{"key":"turabian-fullnote-bibliography","text":"Turabian 8th edition (full note)","value":"turabian-fullnote-bibliography"},{"key":"ieee","text":"IEEE","value":"ieee"},{"key":"elsevier-harvard","text":"Elsevier - Harvard (with titles)","value":"elsevier-harvard"},{"key":"american-medical-association","value":"american-medical-association","text":"American Medical Association (AMA)"},{"key":"american-sociological-association","text":"American Sociological Association (ASA)","value":"american-sociological-association"},{"key":"vancouver","text":"Vancouver","value":"vancouver"}],
     "projects": [
       {
@@ -105,8 +105,8 @@ export default new Vuex.Store({
         store.put(state, 0);
       };
     },
-    setEditingProject(state: any, payload: any) {
-      state.editingProject = payload
+    setEditingCitation(state: any, payload: any) {
+      state.editingCitation = payload
     },
     setProjectStyle(state: any, payload: any) {
       for (let i=0; i < state.projects.length; i++) {
@@ -179,8 +179,8 @@ export default new Vuex.Store({
       context.commit('selectProject', payload)
       context.commit('saveState')
     },
-    setEditingProject(context: any, payload: any) {
-      context.commit('setEditingProject', payload)
+    setEditingCitation(context: any, payload: any) {
+      context.commit('setEditingCitation', payload)
     },
     setProjectStyle(context: any, payload: any) {
       context.commit('setProjectStyle', payload)
@@ -212,8 +212,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getEditingProject(state: any) {
-      return state.editingProject
+    getEditingCitation(state: any) {
+      return state.editingCitation
     },
     getProjects(state: any) {
       return state.projects

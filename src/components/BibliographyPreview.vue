@@ -8,7 +8,7 @@
             <div id="citationOptions">
               <span>
                 <a @click="copyCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="clipboard" /></a>
-                <a @click="editCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
+                <a @click="editCitation(cslEntry.id, cslEntry.format)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
                 <a @click="removeCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="trash" /></a>
               </span>
             </div>
@@ -150,25 +150,25 @@ import _ from 'lodash';
           */
         }
     },
-    editCitation(id: string) {
+    editCitation(id: string, format: string) {
       //@ts-ignore
       var cslData = this.$store.getters.getCitations.filter(citation => citation.id == id)[0]
       //@ts-ignore
-      if (id.includes('Website') && cslData) {
+      if (cslData && cslData.format && cslData.format == "website") {
         //@ts-ignore
-        this.$store.dispatch('setEditingProject', cslData)
+        this.$store.dispatch('setEditingCitation', cslData)
         this.$router.push({path: '/edit/website/'})
       }
       //@ts-ignore
-      else if (id.includes('Book') && cslData) {
+      else if (cslData && cslData.format && cslData.format == "book") {
         //@ts-ignore
-        this.$store.dispatch('setEditingProject', cslData)
+        this.$store.dispatch('setEditingCitation', cslData)
         this.$router.push({path: '/edit/book/'})
       }
       //@ts-ignore
-      else if (id.includes('Film') && cslData) {
+      else if (cslData && cslData.format && cslData.format == "film") {
         //@ts-ignore
-        this.$store.dispatch('setEditingProject', cslData)
+        this.$store.dispatch('setEditingCitation', cslData)
         this.$router.push({path: '/edit/film/'})
       }
     },

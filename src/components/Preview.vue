@@ -8,9 +8,7 @@
         </div>
         <div id="citationOptions">
           <span>
-            <a v-if="clipboardButton" @click="copyCitation()"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
-            <a v-if="editButton" @click="editCitation()"><i style="color: #4b636e;" class="pencil icon" size="small"></i></a>
-            <a v-if="deleteButton" @click="removeCitation()"><i style="color: #4b636e;" class="trash icon" size="small"></i></a>
+            <a @click="copyCitation()"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
           </span>
         </div>
       </div>
@@ -31,20 +29,9 @@ import clipboard from "clipboard-polyfill";
 import _ from 'lodash';
 
 @Component({
-  props: ['cslObject', 'deleteOption', 'copyOption', 'editOption', 'typing', 'bibliographyOption'],
+  props: ['cslObject','typing'],
   components: {},
   async created() {
-    //@ts-ignore
-    if (this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0] && this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache) {
-      //@ts-ignore
-      let cache = this.$store.getters.getCitations.filter(citation => citation.id == this.cslData.id)[0].cache
-      //@ts-ignore
-      this.$data.cslFormat = cache.format
-      //@ts-ignore
-      this.$data.cslHTML = cache.html
-      console.log('Preview was cached')
-    }
-    else {
       //@ts-ignore
       const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: []})
       if (generatedHTML.error) {
@@ -61,7 +48,6 @@ import _ from 'lodash';
         //@ts-ignore
         this.$data.cslHTML = html
       }
-    }
   },
   data () {
     return {
@@ -73,35 +59,12 @@ import _ from 'lodash';
   computed: {
     cslData: {
       get() {
-        return this.$props.cslObject
-      },
-      set(value: any) {
-        this.$props.cslObject = value
-      }
-    },
-    deleteButton: {
-      get() {
-        return this.$props.deleteOption
-      }
-    },
-    clipboardButton: {
-      get() {
-        return this.$props.copyOption
-      }
-    },
-    editButton: {
-      get() {
-        return this.$props.editOption
+        return _.cloneDeep(this.$props.cslObject)
       }
     },
     typingStatus: {
       get() {
         return this.$props.typing
-      }
-    },
-    bibliography: {
-      get() {
-        return this.$props.bibliographyOption
       }
     }
   },
@@ -144,30 +107,6 @@ import _ from 'lodash';
       dt.setData("text/plain", this.$refs.cslBibRef.textContent);
       dt.setData("text/html", html);
       clipboard.write(dt);
-    },
-    editCitation() {
-      //@ts-ignore
-      if (this.cslData && this.cslData.id.includes('Website')) {
-        //@ts-ignore
-        this.$store.dispatch('setEditingProject', this.cslData)
-        this.$router.push({path: '/edit/website/'})
-      }
-      //@ts-ignore
-      else if (this.cslData && this.cslData.id.includes('Book')) {
-        //@ts-ignore
-        this.$store.dispatch('setEditingProject', this.cslData)
-        this.$router.push({path: '/edit/book/'})
-      }
-      //@ts-ignore
-      else if (this.cslData && this.cslData.id.includes('Film')) {
-        //@ts-ignore
-        this.$store.dispatch('setEditingProject', this.cslData)
-        this.$router.push({path: '/edit/film/'})
-      }
-    },
-    removeCitation() {
-      //@ts-ignore
-      this.$store.dispatch('removeCitationById', this.cslData.id)
     }
   },
   watch: {

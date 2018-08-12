@@ -52,6 +52,7 @@ import * as  _ from 'lodash/core';
 import debounce from 'lodash/debounce';
 import Preview from '../components/Preview.vue';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
+import generateCitation from '@/functions/generateCitation';
 
 @Component({
   components: {
@@ -177,32 +178,32 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
                 //@ts-ignore
             }).then(data => {
                 //@ts-ignore
-                var contributors = [];
+                data.contributors = [];
                 //@ts-ignore
                 if (data.author && data.author.length > 0) {
                     //@ts-ignore
                     data.author.forEach(author => {
                         //@ts-ignore
-                        contributors.push({given: author.given ? author.given: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
+                        data.contributors.push({given: author.given ? author.given: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
                     });
                 }
                 if (data.editor && data.editor.length > 0) {
                     //@ts-ignore
                     data.editor.forEach(editor => {
                         //@ts-ignore
-                        contributors.push({given: editor.given ? editor.given: "", middle: editor.given ? (editor.given.split(" ").length == 2 ? editor.given.split(" ")[1]: ""): "", family: editor.family ? editor.family: "", type: "Editor"})
+                        data.contributors.push({given: editor.given ? editor.given: "", middle: editor.given ? (editor.given.split(" ").length == 2 ? editor.given.split(" ")[1]: ""): "", family: editor.family ? editor.family: "", type: "Editor"})
                     });
                 }
                 //@ts-ignore
-                if (contributors.length == 0) {
-                    contributors = [{given: "", middle: "", family: "", type: "Author"}]
+                if (data.contributors.length == 0) {
+                    data.contributors = [{given: "", middle: "", family: "", type: "Author"}]
                 }
                 //@ts-ignore
-                var yearPublished = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): ""
+                data.issued = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): ""
+                const id = ('citation-' + this.$store.getters.getCitations.length)
+                const citation = generateCitation(id, "book", data)
                 //@ts-ignore
-                this.$data.bookCitationData = new BookCitation(contributors, "", "", this.$data.selectedBook.volumeInfo.title, this.$data.selectedBook.volumeInfo.publisher, {month: "", day: "", year: ""}, {month: "", day: "", year: yearPublished ? yearPublished: ""}, ('Book/' + this.$store.getters.getCitations.filter(c => c.id.includes('Book')).length))
-                //@ts-ignore
-                this.$store.dispatch('setEditingProject', this.$data.bookCitationData)
+                this.$store.dispatch('setEditingCitation', citation.toObject())
                 this.$router.push({path: '/edit/book/'})
                 //@ts-ignore
             }).catch(error => {
@@ -212,7 +213,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
     },
     citeEmpty() {
         //@ts-ignore
-        this.$store.dispatch('setEditingProject', this.$data.bookCitationData)
+        this.$store.dispatch('setEditingCitation', this.$data.bookCitationData)
         this.$router.push({path: '/edit/book/'})
     }
   },

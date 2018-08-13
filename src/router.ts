@@ -1,31 +1,16 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
-const About = () => import('./views/About.vue')
-const Pricing = () => import('./views/Pricing.vue')
-const Contribute = () => import('./views/Contribute.vue')
-const LoadingPage = () => import('./views/LoadingPage.vue')
-const CiteWebsite = () => import('./views/CiteWebsite.vue')
-const CiteBook = () => import('./views/CiteBook.vue')
-const CiteFilm = () => import('./views/CiteFilm.vue')
-const PrivacyPolicy = () => import('./views/PrivacyPolicy.vue')
-const WebsiteForm = () => import('./views/CitationForms/WebsiteForm.vue')
-const BookForm = () => import('./views/CitationForms/BookForm.vue')
-const FilmForm = () => import('./views/CitationForms/FilmForm.vue')
-const CreateProject = () => import('./views/CreateProject.vue')
-const EditProject = () => import('./views/EditProject.vue')
-const ErrorPage = () => import('./views/Error.vue')
-const Projects = () => import('./views/Projects.vue')
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
+Vue.use(Router);
 //@ts-ignore
 export default new Router({
   mode: 'history',
-  routes: [
+  base: process.env.BASE_URL,
+    routes: [
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: () => import('./views/Home.vue'),
       meta: {
         title: 'CloudCite · The Best Automatic Bibliography Generator'
       }
@@ -33,7 +18,7 @@ export default new Router({
     {
       path: '/projects/',
       name: 'projects',
-      component: Projects,
+      component: () => import('./views/Projects.vue'),
       meta: {
         title: 'CloudCite · Projects'
       }
@@ -41,7 +26,7 @@ export default new Router({
     {
       path: '/about/',
       name: 'about',
-      component: About,
+      component: () => import('./views/About.vue'),
       meta: {
         title: 'CloudCite · About'
       }
@@ -49,7 +34,7 @@ export default new Router({
     {
       path: '/callback/',
       name: 'LoadingPage',
-      component: LoadingPage,
+      component: () => import('./views/LoadingPage.vue'),
       meta: {
         title: 'CloudCite · Log In'
       }
@@ -57,7 +42,7 @@ export default new Router({
     {
       path: '/pricing/',
       name: 'pricing',
-      component: Pricing,
+      component: () => import('./views/Pricing.vue'),
       meta: {
         title: 'CloudCite · Pricing'
       }
@@ -65,7 +50,7 @@ export default new Router({
     {
       path: '/contribute/',
       name: 'contribute',
-      component: Contribute,
+      component: () => import('./views/Contribute.vue'),
       meta: {
         title: 'CloudCite · Contribute'
       }
@@ -73,7 +58,7 @@ export default new Router({
     {
       path: '/status/',
       name: 'status',
-      beforeEnter(to: any, from: any, next: any) {
+      beforeEnter(to, from, next) {
           window.location.href = "/";
           window.open('https://status.cloudcite.net','_blank');
       },
@@ -84,7 +69,7 @@ export default new Router({
     {
       path: '/api/',
       name: 'api',
-      beforeEnter(to: any, from: any, next: any) {
+      beforeEnter(to, from, next) {
           window.location.href = "/";
           window.open('https://api.cloudcite.net','_blank');
       },
@@ -95,7 +80,7 @@ export default new Router({
     {
       path: '/support/',
       name: 'support',
-      beforeEnter(to: any, from: any, next: any) {
+      beforeEnter(to, from, next) {
           window.location.href = "/";
           window.open('https://help.cloudcite.net','_blank');
       },
@@ -106,7 +91,7 @@ export default new Router({
     {
       path: '*',
       name: 'error',
-      component: ErrorPage,
+      component: () => import('./views/Error.vue'),
       meta: {
         title: 'CloudCite · Error'
       }
@@ -114,7 +99,7 @@ export default new Router({
     {
       path: '/privacy/',
       name: 'privacypolicy',
-      component: PrivacyPolicy,
+      component: () => import('./views/PrivacyPolicy.vue'),
       meta: {
         title: 'CloudCite · Privacy'
       }
@@ -122,7 +107,7 @@ export default new Router({
     {
       path: '/create/project/',
       name: 'createproject',
-      component: CreateProject,
+      component: () => import('./views/CreateProject.vue'),
       meta: {
         title: 'CloudCite · Create Project'
       }
@@ -130,7 +115,7 @@ export default new Router({
     {
       path: '/projects/edit/:id/',
       name: 'editproject',
-      component: EditProject,
+      component: () => import('./views/EditProject.vue'),
       meta: {
         title: 'CloudCite · Edit Project'
       }
@@ -138,7 +123,7 @@ export default new Router({
     {
       path: '/edit/website/',
       name: 'websiteform',
-      component: WebsiteForm,
+      component: () => import('./views/CitationForms/WebsiteForm.vue'),
       meta: {
         title: 'CloudCite · Edit Website Citation'
       }
@@ -146,7 +131,7 @@ export default new Router({
     {
       path: '/edit/book/',
       name: 'bookform',
-      component: BookForm,
+      component: () => import('./views/CitationForms/BookForm.vue'),
       meta: {
         title: 'CloudCite · Edit Book Citation'
       }
@@ -154,7 +139,7 @@ export default new Router({
     {
       path: '/edit/film/',
       name: 'filmform',
-      component: FilmForm,
+      component: () => import('./views/CitationForms/FilmForm.vue'),
       meta: {
         title: 'CloudCite · Edit Film Citation'
       }
@@ -162,7 +147,7 @@ export default new Router({
     {
       path: '/cite/website/',
       name: 'citewebsite',
-      component: CiteWebsite,
+      component: () => import('./views/CiteWebsite.vue'),
       meta: {
         title: 'CloudCite · Cite a Website'
       }
@@ -170,7 +155,7 @@ export default new Router({
     {
       path: '/cite/book/',
       name: 'citebook',
-      component: CiteBook,
+      component: () => import('./views/CiteBook.vue'),
       meta: {
         title: 'CloudCite · Cite a Book'
       }
@@ -178,15 +163,10 @@ export default new Router({
     {
       path: '/cite/film/',
       name: 'citefilm',
-      component: CiteFilm,
+      component: () => import('./views/CiteFilm.vue'),
       meta: {
         title: 'CloudCite · Cite a Film'
       }
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
-    //@ts-ignore
-    document.getElementById('app').scrollIntoView();
-    return { x: 0, y: 0 }
-  }
-})
+});

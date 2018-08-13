@@ -169,4 +169,9 @@ export default new Router({
       }
     }
   ],
+  scrollBehavior (to, from, savedPosition) {
+    //@ts-ignore
+    document.getElementById('app').scrollIntoView();
+    return { x: 0, y: 0 }
+  }
 });

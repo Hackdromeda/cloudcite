@@ -1,5 +1,5 @@
 //@ts-ignore
-import * as _ from 'lodash'
+import _ from 'lodash'
 
 export default function generateCSL(cslData: any) {
     //@ts-ignore

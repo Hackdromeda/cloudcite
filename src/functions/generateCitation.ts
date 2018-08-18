@@ -1,9 +1,9 @@
 //@ts-ignore
-import * as _ from 'lodash';
-import * as Immutable from 'immutable';
+import _ from 'lodash';
+import { Map } from 'immutable';
 
 export default function generateCitation(id: string, type: string, data: any) {
-    var citation = Immutable.Map({
+    var citation = Map({
         "id": id,
         "type": type,
         "URL": data.URL,

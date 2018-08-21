@@ -69,5 +69,19 @@ module.exports = {
         })
       ]
     }
+  },
+
+  baseUrl: "/",
+  productionSourceMap: false,
+  parallel: true,
+
+  css: {
+    extract: false
+  },
+
+  pwa: {
+    name: 'CloudCite',
+    themeColor: '#005eea',
+    msTileColor: '#005eea'
   }
 }

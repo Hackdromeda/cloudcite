@@ -22,10 +22,7 @@ new Vue({
   el: '#app',
   router,
   store,
-  render: h => h(App),
-  mounted () {
-    document.dispatchEvent(new Event('vue-render-event'))
-  }
+  render: h => h(App)
 })
 //@ts-ignore
 router.beforeEach((to, from, next) => {

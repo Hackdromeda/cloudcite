@@ -53,6 +53,11 @@ const auth = new AuthService()
 const { login, logout, authenticated, authNotifier } = auth
 import 'semantic-ui-css/semantic.min.css';
 
+window.addEventListener('load', function() {
+  document.dispatchEvent(new Event('vue-render-event'))
+  console.log('PRERENDERED')
+})
+
 @Component({
   components: {},
   created () {

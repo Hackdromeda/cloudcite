@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "@vaadin/vaadin-tabs": "^2.1.0-beta2",

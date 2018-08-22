@@ -11,11 +11,12 @@ module.exports = {
           staticDir: path.resolve(__dirname, 'dist'),
           // Add routes as we develop them
           // Pending Routes:
-          routes: ['/', '/about/', '/pricing/', '/privacy/', '/bibliography/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
+          routes: ['/about/', '/pricing/', '/privacy/', '/bibliography/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
           renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
             timeout: 180000,
-            renderAfterTime: 5000,
-            maxConcurrentRoutes: 2
+            renderAfterTime: 9999,
+            maxConcurrentRoutes: 1,
+            headless: false
           }),
           postProcess: function (context) {
             var titles = {

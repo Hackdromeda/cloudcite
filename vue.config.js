@@ -13,10 +13,7 @@ module.exports = {
           // Pending Routes:
           routes: ['/about/', '/pricing/', '/privacy/', '/bibliography/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
           renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
-            timeout: 180000,
-            renderAfterTime: 9999,
-            maxConcurrentRoutes: 1,
-            headless: false
+            renderAfterElementExists: '#app'
           }),
           postProcess: function (context) {
             var titles = {
@@ -77,7 +74,7 @@ module.exports = {
   parallel: true,
 
   css: {
-    extract: false
+    extract: true
   },
 
   pwa: {

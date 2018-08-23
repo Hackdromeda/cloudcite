@@ -12,7 +12,24 @@
         <p>Your bibliography will be here after you cite a website, book, or film.</p>
       </div>
       <div v-else>
-        <BibliographyPreview/>
+        <div id="bibliographyPreview">
+        <sui-segment>
+          <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
+            <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
+              <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
+                <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
+                  <div id="citationOptions">
+                    <span>
+                      <a @click="copyCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="clipboard" /></a>
+                      <a @click="editCitation(cslEntry.id, cslEntry.type)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
+                      <a @click="removeCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="trash" /></a>
+                    </span>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </sui-segment>
+        </div>
       </div>
     </div>
   </div>
@@ -20,7 +37,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BibliographyPreview from './BibliographyPreview.vue';
 //@ts-ignore
 import rp from 'request-promise-native';
 import generateCSL from '../functions/generateCSL';
@@ -30,29 +46,152 @@ import clipboard from "clipboard-polyfill";
 //@ts-ignore
 import debounce from 'lodash/debounce';
 import SearchStyles from './SearchStyles.vue';
+//@ts-ignore
+import _ from 'lodash';
 
 @Component({
   components: {
-    BibliographyPreview,
     SearchStyles
+  },
+  async created() {
+    //@ts-ignore
+    if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && !this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.outdated) {
+      this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
+      this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.type
+    }
+    else {
+      //@ts-ignore
+      var cslData = {}
+      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+        //@ts-ignore
+        cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
+      }
+      //@ts-ignore
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      if (generatedHTML.error) {
+        console.log(generatedHTML.error)
+      }
+      else {
+        this.$data.cslFormat = generatedHTML.format
+        this.$data.cslHTML = generatedHTML.html
+        //@ts-ignore
+        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+      }
+    }
   },
   data () {
     return {
       bibliographyTitle: "Bibliography",
       citationsData: [],
-      typing: false
+      typing: false,
+      cslHTML: [],
+      cslFormat: null,
+      styles: require('./styles.json')
+    }
+  },
+  computed: {
+    style: {
+      get() {
+        return this.$store.state.projects[this.$store.state.selectedProject].style
+      }
+    },
+    locale: {
+      get() {
+        return this.$store.state.projects[this.$store.state.selectedProject].locale
+      }
     }
   },
   methods: {
     copyBibliography() {
-      if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.plainText && this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.richText) {
-        console.log(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.richText)
-        var dt = new clipboard.DT();
+      var html = '<div class="csl-bib-body" style="';
+      //@ts-ignore
+      html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + ';'): '') + ((this.$data.cslFormat.hangingindent) ? ('text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '') + ''): '') + '">';
+      //@ts-ignore
+      html += '<div style="clear: left;';
+      //@ts-ignore
+      html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>';
+
+      for (let i=0; i < this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html.length; i++) {
         //@ts-ignore
-        dt.setData("text/plain", this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.plainText);
-        dt.setData("text/html", this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.richText);
-        clipboard.write(dt);
+        html += this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html[i].html;
       }
+
+      html += '</div>';
+      html += '</div>';
+      var dt = new clipboard.DT();
+      //@ts-ignore
+      dt.setData("text/plain", document.getElementById("bibliographyPreview").textContent);
+      dt.setData("text/html", html);
+      clipboard.write(dt);
+      console.log(html)
+    },
+    typeURL(url: string) {
+        var newURL: string = ""
+        switch (url.substring(0, 7)) {
+            case 'https:/':
+                newURL = url.substring(8, url.length)
+                break;
+            case 'http://':
+                newURL =  url.substring(7, url.length)
+                break;
+            default:
+                newURL = url
+        }
+        if (newURL.substring(0, 4) == "www.") {
+            newURL = newURL.substring(4, newURL.length)
+        }
+        return newURL
+    },
+    copyCitation(id: string) {
+        //@ts-ignore
+        if (this.$data.cslHTML.filter(entry => entry.id == id)[0] && this.$data.cslHTML.filter(entry => entry.id == id)[0].html) {
+          //@ts-ignore
+          var cslHTML = this.$data.cslHTML.filter(entry => entry.id == id)[0].html
+          //@ts-ignore
+          var html = '<div class="csl-bib-body" style="'
+          //@ts-ignore
+          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + ';'): '') + ((this.$data.cslFormat.hangingindent) ? ('text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '') + ''): '') + '">'
+          //@ts-ignore
+          html += '<div style="clear: left;'
+          //@ts-ignore
+          html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+          //@ts-ignore
+          html += cslHTML
+          html += '</div>'
+          html += '</div>'
+          console.log(html)
+          var dt = new clipboard.DT();
+          //@ts-ignore
+          dt.setData("text/plain", document.getElementById(id).textContent);
+          dt.setData("text/html", html);
+          clipboard.write(dt);
+        }
+    },
+    editCitation(id: string, type: string) {
+      //@ts-ignore
+      var cslData = this.$store.getters.getCitations.filter(citation => citation.id == id)[0]
+      //@ts-ignore
+      if (cslData && cslData.type && cslData.type == "website") {
+        //@ts-ignore
+        this.$store.dispatch('setEditingCitation', cslData)
+        this.$router.push({path: '/edit/website/'})
+      }
+      //@ts-ignore
+      else if (cslData && cslData.type && cslData.type == "book") {
+        //@ts-ignore
+        this.$store.dispatch('setEditingCitation', cslData)
+        this.$router.push({path: '/edit/book/'})
+      }
+      //@ts-ignore
+      else if (cslData && cslData.type && cslData.type == "motion_picture") {
+        //@ts-ignore
+        this.$store.dispatch('setEditingCitation', cslData)
+        this.$router.push({path: '/edit/film/'})
+      }
+    },
+    removeCitation(id: string) {
+      //@ts-ignore
+      this.$store.dispatch('removeCitationById', id)
     }
   },
   watch: {
@@ -66,18 +205,80 @@ import SearchStyles from './SearchStyles.vue';
         this.$store.dispatch('saveState')
         //@ts-ignore
         this.$data.typing = false
-    }, 3000)
+    }, 3000),
+    //@ts-ignore
+    async style() {
+      this.$data.cslHTML = []
+      this.$data.cslFormat = null
+      //@ts-ignore
+      var cslData = {}
+      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+        //@ts-ignore
+        cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
+      }
+      //@ts-ignore
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      if (generatedHTML.error) {
+        console.log(generatedHTML.error)
+      }
+      else {
+        this.$data.cslFormat = generatedHTML.format
+        this.$data.cslHTML = generatedHTML.html
+        //@ts-ignore
+        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+      }
+    },
+    async locale() {
+      this.$data.cslHTML = []
+      this.$data.cslFormat = null
+      //@ts-ignore
+      var cslData = {}
+      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+        //@ts-ignore
+        cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
+      }
+      //@ts-ignore
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      if (generatedHTML.error) {
+        console.log(generatedHTML.error)
+      }
+      else {
+        this.$data.cslFormat = generatedHTML.format
+        this.$data.cslHTML = generatedHTML.html
+        //@ts-ignore
+        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+      }
+    }
   }
 })
 export default class Bibliography extends Vue {}
 </script>
 
 <style scoped lang="scss">
+@media (min-width: 991.98px) {
+  #bibliographyPreview {
+    color: #000;
+    min-height: 16vh;
+    text-align: left;
+    font-weight: normal !important;
+  }
+}
 @media (max-width: 991.97px) {
   #bibliographyActions {
     font-size: 0.9rem;
   }
+  #bibliographyPreview {
+    color: #000;
+    text-align: left;
+    font-weight: normal !important;
+  }
 }
+#citationOptions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
 #bibliography {
   padding: 10px;
   text-align: center;

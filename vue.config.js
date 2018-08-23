@@ -13,8 +13,7 @@ module.exports = {
           // Pending Routes:
           routes: ['/', '/about/', '/projects/', '/pricing/', '/privacy/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
           renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
-            maxConcurrentRoutes: 4,
-            renderAfterElementExists: '#app'
+            maxConcurrentRoutes: 4
           }),
           postProcess: function (context) {
             var titles = {

@@ -8,7 +8,7 @@
             </h2>
         </div>
     </div>
-    <div style="padding: 5vh; display: inline-flex;">
+    <div style="padding: 5vh; display: inline-flex;" v-if="displayComponent()">
         <sui-grid stackable>
           <sui-grid-row :columns="projects.length + 1">
             <sui-grid-column :mobile="16" :tablet="8" :computer="4" stretched v-for="(project, p) in projects" :key="p">
@@ -83,6 +83,15 @@ import SearchStyles from '../components/SearchStyles.vue';
       },
       selectProject(project: any) {
         this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)))
+      },
+      displayComponent() {
+        //@ts-ignore
+        if(window.navigator.userAgent.includes('Headless')) {
+          return false;
+        }
+        else{
+          return true;
+        }
       }
     }
 })

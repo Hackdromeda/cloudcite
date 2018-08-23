@@ -45,11 +45,11 @@
       </div>
       <div id="code">
           <h3>Contribute Code</h3>
+            <p>Help us with features and bugs listed on our <a href="https://github.com/Hackdromeda/cloudcite/projects" target="_blank">GitHub Project Board</a>.</p>
+            <br>
             <a href="https://github.com/Hackdromeda/cloudcite/" target="_blank">
               <img src="/static/images/GitHub-Mark-32px.png" style="width:38px">
             </a>
-          <p>Help us with features and bugs listed on our <a href="https://github.com/Hackdromeda/cloudcite/projects" target="_blank">GitHub Project Board</a>.</p>
-          <br>
       </div>
       <div id="free">
           <h3>Contribute At No Cost</h3>

@@ -1,8 +1,10 @@
 <template>
   <div id="dashboard">
-  <vaadin-tabs :selected="selectedProject">
-    <vaadin-tab v-for="(project, p) in projects" :key="p" @click="selectProject(project)" v-cloak> {{ project.title }}</vaadin-tab>
-  </vaadin-tabs>
+  <!--
+    <vaadin-tabs :selected="selectedProject">
+      <vaadin-tab v-for="(project, p) in projects" :key="p" @click="selectProject(project)" v-cloak> {{ project.title }}</vaadin-tab>
+    </vaadin-tabs>
+  -->
   <sui-grid :columns="3" stackable>
     <sui-grid-row>
       <sui-grid-column :mobile="5" :tablet="2" :computer="4">
@@ -21,7 +23,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Bibliography from './Bibliography.vue';
-import '@vaadin/vaadin-tabs/vaadin-tabs.js';
+//import '@vaadin/vaadin-tabs/vaadin-tabs.js';
 import LocaleChange from './LocaleChange.vue';
 
 @Component({

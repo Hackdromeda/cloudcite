@@ -72,6 +72,11 @@ export default new Vuex.Store({
           }
         }
       };
+
+      dbRequest.onerror = function() {
+        console.log("IndexedDB Request Error: " + dbRequest.error);
+      };
+
     },
     setStyle(state: any, payload: string) {
       //state.projects[state.selectedProject].style = payload
@@ -104,6 +109,11 @@ export default new Vuex.Store({
         var store = tx.objectStore("cloudcite");
         store.put(state, 0);
       };
+
+      dbRequest.onerror = function() {
+        console.log("IndexedDB Request Error: " + dbRequest.error);
+      };
+      
     },
     setEditingCitation(state: any, payload: any) {
       state.editingCitation = payload

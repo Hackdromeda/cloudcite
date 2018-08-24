@@ -56,9 +56,6 @@ export default new Vuex.Store({
         state.projects = cloudciteStorage.projects;
       }
     },
-    setStyle(state: any, payload: string) {
-      //state.projects[state.selectedProject].style = payload
-    },
     setProjectLocale(state: any, payload: any) {
       for (let i=0; i < state.projects.length; i++) {
         if (state.projects[i].id == payload.id && payload.locale != '' && payload.locale != null) {
@@ -132,10 +129,6 @@ export default new Vuex.Store({
       context.commit('setState')
     },
     saveState(context: any) {
-      context.commit('saveState')
-    },
-    setStyle(context: any, payload: string) {
-      context.commit('setStyle', payload)
       context.commit('saveState')
     },
     setProjectLocale(context: any, payload: any) {

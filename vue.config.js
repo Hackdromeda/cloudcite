@@ -11,13 +11,19 @@ module.exports = {
           staticDir: path.resolve(__dirname, 'dist'),
           // Add routes as we develop them
           // Pending Routes:
-          routes: ['/', '/about/', '/projects/', '/pricing/', '/privacy/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
+          routes: ['/', '/about/', '/error/', '/projects/', '/pricing/', '/privacy/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
           renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
-            maxConcurrentRoutes: 4
+            timeout: 200000,
+            maxConcurrentRoutes: 1,
+            navigationOptions: {
+              timeout: 80000
+            },
+            headless: true
           }),
           postProcess: function (context) {
             var titles = {
               '/': 'CloudCite · The Best Free Automatic Bibliography Generator · MLA, APA, Chicago, Harvard Citation Styles',
+              '/error/': 'CloudCite · Error',
               '/about/': 'CloudCite · About',
               '/projects/': 'CloudCite · Projects',
               '/pricing/': 'CloudCite · Pricing',
@@ -27,12 +33,11 @@ module.exports = {
               '/cite/website/': 'CloudCite · Cite a Website · MLA, APA, Chicago, Harvard Citation Styles',
               '/cite/book/': 'CloudCite · Cite a Book · MLA, APA, Chicago, Harvard Citation Styles',
               '/cite/film/': 'CloudCite · Cite a Film · MLA, APA, Chicago, Harvard Citation Styles',
-              '/create/project/': 'CloudCite · Create Project · MLA, APA, Chicago, Harvard Citation Styles',
-              '/support/': 'CloudCite · Support',
-              '/status/': 'CloudCite · Status'
+              '/create/project/': 'CloudCite · Create Project · MLA, APA, Chicago, Harvard Citation Styles'
             }
             var descriptions = {
               '/': 'CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.',
+              '/error/': 'CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.',
               '/about/': 'Learn about CloudCite. A free, secure and ad-free Bibliography Generator.',
               '/projects/': 'Let CloudCite handle generating bibliographies and filling in fields for you. CloudCite can store multiple bibliography projects.',
               '/pricing/': 'CloudCite is always free. No ads.',
@@ -42,9 +47,7 @@ module.exports = {
               '/cite/website/': 'CloudCite can create website citations.',
               '/cite/book/': 'CloudCite can create book citations.',
               '/cite/film/': 'CloudCite can create film citations.',
-              '/create/project/': 'CloudCite can create projects.',
-              '/support/': 'CloudCite can help you if you encounter any issues. Feedback is always welcome.',
-              '/status/': 'CloudCite has a status page to be transparent about issues with our service.'
+              '/create/project/': 'CloudCite can create projects.'
             }
             context.html = context.html.replace(
               /<title>[^<]*<\/title>/i,
@@ -70,7 +73,7 @@ module.exports = {
   },
 
   baseUrl: "/",
-  productionSourceMap: false,
+  productionSourceMap: true,
   parallel: true,
 
   css: {

@@ -13,12 +13,7 @@ module.exports = {
           // Pending Routes:
           routes: ['/', '/about/', '/error/', '/projects/', '/pricing/', '/privacy/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
           renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
-            timeout: 200000,
-            maxConcurrentRoutes: 1,
-            navigationOptions: {
-              timeout: 80000
-            },
-            headless: true
+
           }),
           postProcess: function (context) {
             var titles = {

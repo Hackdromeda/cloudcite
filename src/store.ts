@@ -47,34 +47,14 @@ export default new Vuex.Store({
       state.projects[state.selectedProject].citations = payload;
     },
     setState(state: any) {
-      var dbRequest = indexedDB.open("cloudcite");
-
-      dbRequest.onupgradeneeded = function() {
-        var db = dbRequest.result;
-        var store = db.createObjectStore("cloudcite", {keypath: "id"})
-        var selectedProjectIndex = store.createIndex("by_selectedProject", "selectedProject")
-        var citationsIndex = store.createIndex("by_projects", "projects")
-        var favoriteStylesIndex = store.createIndex("by_favoriteStyles", "favoriteStyles")
-        store.put({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles}, 0)
-      };
-
-      dbRequest.onsuccess = function() {
-        var db = dbRequest.result;
-        var tx = db.transaction("cloudcite", "readonly");
-        var store = tx.objectStore("cloudcite");
-        if ('getAll' in store) {
-          store.getAll().onsuccess = function(event: any) {
-            if (event.target.result && event.target.result.length > 0) {
-              state.selectedProject = event.target.result[0].selectedProject
-              state.favoriteStyles = event.target.result[0].favoriteStyles
-              state.projects = event.target.result[0].projects
-            }
-          }
-        }
-      };
-    },
-    setStyle(state: any, payload: string) {
-      //state.projects[state.selectedProject].style = payload
+      //@ts-ignore
+      var cloudciteStorageString: string = localStorage.getItem('cloudcite');
+      if (cloudciteStorageString) {
+        var cloudciteStorage = JSON.parse(cloudciteStorageString);
+        state.selectedProject = cloudciteStorage.selectedProject;
+        state.favoriteStyles = cloudciteStorage.favoriteStyles;
+        state.projects = cloudciteStorage.projects;
+      }
     },
     setProjectLocale(state: any, payload: any) {
       for (let i=0; i < state.projects.length; i++) {
@@ -87,23 +67,7 @@ export default new Vuex.Store({
       state.selectedProject = payload
     },
     saveState(state: any) {
-      var dbRequest = indexedDB.open("cloudcite");
-
-      dbRequest.onupgradeneeded = function() {
-        var db = dbRequest.result;
-        var store = db.createObjectStore("cloudcite", {autoIncrement: true})
-        var selectedProjectIndex = store.createIndex("by_selectedProject", "selectedProject")
-        var citationsIndex = store.createIndex("by_projects", "projects")
-        var favoriteStylesIndex = store.createIndex("by_favoriteStyles", "favoriteStyles")
-        store.put({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles}, 0)
-      };
-
-      dbRequest.onsuccess = function() {
-        var db = dbRequest.result;
-        var tx = db.transaction("cloudcite", "readwrite");
-        var store = tx.objectStore("cloudcite");
-        store.put(state, 0);
-      };
+      localStorage.setItem('cloudcite', JSON.stringify({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles}));
     },
     setEditingCitation(state: any, payload: any) {
       state.editingCitation = payload
@@ -165,10 +129,6 @@ export default new Vuex.Store({
       context.commit('setState')
     },
     saveState(context: any) {
-      context.commit('saveState')
-    },
-    setStyle(context: any, payload: string) {
-      context.commit('setStyle', payload)
       context.commit('saveState')
     },
     setProjectLocale(context: any, payload: any) {

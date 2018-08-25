@@ -55,13 +55,13 @@ import _ from 'lodash';
   },
   async created() {
     //@ts-ignore
-    if (this.projects[this.selectedProject].cachedBibliography && !this.projects[this.selectedProject].cachedBibliography.outdated) {
+    if (this.$store.getters.getCitations.length > 0 && this.projects[this.selectedProject].cachedBibliography && !this.projects[this.selectedProject].cachedBibliography.outdated) {
       //@ts-ignore
       this.$data.cslHTML = this.projects[this.selectedProject].cachedBibliography.html
       //@ts-ignore
       this.$data.cslFormat = this.projects[this.selectedProject].cachedBibliography.type
     }
-    else {
+    else if (this.$store.getters.getCitations.length > 0) {
       //@ts-ignore
       var cslData = {}
       for (let i=0; i < this.$store.getters.getCitations.length; i++) {
@@ -83,13 +83,13 @@ import _ from 'lodash';
   },
   async updated() {
     //@ts-ignore
-    if (this.projects[this.selectedProject].cachedBibliography && !this.projects[this.selectedProject].cachedBibliography.outdated) {
+    if (this.$store.getters.getCitations.length > 0 && this.projects[this.selectedProject].cachedBibliography && !this.projects[this.selectedProject].cachedBibliography.outdated) {
       //@ts-ignore
       this.$data.cslHTML = this.projects[this.selectedProject].cachedBibliography.html
       //@ts-ignore
       this.$data.cslFormat = this.projects[this.selectedProject].cachedBibliography.type
     }
-    else {
+    else if (this.$store.getters.getCitations.length > 0) {
       //@ts-ignore
       var cslData = {}
       for (let i=0; i < this.$store.getters.getCitations.length; i++) {
@@ -248,45 +248,49 @@ import _ from 'lodash';
     }, 3000),
     //@ts-ignore
     async style() {
-      this.$data.cslHTML = []
-      this.$data.cslFormat = null
-      //@ts-ignore
-      var cslData = {}
-      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+      if (this.$store.getters.getCitations.length > 0) {
+        this.$data.cslHTML = []
+        this.$data.cslFormat = null
         //@ts-ignore
-        cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
-      }
-      //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
-      if (generatedHTML.error) {
-        console.log(generatedHTML.error)
-      }
-      else {
-        this.$data.cslFormat = generatedHTML.format
-        this.$data.cslHTML = generatedHTML.html
+        var cslData = {}
+        for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+          //@ts-ignore
+          cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
+        }
         //@ts-ignore
-        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+        if (generatedHTML.error) {
+          console.log(generatedHTML.error)
+        }
+        else {
+          this.$data.cslFormat = generatedHTML.format
+          this.$data.cslHTML = generatedHTML.html
+          //@ts-ignore
+          this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        }
       }
     },
     async locale() {
-      this.$data.cslHTML = []
-      this.$data.cslFormat = null
-      //@ts-ignore
-      var cslData = {}
-      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+      if (this.$store.getters.getCitations.length > 0) {
+        this.$data.cslHTML = []
+        this.$data.cslFormat = null
         //@ts-ignore
-        cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
-      }
-      //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
-      if (generatedHTML.error) {
-        console.log(generatedHTML.error)
-      }
-      else {
-        this.$data.cslFormat = generatedHTML.format
-        this.$data.cslHTML = generatedHTML.html
+        var cslData = {}
+        for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+          //@ts-ignore
+          cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
+        }
         //@ts-ignore
-        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+        if (generatedHTML.error) {
+          console.log(generatedHTML.error)
+        }
+        else {
+          this.$data.cslFormat = generatedHTML.format
+          this.$data.cslHTML = generatedHTML.html
+          //@ts-ignore
+          this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        }
       }
     }
   }

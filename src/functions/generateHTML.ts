@@ -67,7 +67,7 @@ export default async function generateHTML(data: any) {
                 return {format: format, html: html, richTextHTML: richTextHTML};
             }
             else {
-                store.dispatch('setMessage', {description: "HTML can not be generated", type: "error"})
+                store.dispatch('setMessage', {description: "There has been an error in processing your request. Please send us detailed feedback about the problem that occurred and the procedure for duplicating the issue.", type: "error"})
                 return {error: "HTML can not be generated"};
             }
         }
@@ -77,7 +77,7 @@ export default async function generateHTML(data: any) {
         }
     }
     else {
-        store.dispatch('setMessage', {description: "Invalid function parameters", type: "error"})
+        store.dispatch('setMessage', {description: "There has been an error in processing your request. Please send us detailed feedback about the problem that occurred and the procedure for duplicating the issue.", type: "error"})
         return {error: "Invalid function parameters"};
     }
 }

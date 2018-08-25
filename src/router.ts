@@ -89,7 +89,26 @@ export default new Router({
       }
     },
     {
+      path: '/feedback/',
+      name: 'feedback',
+      beforeEnter(to, from, next) {
+          window.location.href = "/";
+          window.open('https://feedback.cloudcite.net','_blank');
+      },
+      meta: {
+        title: 'CloudCite · The Best Automatic Bibliography Generator'
+      }
+    },
+    {
       path: '*',
+      name: 'error',
+      component: () => import('./views/Error.vue'),
+      meta: {
+        title: 'CloudCite · Error'
+      }
+    },
+    {
+      path: '/error/',
       name: 'error',
       component: () => import('./views/Error.vue'),
       meta: {

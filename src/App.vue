@@ -22,6 +22,7 @@
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/pricing/'})">Pricing</a>
               <a href="https://status.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Status</a>
               <a href="https://help.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Help</a>
+              <a href="https://feedback.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Feedback</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/contribute/'})">Contribute</a>
             </div>
             <div class="navbar-end">

@@ -48,8 +48,8 @@
                             </sui-form-field>
                             <sui-form-field>
                                 <div class="ui labeled input">
-                                    <div class="ui label">Website Title</div>
-                                    <input placeholder="Title" @input="typing = true" v-model="citationData['container-title']">
+                                    <div class="ui label">Publisher</div>
+                                    <input placeholder="Publisher" @input="typing = true" v-model="citationData['container-title']">
                                 </div>
                             </sui-form-field>
                             <sui-form-field>
@@ -62,18 +62,6 @@
                                 <div class="ui labeled input">
                                     <div class="ui label">Website Type</div>
                                     <input placeholder="Website Type" @input="typing = true" v-model="citationData.genre">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Source</div>
-                                    <input placeholder="Source" @input="typing = true" v-model="citationData.source">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Publisher</div>
-                                    <input placeholder="Publisher" @input="typing = true" v-model="citationData.publisher">
                                 </div>
                             </sui-form-field>
                             <!-- Website Form End -->

@@ -25,7 +25,6 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@vaadin/vaadin-tabs": "^2.1.0-beta2",
     "EventEmitter": "^1.0.0",
     "auth0-js": "^9.6.1",
     "bulma": "^0.7.1",

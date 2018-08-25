@@ -10,6 +10,10 @@ export default new Vuex.Store({
     "selectedProject": 0,
     "editingCitation": null,
     "favoriteStyles": [{"key":"modern-language-association","text":"Modern Language Association 8th edition (MLA)","value":"modern-language-association"},{"key":"apa","text":"American Psychological Association 6th edition (APA)","value":"apa"},{"key":"chicago-note-bibliography","text":"Chicago Manual of Style 17th edition (note)","value":"chicago-note-bibliography"},{"key":"turabian-fullnote-bibliography","text":"Turabian 8th edition (full note)","value":"turabian-fullnote-bibliography"},{"key":"ieee","text":"IEEE","value":"ieee"},{"key":"elsevier-harvard","text":"Elsevier - Harvard (with titles)","value":"elsevier-harvard"},{"key":"american-medical-association","value":"american-medical-association","text":"American Medical Association (AMA)"},{"key":"american-sociological-association","text":"American Sociological Association (ASA)","value":"american-sociological-association"},{"key":"vancouver","text":"Vancouver","value":"vancouver"}],
+    "message": {
+      "type": null,
+      "description": null
+    },
     "projects": [
       {
         "id": "Project-0",
@@ -22,6 +26,9 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
+    setMessage(state: any, payload: any) {
+      state.message = payload
+    },
     addCitation(state: any, payload: any) {
       //@ts-ignore
       if (state.projects[state.selectedProject].citations.filter(c => c.id === payload.id).length > 0) {
@@ -54,6 +61,7 @@ export default new Vuex.Store({
         state.selectedProject = cloudciteStorage.selectedProject;
         state.favoriteStyles = cloudciteStorage.favoriteStyles;
         state.projects = cloudciteStorage.projects;
+        state.message = cloudciteStorage.message;
       }
     },
     setProjectLocale(state: any, payload: any) {
@@ -78,7 +86,7 @@ export default new Vuex.Store({
       }
     },
     saveState(state: any) {
-      localStorage.setItem('cloudcite', JSON.stringify({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles}));
+      localStorage.setItem('cloudcite', JSON.stringify({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles, message: state.message}));
     },
     setEditingCitation(state: any, payload: any) {
       state.editingCitation = payload
@@ -120,6 +128,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setMessage(context: any, payload: any) {
+      context.commit('setMessage', payload)
+      context.commit('saveState')
+    },
     addCitation(context: any, payload: any) {
       context.commit('addCitation', payload)
       context.commit('saveState')
@@ -201,6 +213,9 @@ export default new Vuex.Store({
     },
     getFavoriteStyles(state: any) {
       return state.favoriteStyles
+    },
+    getMessage(state: any) {
+      return state.message
     }
   }
 })

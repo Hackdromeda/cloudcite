@@ -2,6 +2,7 @@
 import _ from 'lodash'
 //@ts-ignore
 import rp from 'request-promise-native';
+import store from '../store';
 
 export default async function generateHTML(data: any) {
     var requestData = _.pickBy({style: data.style, locale: data.locale, csl: data.csl, lang: data.lang})
@@ -66,14 +67,17 @@ export default async function generateHTML(data: any) {
                 return {format: format, html: html, richTextHTML: richTextHTML};
             }
             else {
+                store.dispatch('setMessage', {description: "HTML can not be generated", type: "error"})
                 return {error: "HTML can not be generated"};
             }
         }
         catch (error) {
+            store.dispatch('setMessage', {description: error, type: "error"})
             return {error: error};
         }
     }
     else {
+        store.dispatch('setMessage', {description: "Invalid function parameters", type: "error"})
         return {error: "Invalid function parameters"};
     }
 }

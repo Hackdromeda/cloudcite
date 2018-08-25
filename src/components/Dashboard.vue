@@ -11,6 +11,7 @@
         <LocaleChange :projectOption="$store.state.projects[$store.state.selectedProject]"/>
       </sui-grid-column>
       <sui-grid-column :mobile="10" :tablet="14" :computer="8">
+        <sui-message dismissable floating error attached="top" @dismiss="dismissError()" header="CloudCite Error" content="CloudCite is unable to process your request. Please send us detailed feedback about the error."/>
         <Bibliography/>
       </sui-grid-column>
     </sui-grid-row>
@@ -29,11 +30,6 @@ import LocaleChange from './LocaleChange.vue';
     Bibliography,
     LocaleChange
   },
-  data() {
-    return {
-
-    }
-  },
   computed: {
     projects: {
       get() {
@@ -44,6 +40,11 @@ import LocaleChange from './LocaleChange.vue';
       get() {
         return this.$store.state.selectedProject
       }
+    },
+    error: {
+      get() {
+        return this.$store.state.error
+      }
     }
   },
   methods: {
@@ -52,6 +53,10 @@ import LocaleChange from './LocaleChange.vue';
     },
     removeProject(project) {
       this.$store.dispatch('removeProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
+    },
+    dismissError() {
+      //@ts-ignore
+      this.$store.dispatch('setError', {title: this.error.title, description: this.error.description, visible: false})
     }
   }
 })

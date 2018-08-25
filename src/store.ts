@@ -66,6 +66,17 @@ export default new Vuex.Store({
     selectProject(state: any, payload: number) {
       state.selectedProject = payload
     },
+    removeProject(state: any, payload: number) {
+      var firstProjects = state.projects.slice(0, payload)
+      var lastProjects = state.projects.slice(payload + 1, state.projects.length)
+      for (let i=0; i < lastProjects.length; i++) {
+        lastProjects[i].id = "Project-" + (parseInt(lastProjects[i].id.substring((lastProjects[i].id.indexOf('-') + 1))) - 1)
+      }
+      state.projects = firstProjects.concat(lastProjects)
+      if (state.selectedProject == payload) {
+        state.selectedProject = 0
+      }
+    },
     saveState(state: any) {
       localStorage.setItem('cloudcite', JSON.stringify({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles}));
     },
@@ -137,6 +148,10 @@ export default new Vuex.Store({
     },
     selectProject(context: any, payload: number) {
       context.commit('selectProject', payload)
+      context.commit('saveState')
+    },
+    removeProject(context: any, payload: number) {
+      context.commit('removeProject', payload)
       context.commit('saveState')
     },
     setEditingCitation(context: any, payload: any) {

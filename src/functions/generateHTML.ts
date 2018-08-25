@@ -4,8 +4,6 @@ import _ from 'lodash'
 import rp from 'request-promise-native';
 
 export default async function generateHTML(data: any) {
-    console.log('GENERATING HTML WITH THE FOLLOWING DATA:')
-    console.log(data)
     try {
         const response = await rp({
             uri: 'https://api.cloudcite.net/cite',

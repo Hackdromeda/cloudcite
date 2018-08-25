@@ -1,14 +1,14 @@
 <template>
   <div>
     <div id="bibliography">
-      <input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="$store.state.projects[$store.state.selectedProject].title"/>
+      <input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title"/>
       <div>
-        <SearchStyles :projectOption="$store.state.projects[$store.state.selectedProject]"/>
+        <SearchStyles :projectOption="projects[selectedProject]"/>
       </div>
-      <div style="margin-top: 5vh;" v-if="$store.state.projects[$store.state.selectedProject].citations.length > 0" id="bibliographyActions" >
+      <div style="margin-top: 5vh;" v-if="projects[selectedProject].citations.length > 0" id="bibliographyActions" >
         <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
-      <div v-if="$store.state.projects[$store.state.selectedProject].citations.length == 0" style="margin-top: 10vh;">
+      <div v-if="projects[selectedProject].citations.length == 0" style="margin-top: 10vh;">
         <p>Your bibliography will be here after you cite a website, book, or film.</p>
       </div>
       <div v-else>
@@ -55,9 +55,11 @@ import _ from 'lodash';
   },
   async created() {
     //@ts-ignore
-    if (this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography && !this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.outdated) {
-      this.$data.cslHTML = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html
-      this.$data.cslFormat = this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.type
+    if (this.projects[this.selectedProject].cachedBibliography && !this.projects[this.selectedProject].cachedBibliography.outdated) {
+      //@ts-ignore
+      this.$data.cslHTML = this.projects[this.selectedProject].cachedBibliography.html
+      //@ts-ignore
+      this.$data.cslFormat = this.projects[this.selectedProject].cachedBibliography.type
     }
     else {
       //@ts-ignore
@@ -67,7 +69,7 @@ import _ from 'lodash';
         cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
       }
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      const generatedHTML = await generateHTML({style: this.projects[this.selectedProject].style, locale: this.projects[this.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.projects[this.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       }
@@ -75,7 +77,35 @@ import _ from 'lodash';
         this.$data.cslFormat = generatedHTML.format
         this.$data.cslHTML = generatedHTML.html
         //@ts-ignore
-        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        this.$store.dispatch('cacheBibliography', Object.assign(this.projects[this.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+      }
+    }
+  },
+  async updated() {
+    //@ts-ignore
+    if (this.projects[this.selectedProject].cachedBibliography && !this.projects[this.selectedProject].cachedBibliography.outdated) {
+      //@ts-ignore
+      this.$data.cslHTML = this.projects[this.selectedProject].cachedBibliography.html
+      //@ts-ignore
+      this.$data.cslFormat = this.projects[this.selectedProject].cachedBibliography.type
+    }
+    else {
+      //@ts-ignore
+      var cslData = {}
+      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+        //@ts-ignore
+        cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
+      }
+      //@ts-ignore
+      const generatedHTML = await generateHTML({style: this.projects[this.selectedProject].style, locale: this.projects[this.selectedProject].locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.projects[this.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      if (generatedHTML.error) {
+        console.log(generatedHTML.error)
+      }
+      else {
+        this.$data.cslFormat = generatedHTML.format
+        this.$data.cslHTML = generatedHTML.html
+        //@ts-ignore
+        this.$store.dispatch('cacheBibliography', Object.assign(this.projects[this.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
       }
     }
   },
@@ -98,6 +128,16 @@ import _ from 'lodash';
     locale: {
       get() {
         return this.$store.state.projects[this.$store.state.selectedProject].locale
+      }
+    },
+    projects: {
+      get() {
+        return this.$store.getters.getProjects
+      }
+    },
+    selectedProject: {
+      get() {
+        return this.$store.state.selectedProject
       }
     }
   },

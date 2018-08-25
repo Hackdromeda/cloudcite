@@ -59,7 +59,7 @@ import * as _ from 'lodash';
             "citations": [],
             "style": "modern-language-association",
             "locale": "locales-en-US",
-            "csl": {},
+            "cachedBibliography": {outdated: true},
             "creatingProject": true
         }
     }

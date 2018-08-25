@@ -1,10 +1,8 @@
 <template>
   <div id="dashboard">
-  <!--
-    <vaadin-tabs :selected="selectedProject">
-      <vaadin-tab v-for="(project, p) in projects" :key="p" @click="selectProject(project)" v-cloak> {{ project.title }}</vaadin-tab>
-    </vaadin-tabs>
-  -->
+    <div class="tabs">
+      <div v-for="(project, p) in projects" :key="p" :class="($store.state.selectedProject == p) ? 'tab-active': 'tab'"><span @click="selectProject(project)" v-cloak>{{ project.title }}</span><sui-icon @click="removeProject(project)" id="closeTabButton" name="minus circle"/></div>
+    </div>
   <sui-grid :columns="3" stackable>
     <sui-grid-row>
       <sui-grid-column :mobile="5" :tablet="2" :computer="4">
@@ -50,7 +48,10 @@ import LocaleChange from './LocaleChange.vue';
   },
   methods: {
     selectProject(project) {
-      this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)))
+      this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
+    },
+    removeProject(project) {
+      this.$store.dispatch('removeProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
     }
   }
 })
@@ -60,5 +61,43 @@ export default class Dashboard extends Vue {}
 <style scoped lang="scss">
   #dashboard {
     color: #000;
+  }
+  .tabs {
+    display: inline-flex;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .tabs:hover {
+    cursor: pointer;
+  }
+  #closeTabButton {
+    color: #90a4ae;
+    padding-left: 10px;
+    padding-right: 12px;
+  }
+  #closeTabButton:hover {
+    color: red;
+    cursor: pointer;
+  }
+  .tab {
+    font-size: 1.1rem;
+    padding: 10px;
+    padding-right: 5px;
+    border-bottom: 3px solid #e0e0e0;
+    margin: 2px;
+    background-color: #f5f5f5;
+  }
+  .tab:hover {
+    background-color: #cfd8dc;
+    border-bottom: 3px solid #b0bec5;
+    
+  }
+  .tab-active {
+    font-size: 1.1rem;
+    padding: 10px;
+    padding-right: 5px;
+    margin: 2px;
+    background-color: #f5f5f5;
+    border-bottom: 3px solid #005eea;
   }
 </style>

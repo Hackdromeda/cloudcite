@@ -124,7 +124,6 @@ import generateCitation from '@/functions/generateCitation';
                     "author": this.$data.bookCitationData.contributors.filter(b => b.type === 'author')[0],
                     //@ts-ignore
                     "publisher": this.$data.bookCitationData.publisher,
-                    "book": "",
                     "format": "book"
             },
             json: true

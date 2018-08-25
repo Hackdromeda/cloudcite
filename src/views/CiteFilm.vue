@@ -88,6 +88,8 @@ import * as Immutable from 'immutable';
         //@ts-ignore
         this.dataPosition = []
         //@ts-ignore
+        if (this.$data.filmTitle && this.$data.filmTitle != "" && this.$data.filmPage) {
+        //@ts-ignore
         this.isFetching = true
         //@ts-ignore
         rp({
@@ -97,12 +99,12 @@ import * as Immutable from 'immutable';
             },
             method: 'POST',
             //@ts-ignore
-            body: {"title": this.filmTitle, "format": "movie", "page": this.filmPage},
+            body: {"title": this.$data.filmTitle, "format": "movie", "page": this.$data.filmPage},
             json: true
             //@ts-ignore
         }).then(data => {
                 //@ts-ignore
-                data.results.forEach((item) => this.filmData.push(item))
+                data.results.forEach((item) => this.$data.filmData.push(item))
                 //@ts-ignore
                 this.dataPosition = {"total_results": data.total_results, "page": data.page, "total_pages": data.total_pages}
                 //@ts-ignore
@@ -122,6 +124,7 @@ import * as Immutable from 'immutable';
                 this.isFetching = false
                 throw error
             })
+        }
     }, 250),
     citeFilm: function(film) {
         this.$data.selectedFilm = film;
@@ -133,7 +136,7 @@ import * as Immutable from 'immutable';
                 },
                 method: 'POST',
                 //@ts-ignore
-                body: {"title": this.filmTitle, "movie": this.$data.selectedFilm.id, "format": "movie"},
+                body: {"title": this.$data.filmTitle, "movie": this.$data.selectedFilm.id, "format": "movie"},
                 json: true
                 //@ts-ignore
             }).then(data => {

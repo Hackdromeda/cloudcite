@@ -108,14 +108,6 @@ export default new Router({
       }
     },
     {
-      path: '/error/',
-      name: 'error',
-      component: () => import('./views/Error.vue'),
-      meta: {
-        title: 'CloudCite · Error'
-      }
-    },
-    {
       path: '/privacy/',
       name: 'privacypolicy',
       component: () => import('./views/PrivacyPolicy.vue'),

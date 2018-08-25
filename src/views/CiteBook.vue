@@ -100,6 +100,8 @@ import generateCitation from '@/functions/generateCitation';
         //@ts-ignore
         this.bookData = []
         //@ts-ignore
+        if (this.$data.bookIdentificationSelected && this.$data.bookIdentificationSelected != "" && this.$data.bookIdentificationField && this.$data.bookIdentificationField != "") {
+        //@ts-ignore
         this.isFetching = true
         //@ts-ignore
         rp({
@@ -157,6 +159,7 @@ import generateCitation from '@/functions/generateCitation';
                 this.isFetching = false
                 throw error
             })
+        }
     }, 500),
     citeBook(book: any) {
         this.$data.selectedBook = book

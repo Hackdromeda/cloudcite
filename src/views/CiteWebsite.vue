@@ -83,7 +83,7 @@ import * as  _ from 'lodash/core';
                         //@ts-ignore
                         data.author.forEach(author => {
                             //@ts-ignore
-                            data.contributors.push({given: author.given ? author.given: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
+                            data.contributors.push({given: author.given ? author.given.split(" ")[0]: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
                         });
                     }
                     if (data.contributors.length == 0) {

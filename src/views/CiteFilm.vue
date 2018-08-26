@@ -148,7 +148,7 @@ import * as Immutable from 'immutable';
                     //@ts-ignore
                     data.director.forEach(director => {
                         //@ts-ignore
-                        data.contributors.push({given: director.given ? director.given: "", middle: director.given ? (director.given.split(" ").length == 2 ? director.given.split(" ")[1]: ""): "", family: director.family ? director.family: "", type: "Director"})
+                        data.contributors.push({given: director.given ? director.given.split(" ")[0]: "", middle: director.given ? (director.given.split(" ").length == 2 ? director.given.split(" ")[1]: ""): "", family: director.family ? director.family: "", type: "Director"})
                     });
                 }
                 //@ts-ignore

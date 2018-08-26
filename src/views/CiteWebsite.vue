@@ -10,7 +10,7 @@
             </div>
             <div style="margin-top: 5vh;">
                 <sui-input style="margin-right: 1vh;" v-model="URL" placeholder="Enter website link" @keyup.enter="citeURL()"/>
-                <sui-button type="button" @click="citeURL()">Cite</sui-button>
+                <sui-button type="button" :loading="loadingCitation" @click="citeURL()">Cite</sui-button>
             </div>
             <div style="margin-top: 3vh;">
                 <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>

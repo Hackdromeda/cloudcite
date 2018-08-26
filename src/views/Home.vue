@@ -19,8 +19,8 @@
     </div>
     <div id="mainContent" style="text-align: left;">
       <Dashboard v-if="displayComponent()"/>
-      <h2 style="margin-top: 20vh;">About CloudCite</h2>
-      <h3>CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago, Turabian, Harvard, IEEE, and Vancouver. You can contribute to CloudCite and support the longevity of this project by visiting the <router-link to="/contribute/">contribute page</router-link> and either donating through a supported platform or lending us your coding skills. Disabling ad-block and interacting with ads placed on the contribute page and our blog also helps support this project. We have no ads throughout the bibliography generation process to provide a focused experience. Learn more about our commitment to a privacy and a distraction-free bibliography generation environment on our <router-link to="/about/">about us page</router-link>.</h3>
+      <h2 style="margin-top: 20vh; margin-left: 1vh; margin-right: 1vh;">About CloudCite</h2>
+      <h3 style="margin-left: 1vh; margin-right: 1vh;">CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago, Turabian, Harvard, IEEE, and Vancouver. You can contribute to CloudCite and support the longevity of this project by visiting the <router-link to="/contribute/">contribute page</router-link> and either donating through a supported platform or lending us your coding skills. Disabling ad-block and interacting with ads placed on the contribute page and our blog also helps support this project. We have no ads throughout the bibliography generation process to provide a focused experience. Learn more about our commitment to a privacy and a distraction-free bibliography generation environment on our <router-link to="/about/">about us page</router-link>.</h3>
     </div>
   </div>
 </template>
@@ -149,7 +149,6 @@
 
   @media (max-width: 991.97px) {
     #mainContent {
-      margin: 5vh;
       margin-top: 2vh;
       margin-bottom: 2vh;
       color: #000;

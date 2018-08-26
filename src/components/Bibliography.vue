@@ -12,6 +12,11 @@
         <p>Your bibliography will be here after you cite a website, book, or film.</p>
       </div>
       <div v-else>
+        <div v-if="loading" style="display: inline-flex">
+          <div>
+            <bounce-loader color="#005eea"/>
+          </div>
+        </div>
         <div id="bibliographyPreview">
         <sui-segment>
           <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
@@ -45,13 +50,16 @@ import generateHTML from '../functions/generateHTML';
 import clipboard from "clipboard-polyfill";
 //@ts-ignore
 import debounce from 'lodash/debounce';
+//@ts-ignore
+import BounceLoader from 'vue-spinner/src/BounceLoader.vue';
 import SearchStyles from './SearchStyles.vue';
 //@ts-ignore
 import _ from 'lodash';
 
 @Component({
   components: {
-    SearchStyles
+    SearchStyles,
+    BounceLoader
   },
   async created() {
     //@ts-ignore
@@ -116,7 +124,8 @@ import _ from 'lodash';
       typing: false,
       cslHTML: [],
       cslFormat: null,
-      styles: require('./styles.json')
+      styles: require('./styles.json'),
+      loading: false
     }
   },
   computed: {
@@ -248,6 +257,7 @@ import _ from 'lodash';
     }, 3000),
     //@ts-ignore
     async style() {
+      this.$data.loading = true;
       if (this.$store.getters.getCitations.length > 0) {
         this.$data.cslHTML = []
         this.$data.cslFormat = null
@@ -269,8 +279,10 @@ import _ from 'lodash';
           this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
         }
       }
+      this.$data.loading = false;
     },
     async locale() {
+      this.$data.loading = true;
       if (this.$store.getters.getCitations.length > 0) {
         this.$data.cslHTML = []
         this.$data.cslFormat = null
@@ -292,6 +304,7 @@ import _ from 'lodash';
           this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
         }
       }
+      this.$data.loading = false;
     }
   }
 })

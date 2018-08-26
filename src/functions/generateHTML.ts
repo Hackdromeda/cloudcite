@@ -72,7 +72,8 @@ export default async function generateHTML(data: any) {
             }
         }
         catch (error) {
-            store.dispatch('setMessage', {description: error, type: "error"})
+            console.log(error)
+            store.dispatch('setMessage', {description: error.explanation, type: "error"})
             return {error: error};
         }
     }

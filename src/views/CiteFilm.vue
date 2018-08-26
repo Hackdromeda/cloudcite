@@ -70,7 +70,7 @@ import * as Immutable from 'immutable';
       return {
         contributorTypes: ["Director", "Writer", "Producer", "Actor/Performer", "Author"],
         //@ts-ignore
-        filmCitationData: {"contributors": [{first: "", middle: "", last: "", type: "Director"}], "title": '', "publisher": '', "publisher-place": '', "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, "abstract": '', "id": 'citation-' + this.$store.getters.getCitations.length},
+        filmCitationData: {"type": "motion_picture", "contributors": [{first: "", middle: "", last: "", type: "Director"}], "title": '', "publisher": '', "publisher-place": '', "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, "abstract": '', "id": 'citation-' + this.$store.getters.getCitations.length},
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
         filmData: [],
         filmTitle: '',
@@ -84,13 +84,13 @@ import * as Immutable from 'immutable';
   methods: {
       getAsyncData: debounce(function () {
         //@ts-ignore
-        this.filmData = []
+        if (this.$data.filmTitle && this.$data.filmTitle.trim() != "" && this.$data.filmPage) {
         //@ts-ignore
-        this.dataPosition = []
+        this.$data.filmData = []
         //@ts-ignore
-        if (this.$data.filmTitle && this.$data.filmTitle != "" && this.$data.filmPage) {
+        this.$data.dataPosition = []
         //@ts-ignore
-        this.isFetching = true
+        this.$data.isFetching = true
         //@ts-ignore
         rp({
             uri: 'https://api.cloudcite.net/autofill',
@@ -106,22 +106,22 @@ import * as Immutable from 'immutable';
                 //@ts-ignore
                 data.results.forEach((item) => this.$data.filmData.push(item))
                 //@ts-ignore
-                this.dataPosition = {"total_results": data.total_results, "page": data.page, "total_pages": data.total_pages}
+                this.$data.dataPosition = {"total_results": data.total_results, "page": data.page, "total_pages": data.total_pages}
                 //@ts-ignore
-                this.isFetching = false
+                this.$data.isFetching = false
                 if(data.length > 0){
                     //@ts-ignore
-                    this.empty = false;
+                    this.$data.empty = false;
                 }
                 else{
                     //@ts-ignore
-                    this.empty = true;
+                    this.$data.empty = true;
                 }
             })
             //@ts-ignore
             .catch((error) => {
                 //@ts-ignore
-                this.isFetching = false
+                this.$data.isFetching = false
                 throw error
             })
         }

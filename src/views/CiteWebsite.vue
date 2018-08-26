@@ -40,7 +40,7 @@ import * as  _ from 'lodash/core';
       return {
         loadingCitation: false,
          //@ts-ignore
-        websiteCitationData: {"contributors": [{given: "", middle: "", family: "", type: "Author"}], source: "", title: "", URL: "", publisher: "", accessed: {month: "", day: "", year: ""}, issued: {month: "", day: "", year: ""}, id: 'citation-' + this.$store.getters.getCitations.length},
+        websiteCitationData: {"type": "website", "contributors": [{given: "", middle: "", family: "", type: "Author"}], source: "", title: "", URL: "", publisher: "", accessed: {month: "", day: "", year: ""}, issued: {month: "", day: "", year: ""}, id: 'citation-' + this.$store.getters.getCitations.length},
         URL: null
       }
   },
@@ -63,8 +63,9 @@ import * as  _ from 'lodash/core';
         return newURL
       },
       citeURL() {
-        this.$data.loadingCitation = true
-        rp({
+          if (this.$data.URL && this.$data.URL.length > 0) {
+              this.$data.loadingCitation = true
+              rp({
                 uri: 'https://api.cloudcite.net/autofill',
                 headers: {
                     'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
@@ -74,31 +75,32 @@ import * as  _ from 'lodash/core';
                 body: {"URL": (this.$data.URL.substring(0, 4) == 'http') ? this.$data.URL: ('http://' + this.$data.URL), "format": "website"},
                 json: true
                 //@ts-ignore
-        }).then(data => {
-            data.URL = this.$data.URL
-            //@ts-ignore
-            data.contributors = [];
-            if (data.author && data.author.length > 0) {
-                //@ts-ignore
-                data.author.forEach(author => {
+                }).then(data => {
+                    data.URL = this.$data.URL
                     //@ts-ignore
-                    data.contributors.push({given: author.given ? author.given: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
-                });
-            }
-            if (data.contributors.length == 0) {
-                data.contributors.push({given: "", middle: "", family: "", type: "Author"})
-            }
-            const id = ('citation-' + this.$store.getters.getCitations.length)
-            const citation = generateCitation(id, "website", data)
-            this.$data.loadingCitation = false
-            //@ts-ignore
-            this.$store.dispatch('setEditingCitation', citation.toObject())
-            this.$router.push({path: '/edit/website/'})
-            //@ts-ignore
-        }).catch(error => {
-            console.log(error)
-            this.$data.loadingCitation = false
-        })
+                    data.contributors = [];
+                    if (data.author && data.author.length > 0) {
+                        //@ts-ignore
+                        data.author.forEach(author => {
+                            //@ts-ignore
+                            data.contributors.push({given: author.given ? author.given: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
+                        });
+                    }
+                    if (data.contributors.length == 0) {
+                        data.contributors.push({given: "", middle: "", family: "", type: "Author"})
+                    }
+                    const id = ('citation-' + this.$store.getters.getCitations.length)
+                    const citation = generateCitation(id, "website", data)
+                    this.$data.loadingCitation = false
+                    //@ts-ignore
+                    this.$store.dispatch('setEditingCitation', citation.toObject())
+                    this.$router.push({path: '/edit/website/'})
+                    //@ts-ignore
+                }).catch(error => {
+                    console.log(error)
+                    this.$data.loadingCitation = false
+                })
+        }
     },
     citeEmpty() {
         //@ts-ignore

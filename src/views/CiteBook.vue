@@ -88,7 +88,7 @@ import generateCitation from '@/functions/generateCitation';
         ],
         bookIdentificationField: null,
         //@ts-ignore
-        bookCitationData: {"contributors": [{first: "", middle: "", last: "", type: "Author"}], "chapter": "", "volNumber": "", "title": "", "publisher": "", "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, id: 'citation-' + this.$store.getters.getCitations.length},
+        bookCitationData: {"type": "book", "contributors": [{first: "", middle: "", last: "", type: "Author"}], "chapter": "", "volNumber": "", "title": "", "publisher": "", "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, id: 'citation-' + this.$store.getters.getCitations.length},
         isFetching: false
     }
   },
@@ -100,7 +100,7 @@ import generateCitation from '@/functions/generateCitation';
         //@ts-ignore
         this.bookData = []
         //@ts-ignore
-        if (this.$data.bookIdentificationSelected && this.$data.bookIdentificationSelected != "" && this.$data.bookIdentificationField && this.$data.bookIdentificationField != "") {
+        if (this.$data.bookIdentificationSelected && this.$data.bookIdentificationSelected.trim() != "" && this.$data.bookIdentificationField && this.$data.bookIdentificationField.trim() != "") {
         //@ts-ignore
         this.isFetching = true
         //@ts-ignore

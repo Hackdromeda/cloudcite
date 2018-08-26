@@ -97,13 +97,13 @@
                                     <input @input="typing = true" v-model.number="citationData.issued.year" type="number" maxlength="4" placeholder="Year">
                                 </div>
                             </sui-form-field>
-                            <sui-form-field style="margin-top: 3vh;">
+                            <sui-form-field v-if="allowSave" style="margin-top: 3vh;">
                                 <Preview :cslObject="filteredCitationData" :typing="typing"/>
                             </sui-form-field>
                             <div is="sui-button-group">
                                 <sui-button type="button" @click="cancel()">Cancel</sui-button>
                                 <sui-button-or />
-                                <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="cite()" positive>Save</sui-button>
+                                <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="cite()" :disabled="!allowSave" positive>Save</sui-button>
                             </div>
                         </sui-form>
                     </sui-grid-column>
@@ -301,6 +301,29 @@ import * as _ from 'lodash';
         get() {
             return _.pickBy(this.$data.citationData)
         }
+    },
+    allowSave: function() {
+        var citationExists = false
+        var keys = Object.keys(this.$data.citationData)
+        for (let i=0; i < keys.length; i++) {
+            if (keys[i] != "id" && keys[i] != "type" && this.$data.citationData[keys[i]] && ((typeof this.$data.citationData[keys[i]] == 'string' && this.$data.citationData[keys[i]].trim() != "") || (typeof this.$data.citationData[keys[i]] == 'number'))) {
+                citationExists = true
+                break;
+            }
+            else if (typeof this.$data.citationData[keys[i]] == 'object') {
+                var objectKeys = Object.keys(this.$data.citationData[keys[i]])
+                for (let j=0; j < objectKeys.length; j++) {
+                    if (this.$data.citationData[keys[i]][objectKeys[j]] && ((typeof this.$data.citationData[keys[i]][objectKeys[j]] == 'string' && this.$data.citationData[keys[i]][objectKeys[j]].trim() != "") || (typeof this.$data.citationData[keys[i]][objectKeys[j]] == 'number'))) {
+                        citationExists = true
+                        break;
+                    }
+                }
+                if (citationExists) {
+                    break;
+                }
+            }
+        }
+        return citationExists
     }
   },
     methods: {
@@ -309,9 +332,7 @@ import * as _ from 'lodash';
             this.$router.push({path: '/'})
         },
         cite() {
-            console.log('CITATION DATA')
             this.$store.dispatch('addCitation', this.$data.citationData)
-            console.log(Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
             this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
             this.$store.dispatch('setEditingCitation', null)
             this.$router.push({path: '/'})

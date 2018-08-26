@@ -60,6 +60,10 @@ import * as _ from 'lodash';
             "style": "modern-language-association",
             "locale": "locales-en-US",
             "cachedBibliography": {outdated: true},
+            "message": {
+                "type": null,
+                "description": null
+            },
             "creatingProject": true
         }
     }

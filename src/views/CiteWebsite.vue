@@ -76,7 +76,8 @@ import * as  _ from 'lodash/core';
                 json: true
                 //@ts-ignore
                 }).then(data => {
-                    data.URL = this.$data.URL
+                    //@ts-ignore
+                    data.URL = this.formatURL(this.$data.URL)
                     //@ts-ignore
                     data.contributors = [];
                     if (data.author && data.author.length > 0) {

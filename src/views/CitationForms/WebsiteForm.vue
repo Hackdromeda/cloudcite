@@ -7,9 +7,9 @@
         </div>
             <sui-grid :columns="3">
                 <sui-grid-row>
-                    <sui-grid-column :mobile="2" :tablet="3" :computer="4"/>
+                    <sui-grid-column :mobile="1" :tablet="3" :computer="4"/>
                     <sui-grid-column :mobile="12" :tablet="10" :computer="8" stretched>
-                        <sui-form style="padding-top: 5%; padding-bottom: 5%; text-align: left;">
+                        <sui-form style="padding-top: 5%; padding-bottom: 5%; text-align: left; font-size: 16px;">
                             <div v-for="(contributor, i) in citationData.contributors" :key="i">
                                 <sui-form-field>
                                     <sui-dropdown fluid v-model="citationData.contributors[i].type" :options="contributorTypes" :placeholder="(type == 'motion_picture') ? 'Director': 'Author'" direction="downward" selection/>
@@ -362,21 +362,4 @@ export default class WebsiteForm extends Vue {}
 </script>
 
 <style scoped lang="scss">
-#contributorInput {
-    padding: 5px;
-    width: 20vh;
-    height: 5vh;
-    border-style: solid;
-    background-color: #fff;
-    caret-color: #000;
-    border-radius: 5px;
-    font-size: 1.05rem;
-}
-#contributorInput::placeholder {
-    font-size: 1rem;
-    color: #9ea7aa;
-}
-#contributorInput:focus {
-    border-color: #0064ff;
-}
 </style>

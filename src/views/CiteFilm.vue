@@ -10,7 +10,7 @@
             </div>
 
             <div style="display: inline-flex; margin-top: 5vh;">
-                <sui-input v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" icon="search"/>
+                <sui-input v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" icon="search" autofocus/>
             </div>
             <div style="margin-top: 3vh;">
                 <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>

@@ -17,7 +17,7 @@
             </div>
 
             <div v-if="isFetching">
-                <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"></moon-loader>
+                <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"/>
             </div>
 
             <div class="cardGroup" style="margin-left: 5%; margin-right: 5%; margin-top: 15px; margin-bottom: 15px; word-break: break-all;">
@@ -50,13 +50,13 @@ import * as  _ from 'lodash/core';
 //@ts-ignore
 import debounce from 'lodash/debounce';
 import Preview from '../components/Preview.vue';
-import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
+import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
 import generateCitation from '@/functions/generateCitation';
 
 @Component({
   components: {
     Preview,
-    MoonLoader
+    BounceLoader
   },
   data () {
     return {

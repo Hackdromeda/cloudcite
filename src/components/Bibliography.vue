@@ -18,7 +18,7 @@
           </div>
         </div>
         <div id="bibliographyPreview">
-        <sui-segment>
+        <sui-segment v-if="!loading">
           <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
             <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
               <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
@@ -62,6 +62,7 @@ import _ from 'lodash';
     BounceLoader
   },
   async created() {
+    this.$data.loading = true;
     //@ts-ignore
     if (this.$store.getters.getCitations.length > 0 && this.projects[this.selectedProject].cachedBibliography && !this.projects[this.selectedProject].cachedBibliography.outdated) {
       //@ts-ignore
@@ -88,6 +89,7 @@ import _ from 'lodash';
         this.$store.dispatch('cacheBibliography', Object.assign(this.projects[this.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
       }
     }
+    this.$data.loading = false;
   },
   async updated() {
     //@ts-ignore

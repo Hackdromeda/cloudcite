@@ -15,7 +15,7 @@
             <div style="margin-top: 3vh;">
                 <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
             </div>
-            <moon-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"></moon-loader>
+            <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"/>
     </div>
 </template>
 
@@ -27,14 +27,14 @@ import rp from 'request-promise-native';
 import Preview from '../components/Preview.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
-import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
+import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
 //@ts-ignore
 import * as  _ from 'lodash/core';
 
 @Component({
   components: {
     Preview,
-    MoonLoader
+    BounceLoader
   },
   data () {
       return {

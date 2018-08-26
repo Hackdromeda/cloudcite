@@ -370,7 +370,7 @@ import * as _ from 'lodash';
                 citationExists = true
                 break;
             }
-            else if (typeof this.$data.citationData[keys[i]] == 'object') {
+            else if (this.$data.citationData[keys[i]] && (typeof this.$data.citationData[keys[i]] == 'object')) {
                 var objectKeys = Object.keys(this.$data.citationData[keys[i]])
                 for (let j=0; j < objectKeys.length; j++) {
                     if (this.$data.citationData[keys[i]][objectKeys[j]] && ((typeof this.$data.citationData[keys[i]][objectKeys[j]] == 'string' && this.$data.citationData[keys[i]][objectKeys[j]].trim() != "") || (typeof this.$data.citationData[keys[i]][objectKeys[j]] == 'number'))) {

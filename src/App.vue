@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="App">
     <div id="appMain">
       <nav class="navbar is-transparent">
           <div class="navbar-brand">
@@ -137,7 +137,7 @@ html {
   }
 }
 
-#app {
+#App {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

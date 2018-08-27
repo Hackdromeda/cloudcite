@@ -31,6 +31,7 @@
     "clipboard-polyfill": "^2.5.2",
     "fg-loadcss": "^2.0.1",
     "immutable": "^3.8.2",
+    "jsdom": "^12.0.0",
     "path": "^0.12.7",
     "postcss-loader": "^2.1.6",
     "register-service-worker": "^1.0.0",
@@ -51,13 +52,13 @@
     "webpack": "^4.16.5"
   },
   "devDependencies": {
-    "@prerenderer/renderer-jsdom": "^0.1.4",
+    "@prerenderer/renderer-jsdom": "^0.2.0",
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",
     "@vue/cli-plugin-pwa": "^3.0.0-beta.15",
     "@vue/cli-plugin-typescript": "^3.0.0-beta.15",
     "@vue/cli-service": "^3.0.0-beta.15",
     "node-sass": "^4.9.0",
-    "prerender-spa-plugin": "^3.2.1",
+    "prerender-spa-plugin": "^3.3.0",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.16"
   },

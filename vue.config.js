@@ -1,5 +1,6 @@
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const path = require('path');
+const JSDOMRenderer = require('@prerenderer/renderer-jsdom')
 
 module.exports = {
   configureWebpack: config => {
@@ -12,7 +13,7 @@ module.exports = {
           // Add routes as we develop them
           // Pending Routes:
           routes: ['/', '/about/', '/error/', '/projects/', '/pricing/', '/privacy/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
-          renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
+          renderer: new JSDOMRenderer({
 
           }),
           postProcess: function (context) {
@@ -61,7 +62,15 @@ module.exports = {
               '<meta property="og:url" content="https://cloudcite.net' + context.route + '">'
             )
             return context;
-          }
+          },
+          minify: {
+            collapseBooleanAttributes: true,
+            minifyCSS: true,
+            collapseWhitespace: true,
+            decodeEntities: true,
+            keepClosingSlash: true,
+            sortAttributes: true
+          }    
         })
       ]
     }

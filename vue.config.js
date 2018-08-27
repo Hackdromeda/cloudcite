@@ -1,13 +1,37 @@
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const path = require('path');
 const JSDOMRenderer = require('@prerenderer/renderer-jsdom')
+const {GenerateSW} = require('workbox-webpack-plugin');
 
 module.exports = {
   configureWebpack: config => {
-    if (process.env.NODE_ENV !== 'production') return
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
 
     return {
       plugins: [
+        new GenerateSW({
+          importWorkboxFrom: 'local',
+          runtimeCaching: [{
+            urlPattern: 'https?://([a-z]+[.])*cloudcite[.]net',
+            handler: 'networkFirst',
+            options: {
+              networkTimeoutSeconds: 10,
+              cacheName: 'cloudcite-cache',
+              expiration: {
+                maxEntries: 5,
+                maxAgeSeconds: 600,
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              },
+              broadcastUpdate: {
+                channelName: 'cloudcite-channel',
+              },
+            },
+          }]
+        }),
         new PrerenderSPAPlugin({
           staticDir: path.resolve(__dirname, 'dist'),
           // Add routes as we develop them
@@ -86,7 +110,8 @@ module.exports = {
 
   pwa: {
     name: 'CloudCite',
-    themeColor: '#005eea',
-    msTileColor: '#005eea'
+    themeColor: '#fff',
+    msTileColor: '#fff',
+    appleMobileWebAppStatusBarStyle: '#005eea'
   }
 }

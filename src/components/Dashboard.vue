@@ -1,7 +1,7 @@
 <template>
   <div id="dashboard">
     <div class="tabs">
-      <div v-for="(project, p) in projects" :key="p" :class="($store.state.selectedProject == p) ? 'tab-active': 'tab'"><span @click="selectProject(project)" v-cloak>{{ project.title }}</span><sui-icon @click="removeProject(project)" id="closeTabButton" name="minus circle"/></div>
+      <div v-for="(project, p) in projects" :key="p" :class="($store.state.selectedProject == p) ? 'tab-active': 'tab'"><span @click="selectProject(project)" v-cloak>{{ project.title }}</span><!--<sui-icon @click="removeProject(project)" id="closeTabButton" name="minus circle"/>--></div>
     </div>
   <sui-grid :columns="3" stackable>
     <sui-grid-row>

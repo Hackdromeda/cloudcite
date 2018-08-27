@@ -3,8 +3,8 @@
 "short_name": "CloudCite",
 "start_url": "/",
 "scope": "/",
-"theme_color": "#005eea",
-"background_color": "#005eea",
+"theme_color": "#fff",
+"background_color": "#fff",
 "display": "standalone",
 "orientation": "portrait",
 "icons":  [

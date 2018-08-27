@@ -222,6 +222,8 @@ import _ from 'lodash';
       //@ts-ignore
       var cslData = this.$store.getters.getCitations.filter(citation => citation.id == id)[0]
       //@ts-ignore
+      cslData.contributors = cslData.contributors.map(contributor => _.pickBy(Object.assign(contributor, {given: (contributor.given && contributor.given.split(" ")[0] ? contributor.given.split(" ")[0]: null), middle: (contributor.given && contributor.given.split(" ")[1] ? contributor.given.split(" ")[1]: null)})));
+      //@ts-ignore
       if (cslData && cslData.type && cslData.type == "website") {
         //@ts-ignore
         this.$store.dispatch('setEditingCitation', cslData)

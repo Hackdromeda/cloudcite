@@ -19,10 +19,13 @@ Vue.use(SuiVue)
 Vue.config.productionTip = false
 
 new Vue({
-  el: '#app',
+  el: '#App',
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  mounted () {
+    document.dispatchEvent(new Event('render-event'))
+  }
 })
 //@ts-ignore
 router.beforeEach((to, from, next) => {

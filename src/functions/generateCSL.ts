@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 export default function generateCSL(cslData: any) {
     //@ts-ignore
-    var contributors = cslData.contributors.map(contributor => _.pickBy(Object.assign(contributor, {family: (contributor.middle && contributor.middle != "" ? (contributor.middle + " " + contributor.family): contributor.family), middle: null})));
+    var contributors = cslData.contributors.map(contributor => _.pickBy(Object.assign(contributor, {given: (contributor.middle && contributor.middle != "" ? (contributor.given + " " + contributor.middle): contributor.given), middle: null})));
 
         return _.pickBy({
             [cslData.id]: {

@@ -10,7 +10,7 @@
             </div>
 
             <div style="display: inline-flex; margin-top: 5vh;">
-                <sui-input v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" icon="search" autofocus/>
+                <sui-input v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" icon="search" ref="filmInput"/>
             </div>
             <div style="margin-top: 3vh;">
                 <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
@@ -65,6 +65,10 @@ import * as Immutable from 'immutable';
   components: {
     Preview,
     BounceLoader
+  },
+  mounted() {
+    //@ts-ignore
+    this.$refs.filmInput.$el.children[0].focus();
   },
   data () {
       return {

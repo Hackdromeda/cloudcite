@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div style="margin-top: 5vh;">
-                <sui-input style="margin-right: 1vh;" v-model="URL" placeholder="Enter website link" @keyup.enter="citeURL()" autofocus/>
+                <sui-input style="margin-right: 1vh;" v-model="URL" placeholder="Enter website link" @keyup.enter="citeURL()" ref="websiteInput"/>
                 <sui-button type="button" :loading="loadingCitation" @click="citeURL()">Cite</sui-button>
             </div>
             <div style="margin-top: 3vh;">
@@ -35,6 +35,10 @@ import * as  _ from 'lodash/core';
   components: {
     Preview,
     BounceLoader
+  },
+  mounted() {
+    //@ts-ignore
+    this.$refs.websiteInput.$el.children[0].focus();
   },
   data () {
       return {

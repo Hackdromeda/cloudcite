@@ -10,7 +10,7 @@
             </div>
             <div style="display: inline-flex; margin-top: 5vh;">
                 <sui-dropdown style="margin-right: 3vh;" fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
-                <sui-input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData" icon="search" autofocus/>
+                <sui-input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData" icon="search" ref="bookInput"/>
             </div>
             <div style="margin-top: 3vh;">
                 <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
@@ -57,6 +57,10 @@ import generateCitation from '@/functions/generateCitation';
   components: {
     Preview,
     BounceLoader
+  },
+  mounted() {
+    //@ts-ignore
+    this.$refs.bookInput.$el.children[0].focus();
   },
   data () {
     return {

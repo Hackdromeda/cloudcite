@@ -67,9 +67,6 @@ export default class Dashboard extends Vue {}
     width: 100%;
     overflow-x: auto;
   }
-  .tabs:hover {
-    cursor: pointer;
-  }
   #closeTabButton {
     color: #90a4ae;
     padding-left: 10px;
@@ -90,6 +87,7 @@ export default class Dashboard extends Vue {}
   .tab:hover {
     background-color: #cfd8dc;
     border-bottom: 3px solid #b0bec5;
+    cursor: pointer;
     
   }
   .tab-active {
@@ -99,5 +97,8 @@ export default class Dashboard extends Vue {}
     margin: 2px;
     background-color: #f5f5f5;
     border-bottom: 3px solid #005eea;
+  }
+  .tab-active:hover {
+    cursor: pointer;
   }
 </style>

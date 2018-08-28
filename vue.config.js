@@ -37,7 +37,7 @@ module.exports = {
           staticDir: path.resolve(__dirname, 'dist'),
           // Add routes as we develop them
           // Pending Routes:
-          routes: ['/', '/about/', '/error/', '/projects/', '/pricing/', '/privacy/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
+          routes: ['/', '/about/', '/error/', '/install/', '/projects/', '/pricing/', '/privacy/', '/contribute/', '/cite/website/', '/cite/book/', '/cite/film/', '/callback/', '/create/project/'],
           renderer: new JSDOMRenderer({
 
           }),
@@ -46,6 +46,7 @@ module.exports = {
               '/': 'CloudCite · The Best Free Automatic Bibliography Generator · MLA, APA, Chicago, Harvard Citation Styles',
               '/error/': 'CloudCite · Error',
               '/about/': 'CloudCite · About',
+              '/install/': 'CloudCite · Install',
               '/projects/': 'CloudCite · Projects',
               '/pricing/': 'CloudCite · Pricing',
               '/contribute/': 'CloudCite · Contribute',
@@ -59,6 +60,7 @@ module.exports = {
             var descriptions = {
               '/': 'CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.',
               '/error/': 'CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.',
+              '/install/': 'CloudCite is available as a progressive web app (PWA), extension, and/or native application on iOS, Android, Windows, and MacOS devices.',
               '/about/': 'Learn about CloudCite. A free, secure and ad-free Bibliography Generator.',
               '/projects/': 'Let CloudCite handle generating bibliographies and filling in fields for you. CloudCite can store multiple bibliography projects.',
               '/pricing/': 'CloudCite is always free. No ads.',

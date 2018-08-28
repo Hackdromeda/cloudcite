@@ -50,6 +50,7 @@
             <a href="https://github.com/Hackdromeda/cloudcite/" target="_blank">
               <img src="/static/images/GitHub-Mark-32px.png" style="width:38px">
             </a>
+            <br>
       </div>
       <div id="free">
           <h3>Contribute At No Cost</h3>

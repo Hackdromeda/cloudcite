@@ -19,7 +19,7 @@ Vue.use(SuiVue)
 Vue.config.productionTip = false
 
 new Vue({
-  el: '#App',
+  el: '#app',
   router,
   store,
   render: h => h(App),

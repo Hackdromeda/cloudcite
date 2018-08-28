@@ -1,5 +1,5 @@
 <template>
-  <div id="App">
+  <div id="app">
     <div id="appMain">
       <nav class="navbar is-transparent">
           <div class="navbar-brand">
@@ -17,6 +17,7 @@
             <div class="navbar-start">
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/projects/'})">Projects</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/about/'})">About</a>
+              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/install/'})">Install</a>
               <a href="https://api.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">API</a>
               <a href="https://cloudcite.net/blog/" target="_blank" class="navbar-item" @click="navIsActive = false;">Blog</a>
               <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/pricing/'})">Pricing</a>
@@ -146,7 +147,7 @@ html {
   }
 }
 
-#App {
+#app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

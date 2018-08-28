@@ -56,6 +56,14 @@ export default new Router({
       }
     },
     {
+      path: '/install/',
+      name: 'install',
+      component: () => import('./views/Install.vue'),
+      meta: {
+        title: 'CloudCite · Install'
+      }
+    },
+    {
       path: '/status/',
       name: 'status',
       beforeEnter(to, from, next) {

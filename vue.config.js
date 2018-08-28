@@ -1,6 +1,7 @@
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const path = require('path');
 const JSDOMRenderer = require('@prerenderer/renderer-jsdom')
+const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 const {GenerateSW} = require('workbox-webpack-plugin');
 
 module.exports = {

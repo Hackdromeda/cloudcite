@@ -5,153 +5,145 @@
                 <h1>Edit Film Citation</h1>
             </div>
         </div>
-            <sui-grid :columns="3">
-                <sui-grid-row>
-                    <sui-grid-column :mobile="1" :tablet="3" :computer="4"/>
-                    <sui-grid-column :mobile="12" :tablet="10" :computer="8" stretched>
-                        <sui-form style="padding-top: 5%; padding-bottom: 5%; text-align: left; font-size: 16px;">
-                            <div v-for="(contributor, i) in citationData.contributors" :key="i">
-                                <sui-form-field>
-                                    <sui-dropdown fluid v-model="citationData.contributors[i].type" :options="contributorTypes" :placeholder="(type == 'motion_picture') ? 'Director': 'Author'" direction="downward" selection/>
-                                </sui-form-field>
-                                <sui-form-field>
-                                    <div class="ui labeled input">
-                                        <div class="ui label">First Name</div>
-                                        <input placeholder="First Name" @input="typing = true" v-model="contributor.given" type="text">
-                                    </div>
-                                </sui-form-field>
-                                <sui-form-field>
-                                    <div class="ui labeled input">
-                                        <div class="ui label">Middle Name</div>
-                                        <input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle" type="text">
-                                    </div>
-                                </sui-form-field>
-                                <sui-form-field>
-                                    <div class="ui labeled input">
-                                        <div class="ui label">Last Name</div>
-                                        <input placeholder="Last Name" @input="typing = true" v-model="contributor.family" type="text">
-                                    </div>
-                                </sui-form-field>
-                                <div is="sui-button-group" style="margin-bottom: 3vh;">
-                                    <sui-button v-if="citationData.contributors.length == 1" type="button"  @click="clearContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
-                                    <sui-button v-if="citationData.contributors.length > 1" type="button" @click="removeContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
-                                    <sui-button-or />
-                                    <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="addContributor()" positive>Add Contributor</sui-button>
-                                </div>
-                            </div>
-                            <!-- Motion Picture Form Beginning -->
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">URL</div>
-                                    <input placeholder="URL" @input="typing = true" v-model="citationData.URL">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Film Title</div>
-                                    <input placeholder="Film Title" @input="typing = true" v-model="citationData.title">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Genre</div>
-                                    <input placeholder="Genre" @input="typing = true" v-model="citationData.genre">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Running Time</div>
-                                    <input placeholder="Running Time" @input="typing = true" v-model="citationData.dimensions">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Format</div>
-                                    <input placeholder="Format" @input="typing = true" v-model="citationData.medium">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Library Catalog</div>
-                                    <input placeholder="Library Catalog" @input="typing = true" v-model="citationData.source">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Distributor</div>
-                                    <input placeholder="Distributor" @input="typing = true" v-model="citationData.publisher">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Archive</div>
-                                    <input placeholder="Archive" @input="typing = true" v-model="citationData.archive">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Location in Archive</div>
-                                    <input placeholder="Location in Archive" @input="typing = true" v-model="citationData['archive_location']">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Source</div>
-                                    <input placeholder="Source" @input="typing = true" v-model="citationData.source">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Publisher</div>
-                                    <input placeholder="Publisher" @input="typing = true" v-model="citationData.publisher">
-                                </div>
-                            </sui-form-field>
-                            <!-- Motion Picture Form End -->
-                            <div style="margin-bottom: 15px;">
-                                <sui-form-field>
-                                    <sui-dropdown fluid @input="typing = true" v-model="citationData.accessed.month" :options="monthAccessedNames" placeholder="Month Accessed" selection search/>
-                                </sui-form-field>
-                                <sui-form-field>
-                                    <div class="ui labeled input">
-                                        <div class="ui label">Day Accessed</div>
-                                        <input @input="typing = true" v-model.number="citationData.accessed.day" type="number" maxlength="2" placeholder="Day">
-                                    </div>
-                                </sui-form-field>
-                                <sui-form-field>
-                                    <div class="ui labeled input">
-                                        <div class="ui label">Year Accessed</div>
-                                        <input @input="typing = true" v-model.number="citationData.accessed.year" type="number" maxlength="4" placeholder="Year">
-                                    </div>
-                                </sui-form-field>
-                            </div>
-                            <sui-form-field>
-                                <sui-dropdown fluid @input="typing = true" v-model="citationData.issued.month" :options="monthPublishedNames" placeholder="Month Published" selection search/>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Day Published</div>
-                                    <input @input="typing = true" v-model.number="citationData.issued.day" type="number" maxlength="2" placeholder="Day">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Year Published</div>
-                                    <input @input="typing = true" v-model.number="citationData.issued.year" type="number" maxlength="4" placeholder="Year">
-                                </div>
-                            </sui-form-field>
-                            <sui-form-field v-if="allowSave" style="margin-top: 3vh;">
-                                <Preview :cslObject="filteredCitationData" :typing="typing"/>
-                            </sui-form-field>
-                            <div is="sui-button-group">
-                                <sui-button type="button" @click="cancel()">Cancel</sui-button>
-                                <sui-button-or />
-                                <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="cite()" :disabled="!allowSave" positive>Save</sui-button>
-                            </div>
-                        </sui-form>
-                    </sui-grid-column>
-                    <sui-grid-column :mobile="2" :tablet="3" :computer="4"/>
-            </sui-grid-row>
-        </sui-grid>
+        <sui-form id="editForm">
+            <div v-for="(contributor, i) in citationData.contributors" :key="i">
+                <sui-form-field>
+                    <sui-dropdown fluid v-model="citationData.contributors[i].type" :options="contributorTypes" :placeholder="(type == 'motion_picture') ? 'Director': 'Author'" direction="downward" selection/>
+                </sui-form-field>
+                <sui-form-field>
+                    <div class="ui labeled input">
+                        <div class="ui label">First Name</div>
+                        <input placeholder="First Name" @input="typing = true" v-model="contributor.given" type="text">
+                    </div>
+                </sui-form-field>
+                <sui-form-field>
+                    <div class="ui labeled input">
+                        <div class="ui label">Middle Name</div>
+                        <input placeholder="Middle Name" @input="typing = true" v-model="contributor.middle" type="text">
+                    </div>
+                </sui-form-field>
+                <sui-form-field>
+                    <div class="ui labeled input">
+                        <div class="ui label">Last Name</div>
+                        <input placeholder="Last Name" @input="typing = true" v-model="contributor.family" type="text">
+                    </div>
+                </sui-form-field>
+                <div is="sui-button-group" style="margin-bottom: 3vh;">
+                    <sui-button v-if="citationData.contributors.length == 1" type="button"  @click="clearContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
+                    <sui-button v-if="citationData.contributors.length > 1" type="button" @click="removeContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
+                    <sui-button-or />
+                    <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="addContributor()" positive>Add Contributor</sui-button>
+                </div>
+            </div>
+            <!-- Motion Picture Form Beginning -->
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">URL</div>
+                    <input placeholder="URL" @input="typing = true" v-model="citationData.URL">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Film Title</div>
+                    <input placeholder="Film Title" @input="typing = true" v-model="citationData.title">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Genre</div>
+                    <input placeholder="Genre" @input="typing = true" v-model="citationData.genre">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Running Time</div>
+                    <input placeholder="Running Time" @input="typing = true" v-model="citationData.dimensions">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Format</div>
+                    <input placeholder="Format" @input="typing = true" v-model="citationData.medium">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Library Catalog</div>
+                    <input placeholder="Library Catalog" @input="typing = true" v-model="citationData.source">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Distributor</div>
+                    <input placeholder="Distributor" @input="typing = true" v-model="citationData.publisher">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Archive</div>
+                    <input placeholder="Archive" @input="typing = true" v-model="citationData.archive">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Location in Archive</div>
+                    <input placeholder="Location in Archive" @input="typing = true" v-model="citationData['archive_location']">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Source</div>
+                    <input placeholder="Source" @input="typing = true" v-model="citationData.source">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Publisher</div>
+                    <input placeholder="Publisher" @input="typing = true" v-model="citationData.publisher">
+                </div>
+            </sui-form-field>
+            <!-- Motion Picture Form End -->
+            <div style="margin-bottom: 15px;">
+                <sui-form-field>
+                    <sui-dropdown fluid @input="typing = true" v-model="citationData.accessed.month" :options="monthAccessedNames" placeholder="Month Accessed" selection search/>
+                </sui-form-field>
+                <sui-form-field>
+                    <div class="ui labeled input">
+                        <div class="ui label">Day Accessed</div>
+                        <input @input="typing = true" v-model.number="citationData.accessed.day" type="number" maxlength="2" placeholder="Day">
+                    </div>
+                </sui-form-field>
+                <sui-form-field>
+                    <div class="ui labeled input">
+                        <div class="ui label">Year Accessed</div>
+                        <input @input="typing = true" v-model.number="citationData.accessed.year" type="number" maxlength="4" placeholder="Year">
+                    </div>
+                </sui-form-field>
+            </div>
+            <sui-form-field>
+                <sui-dropdown fluid @input="typing = true" v-model="citationData.issued.month" :options="monthPublishedNames" placeholder="Month Published" selection search/>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Day Published</div>
+                    <input @input="typing = true" v-model.number="citationData.issued.day" type="number" maxlength="2" placeholder="Day">
+                </div>
+            </sui-form-field>
+            <sui-form-field>
+                <div class="ui labeled input">
+                    <div class="ui label">Year Published</div>
+                    <input @input="typing = true" v-model.number="citationData.issued.year" type="number" maxlength="4" placeholder="Year">
+                </div>
+            </sui-form-field>
+            <sui-form-field v-if="allowSave" style="margin-top: 3vh;">
+                <Preview :cslObject="filteredCitationData" :typing="typing"/>
+            </sui-form-field>
+            <div is="sui-button-group">
+                <sui-button type="button" @click="cancel()">Cancel</sui-button>
+                <sui-button-or />
+                <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="cite()" :disabled="!allowSave" positive>Save</sui-button>
+            </div>
+        </sui-form>
     </div>
 </template>
 
@@ -404,21 +396,24 @@ export default class FilmForm extends Vue {}
 </script>
 
 <style scoped lang="scss">
-#contributorInput {
-    padding: 5px;
-    width: 20vh;
-    height: 5vh;
-    border-style: solid;
-    background-color: #fff;
-    caret-color: #000;
-    border-radius: 5px;
-    font-size: 1.05rem;
+@media (max-width: 991.97px) {
+    #editForm {
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        margin-left: 2vh;
+        margin-right: 2vh;
+        text-align: left;
+        font-size: 16px;
+    }
 }
-#contributorInput::placeholder {
-    font-size: 1rem;
-    color: #9ea7aa;
-}
-#contributorInput:focus {
-    border-color: #0064ff;
+@media (min-width: 991.98px) {
+    #editForm {
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        margin-left: 45vh;
+        margin-right: 45vh;
+        text-align: left;
+        font-size: 16px;
+    }
 }
 </style>

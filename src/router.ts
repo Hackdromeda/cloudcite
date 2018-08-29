@@ -9,6 +9,7 @@ export default new Router({
     routes: [
     {
       path: '/',
+      alias: '/index.html',
       name: 'home',
       component: () => import('./views/Home.vue'),
       meta: {
@@ -17,6 +18,7 @@ export default new Router({
     },
     {
       path: '/projects/',
+      alias: '/projects/index.html',
       name: 'projects',
       component: () => import('./views/Projects.vue'),
       meta: {
@@ -25,6 +27,7 @@ export default new Router({
     },
     {
       path: '/about/',
+      alias: '/about/index.html',
       name: 'about',
       component: () => import('./views/About.vue'),
       meta: {
@@ -33,6 +36,7 @@ export default new Router({
     },
     {
       path: '/callback/',
+      alias: '/callback/index.html',
       name: 'LoadingPage',
       component: () => import('./views/LoadingPage.vue'),
       meta: {
@@ -41,6 +45,7 @@ export default new Router({
     },
     {
       path: '/pricing/',
+      alias: '/pricing/index.html',
       name: 'pricing',
       component: () => import('./views/Pricing.vue'),
       meta: {
@@ -49,6 +54,7 @@ export default new Router({
     },
     {
       path: '/contribute/',
+      alias: '/contribute/index.html',
       name: 'contribute',
       component: () => import('./views/Contribute.vue'),
       meta: {
@@ -57,6 +63,7 @@ export default new Router({
     },
     {
       path: '/install/',
+      alias: '/install/index.html',
       name: 'install',
       component: () => import('./views/Install.vue'),
       meta: {
@@ -65,6 +72,7 @@ export default new Router({
     },
     {
       path: '/status/',
+      alias: '/status/index.html',
       name: 'status',
       beforeEnter(to, from, next) {
           window.location.href = "/";
@@ -76,6 +84,7 @@ export default new Router({
     },
     {
       path: '/api/',
+      alias: '/api/index.html',
       name: 'api',
       beforeEnter(to, from, next) {
           window.location.href = "/";
@@ -87,6 +96,7 @@ export default new Router({
     },
     {
       path: '/support/',
+      alias: '/support/index.html',
       name: 'support',
       beforeEnter(to, from, next) {
           window.location.href = "/";
@@ -98,6 +108,7 @@ export default new Router({
     },
     {
       path: '/feedback/',
+      alias: '/feedback/index.html',
       name: 'feedback',
       beforeEnter(to, from, next) {
           window.location.href = "/";
@@ -117,6 +128,7 @@ export default new Router({
     },
     {
       path: '/privacy/',
+      alias: '/privacy/index.html',
       name: 'privacypolicy',
       component: () => import('./views/PrivacyPolicy.vue'),
       meta: {
@@ -125,6 +137,7 @@ export default new Router({
     },
     {
       path: '/create/project/',
+      alias: '/create/project/index.html',
       name: 'createproject',
       component: () => import('./views/CreateProject.vue'),
       meta: {
@@ -141,6 +154,7 @@ export default new Router({
     },
     {
       path: '/edit/website/',
+      alias: '/edit/website/index.html',
       name: 'websiteform',
       component: () => import('./views/CitationForms/WebsiteForm.vue'),
       meta: {
@@ -149,6 +163,7 @@ export default new Router({
     },
     {
       path: '/edit/book/',
+      alias: '/edit/book/index.html',
       name: 'bookform',
       component: () => import('./views/CitationForms/BookForm.vue'),
       meta: {
@@ -157,6 +172,7 @@ export default new Router({
     },
     {
       path: '/edit/film/',
+      alias: '/edit/film/index.html',
       name: 'filmform',
       component: () => import('./views/CitationForms/FilmForm.vue'),
       meta: {
@@ -165,6 +181,7 @@ export default new Router({
     },
     {
       path: '/cite/website/',
+      alias: '/cite/website/index.html',
       name: 'citewebsite',
       component: () => import('./views/CiteWebsite.vue'),
       meta: {
@@ -173,6 +190,7 @@ export default new Router({
     },
     {
       path: '/cite/book/',
+      alias: '/cite/book/index.html',
       name: 'citebook',
       component: () => import('./views/CiteBook.vue'),
       meta: {
@@ -181,6 +199,7 @@ export default new Router({
     },
     {
       path: '/cite/film/',
+      alias: '/cite/film/index.html',
       name: 'citefilm',
       component: () => import('./views/CiteFilm.vue'),
       meta: {

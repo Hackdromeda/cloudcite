@@ -17,7 +17,7 @@
                             <sui-form-field>
                                 <div class="ui labeled input">
                                     <div class="ui label">Project Title</div>
-                                    <input v-model="project.title" placeholder="Project Title"/>
+                                    <input v-model="project.title" placeholder="Project Title" maxlength="20"/>
                                 </div>
                             </sui-form-field>
                             <sui-form-field style="text-align: left;">

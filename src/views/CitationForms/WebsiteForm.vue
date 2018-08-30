@@ -132,24 +132,9 @@ import * as _ from 'lodash';
                 "value": "Author"
             },
             {
-                "key": "Director",
-                "text": "Director",
-                "value": "Director"
-            },
-            {
                 "key": "Editor",
                 "text": "Editor",
                 "value": "Editor"
-            },
-            {
-                "key": "Producer",
-                "text": "Producer",
-                "value": "Producer"
-            },
-            {
-                "key": "Writer",
-                "text": "Writer",
-                "value": "Writer"
             }
         ],
         monthAccessedNames: [

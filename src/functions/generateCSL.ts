@@ -27,10 +27,6 @@ export default function generateCSL(cslData: any) {
                 "editor": contributors.filter(c => c.type == "Editor" && (c.family || c.given || c.middle)).map(editor => _.pickBy(editor)),
                 //@ts-ignore
                 "translator": contributors.filter(c => c.type == "Translator" && (c.family || c.given || c.middle)).map(translator => _.pickBy(translator)),
-                //@ts-ignore
-                "director": contributors.filter(c => c.type == "Director" && (c.family || c.given || c.middle)).map(director => _.pickBy(director)),
-                //@ts-ignore
-                "editorial-director": contributors.filter(c => c.type == "Producer" && (c.family || c.given || c.middle)).map(producer => _.pickBy(producer)),
                 "title": cslData.title,
                 "title-short": cslData["title-short"],
                 "genre": cslData.genre,

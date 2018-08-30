@@ -72,9 +72,8 @@ import * as Immutable from 'immutable';
   },
   data () {
       return {
-        contributorTypes: ["Director", "Writer", "Producer", "Actor/Performer", "Author"],
         //@ts-ignore
-        filmCitationData: {"type": "motion_picture", "contributors": [{first: "", middle: "", last: "", type: "Director"}], "title": '', "publisher": '', "publisher-place": '', "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, "abstract": '', "id": 'citation-' + this.$store.getters.getCitations.length},
+        filmCitationData: {"type": "motion_picture", "contributors": [{first: "", middle: "", last: "", type: "Author"}], "title": '', "publisher": '', "publisher-place": '', "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, "abstract": '', "id": 'citation-' + this.$store.getters.getCitations.length},
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
         filmData: [],
         filmTitle: '',
@@ -150,18 +149,17 @@ import * as Immutable from 'immutable';
                 //@ts-ignore
                 if (data.director && data.director.length > 0) {
                     //@ts-ignore
-                    data.director.forEach(director => {
+                    data.director.forEach(author => {
                         //@ts-ignore
-                        data.contributors.push({given: director.given ? director.given.split(" ")[0]: "", middle: director.given ? (director.given.split(" ").length == 2 ? director.given.split(" ")[1]: ""): "", family: director.family ? director.family: "", type: "Director"})
+                        data.contributors.push({given: author.given ? author.given.split(" ")[0]: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
                     });
                 }
                 //@ts-ignore
                 if (data.contributors.length == 0) {
-                    data.contributors = [{given: "", middle: "", family: "", type: "Director"}]
+                    data.contributors = [{given: "", middle: "", family: "", type: "Author"}]
                 }
                 const id = ('citation-' + this.$store.getters.getCitations.length)
                 const citation = generateCitation(id, "motion_picture", data)
-                console.log(citation.toObject())
                 //@ts-ignore
                 this.$store.dispatch('setEditingCitation', citation.toObject())
                 this.$router.push({path: '/edit/film/'})

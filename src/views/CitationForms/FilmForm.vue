@@ -169,11 +169,6 @@ import * as _ from 'lodash';
         citationData: this.$store.getters.getEditingCitation,
         contributorTypes: [
             {
-                "key": "Author",
-                "text": "Author",
-                "value": "Author"
-            },
-            {
                 "key": "Director",
                 "text": "Director",
                 "value": "Director"

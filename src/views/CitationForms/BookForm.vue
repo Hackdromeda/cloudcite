@@ -7,8 +7,11 @@
         </div>
         <sui-form id="editForm">
             <div v-for="(contributor, i) in citationData.contributors" :key="i">
-                <sui-form-field>
-                    <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="contributorTypes" placeholder="Author" direction="downward" selection/>
+                <sui-form-field v-if="bookCitation == 'true'">
+                    <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="bookContributorTypes" placeholder="Book Author" direction="downward" selection/>
+                </sui-form-field>
+                <sui-form-field v-else>
+                    <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="chapterContributorTypes" placeholder="Chapter Author" direction="downward" selection/>
                 </sui-form-field>
                 <sui-form-field>
                     <div class="ui labeled input">
@@ -37,9 +40,18 @@
             </div>
             <!-- Book Form Beginning -->
             <sui-form-field>
+                <sui-dropdown fluid @input="typing = true" v-model="bookCitation" :options="bookCitationOptions" placeholder="Book Citation" selection search/>
+            </sui-form-field>
+            <sui-form-field>
                 <div class="ui labeled input">
-                    <div class="ui label">Title</div>
-                    <input placeholder="Title" @input="typing = true" v-model="citationData.title">
+                    <div class="ui label">Book Title</div>
+                    <input placeholder="Book Title" @input="typing = true" v-model="citationData.title">
+                </div>
+            </sui-form-field>
+            <sui-form-field v-if="this.$data.bookCitation == 'true'">
+                <div class="ui labeled input">
+                    <div class="ui label">Chapter Title</div>
+                    <input placeholder="Chapter Title" @input="typing = true" v-model="citationData['container-title']">
                 </div>
             </sui-form-field>
             <sui-form-field>
@@ -185,16 +197,46 @@ import * as _ from 'lodash';
         typing: false,
         type: "book",
         citationData: _.pickBy(this.$store.getters.getEditingCitation, _.identity),
-        contributorTypes: [
+        bookCitation: "false",
+        bookCitationOptions: [
+            {
+                "key": "Book",
+                "text": "Book",
+                "value": "false"
+            },
+            {
+                "key": "Chapter",
+                "text": "Chapter",
+                "value": "true"
+            }
+        ],
+        bookContributorTypes: [
             {
                 "key": "Author",
                 "text": "Author",
                 "value": "Author"
             },
             {
+                "key": "Editor",
+                "text": "Editor",
+                "value": "Editor"
+            },
+            {
+                "key": "Translator",
+                "text": "Translator",
+                "value": "Translator"
+            }
+        ],
+        chapterContributorTypes: [
+            {
                 "key": "Chapter Author",
                 "text": "Chapter Author",
                 "value": "Container Author"
+            },
+            {
+                "key": "Author",
+                "text": "Author",
+                "value": "Author"
             },
             {
                 "key": "Editor",
@@ -402,7 +444,22 @@ import * as _ from 'lodash';
         typing: debounce(function () {
         //@ts-ignore
         this.$data.typing = false
-        }, 3000)
+        }, 3000),
+        bookCitation: function(previousValue, newValue) {
+            switch (newValue) {
+                case 'true':
+                    this.$data.citationData.type = "book";
+                    this.$data.citationData['container-title'] = "";
+                    break;
+                case 'false':
+                    this.$data.citationData.type = "chapter";
+                    break;
+                default: 
+                    break;
+            }
+            console.log('Title: ' + this.$data.citationData.title)
+            console.log('Container Title: ' + this.$data.citationData['container-title'])
+        }
     }
 })
 export default class BookForm extends Vue {}

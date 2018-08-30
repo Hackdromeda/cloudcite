@@ -8,7 +8,7 @@
         <sui-form id="editForm">
             <div v-for="(contributor, i) in citationData.contributors" :key="i">
                 <sui-form-field>
-                    <sui-dropdown fluid v-model="citationData.contributors[i].type" :options="contributorTypes" :placeholder="(type == 'motion_picture') ? 'Director': 'Author'" direction="downward" selection/>
+                    <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="contributorTypes" :placeholder="(type == 'motion_picture') ? 'Director': 'Author'" direction="downward" selection/>
                 </sui-form-field>
                 <sui-form-field>
                     <div class="ui labeled input">
@@ -192,6 +192,11 @@ import * as _ from 'lodash';
                 "value": "Author"
             },
             {
+                "key": "Chapter Author",
+                "text": "Chapter Author",
+                "value": "Container Author"
+            },
+            {
                 "key": "Editor",
                 "text": "Editor",
                 "value": "Editor"
@@ -200,6 +205,11 @@ import * as _ from 'lodash';
                 "key": "Writer",
                 "text": "Writer",
                 "value": "Writer"
+            },
+            {
+                "key": "Translator",
+                "text": "Translator",
+                "value": "Translator"
             }
         ],
         monthAccessedNames: [

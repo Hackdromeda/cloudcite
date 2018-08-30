@@ -22,7 +22,11 @@ export default function generateCSL(cslData: any) {
                 //@ts-ignore
                 "author": contributors.filter(c => c.type == "Author" && (c.family || c.given || c.middle)).map(author => _.pickBy(author)),
                 //@ts-ignore
+                "container-author": contributors.filter(c => c.type == "Container Author" && (c.family || c.given || c.middle)).map(containerAuthor => _.pickBy(containerAuthor)),
+                //@ts-ignore
                 "editor": contributors.filter(c => c.type == "Editor" && (c.family || c.given || c.middle)).map(editor => _.pickBy(editor)),
+                //@ts-ignore
+                "translator": contributors.filter(c => c.type == "Translator" && (c.family || c.given || c.middle)).map(translator => _.pickBy(translator)),
                 //@ts-ignore
                 "director": contributors.filter(c => c.type == "Director" && (c.family || c.given || c.middle)).map(director => _.pickBy(director)),
                 //@ts-ignore

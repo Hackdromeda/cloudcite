@@ -7,7 +7,7 @@
         </div>
         <sui-form id="editForm">
             <div v-for="(contributor, i) in citationData.contributors" :key="i">
-                <sui-form-field v-if="bookCitation == 'true'">
+                <sui-form-field v-if="citationData && citationData.type == 'book'">
                     <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="bookContributorTypes" placeholder="Book Author" direction="downward" selection/>
                 </sui-form-field>
                 <sui-form-field v-else>
@@ -40,18 +40,24 @@
             </div>
             <!-- Book Form Beginning -->
             <sui-form-field>
-                <sui-dropdown fluid @input="typing = true" v-model="bookCitation" :options="bookCitationOptions" placeholder="Book Citation" selection search/>
+                <sui-dropdown fluid @input="typing = true" v-model="citationData.type" :options="bookCitationOptions" placeholder="Book" selection search/>
             </sui-form-field>
-            <sui-form-field>
+            <sui-form-field v-if="citationData && citationData.type == 'book'">
                 <div class="ui labeled input">
                     <div class="ui label">Book Title</div>
                     <input placeholder="Book Title" @input="typing = true" v-model="citationData.title">
                 </div>
             </sui-form-field>
-            <sui-form-field v-if="this.$data.bookCitation == 'true'">
+            <sui-form-field v-if="citationData && citationData.type == 'chapter'">
+                <div class="ui labeled input">
+                    <div class="ui label">Book Title</div>
+                    <input placeholder="Book Title" @input="typing = true" v-model="citationData['container-title']">
+                </div>
+            </sui-form-field>
+            <sui-form-field v-if="citationData && citationData.type == 'chapter'">
                 <div class="ui labeled input">
                     <div class="ui label">Chapter Title</div>
-                    <input placeholder="Chapter Title" @input="typing = true" v-model="citationData['container-title']">
+                    <input placeholder="Chapter Title" @input="typing = true" v-model="citationData.title">
                 </div>
             </sui-form-field>
             <sui-form-field>
@@ -195,19 +201,17 @@ import * as _ from 'lodash';
   data () {
       return {
         typing: false,
-        type: "book",
         citationData: _.pickBy(this.$store.getters.getEditingCitation, _.identity),
-        bookCitation: "false",
         bookCitationOptions: [
             {
                 "key": "Book",
                 "text": "Book",
-                "value": "false"
+                "value": "book"
             },
             {
                 "key": "Chapter",
                 "text": "Chapter",
-                "value": "true"
+                "value": "chapter"
             }
         ],
         bookContributorTypes: [
@@ -445,17 +449,14 @@ import * as _ from 'lodash';
         //@ts-ignore
         this.$data.typing = false
         }, 3000),
-        bookCitation: function(previousValue, newValue) {
-            switch (newValue) {
-                case 'true':
-                    this.$data.citationData.type = "book";
-                    this.$data.citationData['container-title'] = "";
-                    break;
-                case 'false':
-                    this.$data.citationData.type = "chapter";
-                    break;
-                default: 
-                    break;
+        citationData: function(previousValue, newValue) {
+            if (this.$data.citationData.type == 'book') {
+                this.$data.citationData.title = this.$data.citationData['container-title'];
+                this.$data.citationData['container-title'] = "";
+            }
+            else if (this.$data.citationData.type == 'chapter') {
+                this.$data.citationData['container-title'] = this.$data.citationData.title;
+                this.$data.citationData.title = "";
             }
             console.log('Title: ' + this.$data.citationData.title)
             console.log('Container Title: ' + this.$data.citationData['container-title'])

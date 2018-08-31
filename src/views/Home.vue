@@ -109,7 +109,9 @@
         this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)))
       },
       removeProject(project) {
-        this.$store.dispatch('removeProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
+        if (this.$store.getters.getProjects.length > 1) {
+          this.$store.dispatch('removeProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
+        }
       },
       displayComponent() {
         //@ts-ignore

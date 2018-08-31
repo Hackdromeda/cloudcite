@@ -16,6 +16,9 @@
           <sui-button type="button" id="citeButton" @click="cite('Film')">Film/Movie</sui-button>
         </div>
       </div>
+      <div class="tabs">
+        <div v-for="(project, p) in $store.state.projects" :key="p" :class="($store.state.selectedProject == p) ? 'tab-active': 'tab'"><span @click="selectProject(project)" v-cloak>{{ project.title }}</span><!--<sui-icon @click="removeProject(project)" id="closeTabButton" name="minus circle"/>--></div>
+      </div>
     </div>
     <div id="mainContent" style="text-align: left;">
       <Dashboard v-if="displayComponent()"/>
@@ -140,6 +143,51 @@
   }
   #dismissButton:hover {
     color: #fff;
+  }
+ .tabs {
+    display: inline-flex;
+    width: 100%;
+    overflow-x: auto;
+  }
+  #closeTabButton {
+    color: #90a4ae;
+    padding-left: 10px;
+    padding-right: 12px;
+  }
+  #closeTabButton:hover {
+    color: red;
+    cursor: pointer;
+  }
+  .tab {
+    font-size: 1.1rem;
+    padding: 10px;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    background-color: #f5f5f5;
+    border-bottom: 3px solid #fff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #005eea;
+  }
+  .tab:hover {
+    background-color: #cfd8dc;
+    border-bottom: 3px solid #b0bec5;
+    cursor: pointer;
+    
+  }
+  .tab-active {
+    font-size: 1.1rem;
+    padding: 10px;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    background-color: #f5f5f5;
+    border-bottom: 3px solid #0036b7;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #005eea;
+  }
+  .tab-active:hover {
+    cursor: pointer;
   }
 
   h3 {

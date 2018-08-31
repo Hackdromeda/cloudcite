@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <div>
     <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
       <div class="container" style="padding: 7vh;">

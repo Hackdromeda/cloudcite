@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <div class="content" id="privacyPolicy">
         <div class="columns">
             <div class="column"></div>

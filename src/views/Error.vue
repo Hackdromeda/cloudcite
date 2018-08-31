@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <div id="errorPage">
       <div class="overError">
       <div class="overlay"></div>

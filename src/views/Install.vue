@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <div>
     <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
       <div class="container" style="padding: 7vh;">
@@ -87,14 +87,7 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component({
   components: {},
   data () {
-    return {
-    }
-  },
-  methods: {
-    selectCoin(coin: string) {
-      this.$data.selectedCoin = this.$data.coins[coin]
-      this.$data.showCoin = true;
-    }
+    return {}
   }
 })
 export default class About extends Vue {}

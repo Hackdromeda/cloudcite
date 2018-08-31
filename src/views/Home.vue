@@ -108,6 +108,9 @@
       selectProject(project: any) {
         this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)))
       },
+      removeProject(project) {
+        this.$store.dispatch('removeProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
+      },
       displayComponent() {
         //@ts-ignore
         if(window.navigator.userAgent.includes('Headless')) {

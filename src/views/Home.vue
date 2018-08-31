@@ -17,7 +17,10 @@
         </div>
       </div>
       <div class="tabs">
-        <div v-for="(project, p) in $store.state.projects" :key="p" :class="($store.state.selectedProject == p) ? 'tab-active': 'tab'"><span @click="selectProject(project)" v-cloak>{{ project.title }}</span><!--<sui-icon @click="removeProject(project)" id="closeTabButton" name="minus circle"/>--></div>
+        <div v-for="(project, p) in $store.state.projects" :key="p" :class="($store.state.selectedProject == p) ? 'tab-active': 'tab'"><span @click="selectProject(project)" v-cloak>{{ project.title }}</span><sui-icon @click="removeProject(project)" id="closeTabButton" name="minus circle"/></div>
+        <div class="tab">
+          <span @click="$router.push({path: '/create/project'})">New Project </span><sui-icon name="plus circle"/>
+        </div>
       </div>
     </div>
     <div id="mainContent" style="text-align: left;">
@@ -164,7 +167,7 @@
     margin-left: 1vh;
     margin-right: 1vh;
     background-color: #f5f5f5;
-    border-bottom: 3px solid #fff;
+    border-bottom: 3px solid #0036b7;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     color: #005eea;
@@ -181,7 +184,7 @@
     margin-left: 1vh;
     margin-right: 1vh;
     background-color: #f5f5f5;
-    border-bottom: 3px solid #0036b7;
+    border-bottom: 3px solid #fff;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     color: #005eea;

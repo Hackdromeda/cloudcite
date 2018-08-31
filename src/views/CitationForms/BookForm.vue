@@ -448,19 +448,7 @@ import * as _ from 'lodash';
         typing: debounce(function () {
         //@ts-ignore
         this.$data.typing = false
-        }, 3000),
-        citationData: function(previousValue, newValue) {
-            if (this.$data.citationData.type == 'book') {
-                this.$data.citationData.title = this.$data.citationData['container-title'];
-                this.$data.citationData['container-title'] = "";
-            }
-            else if (this.$data.citationData.type == 'chapter') {
-                this.$data.citationData['container-title'] = this.$data.citationData.title;
-                this.$data.citationData.title = "";
-            }
-            console.log('Title: ' + this.$data.citationData.title)
-            console.log('Container Title: ' + this.$data.citationData['container-title'])
-        }
+        }, 3000)
     }
 })
 export default class BookForm extends Vue {}

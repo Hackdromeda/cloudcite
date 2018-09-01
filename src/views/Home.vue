@@ -17,9 +17,9 @@
         </div>
       </div>
       <div class="tabs">
-        <div v-for="(project, p) in $store.state.projects" :key="p" :class="($store.state.selectedProject == p) ? 'tab-active': 'tab'"><span @click="selectProject(project)" v-cloak>{{ project.title }}</span><sui-icon @click="removeProject(project)" id="closeTabButton" name="minus circle"/></div>
-        <div class="tab">
-          <span @click="creatingProject = true">New Project </span><sui-icon name="plus circle"/>
+        <div v-for="(project, p) in $store.state.projects" :key="p" @click="selectProject(project)" :class="($store.state.selectedProject == p) ? 'tab-active': 'tab'"><span v-cloak>{{ project.title }}</span></div>
+        <div class="tab" @click="creatingProject = true">
+          <span>New Project </span><sui-icon name="plus circle"/>
         </div>
       </div>
     </div>

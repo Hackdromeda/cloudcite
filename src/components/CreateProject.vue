@@ -53,9 +53,6 @@ import * as _ from 'lodash';
       createProject() {
         this.$store.dispatch('createProject', _.pickBy(Object.assign(this.$data.project, {creatingProject: null}), _.identity))
         this.$router.push({path: '/projects/'})
-      },
-      cancel() {
-        this.$router.push({path: '/'});
       }
   }
 })

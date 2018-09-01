@@ -10,6 +10,7 @@
       <sui-grid-column :mobile="10" :tablet="14" :computer="8">
         <sui-message v-if="$store.getters.getMessage.type &&  $store.getters.getMessage.type != '' && $store.getters.getMessage.description && $store.getters.getMessage.description != ''" dismissable floating :error="$store.getters.getMessage.type == 'error'" attached="top" @dismiss="dismissError()" :content="$store.getters.getMessage.description"/>
         <Bibliography/>
+        <sui-button :disabled="projects.length <= 1" @click="removeProject(projects[selectedProject])" style="margin-top: 5vh;" type="button" negative content="Delete Project"/>
       </sui-grid-column>
     </sui-grid-row>
   </sui-grid>
@@ -52,6 +53,10 @@ import CreateProject from './CreateProject.vue';
       this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
     },
     removeProject(project) {
+      //@ts-ignore
+      var selectedProject = this.projects.filter(project => project.id != this.selectedProject.id)[0];
+      //@ts-ignore
+      this.$store.dispatch('selectProject', parseInt(selectedProject.id.substring((selectedProject.id.indexOf('-') + 1), selectedProject.id.length)));
       this.$store.dispatch('removeProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
     },
     dismissError() {

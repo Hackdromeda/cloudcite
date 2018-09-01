@@ -175,6 +175,12 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     color: #005eea;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   .tab:hover {
     background-color: #cfd8dc;
@@ -192,6 +198,11 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     color: #005eea;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   .tab-active:hover {
     cursor: pointer;

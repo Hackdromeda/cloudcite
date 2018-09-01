@@ -1,5 +1,5 @@
 <template>
-  <div id="dashboard">
+  <div id="dashboard" style="theme.backgroundColor + theme.textColor">
   <sui-grid v-if="!creatingProject" :columns="3" stackable>
     <sui-grid-row>
       <sui-grid-column :mobile="5" :tablet="2" :computer="4">
@@ -46,6 +46,11 @@ import CreateProject from './CreateProject.vue';
       get() {
         return this.$props.creatingProjectOption
       }
+    },
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
+      }
     }
   },
   methods: {
@@ -69,7 +74,4 @@ export default class Dashboard extends Vue {}
 </script>
 
 <style scoped lang="scss">
-  #dashboard {
-    color: #000;
-  }
 </style>

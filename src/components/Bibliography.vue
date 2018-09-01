@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="bibliography">
+    <div id="bibliography" :style="theme.backgroundColor + theme.textColor">
       <input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
       <div>
         <SearchStyles :projectOption="projects[selectedProject]"/>
@@ -149,6 +149,11 @@ import _ from 'lodash';
     selectedProject: {
       get() {
         return this.$store.state.selectedProject
+      }
+    },
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
       }
     }
   },
@@ -344,7 +349,6 @@ export default class Bibliography extends Vue {}
   padding: 10px;
   text-align: center;
   justify-content: center;
-  background-color: #fff;
 }
 #bibliographyTitle {
   color: #fff;

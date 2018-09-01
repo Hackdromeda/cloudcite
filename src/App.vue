@@ -1,10 +1,10 @@
 <template>
-  <div id="app">
+  <div id="app" :style="theme.backgroundColor">
     <div id="appMain">
-      <nav class="navbar is-transparent">
+      <nav :style="theme.navbar.backgroundColor" class="navbar is-transparent">
           <div class="navbar-brand">
             <a class="navbar-item" @click="$router.push({path: '/'})">
-              <a id="title" style="color: #005eea; font-weight: 600; font-size: 1.5rem;">CloudCite</a>
+              <a :style="theme.title.textColor + theme.title.fontSize + theme.title.fontWeight + theme.title.fontSize">CloudCite</a>
             </a>
             <!--https://gitlab.com/snippets/1685935-->
             <div class="navbar-burger burger" @click="toggleMenu" data-target="navbarMenu" :class="{'is-active': navIsActive}">
@@ -15,18 +15,21 @@
           </div>
           <div id="navbarMenu" class="navbar-menu" :class="{'is-active': navIsActive}">
             <div class="navbar-start">
-              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/projects/'})">Projects</a>
-              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/about/'})">About</a>
-              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/install/'})">Install</a>
-              <a href="https://api.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">API</a>
-              <a href="https://cloudcite.net/blog/" target="_blank" class="navbar-item" @click="navIsActive = false;">Blog</a>
-              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/pricing/'})">Pricing</a>
-              <a href="https://status.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Status</a>
-              <a href="https://help.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Help</a>
-              <a href="https://feedback.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Feedback</a>
-              <a class="navbar-item" @click="navIsActive = false; $router.push({path: '/contribute/'})">Contribute</a>
+              <a :style="theme.navbar.textColor" class="navbar-item" @click="navIsActive = false; $router.push({path: '/projects/'})">Projects</a>
+              <a :style="theme.navbar.textColor" class="navbar-item" @click="navIsActive = false; $router.push({path: '/about/'})">About</a>
+              <a :style="theme.navbar.textColor" class="navbar-item" @click="navIsActive = false; $router.push({path: '/install/'})">Install</a>
+              <a :style="theme.navbar.textColor" href="https://api.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">API</a>
+              <a :style="theme.navbar.textColor" href="https://cloudcite.net/blog/" target="_blank" class="navbar-item" @click="navIsActive = false;">Blog</a>
+              <a :style="theme.navbar.textColor" class="navbar-item" @click="navIsActive = false; $router.push({path: '/pricing/'})">Pricing</a>
+              <a :style="theme.navbar.textColor" href="https://status.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Status</a>
+              <a :style="theme.navbar.textColor" href="https://help.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Help</a>
+              <a :style="theme.navbar.textColor" href="https://feedback.cloudcite.net/" target="_blank" class="navbar-item" @click="navIsActive = false;">Feedback</a>
+              <a :style="theme.navbar.textColor" class="navbar-item" @click="navIsActive = false; $router.push({path: '/contribute/'})">Contribute</a>
             </div>
             <div class="navbar-end">
+              <div class="navbar-item">
+                <sui-icon id="themeIcon" @click="$store.dispatch('changeTheme')" name="adjust" size="large"/>
+              </div>
               <div class="navbar-item">
                 <sui-button v-if="!authenticated" class="navbar-item" style="color: #006DFC; border-radius: 25px;" type="button" @click="login()" disabled>Log In / Register</sui-button>
                 <sui-button v-if="authenticated" class="navbar-item" style="color: #006DFC; border-radius: 25px;" type="button" @click="logout()" disabled>Log Out</sui-button>
@@ -69,7 +72,16 @@ import 'semantic-ui-css/semantic.min.css';
     return {
       auth,
       authenticated,
-      navIsActive: false
+      navIsActive: false,
+      //@ts-ignore
+      styles: require('./themes/light-theme.ts').default
+    }
+  },
+  computed: {
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
+      }
     }
   },
   methods: {
@@ -152,7 +164,6 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #fff;
 }
 
 a:hover {
@@ -160,13 +171,11 @@ a:hover {
 }
 
 h1 {
-  color: #fff;
   font-size: 2.3rem;
   font-weight: 600;
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.952);
   font-size: 1.1rem;
   font-weight: 505;
 }
@@ -176,9 +185,12 @@ h1 {
   font-weight: 500;
 }
 
+#themeIcon:hover {
+  cursor: pointer;
+}
+
 nav {
   padding: 5px;
-  background-color: #fff;
 }
 
 footer {

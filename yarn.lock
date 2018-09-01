@@ -1846,8 +1846,8 @@ cli-width@^2.0.0:
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.0.tgz#ff19ede8a9a5e579324147b0c11f0fbcbabed639"
 
 clipboard-polyfill@^2.5.2:
-  version "2.5.3"
-  resolved "https://registry.yarnpkg.com/clipboard-polyfill/-/clipboard-polyfill-2.5.3.tgz#dede5e6faf6ba9a1a981511f9a129a768a4ce70a"
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/clipboard-polyfill/-/clipboard-polyfill-2.5.4.tgz#45e799a2ecf729177a0807709feb41dc1be75ed7"
 
 clipboardy@^1.2.3:
   version "1.2.3"

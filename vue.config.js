@@ -102,18 +102,20 @@ module.exports = {
     }
   },
 
-  baseUrl: "/",
-  productionSourceMap: true,
-  parallel: true,
+  baseUrl: undefined,
+  productionSourceMap: undefined,
+  parallel: undefined,
 
-  css: {
-    extract: true
-  },
+  css: undefined,
 
   pwa: {
     name: 'CloudCite',
     themeColor: '#fff',
     msTileColor: '#fff',
     appleMobileWebAppStatusBarStyle: '#005eea'
-  }
+  },
+
+  outputDir: undefined,
+  assetsDir: undefined,
+  runtimeCompiler: undefined
 }

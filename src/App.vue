@@ -73,8 +73,6 @@ import 'semantic-ui-css/semantic.min.css';
       auth,
       authenticated,
       navIsActive: false,
-      //@ts-ignore
-      styles: require('./themes/light-theme.ts').default
     }
   },
   computed: {

@@ -156,8 +156,9 @@
   }
  .tabs {
     display: inline-flex;
-    width: 100%;
     overflow-x: auto;
+    white-space: nowrap; 
+    width: 100%;
   }
   #closeTabButton {
     color: #90a4ae;

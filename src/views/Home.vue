@@ -19,12 +19,12 @@
       <div class="tabs">
         <div v-for="(project, p) in $store.state.projects" :key="p" :class="($store.state.selectedProject == p) ? 'tab-active': 'tab'"><span @click="selectProject(project)" v-cloak>{{ project.title }}</span><sui-icon @click="removeProject(project)" id="closeTabButton" name="minus circle"/></div>
         <div class="tab">
-          <span @click="$router.push({path: '/create/project'})">New Project </span><sui-icon name="plus circle"/>
+          <span @click="creatingProject = true">New Project </span><sui-icon name="plus circle"/>
         </div>
       </div>
     </div>
     <div id="mainContent" style="text-align: left;">
-      <Dashboard v-if="displayComponent()"/>
+      <Dashboard v-if="displayComponent()" :creatingProjectOption="creatingProject"/>
       <h2 style="margin-top: 20vh; margin-left: 1vh; margin-right: 1vh;">About CloudCite</h2>
       <h3 style="margin-left: 1vh; margin-right: 1vh;">CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago, Turabian, Harvard, IEEE, and Vancouver. You can contribute to CloudCite and support the longevity of this project by visiting the <router-link to="/contribute/">contribute page</router-link> and either donating through a supported platform or lending us your coding skills. Disabling ad-block and interacting with ads placed on the contribute page and our blog also helps support this project. We have no ads throughout the bibliography generation process to provide a focused experience. Learn more about our commitment to a privacy on our <router-link to="/privacy/">privacy page</router-link> and about our the distraction-free bibliography generation environment we wanted to exist in the universe on our <router-link to="/about/">about us page</router-link>.</h3>
     </div>
@@ -68,7 +68,8 @@
           "Digital Image",
           "Podcast",
           "Music"
-        ]
+        ],
+        creatingProject: false
       }
     },
     computed: {
@@ -106,6 +107,7 @@
         this.$router.push({path: '/projects/edit/' + project.id + '/'})
       },
       selectProject(project: any) {
+        this.$data.creatingProject = false;
         this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)))
       },
       removeProject(project) {

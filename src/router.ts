@@ -136,15 +136,6 @@ export default new Router({
       }
     },
     {
-      path: '/create/project/',
-      alias: '/create/project/index.html',
-      name: 'createproject',
-      component: () => import('./views/CreateProject.vue'),
-      meta: {
-        title: 'CloudCite · Create Project'
-      }
-    },
-    {
       path: '/projects/edit/:id/',
       name: 'editproject',
       component: () => import('./views/EditProject.vue'),

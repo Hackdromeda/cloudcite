@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard">
-  <sui-grid :columns="3" stackable>
+  <sui-grid v-if="!creatingProject" :columns="3" stackable>
     <sui-grid-row>
       <sui-grid-column :mobile="5" :tablet="2" :computer="4">
         <h2 style="color: #000; margin-top: 20px;">Overview</h2>
@@ -13,6 +13,7 @@
       </sui-grid-column>
     </sui-grid-row>
   </sui-grid>
+  <CreateProject v-if="creatingProject"/>
   </div>
 </template>
 
@@ -21,11 +22,13 @@ import { Component, Vue } from 'vue-property-decorator';
 import Bibliography from './Bibliography.vue';
 //import '@vaadin/vaadin-tabs/vaadin-tabs.js';
 import LocaleChange from './LocaleChange.vue';
-
+import CreateProject from './CreateProject.vue';
 @Component({
+  props: ['creatingProjectOption'],
   components: {
     Bibliography,
-    LocaleChange
+    LocaleChange,
+    CreateProject
   },
   computed: {
     projects: {
@@ -36,6 +39,11 @@ import LocaleChange from './LocaleChange.vue';
     selectedProject: {
       get() {
         return this.$store.state.selectedProject
+      }
+    },
+    creatingProject: {
+      get() {
+        return this.$props.creatingProjectOption
       }
     }
   },

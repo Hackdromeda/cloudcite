@@ -17,8 +17,13 @@ export default new Vuex.Store({
     "themes": {
       "light": {
         "primaryColor": "color: #005eea;",
+        "informationColor": "color: #000;",
         "backgroundColor": "background-color: #fff;",
         "button": {
+          "backgroundColor": "background-color: #006dfc;",
+          "textColor": "color: #fff;"
+        },
+        "secondary-button": {
           "backgroundColor": "background-color: #006dfc;",
           "textColor": "color: #fff;"
         },
@@ -53,8 +58,13 @@ export default new Vuex.Store({
       },
       "dark": {
         "primaryColor": "color: #000;",
+        "informationColor": "color: #000;",
         "backgroundColor": "background-color: #b0bec5;",
         "button": {
+          "backgroundColor": "background-color: #4b636e;",
+          "textColor": "color: #fff;"
+        },
+        "secondary-button": {
           "backgroundColor": "background-color: #4b636e;",
           "textColor": "color: #fff;"
         },

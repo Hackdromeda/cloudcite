@@ -1,14 +1,14 @@
 <template>
   <div>
     <div id="bibliography" :style="theme.backgroundColor + theme.textColor">
-      <input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
+      <input id="titleInput" :style="theme.backgroundColor + theme.primaryColor" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
       <div>
         <SearchStyles :projectOption="projects[selectedProject]"/>
       </div>
       <div style="margin-top: 5vh;" v-if="projects[selectedProject].citations.length > 0" id="bibliographyActions" >
         <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
-      <div v-if="projects[selectedProject].citations.length == 0" style="margin-top: 10vh;">
+      <div v-if="projects[selectedProject].citations.length == 0" :style="'margin-top: 10vh;' + theme.informationColor">
         <p>Your bibliography will be here after you cite a website, book, or film.</p>
       </div>
       <div v-else>
@@ -371,7 +371,6 @@ export default class Bibliography extends Vue {}
 #titleInput {
   text-align: center;
   display: inline-flex;
-  color: #005eea;
   min-height: 60px;
   font-size: 2rem;
   font-weight: 550;

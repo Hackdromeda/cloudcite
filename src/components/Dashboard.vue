@@ -2,12 +2,12 @@
   <div id="dashboard" style="theme.backgroundColor + theme.textColor">
   <sui-grid v-if="!creatingProject" :columns="3" stackable>
     <sui-grid-row>
-      <sui-grid-column :mobile="5" :tablet="2" :computer="4">
-        <h2 style="color: #000; margin-top: 20px;">Overview</h2>
+      <sui-grid-column :style="theme.informationColor" :mobile="5" :tablet="2" :computer="4">
+        <h2 style="margin-top: 20px;">Overview</h2>
         <p style="font-size: 1.3rem;">{{ projects[selectedProject].citations.length }} <span v-if="projects[selectedProject].citations.length == 1">Citation</span><span v-else>Citations</span></p>
         <LocaleChange :projectOption="$store.state.projects[$store.state.selectedProject]"/>
       </sui-grid-column>
-      <sui-grid-column :mobile="10" :tablet="14" :computer="8">
+      <sui-grid-column :style="theme.informationColor" :mobile="10" :tablet="14" :computer="8">
         <sui-message v-if="$store.getters.getMessage.type &&  $store.getters.getMessage.type != '' && $store.getters.getMessage.description && $store.getters.getMessage.description != ''" dismissable floating :error="$store.getters.getMessage.type == 'error'" attached="top" @dismiss="dismissError()" :content="$store.getters.getMessage.description"/>
         <Bibliography/>
         <sui-button :disabled="projects.length <= 1" @click="removeProject(projects[selectedProject])" style="margin-top: 5vh;" type="button" negative content="Delete Project"/>

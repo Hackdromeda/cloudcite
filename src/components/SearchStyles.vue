@@ -32,7 +32,7 @@
         <sui-dropdown fluid :options="favoriteStyles" :placeholder="getProjectStyle" search selection v-model="selectedStyle" direction="downward"/>
       </sui-form-field>
       <sui-form-field>
-        <sui-button @click="showMoreStyles = true" type="button" basic primary size="mini">More Styles Available</sui-button>
+        <sui-button :style="theme['secondary-button'].backgroundColor + theme['secondary-button'].textColor" @click="showMoreStyles = true" type="button" size="mini">More Styles Available</sui-button>
       </sui-form-field>
     </sui-form>
   </div>
@@ -94,6 +94,11 @@ import debounce from 'lodash/debounce';
     favoriteStyles: {
       get() {
         return this.$store.getters.getFavoriteStyles
+      }
+    },
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
       }
     }
   },

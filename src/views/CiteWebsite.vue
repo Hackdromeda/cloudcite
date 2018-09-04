@@ -1,6 +1,6 @@
 <template>
     <div id="citeWebsite">
-            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+            <div :style="'min-height: 35vh; color: #fff;' + theme.section.backgroundColor + theme.section.textColor">
                 <div class="container" style="padding: 7vh;">
                     <h1>Cite a Website</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">
@@ -111,6 +111,13 @@ import * as  _ from 'lodash/core';
         //@ts-ignore
         this.$store.dispatch('setEditingCitation', this.$data.websiteCitationData)
         this.$router.push({path: '/edit/website/'})
+    }
+  },
+  computed: {
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
+      }
     }
   }
 })

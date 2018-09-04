@@ -1,6 +1,6 @@
 <template>
     <div id="citeFilm">
-            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+            <div :style="'min-height: 35vh; color: #fff;' + theme.section.backgroundColor + theme.section.textColor">
                 <div class="container" style="padding: 7vh;">
                     <h1>Cite a Film</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">
@@ -182,15 +182,20 @@ import * as Immutable from 'immutable';
     }
   },
   computed: {
-      numOfRows: function () {
-          //@ts-ignore
-          if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
-              return 5;
-          }
-          else{
-              return 2
-          }
+    numOfRows: function () {
+        //@ts-ignore
+        if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
+            return 5;
+        }
+        else{
+            return 2
+        }
+    },
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
       }
+    }
   }
 })
 export default class CiteFilm extends Vue {

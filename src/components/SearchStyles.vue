@@ -29,7 +29,7 @@
     </sui-modal>
     <sui-form>
       <sui-form-field>
-        <sui-dropdown fluid :options="favoriteStyles" :placeholder="getProjectStyle" search selection v-model="selectedStyle" direction="downward"/>
+        <sui-dropdown fluid :style="theme.select.backgroundColor" :options="favoriteStyles" :placeholder="getProjectStyle" search selection v-model="selectedStyle" direction="downward"/>
       </sui-form-field>
       <sui-form-field>
         <sui-button :style="theme['secondary-button'].backgroundColor + theme['secondary-button'].textColor" @click="showMoreStyles = true" type="button" size="mini">More Styles Available</sui-button>

@@ -1,6 +1,6 @@
 <template>
     <div id="citeBook">
-            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+            <div :style="'min-height: 35vh; color: #fff;' + theme.section.backgroundColor + theme.section.textColor">
                 <div style="padding: 7vh;">
                     <h1>Cite a Book</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">
@@ -223,7 +223,7 @@ import generateCitation from '@/functions/generateCitation';
     }
   },
     computed: {
-      numOfRows: function () {
+        numOfRows: function () {
           //@ts-ignore
           if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
               return 8;
@@ -231,7 +231,12 @@ import generateCitation from '@/functions/generateCitation';
           else{
               return 2;
           }
-      }
+        },
+        theme: {
+            get() {
+                return this.$store.getters.getTheme
+            }
+        }
   }
 })
 

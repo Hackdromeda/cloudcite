@@ -27,6 +27,9 @@ export default new Vuex.Store({
           "backgroundColor": "background-color: #006dfc;",
           "textColor": "color: #fff;"
         },
+        "select": {
+          "backgroundColor": "background-color: #fff;"
+        },
         "tab-inactive": {
           "backgroundColor": "background-color: #f5f5f5;",
           "textColor": "color: #005eea;",
@@ -67,6 +70,9 @@ export default new Vuex.Store({
         "secondary-button": {
           "backgroundColor": "background-color: #4b636e;",
           "textColor": "color: #fff;"
+        },
+        "select": {
+          "backgroundColor": "background-color: #000;"
         },
         "tab-inactive": {
           "backgroundColor": "background-color: #4b636e;",

@@ -28,7 +28,8 @@ export default new Vuex.Store({
           "textColor": "color: #fff;"
         },
         "select": {
-          "backgroundColor": "background-color: #fff;"
+          "backgroundColor": "background-color: #fff;",
+          "textColor": "color: #000;"
         },
         "tab-inactive": {
           "backgroundColor": "background-color: #f5f5f5;",
@@ -57,12 +58,15 @@ export default new Vuex.Store({
           "fontSize": "font-size: 1.5rem;",
           "fontWeight": "font-weight: 600;",
         },
+        "loading": {
+          "color": "#005eea"
+        },
         "textColor": "color: #000;"
       },
       "dark": {
         "primaryColor": "color: #000;",
-        "informationColor": "color: #000;",
-        "backgroundColor": "background-color: #b0bec5;",
+        "informationColor": "color: #fff;",
+        "backgroundColor": "background-color: #484848;",
         "button": {
           "backgroundColor": "background-color: #4b636e;",
           "textColor": "color: #fff;"
@@ -72,7 +76,8 @@ export default new Vuex.Store({
           "textColor": "color: #fff;"
         },
         "select": {
-          "backgroundColor": "background-color: #000;"
+          "backgroundColor": "background-color: #000;",
+          "textColor": "color: #fff;"
         },
         "tab-inactive": {
           "backgroundColor": "background-color: #4b636e;",
@@ -82,14 +87,14 @@ export default new Vuex.Store({
         "tab-active": {
           "backgroundColor": "background-color: #4b636e;",
           "textColor": "color: #fff;",
-          "borderBottom": "border-bottom: 3px solid #b0bec5;"
+          "borderBottom": "border-bottom: 3px solid #484848;"
         },
         "section": {
           "backgroundColor": "background-color: #212121;",
           "textColor": "color: #fff;"
         },
         "navbar": {
-          "textColor": "color: #757575;",
+          "textColor": "color: #fafafa;",
           "backgroundColor": "background-color: #1b1b1b;"
         },
         "banner": {
@@ -100,6 +105,9 @@ export default new Vuex.Store({
           "textColor": "color: #fff;",
           "fontSize": "font-size: 1.5rem;",
           "fontWeight": "font-weight: 600;"
+        },
+        "loading": {
+          "color": "#000"
         },
         "textColor": "color: #fff;"
       }

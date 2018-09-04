@@ -10,12 +10,12 @@
             </div>
             <div style="margin-top: 5vh;">
                 <sui-input style="margin-right: 1vh;" v-model="URL" placeholder="Enter website link" @keyup.enter="citeURL()" ref="websiteInput"/>
-                <sui-button type="button" :loading="loadingCitation" @click="citeURL()">Cite</sui-button>
+                <sui-button :style="theme.button.backgroundColor + theme.button.textColor" type="button" :loading="loadingCitation" @click="citeURL()">Cite</sui-button>
             </div>
             <div style="margin-top: 3vh;">
-                <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
+                <sui-button :style="theme['secondary-button'].backgroundColor + theme['secondary-button'].textColor" type="button" @click="citeEmpty()" size="mini">Manual Citation</sui-button>
             </div>
-            <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"/>
+            <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" :color="theme.loading.color"/>
     </div>
 </template>
 
@@ -129,6 +129,5 @@ export default class CiteWebsite extends Vue {}
     min-height: 100vh;
     text-align: center;
     justify-content: center;
-    background-color: #fff;
 }
 </style>

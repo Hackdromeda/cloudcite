@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="bibliography" :style="theme.backgroundColor + theme.textColor">
-      <input id="titleInput" :style="theme.backgroundColor + theme.primaryColor" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
+      <input id="titleInput" :style="theme.backgroundColor + theme.title.textColor" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
       <div>
         <SearchStyles :projectOption="projects[selectedProject]"/>
       </div>

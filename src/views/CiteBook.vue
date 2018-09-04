@@ -9,15 +9,15 @@
                 </div>
             </div>
             <div style="display: inline-flex; margin-top: 5vh;">
-                <sui-dropdown style="margin-right: 3vh;" fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
+                <sui-dropdown :style="'margin-right: 3vh;' + theme.select.backgroundColor + theme.select.textColor" fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
                 <sui-input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData" icon="search" ref="bookInput"/>
             </div>
             <div style="margin-top: 3vh;">
-                <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
+                <sui-button :style="theme['secondary-button'].backgroundColor + theme['secondary-button'].textColor" type="button" @click="citeEmpty()" size="mini">Manual Citation</sui-button>
             </div>
 
             <div v-if="isFetching">
-                <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"/>
+                <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" :color="theme.loading.color"/>
             </div>
 
             <div class="cardGroup" style="margin-left: 5%; margin-right: 5%; margin-top: 15px; margin-bottom: 15px; word-break: break-all;">
@@ -248,6 +248,5 @@ export default class CiteBook extends Vue {}
     min-height: 100vh;
     text-align: center;
     justify-content: center;
-    background-color: #fff;
 }
 </style>

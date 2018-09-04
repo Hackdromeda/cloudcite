@@ -1,5 +1,5 @@
 <template>
-  <div id="preview">
+  <div :style="theme.citation.backgroundColor + theme.citation.textColor" id="preview">
     <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent: -' + cslFormat.hangingindent + 'em;'): '' + 'word-break: break-all;'" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
         <div :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry"/>
@@ -64,6 +64,11 @@ import _ from 'lodash';
     typingStatus: {
       get() {
         return this.$props.typing
+      }
+    },
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
       }
     }
   },

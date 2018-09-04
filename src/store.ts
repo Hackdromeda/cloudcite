@@ -19,6 +19,14 @@ export default new Vuex.Store({
         "primaryColor": "color: #005eea;",
         "informationColor": "color: #000;",
         "backgroundColor": "background-color: #fff;",
+        "citation": {
+          "backgroundColor": "background-color: #eceff1;",
+          "textColor": "color: #000;"
+        },
+        "bibliographyActions": {
+          "backgroundColor": "background-color: #0066ff;",
+          "textColor": "color: #fff;"
+        },
         "button": {
           "backgroundColor": "background-color: #006dfc;",
           "textColor": "color: #fff;"
@@ -61,12 +69,24 @@ export default new Vuex.Store({
         "loading": {
           "color": "#005eea"
         },
+        "footer": {
+          "backgroundColor": "background-color: #eee;",
+          "textColor": "color: #000;"
+        },
         "textColor": "color: #000;"
       },
       "dark": {
         "primaryColor": "color: #000;",
         "informationColor": "color: #fff;",
         "backgroundColor": "background-color: #484848;",
+        "citation": {
+          "backgroundColor": "background-color: #1b1b1b;",
+          "textColor": "color: #fff;"
+        },
+        "bibliographyActions": {
+          "backgroundColor": "background-color: #000;",
+          "textColor": "color: #fff;"
+        },
         "button": {
           "backgroundColor": "background-color: #4b636e;",
           "textColor": "color: #fff;"
@@ -108,6 +128,10 @@ export default new Vuex.Store({
         },
         "loading": {
           "color": "#000"
+        },
+        "footer": {
+          "backgroundColor": "background-color: #cfcfcf;",
+          "textColor": "color: #000;"
         },
         "textColor": "color: #fff;"
       }

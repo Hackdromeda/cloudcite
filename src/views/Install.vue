@@ -1,6 +1,6 @@
-<template functional>
+<template>
   <div>
-    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+    <div :style="'min-height: 35vh;' + theme.section.backgroundColor + theme.section.textColor">
       <div class="container" style="padding: 7vh;">
         <h1>Install CloudCite</h1>
         <h2 class="subtitle" style="margin-top: 10vh;">
@@ -8,7 +8,7 @@
         </h2>
       </div>
     </div>
-    <div id="install">
+    <div id="install" :style="theme.textColor">
         <div id="iOS">
           <h3>iOS</h3>
           <p>To install the CloudCite app to your iPhone, iPod, or iPad go to Safari, press the share icon, and choose "Add to Home Screen."</p>
@@ -86,8 +86,12 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {},
-  data () {
-    return {}
+  computed: {
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
+      }
+    }
   }
 })
 export default class About extends Vue {}
@@ -98,18 +102,7 @@ export default class About extends Vue {}
     min-height: 100vh;
     text-align: center;
     justify-content: center;
-    background-color: #fff;
-    color: #000;
 
-    h1 {
-      color: #000;
-    }
-    h2 {
-      color: #000;
-    }
-    h3 {
-      color: #000;
-    }
     p {
       text-align: center;
       padding-left: 20%;

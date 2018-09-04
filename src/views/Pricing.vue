@@ -1,9 +1,9 @@
-<template functional>
+<template>
   <div>
-    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+    <div :style="'min-height: 35vh;' + theme.section.backgroundColor + theme.section.textColor">
       <div class="container" style="padding: 7vh;">
-        <h1>Pricing</h1>
-        <h2 class="subtitle" style="margin-top: 10vh;">
+        <h1 :style="theme.section.textColor">Pricing</h1>
+        <h2 :style="theme.section.textColor" class="subtitle" style="margin-top: 10vh;">
           CloudCite is free forever and open source. Not all of the features listed in the table below are available yet. <router-link to="/contribute/">Help us develop these features.</router-link>
         </h2>
       </div>
@@ -61,6 +61,13 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component({
   components: {
   },
+  computed: {
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
+      }
+    }
+  }
 })
 export default class Pricing extends Vue {}
 </script>
@@ -68,10 +75,6 @@ export default class Pricing extends Vue {}
 <style scoped lang="scss">
   #pricing {
     min-height: 100vh;
-    background-color: #fff;
     padding: 10vh;
-  }
-  .title{
-    color: #000;
   }
 </style>

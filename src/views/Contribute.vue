@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+    <div :style="'min-height: 35vh;' + theme.section.backgroundColor + theme.section.textColor">
       <div class="container" style="padding: 7vh;">
-        <h1>Contribute</h1>
-        <h2 class="subtitle" style="margin-top: 10vh;">
+        <h1 :style="theme.section.textColor">Contribute</h1>
+        <h2 :style="theme.section.textColor" class="subtitle" style="margin-top: 10vh;">
           CloudCite is an AGPLv3 licensed open source project and completely free to use. However, the amount of effort needed to maintain CloudCite and its APIs, develop new features, and store your references is not sustainable without proper financial backing. You can support CloudCite development and maintenance costs via the following methods:
         </h2>
       </div>
     </div>
-    <div id="contribute">
+    <div id="contribute" :style="theme.textColor">
       <div id="financial">
           <h3>One-Time Donation</h3>
           <p>Buy us a coffee, lunch, or even a new computer through these channels:</p>
@@ -109,6 +109,13 @@ import { Component, Vue } from 'vue-property-decorator';
       this.$data.selectedCoin = this.$data.coins[coin]
       this.$data.showCoin = true;
     }
+  },
+  computed: {
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
+      }
+    }
   }
 })
 export default class About extends Vue {}
@@ -119,18 +126,7 @@ export default class About extends Vue {}
     min-height: 100vh;
     text-align: center;
     justify-content: center;
-    background-color: #fff;
-    color: #000;
 
-    h1 {
-      color: #000;
-    }
-    h2 {
-      color: #000;
-    }
-    h3 {
-      color: #000;
-    }
     p {
       text-align: center;
       padding-left: 20%;

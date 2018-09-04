@@ -1,6 +1,6 @@
-<template functional>
+<template>
   <div>
-    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+    <div :style="'min-height: 35vh;' + theme.section.backgroundColor + theme.section.textColor">
       <div class="container" style="padding: 7vh;">
         <h1>About CloudCite</h1>
         <h2 class="subtitle" style="margin-top: 10vh;">
@@ -8,7 +8,7 @@
         </h2>
       </div>
     </div>
-    <div id="about">
+    <div id="about" :style="theme.textColor">
       <div id="mission">
         <h3>Mission</h3>
         <p>CloudCite provides a clean, simple, and distraction-free environment for when you really need to create bibliographies and focus on research. Avoid the ad popups, data deletion countdowns, bad user interfaces,and annoying videos and switch now.</p>
@@ -53,6 +53,13 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component({
   components: {
   },
+  computed: {
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
+      }
+    }
+  }
 })
 export default class About extends Vue {}
 </script>
@@ -63,18 +70,7 @@ export default class About extends Vue {}
     min-height: 100vh;
     text-align: center;
     justify-content: center;
-    background-color: #fff;
-    color: #000;
-
-    h1 {
-      color: #000;
-    }
-    h2 {
-      color: #000;
-    }
-    h3 {
-      color: #000;
-    }
+    
     p {
       text-align: left;
       padding-left: 20%;

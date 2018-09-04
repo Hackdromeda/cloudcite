@@ -1,6 +1,6 @@
 <template>
   <div id="projects">
-    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+    <div :style="'min-height: 35vh;' + theme.section.backgroundColor + theme.section.textColor">
         <div class="container" style="padding: 7vh;">
             <h1>Projects</h1>
             <h2 class="subtitle" style="margin-top: 10vh;">
@@ -12,8 +12,8 @@
         <sui-grid stackable>
           <sui-grid-row :columns="projects.length + 1">
             <sui-grid-column :mobile="16" :tablet="8" :computer="4" stretched v-for="(project, p) in projects" :key="p">
-              <div id="projectSegment" class="ui raised segment">
-                <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
+              <div :style="theme.section.backgroundColor + theme.section.textColor" id="projectSegment" class="ui raised segment">
+                <h4 :style="'font-size: 1.5rem; text-align: center;' + theme.section.textColor" v-cloak>
                   {{ project.title }}
                 </h4>
                 <p v-if="project.style" style="font-size: 1rem; text-align: left;" v-cloak>
@@ -28,20 +28,20 @@
                 <p style="font-size: 1rem; text-align: left;" v-cloak>
                   <b>Number of Citations</b>: {{ project.citations.length }}
                 </p>
-                <sui-button v-if="compareProject(project) == false" @click="selectProject(project)" style="color: #006DFC;">Select</sui-button>
-                <sui-button v-if="compareProject(project) == true" @click="selectProject(project)" style="color: #006DFC;" disabled>Selected</sui-button>
-                <sui-button @click="editProject(project)" style="color: #006DFC;">Edit</sui-button>
+                <sui-button v-if="compareProject(project) == false" @click="selectProject(project)" :style="theme.button.backgroundColor + theme.button.textColor">Select</sui-button>
+                <sui-button v-if="compareProject(project) == true" @click="selectProject(project)" :style="theme.button.backgroundColor + theme.button.textColor" disabled>Selected</sui-button>
+                <sui-button @click="editProject(project)" :style="theme.button.backgroundColor + theme.button.textColor">Edit</sui-button>
               </div>
             </sui-grid-column>
             <sui-grid-column :mobile="16" :tablet="8" :computer="4" stretched>
-              <div id="projectSegment" class="ui raised segment" style="text-align: center;">
-                <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
+              <div :style="'text-align: center' + theme.section.backgroundColor + theme.primaryColor" id="projectSegment" class="ui raised segment">
+                <h4 :style="'font-size: 1.5rem; text-align: center;' + theme.primaryColor" v-cloak>
                   New Project
                 </h4>
-                <p style="font-size: 1rem; text-align: left;">
+                <p :style="'font-size: 1rem; text-align: left;' + theme.primaryColor">
                   You can select the citation style on the new project page. Click on the button below to get started.
                 </p>
-                <sui-button style="color: #006DFC;" @click="createProject()">Create New Project</sui-button>
+                <sui-button :style="theme.button.backgroundColor + theme.button.textColor" @click="createProject()">Create New Project</sui-button>
               </div>
             </sui-grid-column>
           </sui-grid-row>
@@ -62,6 +62,11 @@ import SearchStyles from '../components/SearchStyles.vue';
         get() {
           return this.$store.state.projects
         }
+    },
+    theme: {
+      get() {
+        return this.$store.getters.getTheme
+      }
     }
   },
   methods: {

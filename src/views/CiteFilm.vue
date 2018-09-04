@@ -1,6 +1,6 @@
 <template>
     <div id="citeFilm">
-            <div :style="'min-height: 35vh; color: #fff;' + theme.section.backgroundColor + theme.section.textColor">
+            <div :style="'min-height: 35vh;' + theme.section.backgroundColor + theme.section.textColor">
                 <div class="container" style="padding: 7vh;">
                     <h1>Cite a Film</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">

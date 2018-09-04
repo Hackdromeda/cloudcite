@@ -22,6 +22,16 @@ export default new Vuex.Store({
           "backgroundColor": "background-color: #006dfc;",
           "textColor": "color: #fff;"
         },
+        "tab-inactive": {
+          "backgroundColor": "background-color: #f5f5f5;",
+          "textColor": "color: #005eea;",
+          "borderBottom": "border-bottom: 3px solid #0036b7;"
+        },
+        "tab-active": {
+          "backgroundColor": "background-color: #f5f5f5;",
+          "textColor": "color: #005eea;",
+          "borderBottom": "border-bottom: 3px solid #fff;"
+        },
         "section": {
           "backgroundColor": "background-color: #005eea;",
           "textColor": "color: #fff;"
@@ -47,6 +57,16 @@ export default new Vuex.Store({
         "button": {
           "backgroundColor": "background-color: #4b636e;",
           "textColor": "color: #fff;"
+        },
+        "tab-inactive": {
+          "backgroundColor": "background-color: #4b636e;",
+          "textColor": "color: #fff;",
+          "borderBottom": "border-bottom: 3px solid #f5f5f5;"
+        },
+        "tab-active": {
+          "backgroundColor": "background-color: #4b636e;",
+          "textColor": "color: #fff;",
+          "borderBottom": "border-bottom: 3px solid #b0bec5;"
         },
         "section": {
           "backgroundColor": "background-color: #212121;",

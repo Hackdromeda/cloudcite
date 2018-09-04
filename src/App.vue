@@ -27,7 +27,7 @@
               <a :style="theme.navbar.textColor" class="navbar-item" @click="navIsActive = false; $router.push({path: '/contribute/'})">Contribute</a>
             </div>
             <div class="navbar-end">
-              <div class="navbar-item">
+              <div v-if="!navIsActive" class="navbar-item">
                 <sui-icon id="themeIcon" @click="$store.dispatch('changeTheme')" name="adjust" size="large"/>
               </div>
               <div class="navbar-item">

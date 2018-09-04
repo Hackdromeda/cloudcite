@@ -17,8 +17,8 @@
         </div>
       </div>
       <div class="tabs">
-        <div v-for="(project, p) in $store.state.projects" :key="p" @click="selectProject(project)" :class="($store.state.selectedProject == p && !creatingProject) ? 'tab-active': 'tab'"><span v-cloak>{{ project.title }}</span></div>
-        <div :class="creatingProject ? 'tab-active': 'tab'" @click="creatingProject = true">
+        <div v-for="(project, p) in $store.state.projects" :key="p" @click="selectProject(project)" :style="($store.state.selectedProject == p && !creatingProject) ? theme['tab-active'].backgroundColor + theme['tab-active'].textColor + theme['tab-active'].borderBottom: theme['tab-inactive'].backgroundColor + theme['tab-inactive'].textColor + theme['tab-inactive'].borderBottom" :class="($store.state.selectedProject == p && !creatingProject) ? 'tab-active': 'tab'"><span v-cloak>{{ project.title }}</span></div>
+        <div :style="($store.state.selectedProject == p && !creatingProject) ? theme['tab-active'].backgroundColor + theme['tab-active'].textColor + theme['tab-active'].borderBottom: theme['tab-inactive'].backgroundColor + theme['tab-inactive'].textColor + theme['tab-inactive'].borderBottom"  :class="creatingProject ? 'tab-active': 'tab'" @click="creatingProject = true">
           <span>New Project </span><sui-icon name="plus circle"/>
         </div>
       </div>
@@ -170,11 +170,8 @@
     padding: 10px;
     margin-left: 1vh;
     margin-right: 1vh;
-    background-color: #f5f5f5;
-    border-bottom: 3px solid #0036b7;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    color: #005eea;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -193,11 +190,8 @@
     padding: 10px;
     margin-left: 1vh;
     margin-right: 1vh;
-    background-color: #f5f5f5;
-    border-bottom: 3px solid #fff;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    color: #005eea;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;

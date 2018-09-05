@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div id="bibliography" :style="theme.backgroundColor + theme.textColor">
-      <input id="titleInput" :style="theme.backgroundColor + theme.title.textColor" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
+    <div id="bibliography">
+      <input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
       <div>
         <SearchStyles :projectOption="projects[selectedProject]"/>
       </div>
-      <div :style="'margin-top: 5vh;' + theme.bibliographyActions.backgroundColor + theme.bibliographyActions.textColor" v-if="projects[selectedProject].citations.length > 0" id="bibliographyActions" >
-        <a @click="copyBibliography()"><i :style="theme.button.textColor" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
+      <div style="margin-top: 5vh;" v-if="projects[selectedProject].citations.length > 0" id="bibliographyActions" >
+        <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
-      <div v-if="projects[selectedProject].citations.length == 0" :style="'margin-top: 10vh;' + theme.informationColor">
+      <div v-if="projects[selectedProject].citations.length == 0" style="margin-top: 10vh;">
         <p>Your bibliography will be here after you cite a website, book, or film.</p>
       </div>
       <div v-else>
@@ -18,9 +18,9 @@
           </div>
         </div>
         <div id="bibliographyPreview">
-        <sui-segment :style="theme.citation.backgroundColor + theme.citation.textColor" v-if="!loading">
+        <sui-segment v-if="!loading">
           <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
-            <div :style="theme.citation.backgroundColor + theme.citation.textColor" v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
+            <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
               <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
                 <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
                   <div id="citationOptions">
@@ -149,11 +149,6 @@ import _ from 'lodash';
     selectedProject: {
       get() {
         return this.$store.state.selectedProject
-      }
-    },
-    theme: {
-      get() {
-        return this.$store.getters.getTheme
       }
     }
   },
@@ -323,6 +318,7 @@ export default class Bibliography extends Vue {}
 <style scoped lang="scss">
 @media (min-width: 991.98px) {
   #bibliographyPreview {
+    color: #000;
     min-height: 16vh;
     text-align: left;
     font-weight: normal !important;
@@ -333,6 +329,7 @@ export default class Bibliography extends Vue {}
     font-size: 0.9rem;
   }
   #bibliographyPreview {
+    color: #000;
     text-align: left;
     font-weight: normal !important;
   }
@@ -347,8 +344,10 @@ export default class Bibliography extends Vue {}
   padding: 10px;
   text-align: center;
   justify-content: center;
+  background-color: #fff;
 }
 #bibliographyTitle {
+  color: #fff;
   font-size: 2.3rem;
   font-weight: 600;
 }
@@ -357,15 +356,18 @@ export default class Bibliography extends Vue {}
 }
 #bibliographyActions {
   display: inline-flex;
+  background-color: #0066ff;
   border-radius: 20px;
   padding: 10px;
   margin-bottom: 3vh;
   min-width: 25vh;
+  color: #fff;
   font-weight: 550;
 }
 #titleInput {
   text-align: center;
   display: inline-flex;
+  color: #005eea;
   min-height: 60px;
   font-size: 2rem;
   font-weight: 550;

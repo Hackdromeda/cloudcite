@@ -1,6 +1,6 @@
 <template>
     <div id="editcitation">
-        <div :style="'min-height: 25vh;' + theme.section.backgroundColor + theme.section.textColor">
+        <div style="min-height: 25vh; background-color: #005eea; color: #fff;">
             <div class="container" style="padding: 7vh;">
                 <h1>Edit Website Citation</h1>
             </div>
@@ -99,7 +99,7 @@
             <div is="sui-button-group">
                 <sui-button type="button" @click="cancel()">Cancel</sui-button>
                 <sui-button-or />
-                <sui-button type="button" :style="theme.button.backgroundColor + theme.button.textColor" @click="cite()" :disabled="!allowSave" positive>Save</sui-button>
+                <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="cite()" :disabled="!allowSave" positive>Save</sui-button>
             </div>
         </sui-form>
     </div>
@@ -306,11 +306,6 @@ import * as _ from 'lodash';
             }
         }
         return citationExists
-    },
-    theme: {
-      get() {
-        return this.$store.getters.getTheme
-      }
     }
   },
     methods: {

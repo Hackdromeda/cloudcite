@@ -1,6 +1,6 @@
 <template>
     <div id="citeFilm">
-            <div :style="'min-height: 35vh;' + theme.section.backgroundColor + theme.section.textColor">
+            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
                 <div class="container" style="padding: 7vh;">
                     <h1>Cite a Film</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">
@@ -13,11 +13,11 @@
                 <sui-input v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" icon="search" ref="filmInput"/>
             </div>
             <div style="margin-top: 3vh;">
-                <sui-button :style="theme['secondary-button'].backgroundColor + theme['secondary-button'].textColor" type="button" @click="citeEmpty()" size="mini">Manual Citation</sui-button>
+                <sui-button style="background-color: #005eea; color: #fff;" type="button" @click="citeEmpty()" size="mini">Manual Citation</sui-button>
             </div>
             
             <div v-if="isFetching">
-                <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" :color="theme.loading.color"/>
+                <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="isFetching" color="#005eea"/>
             </div>
 
             <div class="cardGroup" style="margin-left: 5%; margin-right: 5%; margin-top: 15px; margin-bottom: 15px; word-break: break-all;">
@@ -182,20 +182,15 @@ import * as Immutable from 'immutable';
     }
   },
   computed: {
-    numOfRows: function () {
-        //@ts-ignore
-        if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
-            return 5;
-        }
-        else{
-            return 2
-        }
-    },
-    theme: {
-      get() {
-        return this.$store.getters.getTheme
+      numOfRows: function () {
+          //@ts-ignore
+          if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
+              return 5;
+          }
+          else{
+              return 2
+          }
       }
-    }
   }
 })
 export default class CiteFilm extends Vue {

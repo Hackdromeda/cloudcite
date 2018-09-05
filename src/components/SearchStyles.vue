@@ -29,10 +29,10 @@
     </sui-modal>
     <sui-form>
       <sui-form-field>
-        <sui-dropdown fluid :style="theme.select.backgroundColor" :options="favoriteStyles" :placeholder="getProjectStyle" search selection v-model="selectedStyle" direction="downward"/>
+        <sui-dropdown fluid :options="favoriteStyles" :placeholder="getProjectStyle" search selection v-model="selectedStyle" direction="downward"/>
       </sui-form-field>
       <sui-form-field>
-        <sui-button :style="theme['secondary-button'].backgroundColor + theme['secondary-button'].textColor" @click="showMoreStyles = true" type="button" size="mini">More Styles Available</sui-button>
+        <sui-button style="background-color: #005eea; color: #fff;" @click="showMoreStyles = true" type="button" size="mini">More Styles Available</sui-button>
       </sui-form-field>
     </sui-form>
   </div>
@@ -88,17 +88,12 @@ import debounce from 'lodash/debounce';
     getProjectStyle: {
       get() {
         //@ts-ignore
-        return this.$data.styles.filter(style => style.key == this.$store.state.projects[this.$store.state.selectedProject].style)[0].text
+        return this.$data.styles.filter(style => style.key == this.project.style)[0].text
       }
     },
     favoriteStyles: {
       get() {
         return this.$store.getters.getFavoriteStyles
-      }
-    },
-    theme: {
-      get() {
-        return this.$store.getters.getTheme
       }
     }
   },

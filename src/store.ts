@@ -14,129 +14,6 @@ export default new Vuex.Store({
       "type": null,
       "description": null
     },
-    "themes": {
-      "light": {
-        "primaryColor": "color: #005eea;",
-        "informationColor": "color: #000;",
-        "backgroundColor": "background-color: #fff;",
-        "citation": {
-          "backgroundColor": "background-color: #eceff1;",
-          "textColor": "color: #000;"
-        },
-        "bibliographyActions": {
-          "backgroundColor": "background-color: #0066ff;",
-          "textColor": "color: #fff;"
-        },
-        "button": {
-          "backgroundColor": "background-color: #006dfc;",
-          "textColor": "color: #fff;"
-        },
-        "secondary-button": {
-          "backgroundColor": "background-color: #006dfc;",
-          "textColor": "color: #fff;"
-        },
-        "select": {
-          "backgroundColor": "background-color: #fff;",
-          "textColor": "color: #000;"
-        },
-        "tab-inactive": {
-          "backgroundColor": "background-color: #f5f5f5;",
-          "textColor": "color: #005eea;",
-          "borderBottom": "border-bottom: 3px solid #0036b7;"
-        },
-        "tab-active": {
-          "backgroundColor": "background-color: #f5f5f5;",
-          "textColor": "color: #005eea;",
-          "borderBottom": "border-bottom: 3px solid #fff;"
-        },
-        "section": {
-          "backgroundColor": "background-color: #005eea;",
-          "textColor": "color: #fff;"
-        },
-        "navbar": {
-          "textColor": "color: #424242;",
-          "backgroundColor": "background-color: #fff;"
-        },
-        "banner": {
-          "textColor": "color: #fff;",
-          "backgroundColor": "background-color: #0036b7;"
-        },
-        "title": {
-          "textColor": "color: #005eea;",
-          "fontSize": "font-size: 1.5rem;",
-          "fontWeight": "font-weight: 600;",
-        },
-        "loading": {
-          "color": "#005eea"
-        },
-        "footer": {
-          "backgroundColor": "background-color: #eee;",
-          "textColor": "color: #000;"
-        },
-        "textColor": "color: #000;"
-      },
-      "dark": {
-        "primaryColor": "color: #000;",
-        "informationColor": "color: #fff;",
-        "backgroundColor": "background-color: #484848;",
-        "citation": {
-          "backgroundColor": "background-color: #1b1b1b;",
-          "textColor": "color: #fff;"
-        },
-        "bibliographyActions": {
-          "backgroundColor": "background-color: #000;",
-          "textColor": "color: #fff;"
-        },
-        "button": {
-          "backgroundColor": "background-color: #4b636e;",
-          "textColor": "color: #fff;"
-        },
-        "secondary-button": {
-          "backgroundColor": "background-color: #4b636e;",
-          "textColor": "color: #fff;"
-        },
-        "select": {
-          "backgroundColor": "background-color: #000;",
-          "textColor": "color: #fff;"
-        },
-        "tab-inactive": {
-          "backgroundColor": "background-color: #4b636e;",
-          "textColor": "color: #fff;",
-          "borderBottom": "border-bottom: 3px solid #f5f5f5;"
-        },
-        "tab-active": {
-          "backgroundColor": "background-color: #4b636e;",
-          "textColor": "color: #fff;",
-          "borderBottom": "border-bottom: 3px solid #484848;"
-        },
-        "section": {
-          "backgroundColor": "background-color: #212121;",
-          "textColor": "color: #fff;"
-        },
-        "navbar": {
-          "textColor": "color: #fafafa;",
-          "backgroundColor": "background-color: #1b1b1b;"
-        },
-        "banner": {
-          "textColor": "color: #fff;",
-          "backgroundColor": "background-color: #424242;"
-        },
-        "title": {
-          "textColor": "color: #fff;",
-          "fontSize": "font-size: 1.5rem;",
-          "fontWeight": "font-weight: 600;"
-        },
-        "loading": {
-          "color": "#000"
-        },
-        "footer": {
-          "backgroundColor": "background-color: #cfcfcf;",
-          "textColor": "color: #000;"
-        },
-        "textColor": "color: #fff;"
-      }
-    },
-    "selectedTheme": "light",
     "projects": [
       {
         "id": "Project-0",
@@ -149,26 +26,6 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
-    setTheme(state: any, payload: any) {
-      switch (payload) {
-        case 'light':
-          state.selectedTheme = 'light';
-          break;
-        case 'dark':
-          state.selectedTheme = 'dark';
-          break;
-      }
-    },
-    changeTheme(state: any) {
-      switch (state.selectedTheme) {
-        case 'light':
-          state.selectedTheme = 'dark';
-          break;
-        case 'dark':
-          state.selectedTheme = 'light';
-          break;
-      }
-    },
     setMessage(state: any, payload: any) {
       state.message = payload
     },
@@ -205,8 +62,6 @@ export default new Vuex.Store({
         state.favoriteStyles = cloudciteStorage.favoriteStyles;
         state.projects = cloudciteStorage.projects;
         state.message = cloudciteStorage.message;
-        state.themes = cloudciteStorage.themes;
-        state.selectedTheme = cloudciteStorage.selectedTheme;
       }
     },
     setProjectLocale(state: any, payload: any) {
@@ -231,7 +86,7 @@ export default new Vuex.Store({
       }
     },
     saveState(state: any) {
-      localStorage.setItem('cloudcite', JSON.stringify({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles, message: state.message, themes: state.themes, selectedTheme: state.selectedTheme}));
+      localStorage.setItem('cloudcite', JSON.stringify({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles, message: state.message}));
     },
     setEditingCitation(state: any, payload: any) {
       state.editingCitation = payload
@@ -273,14 +128,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    changeTheme(context: any) {
-      context.commit('changeTheme')
-      context.commit('saveState')
-    },
-    setTheme(context: any, payload: any) {
-      context.commit('setTheme', payload)
-      context.commit('saveState')
-    },
     setMessage(context: any, payload: any) {
       context.commit('setMessage', payload)
       context.commit('saveState')
@@ -369,9 +216,6 @@ export default new Vuex.Store({
     },
     getMessage(state: any) {
       return state.message
-    },
-    getTheme(state: any) {
-      return state.themes[state.selectedTheme]
     }
   }
 })

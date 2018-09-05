@@ -1,29 +1,29 @@
 <template>
-  <div id="home" :style="theme.backgroundColor + theme.textColor">
-    <div v-if="showBanner && serviceMessage.length > 0" class="banner" :style="theme.banner.backgroundColor + theme.banner.textColor">
-      <span :style="theme.banner.textColor" v-html="serviceMessage"/>
-      <span style="float: right;"><a :style="theme.banner.textColor" @click="showBanner = !showBanner"><sui-icon name="times"/></a></span>
+  <div id="home">
+    <div v-if="showBanner && serviceMessage.length > 0" class="banner">
+      <span v-html="serviceMessage"/>
+      <span style="float: right;"><a id="dismissButton" @click="showBanner = !showBanner"><sui-icon name="times"/></a></span>
     </div>
-    <div :style="theme.section.backgroundColor + theme.section.textColor + 'min-height: 35vh;'">
-      <div class="container" style="padding: 3vh;">
-        <h1 style="margin-top: 5vh;" >Welcome to CloudCite<sub style="font-size: 0.9rem; font-weight: 800;">alpha</sub></h1>
+    <div style="min-height: 86vh; background-color: #005eea; color: #fff; display: flex; justify-content: center; align-items: center;">
+      <div>
+        <h1>Welcome to CloudCite</h1>
         <p class="subtitle" style="margin-top: 5vh;">
           CloudCite processes citations in the cloud so you never have to create citations manually again.
         </p>
         <div id="cite">
-          <sui-button :style="theme.button.backgroundColor + theme.button.textColor" type="button" id="citeButton" @click="cite('Website')">Website</sui-button>
-          <sui-button :style="theme.button.backgroundColor + theme.button.textColor" type="button" id="citeButton" @click="cite('Book')">Book</sui-button>
-          <sui-button :style="theme.button.backgroundColor + theme.button.textColor" type="button" id="citeButton" @click="cite('Film')">Film/Movie</sui-button>
-        </div>
-      </div>
-      <div class="tabs">
-        <div v-for="(project, p) in $store.state.projects" :key="p" @click="selectProject(project)" :style="($store.state.selectedProject == p && !creatingProject) ? theme['tab-active'].backgroundColor + theme['tab-active'].textColor + theme['tab-active'].borderBottom: theme['tab-inactive'].backgroundColor + theme['tab-inactive'].textColor + theme['tab-inactive'].borderBottom" :class="($store.state.selectedProject == p && !creatingProject) ? 'tab-active': 'tab'"><span v-cloak>{{ project.title }}</span></div>
-        <div :style="($store.state.selectedProject == p && !creatingProject) ? theme['tab-active'].backgroundColor + theme['tab-active'].textColor + theme['tab-active'].borderBottom: theme['tab-inactive'].backgroundColor + theme['tab-inactive'].textColor + theme['tab-inactive'].borderBottom"  :class="creatingProject ? 'tab-active': 'tab'" @click="creatingProject = true">
-          <span>New Project </span><sui-icon name="plus circle"/>
+          <sui-button type="button" id="citeButton" @click="cite('Website')">Website</sui-button>
+          <sui-button type="button" id="citeButton" @click="cite('Book')">Book</sui-button>
+          <sui-button type="button" id="citeButton" @click="cite('Film')">Film/Movie</sui-button>
         </div>
       </div>
     </div>
-    <div id="mainContent" :style="theme.backgroundColor + theme.textColor + 'text-align: left;'">
+    <div id="mainContent" style="text-align: left;">
+      <div class="tabs">
+        <div v-for="(project, p) in $store.state.projects" :key="p" @click="selectProject(project)" :class="($store.state.selectedProject == p && !creatingProject) ? 'tab-active': 'tab'"><span v-cloak>{{ project.title }}</span></div>
+        <div :class="creatingProject ? 'tab-active': 'tab'" @click="creatingProject = true">
+          <span>New Project </span><sui-icon name="plus circle"/>
+        </div>
+      </div>
       <Dashboard v-if="displayComponent()" :creatingProjectOption="creatingProject"/>
       <h2 style="margin-top: 20vh; margin-left: 1vh; margin-right: 1vh;">About CloudCite</h2>
       <h3 style="margin-left: 1vh; margin-right: 1vh;">CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago, Turabian, Harvard, IEEE, and Vancouver. You can contribute to CloudCite and support the longevity of this project by visiting the <router-link to="/contribute/">contribute page</router-link> and either donating through a supported platform or lending us your coding skills. Disabling ad-block and interacting with ads placed on the contribute page and our blog also helps support this project. We have no ads throughout the bibliography generation process to provide a focused experience. Learn more about our commitment to a privacy on our <router-link to="/privacy/">privacy page</router-link> and about our the distraction-free bibliography generation environment we wanted to exist in the universe on our <router-link to="/about/">about us page</router-link>.</h3>
@@ -37,11 +37,13 @@
   //@ts-ignore
   import debounce from 'lodash/debounce';
   import SearchStyles from '../components/SearchStyles.vue';
+  import Bibliography from '../components/Bibliography.vue';
   import Dashboard from '../components/Dashboard.vue';
 
   @Component({
     components: {
       SearchStyles,
+      Bibliography,
       Dashboard
     },
     created() {
@@ -86,11 +88,6 @@
       projects: {
         get() {
           return this.$store.state.projects
-        }
-      },
-      theme: {
-        get() {
-          return this.$store.getters.getTheme
         }
       }
     },
@@ -138,11 +135,14 @@
 
   #home {
     text-align: center;
+    color: #000;
   }
 
   .banner {
     width: 100%;
     min-height: 5vh;
+    background-color: #0036b7;
+    color: #fff;
     text-align: center;
     padding-top: 1vh;
     padding-bottom: 2vh;
@@ -150,6 +150,12 @@
     font-weight: 600;
   }
 
+  #dismissButton {
+    color: #658aff;
+  }
+  #dismissButton:hover {
+    color: #fff;
+  }
  .tabs {
     display: inline-flex;
     overflow-x: auto;
@@ -170,14 +176,11 @@
     padding: 10px;
     margin-left: 1vh;
     margin-right: 1vh;
+    background-color: #f5f5f5;
+    border-bottom: 3px solid #0036b7;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    color: #005eea;
   }
   .tab:hover {
     background-color: #cfd8dc;
@@ -190,16 +193,18 @@
     padding: 10px;
     margin-left: 1vh;
     margin-right: 1vh;
+    background-color: #f5f5f5;
+    border-bottom: 3px solid #fff;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    color: #005eea;
   }
   .tab-active:hover {
     cursor: pointer;
+  }
+
+  h1 {
+    font-size: 3rem;
   }
 
   h3 {
@@ -211,6 +216,7 @@
     #mainContent {
       margin-top: 2vh;
       margin-bottom: 2vh;
+      color: #000;
     }
     #cite {
       text-align: center;
@@ -222,10 +228,13 @@
     #citeButton {
       margin: 3px;
       padding: 10px;
-      font-weight: 500;
+      color: #006DFC;
+      font-weight: 550;
+      background-color: #fff;
+      border-radius: 25px;
     }
     #citeButton:hover {
-      background-color: #207DF6;
+      background-color: #e0e0e0;
     }
     #projectSegment {
       padding: 10px;
@@ -238,6 +247,7 @@
       margin: 10vh;
       margin-bottom: 5vh;
       margin-top: 2vh;
+      color: #000;
     }
     #cite {
       text-align: center;
@@ -249,11 +259,13 @@
     #citeButton {
       margin: 10px;
       padding: 10px;
-      font-weight: 500;
-      background-color: #006DFC;
+      color: #006DFC;
+      font-weight: 550;
+      background-color: #fff;
+      border-radius: 25px;
     }
     #citeButton:hover {
-      background-color: #207DF6;
+      background-color: #e0e0e0;
     }
     #styleDropdown {
       width: 18vh;

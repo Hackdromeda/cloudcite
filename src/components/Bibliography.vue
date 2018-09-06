@@ -1,39 +1,35 @@
 <template>
-  <div>
-    <div id="bibliography">
-      <input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
-      <div>
-        <SearchStyles :projectOption="projects[selectedProject]"/>
-      </div>
-      <div style="margin-top: 5vh;" v-if="projects[selectedProject].citations.length > 0" id="bibliographyActions" >
-        <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
-      </div>
-      <div v-if="projects[selectedProject].citations.length == 0" style="margin-top: 10vh;">
-        <p>Your bibliography will be here after you cite a website, book, or film.</p>
-      </div>
-      <div v-else>
-        <div v-if="loading" style="display: inline-flex">
-          <div>
-            <bounce-loader color="#005eea"/>
-          </div>
+  <div id="bibliography">
+    <!--<input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
+    <div>
+      <SearchStyles :projectOption="projects[selectedProject]"/>
+    </div>-->
+    <div v-if="projects[selectedProject].citations.length > 0" id="bibliographyActions" >
+      <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
+    </div>
+    <div style="background-color: #207df6; color: #fff; border-radius: 5px; padding: 5vh;" v-if="projects[selectedProject].citations.length == 0">
+      <p>Your bibliography will be here after you cite a website, book, or film.</p>
+    </div>
+    <div v-else>
+      <div v-if="loading" style="background-color: #fff; display: inline-flex">
+        <div>
+          <bounce-loader color="#005eea"/>
         </div>
-        <div id="bibliographyPreview">
-        <sui-segment v-if="!loading">
-          <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
-            <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
-              <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
-                <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
-                  <div id="citationOptions">
-                    <span>
-                      <a @click="copyCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="clipboard" /></a>
-                      <a @click="editCitation(cslEntry.id, cslEntry.type)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
-                      <a @click="removeCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="trash" /></a>
-                    </span>
-                  </div>
-              </div>
+      </div>
+      <div v-if="!loading" id="bibliographyPreview">
+        <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
+          <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
+            <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
+              <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
+                <div id="citationOptions">
+                  <span>
+                    <a @click="copyCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="clipboard" /></a>
+                    <a @click="editCitation(cslEntry.id, cslEntry.type)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
+                    <a @click="removeCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="trash" /></a>
+                  </span>
+                </div>
             </div>
           </div>
-        </sui-segment>
         </div>
       </div>
     </div>
@@ -316,22 +312,30 @@ export default class Bibliography extends Vue {}
 </script>
 
 <style scoped lang="scss">
+#bibliographyPreview {
+  background-color: #fff;
+  color: #000;
+  text-align: left;
+  font-weight: normal !important;
+  padding: 10px;
+  border-radius: 10px;
+}
 @media (min-width: 991.98px) {
   #bibliographyPreview {
-    color: #000;
     min-height: 16vh;
-    text-align: left;
-    font-weight: normal !important;
+  }
+  #bibliography {
+    margin-left: 28%;
+    margin-right: 28%;
   }
 }
 @media (max-width: 991.97px) {
   #bibliographyActions {
     font-size: 0.9rem;
   }
-  #bibliographyPreview {
-    color: #000;
-    text-align: left;
-    font-weight: normal !important;
+  #bibliography {
+    margin-left: 5%;
+    margin-right: 5%;
   }
 }
 #citationOptions {
@@ -344,7 +348,7 @@ export default class Bibliography extends Vue {}
   padding: 10px;
   text-align: center;
   justify-content: center;
-  background-color: #fff;
+  border-radius: 5px;
 }
 #bibliographyTitle {
   color: #fff;
@@ -357,7 +361,7 @@ export default class Bibliography extends Vue {}
 #bibliographyActions {
   display: inline-flex;
   background-color: #0066ff;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 10px;
   margin-bottom: 3vh;
   min-width: 25vh;

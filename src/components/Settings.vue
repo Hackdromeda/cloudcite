@@ -11,6 +11,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+//@ts-ignore
+import debounce from 'lodash/debounce';
 import Bibliography from './Bibliography.vue';
 import SearchStyles from './SearchStyles.vue';
 import LocaleChange from './LocaleChange.vue';
@@ -81,6 +83,17 @@ import CreateProject from './CreateProject.vue';
     },
   },
   watch: {
+    typing: debounce(function () {
+      //@ts-ignore
+      if (this.$store.getters.getProjects[this.$store.state.selectedProject].title == "" || !this.$store.getters.getProjects[this.$store.state.selectedProject].title) {
+        //@ts-ignore
+        this.$store.getters.getProjects[this.$store.state.selectedProject].title = "Untitled Project"
+      }
+      //@ts-ignore
+        this.$store.dispatch('saveState')
+        //@ts-ignore
+        this.$data.typing = false
+    }, 3000),
     projectSelected() {
       //@ts-ignore
       this.selectProject(this.$data.projectSelected.id);
@@ -93,51 +106,5 @@ export default class Settings extends Vue {}
 <style scoped lang="scss">
   #settings {
     color: #000;
-  }
-  .tabs {
-    display: inline-flex;
-    overflow-x: auto;
-    white-space: nowrap; 
-    width: 100%;
-  }
-  #closeTabButton {
-    color: #90a4ae;
-    padding-left: 10px;
-    padding-right: 12px;
-  }
-  #closeTabButton:hover {
-    color: red;
-    cursor: pointer;
-  }
-  .tab {
-    font-size: 1.1rem;
-    padding: 10px;
-    margin-left: 1vh;
-    margin-right: 1vh;
-    background-color: #f5f5f5;
-    border-bottom: 3px solid #0036b7;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    color: #005eea;
-  }
-  .tab:hover {
-    background-color: #cfd8dc;
-    border-bottom: 3px solid #b0bec5;
-    cursor: pointer;
-    
-  }
-  .tab-active {
-    font-size: 1.1rem;
-    padding: 10px;
-    margin-left: 1vh;
-    margin-right: 1vh;
-    background-color: #f5f5f5;
-    border-bottom: 3px solid #fff;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    color: #005eea;
-  }
-  .tab-active:hover {
-    cursor: pointer;
   }
 </style>

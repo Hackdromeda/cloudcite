@@ -1,9 +1,5 @@
 <template>
   <div id="bibliography">
-    <!--<input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="projects[selectedProject].title" maxlength="20"/>
-    <div>
-      <SearchStyles :projectOption="projects[selectedProject]"/>
-    </div>-->
     <div v-if="projects[selectedProject].citations.length > 0" id="bibliographyActions" >
       <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
     </div>
@@ -11,12 +7,10 @@
       <p>Your bibliography will be here after you cite a website, book, or film.</p>
     </div>
     <div v-else>
-      <div v-if="loading" style="background-color: #fff; display: inline-flex">
-        <div>
+      <div id="bibliographyPreview">
+        <div v-if="loading" id="bibliographyPreview" style="background-color: #fff; display: inline-flex; justify-content: center; align-items: center;">
           <bounce-loader color="#005eea"/>
         </div>
-      </div>
-      <div v-if="!loading" id="bibliographyPreview">
         <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
           <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
             <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
@@ -44,8 +38,6 @@ import generateCSL from '../functions/generateCSL';
 import generateHTML from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
-//@ts-ignore
-import debounce from 'lodash/debounce';
 //@ts-ignore
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue';
 import SearchStyles from './SearchStyles.vue';
@@ -244,17 +236,6 @@ import _ from 'lodash';
     }
   },
   watch: {
-    typing: debounce(function () {
-      //@ts-ignore
-      if (this.$store.getters.getProjects[this.$store.state.selectedProject].title == "" || !this.$store.getters.getProjects[this.$store.state.selectedProject].title) {
-        //@ts-ignore
-        this.$store.getters.getProjects[this.$store.state.selectedProject].title = "Untitled Project"
-      }
-      //@ts-ignore
-        this.$store.dispatch('saveState')
-        //@ts-ignore
-        this.$data.typing = false
-    }, 3000),
     //@ts-ignore
     async style() {
       this.$data.loading = true;
@@ -367,18 +348,5 @@ export default class Bibliography extends Vue {}
   min-width: 25vh;
   color: #fff;
   font-weight: 550;
-}
-#titleInput {
-  text-align: center;
-  display: inline-flex;
-  color: #005eea;
-  min-height: 60px;
-  font-size: 2rem;
-  font-weight: 550;
-  border-color: transparent;
-  margin-bottom: 3vh;
-}
-#titleInput:focus {
-  outline: none;
 }
 </style>

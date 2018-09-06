@@ -1,49 +1,48 @@
 <template>
-  <div id="dashboard">
-  <sui-grid v-if="!creatingProject" :columns="3" stackable>
-    <sui-grid-row>
-      <sui-grid-column :mobile="5" :tablet="2" :computer="4">
-        <h2 style="color: #000; margin-top: 20px;">Overview</h2>
-        <p style="font-size: 1.3rem;">{{ projects[selectedProject].citations.length }} <span v-if="projects[selectedProject].citations.length == 1">Citation</span><span v-else>Citations</span></p>
-        <LocaleChange :projectOption="$store.state.projects[$store.state.selectedProject]"/>
-      </sui-grid-column>
-      <sui-grid-column :mobile="10" :tablet="14" :computer="8">
-        <sui-message v-if="$store.getters.getMessage.type &&  $store.getters.getMessage.type != '' && $store.getters.getMessage.description && $store.getters.getMessage.description != ''" dismissable floating :error="$store.getters.getMessage.type == 'error'" attached="top" @dismiss="dismissError()" :content="$store.getters.getMessage.description"/>
-        <div class="tabs">
-          <div v-for="(project, p) in $store.state.projects" :key="p" @click="selectProject(project)" :class="($store.state.selectedProject == p && !creatingProject) ? 'tab-active': 'tab'"><span v-cloak>{{ project.title }}</span></div>
-          <div :class="creatingProject ? 'tab-active': 'tab'" @click="creatingProject = true">
-            <span>New Project </span><sui-icon name="plus circle"/>
-          </div>
-        </div>
-        <sui-button :disabled="projects.length <= 1" @click="removeProject(projects[selectedProject])" style="margin-top: 5vh;" type="button" negative content="Delete Project"/>
-      </sui-grid-column>
-    </sui-grid-row>
-  </sui-grid>
-  <CreateProject v-if="creatingProject"/>
+  <div id="settings">
+  <h1 style="color: #000; margin-top: 20px;">Settings</h1>
+  <sui-dropdown style="margin-bottom: 3vh;" v-model="projectSelected" :options="mappedProjects" :placeholder="projects[$store.state.selectedProject].title" search selection direction="downward"/>
+  <SearchStyles style="width: 40vh;" :projectOption="projects[$store.state.selectedProject]"/>
+  <LocaleChange :projectOption="projects[$store.state.selectedProject]"/>
+  <sui-button @click="creatingNewProject = true" type="button" style="background-color: #005eea; color: #fff;">Create Project</sui-button>
+  <CreateProject v-if="creatingNewProject"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Bibliography from './Bibliography.vue';
-//import '@vaadin/vaadin-tabs/vaadin-tabs.js';
+import SearchStyles from './SearchStyles.vue';
 import LocaleChange from './LocaleChange.vue';
 import CreateProject from './CreateProject.vue';
 @Component({
   props: ['creatingProjectOption'],
   components: {
     LocaleChange,
+    SearchStyles,
     CreateProject
   },
   data() {
     return {
-      creatingProject: false
+      creatingNewProject: false,
+      //@ts-ignore
+      projectSelected: this.selectedProject
     }
   },
   computed: {
     projects: {
       get() {
         return this.$store.getters.getProjects
+      }
+    },
+    mappedProjects: {
+      get() {
+        let projects = this.$store.getters.getProjects;
+        let mappedProjects = []
+        for (let i = 0; i < projects.length; i++) {
+          mappedProjects.push({key: projects[i].id, text: projects[i].title, value: projects[i].id})
+        }
+        return mappedProjects;
       }
     },
     selectedProject: {
@@ -71,22 +70,28 @@ import CreateProject from './CreateProject.vue';
     editProject(project: any) {
       this.$router.push({path: '/projects/edit/' + project.id + '/'})
     },
-    selectProject(project: any) {
-      this.$data.creatingProject = false;
-      this.$store.dispatch('selectProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)))
+    selectProject(id: string) {
+      this.$data.creatingNewProject = false;
+      this.$store.dispatch('selectProject', parseInt(id.substring((id.indexOf('-') + 1), id.length)))
     },
     removeProject(project) {
       if (this.$store.getters.getProjects.length > 1) {
         this.$store.dispatch('removeProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
       }
     },
+  },
+  watch: {
+    projectSelected() {
+      //@ts-ignore
+      this.selectProject(this.$data.projectSelected.id);
+    }
   }
 })
-export default class Dashboard extends Vue {}
+export default class Settings extends Vue {}
 </script>
 
 <style scoped lang="scss">
-  #dashboard {
+  #settings {
     color: #000;
   }
   .tabs {

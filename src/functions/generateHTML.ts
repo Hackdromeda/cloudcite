@@ -5,8 +5,10 @@ import rp from 'request-promise-native';
 import store from '../store';
 
 export default async function generateHTML(data: any) {
+    console.log('Locale')
+    console.log(data.locale)
     var requestData = _.pickBy({style: data.style, locale: data.locale, csl: data.csl, lang: data.lang})
-    if (requestData && requestData.style && requestData.locale && requestData.csl && (Object.keys(requestData.csl).length > 0)) {
+    if (requestData && requestData.style && requestData.locale && requestData.locale && requestData.csl && (Object.keys(requestData.csl).length > 0)) {
         try {
             const response = await rp({
                 uri: 'https://api.cloudcite.net/cite',

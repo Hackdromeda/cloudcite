@@ -19,12 +19,6 @@
                 <p v-if="project.style" style="font-size: 1rem; text-align: left;" v-cloak>
                   <b>Style</b>: <SearchStyles :projectOption="project"/>
                 </p>
-                <p v-if="project.locale && project.locale.length <= 27" style="font-size: 1rem; text-align: left;" v-cloak>
-                  <b>Locale</b>: {{ project.locale }}
-                </p>
-                <p v-if="project.locale && project.locale.length > 27" style="font-size: 1rem; text-align: left;" v-cloak>
-                  <b>Locale</b>: {{ project.locale.substring(0, 27) + '...'}}
-                </p>
                 <p style="font-size: 1rem; text-align: left;" v-cloak>
                   <b>Number of Citations</b>: {{ project.citations.length }}
                 </p>
@@ -99,10 +93,10 @@ export default class Projects extends Vue {}
 </script>
 
 <style scoped lang="scss">
-    h3 {
-        font-size: 1.1rem;
-        font-weight: 500;
-    }
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
   @media (max-width: 991.97px) {
     #projectSegment {
       padding: 10px;

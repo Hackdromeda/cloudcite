@@ -14,13 +14,17 @@ export default new Vuex.Store({
       "type": null,
       "description": null
     },
+    "locale": {
+      "value": "locales-en-US",
+      "text": "English (US)",
+      "key": "English (US)"
+    },
     "projects": [
       {
         "id": "Project-0",
         "title": "Project 1",
         "citations": [],
         "style": "modern-language-association",
-        "locale": "locales-en-US",
         "cachedBibliography": {outdated: true}
       }
     ],
@@ -60,16 +64,13 @@ export default new Vuex.Store({
         var cloudciteStorage = JSON.parse(cloudciteStorageString);
         state.selectedProject = cloudciteStorage.selectedProject;
         state.favoriteStyles = cloudciteStorage.favoriteStyles;
+        state.locale = cloudciteStorage.locale;
         state.projects = cloudciteStorage.projects;
         state.message = cloudciteStorage.message;
       }
     },
-    setProjectLocale(state: any, payload: any) {
-      for (let i=0; i < state.projects.length; i++) {
-        if (state.projects[i].id == payload.id && payload.locale != '' && payload.locale != null) {
-          state.projects[i].locale = payload.locale
-        }
-      }
+    setLocale(state: any, payload: any) {
+      state.locale = payload;
     },
     selectProject(state: any, payload: number) {
       state.selectedProject = payload
@@ -86,7 +87,7 @@ export default new Vuex.Store({
       }
     },
     saveState(state: any) {
-      localStorage.setItem('cloudcite', JSON.stringify({selectedProject: state.selectedProject, projects: state.projects, favoriteStyles: state.favoriteStyles, message: state.message}));
+      localStorage.setItem('cloudcite', JSON.stringify({selectedProject: state.selectedProject, locale: state.locale, projects: state.projects, favoriteStyles: state.favoriteStyles, message: state.message}));
     },
     setEditingCitation(state: any, payload: any) {
       state.editingCitation = payload
@@ -154,8 +155,8 @@ export default new Vuex.Store({
     saveState(context: any) {
       context.commit('saveState')
     },
-    setProjectLocale(context: any, payload: any) {
-      context.commit('setProjectLocale', payload)
+    setLocale(context: any, payload: any) {
+      context.commit('setLocale', payload)
       context.commit('saveState')
     },
     selectProject(context: any, payload: number) {
@@ -200,22 +201,25 @@ export default new Vuex.Store({
   },
   getters: {
     getEditingCitation(state: any) {
-      return state.editingCitation
+      return state.editingCitation;
     },
     getProjects(state: any) {
-      return state.projects
+      return state.projects;
     },
     getState(state: any) {
-      return state
+      return state;
     },
     getCitations(state: any) {
-      return state.projects[state.selectedProject].citations
+      return state.projects[state.selectedProject].citations;
     },
     getFavoriteStyles(state: any) {
-      return state.favoriteStyles
+      return state.favoriteStyles;
     },
     getMessage(state: any) {
-      return state.message
+      return state.message;
+    },
+    getLocale(state: any) {
+      return state.locale;
     }
   }
 })

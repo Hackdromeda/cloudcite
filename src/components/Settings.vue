@@ -1,10 +1,11 @@
 <template>
   <div id="settings">
   <h1 style="color: #000; margin-top: 20px;">Settings</h1>
+  <!--<mdc-button raised>Click Me</mdc-button>-->
   <sui-dropdown style="margin-bottom: 3vh;" v-model="projectSelected" :options="mappedProjects" :placeholder="projects[$store.state.selectedProject].title" search selection direction="downward"/>
   <SearchStyles style="width: 40vh;" :projectOption="projects[$store.state.selectedProject]"/>
-  <LocaleChange :projectOption="projects[$store.state.selectedProject]"/>
-  <sui-button @click="creatingNewProject = true" type="button" style="background-color: #005eea; color: #fff;">Create Project</sui-button>
+  <LocaleChange/>
+  <mdc-button @click="creatingNewProject = true" raised>Create Project</mdc-button>
   <CreateProject v-if="creatingNewProject"/>
   </div>
 </template>

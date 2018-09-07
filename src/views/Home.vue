@@ -1,11 +1,7 @@
 <template>
   <div id="home">
     <div style="min-height: 92vh;">
-      <div v-if="showBanner && serviceMessage.length > 0" class="banner">
-        <span v-html="serviceMessage"/>
-        <span style="float: right;"><a id="dismissButton" @click="showBanner = !showBanner"><sui-icon name="times"/></a></span>
-      </div>
-      <div style="color: #fff; display: flex; justify-content: center; align-items: center; margin-top: 15vh;">
+      <div style="color: #fff; display: flex; justify-content: center; align-items: center;">
         <div>
           <h1>Welcome to CloudCite</h1>
           <p class="subtitle" style="margin-top: 5vh;">
@@ -135,25 +131,6 @@
     text-align: center;
     background-color: #005eea;
     color: #000;
-  }
-
-  .banner {
-    width: 100%;
-    min-height: 5vh;
-    background-color: #0036b7;
-    color: #fff;
-    text-align: center;
-    padding-top: 1vh;
-    padding-bottom: 2vh;
-    font-size: 1rem;
-    font-weight: 600;
-  }
-
-  #dismissButton {
-    color: #658aff;
-  }
-  #dismissButton:hover {
-    color: #fff;
   }
 
   h1 {

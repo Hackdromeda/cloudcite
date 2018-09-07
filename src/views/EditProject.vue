@@ -20,12 +20,6 @@
                             <sui-form-field style="text-align: left;">
                                 <SearchStyles :projectOption="project"/>
                             </sui-form-field>
-                            <sui-form-field>
-                                <div class="ui labeled input">
-                                    <div class="ui label">Locale</div>
-                                    <p style="padding: 5px;" v-cloak>{{ project.locale }}</p>
-                                </div>
-                            </sui-form-field>
                             <sui-button type="button" @click="editProject()">Done Editing</sui-button>
                         </sui-form>
                     </sui-grid-column>

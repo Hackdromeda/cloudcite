@@ -103,9 +103,9 @@ import debounce from 'lodash/debounce';
       //@ts-ignore
       this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle})
       //@ts-ignore
-      if (this.$data.styles.filter(style => style.value == this.$data.selectedStyle).length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.filter(locale => locale == this.project.locale).length == 0) {
+      if (this.$data.styles.filter(style => style.value == this.$data.selectedStyle).length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.filter(locale => locale == this.locale.value).length == 0) {
         //@ts-ignore
-        this.$store.dispatch('setProjectLocale', {id: this.project.id, locale: this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc[0]})
+        this.$store.dispatch('setLocale', {id: this.project.id, locale: this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc[0]})
       }
       this.$store.dispatch('cacheBibliography', {outdated: true})
     },

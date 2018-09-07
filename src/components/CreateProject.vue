@@ -39,7 +39,6 @@ import * as _ from 'lodash';
             "title": "Project " + (this.$store.state.projects.length + 1),
             "citations": [],
             "style": "modern-language-association",
-            "locale": "locales-en-US",
             "cachedBibliography": {outdated: true},
             "message": {
                 "type": null,

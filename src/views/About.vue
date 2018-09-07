@@ -59,8 +59,6 @@ export default class About extends Vue {}
 
 <style scoped lang="scss">
   #about {
-    padding: 10px;
-    min-height: 100vh;
     text-align: center;
     justify-content: center;
     background-color: #fff;

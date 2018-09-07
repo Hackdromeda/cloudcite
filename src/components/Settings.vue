@@ -1,8 +1,9 @@
 <template>
   <div id="settings">
   <h1 style="color: #000; margin-top: 20px;">Settings</h1>
-  <!--<mdc-button raised>Click Me</mdc-button>-->
-  <sui-dropdown style="margin-bottom: 3vh;" v-model="projectSelected" :options="mappedProjects" :placeholder="projects[$store.state.selectedProject].title" search selection direction="downward"/>
+  <mdc-select :style="'min-width:' + (projects[selectedProject].title.length + 5) + 'vh;'" v-model="projectSelected" :label="projects[selectedProject].title">
+    <option v-for="(project, i) in projects" :key="i" :value="getProjectNumberFromId(project.id)" v-cloak> {{ project.title }}</option>
+  </mdc-select>
   <SearchStyles style="width: 40vh;" :projectOption="projects[$store.state.selectedProject]"/>
   <LocaleChange/>
   <mdc-button @click="creatingNewProject = true" raised>Create Project</mdc-button>
@@ -29,23 +30,13 @@ import CreateProject from './CreateProject.vue';
     return {
       creatingNewProject: false,
       //@ts-ignore
-      projectSelected: this.selectedProject
+      projectSelected: this.$store.state.selectedProject
     }
   },
   computed: {
     projects: {
       get() {
         return this.$store.getters.getProjects
-      }
-    },
-    mappedProjects: {
-      get() {
-        let projects = this.$store.getters.getProjects;
-        let mappedProjects = []
-        for (let i = 0; i < projects.length; i++) {
-          mappedProjects.push({key: projects[i].id, text: projects[i].title, value: projects[i].id})
-        }
-        return mappedProjects;
       }
     },
     selectedProject: {
@@ -82,6 +73,9 @@ import CreateProject from './CreateProject.vue';
         this.$store.dispatch('removeProject', parseInt(project.id.substring((project.id.indexOf('-') + 1), project.id.length)));
       }
     },
+    getProjectNumberFromId(id: string) {
+      return parseInt(id.substring((id.indexOf('-') + 1)));
+    }
   },
   watch: {
     typing: debounce(function () {
@@ -97,7 +91,7 @@ import CreateProject from './CreateProject.vue';
     }, 3000),
     projectSelected() {
       //@ts-ignore
-      this.selectProject(this.$data.projectSelected.id);
+      this.selectProject(this.$data.projectSelected);
     }
   }
 })

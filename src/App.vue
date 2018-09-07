@@ -1,6 +1,6 @@
 <template>
     <mdc-layout-app id="app">
-      <mdc-top-app-bar @click="pushRoute('/')" title="CloudCite" event="nav">
+      <mdc-top-app-bar title="CloudCite" event="nav">
         <mdc-top-app-bar-action @click="newTab('https://cloudcite.atlassian.net/servicedesk/customer/portal/1/')" icon="help"></mdc-top-app-bar-action>
       </mdc-top-app-bar>
       <mdc-drawer toggle-on="nav" temporary>

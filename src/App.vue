@@ -10,7 +10,7 @@
           <mdc-drawer-item @click="pushRoute('/install/')" start-icon="open_in_browser">Install</mdc-drawer-item>
           <mdc-drawer-item @click="pushRoute('/pricing/')" start-icon="view_list">Pricing</mdc-drawer-item>
           <mdc-drawer-item @click="pushRoute('/projects/')" start-icon="apps">Projects</mdc-drawer-item>
-          <mdc-drawer-item @click="pushRoute('/contribute/')" start-icon="drafts">Contribute</mdc-drawer-item>
+          <mdc-drawer-item @click="pushRoute('/contribute/')" start-icon="code">Contribute</mdc-drawer-item>
           <mdc-drawer-item @click="newTab('https://api.cloudcite.net/')" start-icon="developer_board">API</mdc-drawer-item>
           <mdc-drawer-item @click="newTab('https://status.cloudcite.net/')" start-icon="timeline">Status</mdc-drawer-item>
           <mdc-drawer-item @click="newTab('https://cloudcite.net/blog/')" start-icon="web">Blog</mdc-drawer-item>

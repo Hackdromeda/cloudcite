@@ -25,7 +25,7 @@
         <mdc-button @click="showMoreStyles = false" raised>Finished Adding Styles</mdc-button>
       </sui-modal-actions>
     </sui-modal>
-    <mdc-select :style="'min-width:' + (getProjectStyle.text.length + 5) + 'vh;'" v-model="selectedStyle" :label="getProjectStyle.text">
+    <mdc-select v-model="selectedStyle" :label="getProjectStyle.text">
       <option v-for="(style, i) in favoriteStyles" :key="i" :value="style.value" v-cloak> {{ style.text }}</option>
     </mdc-select>
     <mdc-button @click="showMoreStyles = true" raised>More Styles Available</mdc-button>

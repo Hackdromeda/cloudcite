@@ -8,12 +8,14 @@
                     </h2>
                 </div>
             </div>
-            <div style="display: inline-flex; margin-top: 5vh;">
-                <sui-dropdown style="margin-right: 3vh;" fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
-                <sui-input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getAsyncData" icon="search" ref="bookInput"/>
-            </div>
+            <span style="margin-top: 5vh;">
+                <mdc-select style="margin-right: 3vh;" v-model="bookIdentificationSelected">
+                    <option v-for="(identification, i) in bookIdentification" :key="i" :value="identification.value" v-cloak> {{ identification.text }}</option>
+                </mdc-select>
+                <mdc-textfield v-model="bookIdentificationField" label="Find a book to cite..."  trailing-icon="search" @input="getAsyncData" ref="bookInput"/>
+            </span>
             <div style="margin-top: 3vh;">
-                <sui-button style="background-color: #005eea; color: #fff;" type="button" @click="citeEmpty()" size="mini">Manual Citation</sui-button>
+                <mdc-button @click="citeEmpty()" outlined dense>Manual Citation</mdc-button>
             </div>
 
             <div v-if="isFetching">

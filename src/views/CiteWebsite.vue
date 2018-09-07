@@ -9,11 +9,11 @@
                 </div>
             </div>
             <div style="margin-top: 5vh;">
-                <sui-input style="margin-right: 1vh;" v-model="URL" placeholder="Enter website link" @keyup.enter="citeURL()" ref="websiteInput"/>
-                <sui-button type="button" :loading="loadingCitation" @click="citeURL()">Cite</sui-button>
+                <mdc-textfield style="margin-right: 1vh;" v-model="URL" label="Enter website URL" @keyup.enter="citeURL()" ref="websiteInput"/>
+                <mdc-button @click="citeURL()" unelevated>Cite</mdc-button>
             </div>
             <div style="margin-top: 3vh;">
-                <sui-button style="background-color: #005eea; color: #fff;" type="button" @click="citeEmpty()" size="mini">Manual Citation</sui-button>
+                <mdc-button @click="citeEmpty()" outlined dense>Manual Citation</mdc-button>
             </div>
             <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"/>
     </div>

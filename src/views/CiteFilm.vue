@@ -9,11 +9,11 @@
                 </div>
             </div>
 
-            <div style="display: inline-flex; margin-top: 5vh;">
-                <sui-input v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getAsyncData" icon="search" ref="filmInput"/>
+            <div style="margin-top: 5vh;">
+                <mdc-textfield v-model="filmTitle" label="Find a movie to cite..."  trailing-icon="search" @input="getAsyncData" ref="filmInput"/>
             </div>
             <div style="margin-top: 3vh;">
-                <sui-button style="background-color: #005eea; color: #fff;" type="button" @click="citeEmpty()" size="mini">Manual Citation</sui-button>
+                <mdc-button @click="citeEmpty()" outlined dense>Manual Citation</mdc-button>
             </div>
             
             <div v-if="isFetching">

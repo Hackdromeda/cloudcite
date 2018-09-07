@@ -13,8 +13,8 @@
           <div v-for="(style, i) in stylesData" :key="i" style="text-align: left; margin-top: 5vh;">
             <span style="font-size: 1.8rem; font-weight: 400; margin-top: 5vh;" v-cloak>{{ style.text.substring(0, 55)}}{{(style.text.length > 55) ? '...': ''}}</span>
             <span style="text-align: right; float: right;">
-            <sui-button @click="addFavoriteStyle(style)" v-if="favoriteStyles.filter(favorite => favorite.value == style.value).length == 0" type="button" basic primary>Add Favorite</sui-button>
-            <sui-button @click="removeFavoriteStyle(style)" v-else type="button" basic negative>Remove Favorite</sui-button>
+            <mdc-button @click="addFavoriteStyle(style)" v-if="favoriteStyles.filter(favorite => favorite.value == style.value).length == 0" raised>Add Favorite</mdc-button>
+            <mdc-button @click="removeFavoriteStyle(style)" v-else raised>Remove Favorite</mdc-button>
             </span>
             <sui-divider/>
           </div>
@@ -22,19 +22,13 @@
         </sui-modal-description>
       </sui-modal-content>
       <sui-modal-actions>
-        <sui-button type="button" primary @click="showMoreStyles = false">
-          Finished Adding Styles
-        </sui-button>
+        <mdc-button @click="showMoreStyles = false" raised>Finished Adding Styles</mdc-button>
       </sui-modal-actions>
     </sui-modal>
     <mdc-select :style="'min-width:' + (getProjectStyle.text.length + 5) + 'vh;'" v-model="selectedStyle" :label="getProjectStyle.text">
       <option v-for="(style, i) in favoriteStyles" :key="i" :value="style.value" v-cloak> {{ style.text }}</option>
     </mdc-select>
-    <sui-form>
-      <sui-form-field>
-        <sui-button style="background-color: #005eea; color: #fff;" @click="showMoreStyles = true" type="button" size="mini">More Styles Available</sui-button>
-      </sui-form-field>
-    </sui-form>
+    <mdc-button @click="showMoreStyles = true" raised>More Styles Available</mdc-button>
   </div>
 </template>
 

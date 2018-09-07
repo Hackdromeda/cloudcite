@@ -8,9 +8,9 @@
             CloudCite processes citations in the cloud so you never have to create citations manually again.
           </p>
           <div id="cite">
-            <sui-button type="button" id="citeButton" @click="cite('Website')">Website</sui-button>
-            <sui-button type="button" id="citeButton" @click="cite('Book')">Book</sui-button>
-            <sui-button type="button" id="citeButton" @click="cite('Film')">Film/Movie</sui-button>
+            <mdc-button id="citeButton" @click="cite('Website')">Website</mdc-button>
+            <mdc-button type="button" id="citeButton" @click="cite('Book')">Book</mdc-button>
+            <mdc-button type="button" id="citeButton" @click="cite('Film')">Film/Movie</mdc-button>
           </div>
         </div>
       </div>

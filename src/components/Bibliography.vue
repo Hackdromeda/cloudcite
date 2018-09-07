@@ -66,7 +66,7 @@ import _ from 'lodash';
         cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
       }
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.projects[this.selectedProject].style, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.projects[this.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      const generatedHTML = await generateHTML({style: this.projects[this.selectedProject].style.value, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.projects[this.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       }
@@ -95,7 +95,7 @@ import _ from 'lodash';
         cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
       }
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.projects[this.selectedProject].style, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.projects[this.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      const generatedHTML = await generateHTML({style: this.projects[this.selectedProject].style.value, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.projects[this.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       }
@@ -249,7 +249,7 @@ import _ from 'lodash';
           cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
         }
         //@ts-ignore
-        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
         if (generatedHTML.error) {
           console.log(generatedHTML.error)
         }
@@ -274,7 +274,7 @@ import _ from 'lodash';
           cslData[this.$store.getters.getCitations[i].id] = generateCSL(this.$store.getters.getCitations[i])[this.$store.getters.getCitations[i].id]
         }
         //@ts-ignore
-        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
         if (generatedHTML.error) {
           console.log(generatedHTML.error)
         }

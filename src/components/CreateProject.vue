@@ -38,7 +38,11 @@ import * as _ from 'lodash';
             "id": "Project-" + (this.$store.state.projects.length),
             "title": "Project " + (this.$store.state.projects.length + 1),
             "citations": [],
-            "style": "modern-language-association",
+            "style": {
+                "key":"modern-language-association",
+                "text":"Modern Language Association 8th edition (MLA)",
+                "value":"modern-language-association"
+            },
             "cachedBibliography": {outdated: true},
             "message": {
                 "type": null,

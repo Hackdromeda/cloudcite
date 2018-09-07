@@ -24,7 +24,11 @@ export default new Vuex.Store({
         "id": "Project-0",
         "title": "Project 1",
         "citations": [],
-        "style": "modern-language-association",
+        "style": {
+          "key":"modern-language-association",
+          "text":"Modern Language Association 8th edition (MLA)",
+          "value":"modern-language-association"
+        },
         "cachedBibliography": {outdated: true}
       }
     ],
@@ -94,7 +98,7 @@ export default new Vuex.Store({
     },
     setProjectStyle(state: any, payload: any) {
       for (let i=0; i < state.projects.length; i++) {
-        if (state.projects[i].id == payload.id && payload.style != '' && payload.style != null) {
+        if (state.projects[i].id == payload.id) {
           state.projects[i].style = payload.style
         }
       }

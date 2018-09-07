@@ -40,22 +40,8 @@
       Bibliography,
       Settings
     },
-    created() {
-      fetch('/static/servicemessages.json')
-        .then(response => {
-          return response.json()
-        })
-        .then(message => {
-          this.$data.serviceMessage = message
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
     data() {
       return {
-        showBanner: true,
-        serviceMessage: "",
         formats: [
           "Website",
           "Journal",

@@ -27,10 +27,10 @@
         </sui-button>
       </sui-modal-actions>
     </sui-modal>
+    <mdc-select :style="'min-width:' + (getProjectStyle.text.length * 2) + 'vh;'" v-model="selectedStyle" :label="getProjectStyle.text">
+      <option v-for="(style, i) in favoriteStyles" :key="i" :value="style.value" v-cloak> {{ style.text }}</option>
+    </mdc-select>
     <sui-form>
-      <sui-form-field>
-        <sui-dropdown fluid :options="favoriteStyles" :placeholder="getProjectStyle" search selection v-model="selectedStyle" direction="downward"/>
-      </sui-form-field>
       <sui-form-field>
         <sui-button style="background-color: #005eea; color: #fff;" @click="showMoreStyles = true" type="button" size="mini">More Styles Available</sui-button>
       </sui-form-field>
@@ -88,7 +88,7 @@ import debounce from 'lodash/debounce';
     getProjectStyle: {
       get() {
         //@ts-ignore
-        return this.$data.styles.filter(style => style.key == this.project.style)[0].text
+        return this.project.style
       }
     },
     favoriteStyles: {
@@ -101,7 +101,7 @@ import debounce from 'lodash/debounce';
     //@ts-ignore
     selectedStyle() {
       //@ts-ignore
-      this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle})
+      this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0]})
       //@ts-ignore
       if (this.$data.styles.filter(style => style.value == this.$data.selectedStyle).length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.filter(locale => locale == this.locale.value).length == 0) {
         //@ts-ignore

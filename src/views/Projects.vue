@@ -16,7 +16,7 @@
                 <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
                   {{ project.title }}
                 </h4>
-                <p v-if="project.style" style="font-size: 1rem; text-align: left;" v-cloak>
+                <p v-if="project.style && project.style.value" style="font-size: 1rem; text-align: left;" v-cloak>
                   <b>Style</b>: <SearchStyles :projectOption="project"/>
                 </p>
                 <p style="font-size: 1rem; text-align: left;" v-cloak>

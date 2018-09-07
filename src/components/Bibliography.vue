@@ -8,8 +8,8 @@
     </div>
     <div v-else>
       <div id="bibliographyPreview">
-        <div v-if="loading" id="bibliographyPreview" style="background-color: #fff; display: inline-flex; justify-content: center; align-items: center;">
-          <bounce-loader color="#005eea"/>
+        <div v-if="loading">
+          <mdc-linear-progress indeterminate/>
         </div>
         <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
           <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">

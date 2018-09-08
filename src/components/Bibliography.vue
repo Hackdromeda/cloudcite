@@ -37,14 +37,14 @@ import rp from 'request-promise-native';
 //@ts-ignore
 import generateCSL from '../functions/generateCSL';
 //@ts-ignore
+import removeEmptyFromObject from '../functions/removeEmptyFromObject';
+//@ts-ignore
 import generateHTML from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue';
 import SearchStyles from './SearchStyles.vue';
-//@ts-ignore
-import _ from 'lodash';
 
 @Component({
   components: {
@@ -216,7 +216,7 @@ import _ from 'lodash';
       //@ts-ignore
       var cslData = this.$store.getters.getCitations.filter(citation => citation.id == id)[0]
       //@ts-ignore
-      cslData.contributors = cslData.contributors.map(contributor => _.pickBy(Object.assign(contributor, {given: (contributor.given && contributor.given.split(" ")[0] ? contributor.given.split(" ")[0]: null), middle: (contributor.given && contributor.given.split(" ")[1] ? contributor.given.split(" ")[1]: null)})));
+      cslData.contributors = cslData.contributors.map(contributor => removeEmptyFromObject(Object.assign(contributor, {given: (contributor.given && contributor.given.split(" ")[0] ? contributor.given.split(" ")[0]: null), middle: (contributor.given && contributor.given.split(" ")[1] ? contributor.given.split(" ")[1]: null)})));
       //@ts-ignore
       if (cslData && cslData.type && cslData.type == "website") {
         //@ts-ignore

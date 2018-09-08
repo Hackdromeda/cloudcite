@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-//@ts-ignore
-import _ from 'lodash';
 
 Vue.use(Vuex)
 

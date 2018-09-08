@@ -151,12 +151,12 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
+//@ts-ignore
+import removeEmptyFromObject from '@/functions/removeEmptyFromObject';
 import Preview from '@/components/Preview.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
-//@ts-ignore
-import * as _ from 'lodash';
 @Component({
     components: {
         Preview,
@@ -313,7 +313,7 @@ import * as _ from 'lodash';
   computed: {
     filteredCitationData: {
         get() {
-            return _.pickBy(this.$data.citationData)
+            return removeEmptyFromObject(this.$data.citationData)
         }
     },
     allowSave: function() {

@@ -27,7 +27,7 @@ import generateHTML from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 @Component({
   props: ['cslObject','typing'],
@@ -60,7 +60,7 @@ import _ from 'lodash';
   computed: {
     cslData: {
       get() {
-        return _.cloneDeep(this.$props.cslObject)
+        return cloneDeep(this.$props.cslObject)
       }
     },
     typingStatus: {

@@ -24,9 +24,9 @@
 import { Component, Vue } from 'vue-property-decorator';
 import SearchStyles from '../components/SearchStyles.vue';
 //@ts-ignore
-import debounce from 'lodash/debounce';
+import removeEmptyFromObject from '@/functions/removeEmptyFromObject';
 //@ts-ignore
-import * as _ from 'lodash';
+import debounce from 'lodash/debounce';
 
 @Component({
   components: {
@@ -54,7 +54,7 @@ import * as _ from 'lodash';
   },
   methods: {
       createProject() {
-        this.$store.dispatch('createProject', _.pickBy(Object.assign(this.$data.project, {creatingProject: null}), _.identity))
+        this.$store.dispatch('createProject', removeEmptyFromObject(Object.assign(this.$data.project, {creatingProject: null})));
         this.$router.push({path: '/projects/'})
       }
   }

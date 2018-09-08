@@ -98,7 +98,6 @@ export default class About extends Vue {}
     min-height: 100vh;
     text-align: center;
     justify-content: center;
-    background-color: #fff;
     color: #000;
 
     h1 {

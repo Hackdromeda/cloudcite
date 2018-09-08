@@ -95,5 +95,7 @@ export default class Settings extends Vue {}
 <style scoped lang="scss">
   #settings {
     color: #000;
+    padding: 10px;
+    text-align: left;
   }
 </style>

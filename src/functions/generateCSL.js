@@ -1,32 +1,26 @@
-//@ts-ignore
-import _ from 'lodash'
+import removeEmptyFromObject from './removeEmptyFromObject';
 
-export default function generateCSL(cslData: any) {
-    //@ts-ignore
-    var contributors = cslData.contributors.map(contributor => _.pickBy(Object.assign(contributor, {given: (contributor.middle && contributor.middle != "" ? (contributor.given + " " + contributor.middle): contributor.given), middle: null})));
-
-        return _.pickBy({
-            [cslData.id]: {
-                "accessed": _.pickBy({
+export default async function generateCSL(cslData) {
+    
+    var contributors = await Promise.all(cslData.contributors.map(async contributor => await removeEmptyFromObject(Object.assign(contributor, {given: (contributor.middle && contributor.middle != "" ? (contributor.given + " " + contributor.middle): contributor.given), middle: null}))));
+        return {
+            [cslData.id]: await removeEmptyFromObject({
+                "accessed": await removeEmptyFromObject({
                     "month": (cslData.accessed.month && cslData.accessed.month >= 1 && cslData.accessed.month <= 12) ? cslData.accessed.month: null,
                     "year": cslData.accessed.year,
                     "day": cslData.accessed.day
                 }),
-                "issued": _.pickBy({
+                "issued": await removeEmptyFromObject({
                     "month": (cslData.issued && cslData.issued.month && cslData.issued.month >= 1 && cslData.issued.month <= 12) ? cslData.issued.month: null,
                     "year": (cslData.issued && cslData.issued.year) ? cslData.issued.year: null,
                     "day": (cslData.issued && cslData.issued.day) ? cslData.issued.day: null
                 }),
                 "type": cslData.type,
                 "id": cslData.id,
-                //@ts-ignore
-                "author": contributors.filter(c => c.type == "Author" && (c.family || c.given || c.middle)).map(author => _.pickBy(author)),
-                //@ts-ignore
-                "container-author": contributors.filter(c => c.type == "Container Author" && (c.family || c.given || c.middle)).map(containerAuthor => _.pickBy(containerAuthor)),
-                //@ts-ignore
-                "editor": contributors.filter(c => c.type == "Editor" && (c.family || c.given || c.middle)).map(editor => _.pickBy(editor)),
-                //@ts-ignore
-                "translator": contributors.filter(c => c.type == "Translator" && (c.family || c.given || c.middle)).map(translator => _.pickBy(translator)),
+                "author": await Promise.all(contributors.filter(c => c.type == "Author" && (c.family || c.given || c.middle)).map(async author => await removeEmptyFromObject(author))),
+                "container-author": await Promise.all(contributors.filter(c => c.type == "Container Author" && (c.family || c.given || c.middle)).map(async containerAuthor => await removeEmptyFromObject(containerAuthor))),
+                "editor": await Promise.all(contributors.filter(c => c.type == "Editor" && (c.family || c.given || c.middle)).map(async editor => await removeEmptyFromObject(editor))),
+                "translator": await Promise.all(contributors.filter(c => c.type == "Translator" && (c.family || c.given || c.middle)).map(async translator => await removeEmptyFromObject(translator))),
                 "title": cslData.title,
                 "title-short": cslData["title-short"],
                 "genre": cslData.genre,
@@ -46,6 +40,6 @@ export default function generateCSL(cslData: any) {
                 "number-of-pages": cslData["number-of-pages"],
                 "volume": cslData.volume,
                 "abstract": cslData.abstract
-            }
-        })
+            })
+        }
 }

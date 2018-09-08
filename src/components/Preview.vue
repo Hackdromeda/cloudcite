@@ -20,7 +20,9 @@
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
+//@ts-ignore
 import generateCSL from '../functions/generateCSL';
+//@ts-ignore
 import generateHTML from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";

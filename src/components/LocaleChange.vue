@@ -1,6 +1,6 @@
 <template>
   <div id="localeChange">
-    <mdc-select v-model="selectedLocale" :label="locale.text">
+    <mdc-select v-model="selectedLocale" :label="locale.text" outlined>
       <option v-for="(language, i) in languages" :key="i" :value="language.value" v-cloak> {{ language.text }}</option>
     </mdc-select>
   </div>

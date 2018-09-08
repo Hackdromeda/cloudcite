@@ -1,13 +1,14 @@
 <template>
   <div id="settings">
   <h1 style="color: #000; margin-top: 20px;">Settings</h1>
-  <mdc-select :style="'min-width:' + (projects[selectedProject].title.length + 5) + 'vh;'" v-model="projectSelected" :label="projects[selectedProject].title">
+  <mdc-select :style="'min-width:' + (projects[selectedProject].title.length + 5) + 'vh;'" v-model="projectSelected" :label="projects[selectedProject].title" outlined>
     <option v-for="(project, i) in projects" :key="i" :value="getProjectNumberFromId(project.id)" v-cloak> {{ project.title }}</option>
   </mdc-select>
   <SearchStyles style="width: 40vh;" :projectOption="projects[$store.state.selectedProject]"/>
   <LocaleChange/>
   <mdc-button @click="creatingNewProject = true" raised>Create Project</mdc-button>
   <CreateProject v-if="creatingNewProject"/>
+  <ui-select/>
   </div>
 </template>
 
@@ -19,6 +20,7 @@ import Bibliography from '../components/Bibliography.vue';
 import SearchStyles from '../components/SearchStyles.vue';
 import LocaleChange from '../components/LocaleChange.vue';
 import CreateProject from '../components/CreateProject.vue';
+
 @Component({
   components: {
     LocaleChange,

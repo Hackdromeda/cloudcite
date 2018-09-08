@@ -17,6 +17,15 @@ export default new Router({
       }
     },
     {
+      path: '/',
+      alias: '/settings/index.html',
+      name: 'settings',
+      component: () => import('./views/Settings.vue'),
+      meta: {
+        title: 'CloudCite · Settings'
+      }
+    },
+    {
       path: '/projects/',
       alias: '/projects/index.html',
       name: 'projects',

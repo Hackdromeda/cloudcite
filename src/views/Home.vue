@@ -1,27 +1,22 @@
 <template>
   <div id="home">
-    <div style="min-height: 92vh;">
-      <div style="color: #fff; display: flex; justify-content: center; align-items: center;">
+    <div>
+      <div style="display: flex; justify-content: center; align-items: center; padding: 5vh; background-color: #2962ff; color: #eceff1;">
         <div>
           <h1>Welcome to CloudCite</h1>
-          <p class="subtitle" style="margin-top: 5vh;">
+          <p style="margin-top: 5vh;">
             CloudCite processes citations in the cloud so you never have to create citations manually again.
           </p>
           <div id="cite">
             <mdc-button id="citeButton" @click="cite('Website')">Website</mdc-button>
-            <mdc-button type="button" id="citeButton" @click="cite('Book')">Book</mdc-button>
-            <mdc-button type="button" id="citeButton" @click="cite('Film')">Film/Movie</mdc-button>
+            <mdc-button id="citeButton" @click="cite('Book')">Book</mdc-button>
+            <mdc-button id="citeButton" @click="cite('Film')">Film/Movie</mdc-button>
           </div>
         </div>
       </div>
-      <div style="background-color: #005eea; margin-top: 10vh; padding-bottom: 10vh;">
+      <div style="margin-top: 10vh; padding-bottom: 10vh;">
         <Bibliography/>
       </div>
-    </div>
-    <div id="settings" style="text-align: left;">
-      <Settings v-if="displayComponent()" :creatingProjectOption="creatingProject"/>
-      <h2 style="margin-top: 20vh; margin-left: 1vh; margin-right: 1vh;">About CloudCite</h2>
-      <h3 style="margin-left: 1vh; margin-right: 1vh;">CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago, Turabian, Harvard, IEEE, and Vancouver. You can contribute to CloudCite and support the longevity of this project by visiting the <router-link to="/contribute/">contribute page</router-link> and either donating through a supported platform or lending us your coding skills. Disabling ad-block and interacting with ads placed on the contribute page and our blog also helps support this project. We have no ads throughout the bibliography generation process to provide a focused experience. Learn more about our commitment to a privacy on our <router-link to="/privacy/">privacy page</router-link> and about our the distraction-free bibliography generation environment we wanted to exist in the universe on our <router-link to="/about/">about us page</router-link>.</h3>
     </div>
   </div>
 </template>
@@ -33,12 +28,10 @@
   import debounce from 'lodash/debounce';
   import SearchStyles from '../components/SearchStyles.vue';
   import Bibliography from '../components/Bibliography.vue';
-  import Settings from '../components/Settings.vue';
 
   @Component({
     components: {
-      Bibliography,
-      Settings
+      Bibliography
     },
     data() {
       return {
@@ -115,81 +108,23 @@
 
   #home {
     text-align: center;
-    background-color: #005eea;
     color: #000;
   }
-
-  h1 {
-    font-size: 3rem;
-  }
-
-  h3 {
-    font-size: 1.1rem;
-    font-weight: 500;
+  #citeButton {
+    background-color: #eceff1;
+    margin-left: 1vh;
+    margin-right: 1vh;
   }
 
   @media (max-width: 991.97px) {
-    #settings {
-      margin-top: 2vh;
-      margin-bottom: 2vh;
-      background-color: #fff;
-      padding-left: 5vh;
-      padding-right: 5vh;
-      color: #000;
-    }
     #cite {
       text-align: center;
-    }
-    #citeButton {
-      margin: 3px;
-      padding: 10px;
-      color: #fff;
-      font-weight: 550;
-      background-color: #006dfc;
-      border-radius: 5px;
-    }
-    #citeButton:hover {
-      background-color: #207df6;
-    }
-    #projectSegment {
-      padding: 10px;
-      margin-bottom: 20px;
     }
   }
 
   @media (min-width: 991.98px) {
-    #settings {
-      margin-bottom: 5vh;
-      margin-top: 2vh;
-      background-color: #fff;
-      padding-left: 5vh;
-      padding-right: 5vh;
-      color: #000;
-    }
     #cite {
       text-align: center;
-    }
-    #hero {
-      padding-bottom: 25px;
-      height: 100vh;
-    }
-    #citeButton {
-      margin: 10px;
-      padding: 10px;
-      color: #fff;
-      font-weight: 550;
-      background-color: #006dfc;
-      border-radius: 5px;
-    }
-    #citeButton:hover {
-      background-color: #207df6;
-    }
-    #styleDropdown {
-      width: 18vh;
-    }
-    #projectSegment {
-      padding: 10px;
-      margin-bottom: 20px;
     }
   }
   </style>

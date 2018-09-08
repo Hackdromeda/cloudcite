@@ -3,7 +3,7 @@
     <div v-if="projects[selectedProject].citations.length > 0" id="bibliographyActions" >
       <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
     </div>
-    <div style="background-color: #207df6; color: #fff; border-radius: 5px; padding: 5vh;" v-if="projects[selectedProject].citations.length == 0">
+    <div style="background-color: #eeeeee; color: #000; border-radius: 5px; padding: 5vh;" v-if="projects[selectedProject].citations.length == 0">
       <p>Your bibliography will be here after you cite a website, book, or film.</p>
     </div>
     <div v-else>

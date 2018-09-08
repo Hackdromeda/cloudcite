@@ -1,7 +1,7 @@
 <template functional>
   <div>
-    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
-      <div class="container" style="padding: 7vh;">
+    <div style="min-height: 35vh;">
+      <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
         <h1>Pricing</h1>
         <h2 class="subtitle" style="margin-top: 10vh;">
           CloudCite is free forever and open source. Not all of the features listed in the table below are available yet. <router-link to="/contribute/">Help us develop these features.</router-link>

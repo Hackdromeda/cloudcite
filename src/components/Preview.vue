@@ -151,7 +151,7 @@ export default class Preview extends Vue {}
   }
 @media (max-width: 991.97px) {
   #preview {
-    background-color: #f5f5f5;
+    background-color: #fff;
     color: #000;
     padding: 20px;
     border-radius: 5px;

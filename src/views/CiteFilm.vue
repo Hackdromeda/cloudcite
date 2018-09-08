@@ -1,7 +1,7 @@
 <template>
     <div id="citeFilm">
-            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
-                <div class="container" style="padding: 7vh;">
+            <div style="min-height: 35vh;">
+                <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
                     <h1>Cite a Film</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">
                         You can start citing a film by typing the title and selecting the film you want to cite.

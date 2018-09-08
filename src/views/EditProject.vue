@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div style="min-height: 20vh; background-color: #005eea; color: #fff; margin-bottom: 5vh;">
-            <div class="container" style="padding: 7vh;">
+        <div style="min-height: 20vh;">
+            <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
                 <h1 v-cloak>Editing {{ project.title }}</h1>
             </div>
         </div>

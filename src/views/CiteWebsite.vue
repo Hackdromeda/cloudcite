@@ -1,20 +1,20 @@
 <template>
     <div id="citeWebsite">
-            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
-                <div class="container" style="padding: 7vh;">
+            <div style="min-height: 35vh;">
+                <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
                     <h1>Cite a Website</h1>
-                    <h2 class="subtitle" style="margin-top: 10vh;">
+                    <h2 style="margin-top: 10vh;">
                         You can start citing a website by typing the website link and clicking on cite.
                     </h2>
                 </div>
             </div>
             <div style="margin-top: 5vh;">
-                <mdc-textfield style="margin-right: 1vh;" v-model="URL" label="Enter website URL" @keyup.enter="citeURL()" ref="websiteInput"/>
-                <mdc-button @click="citeURL()" unelevated>Cite</mdc-button>
+                <mdc-textfield style="margin-right: 1vh;" v-model="URL" label="Enter website URL" @keyup.enter="citeURL()" ref="websiteInput" trailing-icon="search"/>
             </div>
-            <div style="margin-top: 3vh;">
-                <mdc-button @click="citeEmpty()" outlined dense>Manual Citation</mdc-button>
-            </div>
+            <span style="margin-top: 3vh;">
+                <mdc-button style="margin-right: 1vh;" @click="citeEmpty()" outlined dense>Manual Citation</mdc-button>
+                <mdc-button style="margin-left: 1vh;" @click="citeURL()" unelevated>Cite</mdc-button>
+            </span>
             <bounce-loader style="position: relative; margin-top: 10vh; left: 50%; right: 50%; transform: translateX(-30px)" :loading="loadingCitation" color="#005eea"/>
     </div>
 </template>
@@ -122,6 +122,8 @@ export default class CiteWebsite extends Vue {}
     min-height: 100vh;
     text-align: center;
     justify-content: center;
-    background-color: #fff;
+}
+h2 {
+    font-size: 1.1rem;
 }
 </style>

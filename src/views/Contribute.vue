@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
-      <div class="container" style="padding: 7vh;">
+    <div style="min-height: 35vh;">
+      <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
         <h1>Contribute</h1>
         <h2 class="subtitle" style="margin-top: 10vh;">
           CloudCite is an AGPLv3 licensed open source project and completely free to use. However, the amount of effort needed to maintain CloudCite and its APIs, develop new features, and store your references is not sustainable without proper financial backing. You can support CloudCite development and maintenance costs via the following methods:

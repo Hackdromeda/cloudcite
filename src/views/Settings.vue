@@ -15,12 +15,11 @@
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import debounce from 'lodash/debounce';
-import Bibliography from './Bibliography.vue';
-import SearchStyles from './SearchStyles.vue';
-import LocaleChange from './LocaleChange.vue';
-import CreateProject from './CreateProject.vue';
+import Bibliography from '../components/Bibliography.vue';
+import SearchStyles from '../components/SearchStyles.vue';
+import LocaleChange from '../components/LocaleChange.vue';
+import CreateProject from '../components/CreateProject.vue';
 @Component({
-  props: ['creatingProjectOption'],
   components: {
     LocaleChange,
     SearchStyles,
@@ -42,11 +41,6 @@ import CreateProject from './CreateProject.vue';
     selectedProject: {
       get() {
         return this.$store.state.selectedProject
-      }
-    },
-    creatingProject: {
-      get() {
-        return this.$props.creatingProjectOption
       }
     }
   },

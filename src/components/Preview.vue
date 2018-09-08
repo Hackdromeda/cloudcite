@@ -153,6 +153,7 @@ export default class Preview extends Vue {}
   #preview {
     background-color: #fff;
     color: #000;
+    border: 1px solid #e0e0e0;
     padding: 20px;
     border-radius: 5px;
     min-height: 23vh;
@@ -164,6 +165,7 @@ export default class Preview extends Vue {}
   #preview {
     background-color: #f5f5f5;
     color: #000;
+    border: 1px solid #e0e0e0;
     padding: 20px;
     border-radius: 5px;
     min-height: 16vh;

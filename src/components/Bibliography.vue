@@ -300,6 +300,7 @@ export default class Bibliography extends Vue {}
   font-weight: normal !important;
   padding: 10px;
   border-radius: 10px;
+  border: 1px solid #e0e0e0;
 }
 @media (min-width: 991.98px) {
   #bibliographyPreview {

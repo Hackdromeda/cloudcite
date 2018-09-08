@@ -10,8 +10,7 @@
                     <li>We use <a href="https://www.websecurity.symantec.com/security-topics/what-is-ssl-tls-https" target="_blank">Secure Sockets Layer (SSL)/Transport Layer Security (TLS)</a> to safeguard your information from being modified while being transferred to and from our APIs, servers, and/or databases.</li>
                     <li>We use an HTTP Strict Transport Security (HSTS) policy which forces all server, API, and database requests and responses to pass through encrypted Hyper Text Transfer Protocol Secure (HTTPS) connections instead of plain text HTTP.</li>
                     <li>We use Auth0 token-based authentication so you can rest assured your password and personal information is protected</li>
-                    <li>We do not use intrusive third party trackers such as Google Analytics. You may see your ad blocker blocking over 70 trackers and ads on our competitors sites.</li>
-                    <li>We do not use popup or force you to click on ads</li>
+                    <li>We do not use popup ads or force you to click on ads</li>
                     <li>Only Hackdromeda team members can access the CloudCite database. Project contributors cannot see your data.</li>
                 </ol>
                 <h6>CloudCite can collect the following information and/or perform the following actions automatically:</h6>
@@ -23,7 +22,7 @@
                     <li>Use our own tracking tools and analytics to improve the service and record session information</li>
                     <li>Get basic session information for CloudFlare DDoS protection</li>
                 </ol>
-                <p>We are committed to protecting the privacy and confidentiality of CloudCite users' private data. We do not use any third party tracking services on this site. There are no ads throughout the bibliography generation process. There are ads on our blog and contribution page.</p>
+                <p>We are committed to protecting the privacy and confidentiality of CloudCite users' private data.</p>
                 <p>We do not sell or trade to outside parties your personal information. We also do not transfer this information without your express consent. We do not sell or offer third-party products or services on our service.</p>
                 <ol>
                     <li><b>Consent Withdrawl:</b> To withdraw your consent on any of the data being stored by CloudCite, click on the help button on our site or email us at help@cloudcite.net.</li>

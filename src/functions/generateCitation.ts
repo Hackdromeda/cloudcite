@@ -1,5 +1,4 @@
 //@ts-ignore
-import _ from 'lodash';
 import { Map } from 'immutable';
 const moment = require('moment');
 

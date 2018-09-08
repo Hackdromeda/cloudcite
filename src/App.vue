@@ -6,7 +6,7 @@
       <mdc-drawer toggle-on="nav" temporary>
         <mdc-drawer-list>
           <mdc-drawer-item @click="pushRoute('/')" start-icon="dashboard">Dashboard</mdc-drawer-item>
-          <mdc-drawer-item @click="pushRoute('/')" start-icon="settings">Settings</mdc-drawer-item>
+          <mdc-drawer-item @click="pushRoute('/settings/')" start-icon="settings">Settings</mdc-drawer-item>
           <mdc-drawer-item @click="pushRoute('/about/')" start-icon="subject">About</mdc-drawer-item>
           <mdc-drawer-item @click="pushRoute('/install/')" start-icon="open_in_browser">Install</mdc-drawer-item>
           <mdc-drawer-item @click="pushRoute('/pricing/')" start-icon="view_list">Pricing</mdc-drawer-item>

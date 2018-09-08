@@ -17,7 +17,7 @@ export default new Router({
       }
     },
     {
-      path: '/',
+      path: '/settings/',
       alias: '/settings/index.html',
       name: 'settings',
       component: () => import('./views/Settings.vue'),

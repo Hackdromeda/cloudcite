@@ -54,7 +54,7 @@
       </div>
       <div id="free">
           <h3>Contribute At No Cost</h3>
-          <p>Consider disabling your ad blocker on this website. Our ads are only on our blog and the contribute page and will not disrupt your bibliography generation experience. Interacting with the ads helps us support future development of CloudCite.</p>
+          <p>Consider disabling your ad blocker on this website. We do not use ads that cover the entire screen or cause similar disruptions to the process of creating a bibliography.</p>
           <br>
           <Adsense
               data-ad-client="ca-pub-2986930095691189"

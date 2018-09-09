@@ -4,7 +4,7 @@ const moment = require('moment');
 
 export default function generateCitation(id: string, type: string, data: any) {
     const dateAccessed = moment().toObject();
-
+    
     var citation = Map({
         "id": id,
         "type": type,

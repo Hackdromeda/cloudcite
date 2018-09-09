@@ -136,7 +136,7 @@
                 </div>
             </sui-form-field>
             <sui-form-field v-if="allowSave" style="margin-top: 3vh;">
-                <Preview :cslObject="filteredCitationData" :typing="typing"/>
+                <Preview :cslObject="citationData" :typing="typing"/>
             </sui-form-field>
             <div is="sui-button-group">
                 <sui-button type="button" @click="cancel()">Cancel</sui-button>
@@ -151,8 +151,6 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
-//@ts-ignore
-import removeEmptyFromObject from '@/functions/removeEmptyFromObject';
 import Preview from '@/components/Preview.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
@@ -311,11 +309,6 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
       }
   },
   computed: {
-    filteredCitationData: {
-        async get() {
-            return await removeEmptyFromObject(this.$data.citationData)
-        }
-    },
     allowSave: function() {
         var citationExists = false
         var keys = Object.keys(this.$data.citationData)

@@ -25,6 +25,8 @@ import generateCSL from '../functions/generateCSL';
 //@ts-ignore
 import generateHTML from '../functions/generateHTML';
 //@ts-ignore
+import removeEmptyFromObject from '@/functions/removeEmptyFromObject';
+//@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore
 import cloneDeep from 'lodash/cloneDeep';
@@ -34,7 +36,9 @@ import cloneDeep from 'lodash/cloneDeep';
   components: {},
   async created() {
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: await generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: []})
+      let cslObject = await removeEmptyFromObject(this.cslData);
+      //@ts-ignore
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: await generateCSL(cslObject), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: []})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       } 
@@ -60,7 +64,8 @@ import cloneDeep from 'lodash/cloneDeep';
   computed: {
     cslData: {
       get() {
-        return cloneDeep(this.$props.cslObject)
+        let newCSLObject = cloneDeep(this.$props.cslObject);
+        return newCSLObject;
       }
     },
     typingStatus: {
@@ -118,7 +123,9 @@ import cloneDeep from 'lodash/cloneDeep';
   watch: {
     async typingStatus() {
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: await generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: []})
+      let cslObject = await removeEmptyFromObject(this.cslData);
+      //@ts-ignore
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: await generateCSL(cslObject), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: []})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       } 

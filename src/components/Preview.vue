@@ -64,8 +64,8 @@ import { Map } from 'immutable';
   computed: {
     cslData: {
       get() {
-        let newCSLObject = Map(this.$props.cslObject);
-        return newCSLObject.toObject();
+        let newCSLObject = JSON.stringify(this.$props.cslObject);
+        return JSON.parse(newCSLObject);
       }
     },
     typingStatus: {

@@ -13,7 +13,7 @@
           <h3>iOS</h3>
           <p>To install the CloudCite app to your iPhone, iPod, or iPad go to Safari, press the share icon, and choose "Add to Home Screen."</p>
           <div id="preview" style="display: block;">
-            <a href="https://www.wikihow.tech/Add-a-Link-Button-to-the-Home-Screen-of-an-iPhone" target="_blank">
+            <a href="https://www.wikihow.tech/Add-a-Link-Button-to-the-Home-Screen-of-an-iPhone" target="_blank" rel="noopener noreferrer">
               <img src="/static/images/iosapp.png" style="width:150px">
             </a>
           </div>
@@ -31,7 +31,7 @@
           <h3>Windows</h3>
           <p>Open Microsoft Edge, click on the overflow button (three horizontal dots) and select "Pin this page to Start" or "Pin this page to the Taskbar."</p>
           <div id="preview" style="display: block;">
-            <a href="https://www.lifewire.com/pin-web-page-to-windows-10-start-menu-4103663" target="_blank">
+            <a href="https://www.lifewire.com/pin-web-page-to-windows-10-start-menu-4103663" target="_blank" rel="noopener noreferrer">
               <img src="/static/images/windowstile.png" style="width:150px">
             </a>
           </div>            
@@ -54,25 +54,25 @@
           <h3>Classic Browsers</h3>
           <p>Save a Bookmark for CloudCite! Click on the browser icons below to learn how to add a bookmark.</p>
           <div id="preview" style="display: block;">
-            <a href="https://support.google.com/chrome/answer/188842?co=GENIE.Platform%3DDesktop&hl=en" target="_blank">
+            <a href="https://support.google.com/chrome/answer/188842?co=GENIE.Platform%3DDesktop&hl=en" target="_blank" rel="noopener noreferrer">
               <img src="/static/images/chrome/chrome_128x128.png">
             </a>
-            <a href="https://support.mozilla.org/en-US/kb/bookmarks-firefox" target="_blank">
+            <a href="https://support.mozilla.org/en-US/kb/bookmarks-firefox" target="_blank" rel="noopener noreferrer">
               <img src="/static/images/firefox/firefox_128x128.png">
             </a>
-            <a href="https://support.apple.com/guide/safari/bookmark-pages-ibrw1039/mac" target="_blank">
+            <a href="https://support.apple.com/guide/safari/bookmark-pages-ibrw1039/mac" target="_blank" rel="noopener noreferrer">
               <img src="/static/images/safari/safari_128x128.png">
             </a>
-            <a href="https://www.opera.com/computer/features/bookmarks" target="_blank">
+            <a href="https://www.opera.com/computer/features/bookmarks" target="_blank" rel="noopener noreferrer">
               <img src="/static/images/opera/opera_128x128.png">
             </a>
-            <a href="https://community.brave.com/search?q=Add%20Bookmark" target="_blank">
+            <a href="https://community.brave.com/search?q=Add%20Bookmark" target="_blank" rel="noopener noreferrer">
               <img src="/static/images/brave/brave_128x128.png">
             </a>
-            <a href="https://www.samsung.com/uk/support/mobile-devices/how-do-i-bookmark-a-page-in-the-internet-browser-on-my-samsung-galaxy-smartphone/" target="_blank">
+            <a href="https://www.samsung.com/uk/support/mobile-devices/how-do-i-bookmark-a-page-in-the-internet-browser-on-my-samsung-galaxy-smartphone/" target="_blank" rel="noopener noreferrer">
               <img src="/static/images/samsung-internet/samsung-internet_128x128.png">
             </a>
-            <a href="https://support.microsoft.com/en-us/help/4027306/windows-add-a-site-to-my-favorites-in-microsoft-edge" target="_blank">
+            <a href="https://support.microsoft.com/en-us/help/4027306/windows-add-a-site-to-my-favorites-in-microsoft-edge" target="_blank" rel="noopener noreferrer">
               <img src="/static/images/edge/edge_128x128.png">
             </a>           
           </div>           

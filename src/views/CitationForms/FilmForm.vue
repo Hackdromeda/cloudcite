@@ -8,7 +8,7 @@
         <sui-form id="editForm">
             <div v-for="(contributor, i) in citationData.contributors" :key="i">
                 <sui-form-field>
-                    <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="contributorTypes" placeholder="Author" direction="downward" selection/>
+                    <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="contributorTypes" placeholder="Director" direction="downward" selection/>
                 </sui-form-field>
                 <sui-form-field>
                     <div class="ui labeled input">
@@ -167,9 +167,9 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
         citationData: this.$store.getters.getEditingCitation,
         contributorTypes: [
             {
-                "key": "Author",
-                "text": "Director/Producer/Scriptwriter",
-                "value": "Author"
+                "key": "Director",
+                "text": "Director",
+                "value": "Director"
             }
         ],
         monthAccessedNames: [
@@ -345,7 +345,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
             this.$router.push({path: '/'})
         },
         clearContributor(index: number) {
-            this.$data.citationData.contributors[index] = Object.assign(this.$data.citationData.contributors[index], {given: null, middle: null, family: null, type: "Author"})
+            this.$data.citationData.contributors[index] = Object.assign(this.$data.citationData.contributors[index], {given: null, middle: null, family: null, type: "Director"})
             this.$data.typing = true
         },
         removeContributor(index: number) {
@@ -354,7 +354,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
             this.$data.typing = true
         },
         addContributor() {
-            this.$data.citationData.contributors.push({given: '', middle: '', family: '', type: 'Author'})
+            this.$data.citationData.contributors.push({given: '', middle: '', family: '', type: 'Director'})
             this.$data.typing = true
         }
     },

@@ -28,10 +28,10 @@
       <sui-table-row>
         <sui-table-cell>CloudCite</sui-table-cell>
         <sui-table-cell>FREE</sui-table-cell>
-        <sui-table-cell><a href="https://github.com/Hackdromeda/cloudcite/blob/master/LICENSE" target="_blank"><img src="/static/License-AGPL v3-blue.svg"/></a></sui-table-cell>
+        <sui-table-cell><a href="https://github.com/Hackdromeda/cloudcite/blob/master/LICENSE" target="_blank" rel="noopener noreferrer"><img src="/static/License-AGPL v3-blue.svg"/></a></sui-table-cell>
         <sui-table-cell>100% Popup-Free</sui-table-cell>
         <sui-table-cell>No Third-Party Tracking</sui-table-cell>
-        <sui-table-cell><a href="https://www.websecurity.symantec.com/security-topics/what-is-ssl-tls-https" target="_blank">SSL, TLS</a>, <a href="https://securityheaders.com/?q=cloudcite.net&followRedirects=on" target="_blank">HSTS, and Strong Security Headers</a></sui-table-cell>
+        <sui-table-cell><a href="https://www.websecurity.symantec.com/security-topics/what-is-ssl-tls-https" target="_blank" rel="noopener noreferrer">SSL, TLS</a>, <a href="https://securityheaders.com/?q=cloudcite.net&followRedirects=on" target="_blank" rel="noopener noreferrer">HSTS, and Strong Security Headers</a></sui-table-cell>
         <sui-table-cell>Fast and Accurate</sui-table-cell>
         <sui-table-cell>No account creation or downloads required</sui-table-cell>
         <sui-table-cell>Exports to clipboard, .DOC, .DOCX, and .PDF, Google Drive, Dropbox, and OneDrive. Imports CSL-JSON and BibTeX.</sui-table-cell>

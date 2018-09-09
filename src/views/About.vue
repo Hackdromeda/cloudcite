@@ -30,12 +30,12 @@
             <div style="padding-right: 10px; padding-bottom: 5px;">
               <img style="border-radius: 50%;" src="/static/images/Naval.jpg" width="128" height="128"/>
               <h4>Naval Patel</h4>
-              <p>Project co-founder and web developer. You can learn more about me on <a href="https://navalpatel.me/" target="_blank">my website</a>.</p>
+              <p>Project co-founder and web developer. You can learn more about me on <a href="https://navalpatel.me/" target="_blank" rel="noopener noreferrer">my website</a>.</p>
             </div>
             <div style="padding-left: 10px; padding-bottom: 5px;">
               <img style="border-radius: 50%;" src="/static/images/Avi.jpg" width="128" height="128"/>
               <h4>Avi Shah</h4>
-              <p>Project co-founder and backend developer. You can learn more about me on <a href="https://avimshah.com/" target="_blank">on my personal portfolio site</a>.</p>
+              <p>Project co-founder and backend developer. You can learn more about me on <a href="https://avimshah.com/" target="_blank" rel="noopener noreferrer">on my personal portfolio site</a>.</p>
             </div>
             </div>
           </sui-grid-column>

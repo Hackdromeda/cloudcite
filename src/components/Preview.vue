@@ -29,7 +29,7 @@ import removeEmptyFromObject from '@/functions/removeEmptyFromObject';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore
-import cloneDeep from 'lodash/cloneDeep';
+import { Map } from 'immutable';
 
 @Component({
   props: ['cslObject','typing'],
@@ -64,8 +64,8 @@ import cloneDeep from 'lodash/cloneDeep';
   computed: {
     cslData: {
       get() {
-        let newCSLObject = cloneDeep(this.$props.cslObject);
-        return newCSLObject;
+        let newCSLObject = Map(this.$props.cslObject);
+        return newCSLObject.toObject();
       }
     },
     typingStatus: {

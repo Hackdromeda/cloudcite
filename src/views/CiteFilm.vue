@@ -57,9 +57,6 @@ import debounce from 'lodash/debounce';
 import rp from 'request-promise-native';
 import Preview from '../components/Preview.vue';
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
-//@ts-ignore
-import * as  _ from 'lodash/core';
-import * as Immutable from 'immutable';
 
 @Component({
   components: {
@@ -161,7 +158,7 @@ import * as Immutable from 'immutable';
                 const id = ('citation-' + this.$store.getters.getCitations.length)
                 const citation = generateCitation(id, "motion_picture", data)
                 //@ts-ignore
-                this.$store.dispatch('setEditingCitation', citation.toObject())
+                this.$store.dispatch('setEditingCitation', citation);
                 this.$router.push({path: '/edit/film/'})
                 //@ts-ignore
             }).catch(error => {

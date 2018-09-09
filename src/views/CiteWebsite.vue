@@ -28,8 +28,6 @@ import Preview from '../components/Preview.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
-//@ts-ignore
-import * as  _ from 'lodash/core';
 
 @Component({
   components: {
@@ -98,7 +96,7 @@ import * as  _ from 'lodash/core';
                     const citation = generateCitation(id, "website", data)
                     this.$data.loadingCitation = false
                     //@ts-ignore
-                    this.$store.dispatch('setEditingCitation', citation.toObject())
+                    this.$store.dispatch('setEditingCitation', citation)
                     this.$router.push({path: '/edit/website/'})
                     //@ts-ignore
                 }).catch(error => {

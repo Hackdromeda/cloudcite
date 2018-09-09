@@ -1,11 +1,9 @@
 //@ts-ignore
-import { Map } from 'immutable';
 const moment = require('moment');
 
 export default function generateCitation(id: string, type: string, data: any) {
     const dateAccessed = moment().toObject();
-    
-    var citation = Map({
+    return {
         "id": id,
         "type": type,
         "URL": data.URL,
@@ -30,7 +28,5 @@ export default function generateCitation(id: string, type: string, data: any) {
         "issued": {month: data.issued && data.issued.month ? parseInt(data.issued.month): "", day: data.issued && data.issued.day ? parseInt(data.issued.day): "", year: data.issued && data.issued.year ? parseInt(data.issued.year): ""},
         "accessed": {month: dateAccessed.months + 1, day: dateAccessed.date, year: dateAccessed.years},
         "abstract": data.abstract
-    });
-
-    return citation
+    };
 }

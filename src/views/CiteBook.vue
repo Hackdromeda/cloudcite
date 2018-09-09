@@ -48,8 +48,6 @@ import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import rp from 'request-promise-native';
 //@ts-ignore
-import * as  _ from 'lodash/core';
-//@ts-ignore
 import debounce from 'lodash/debounce';
 import Preview from '../components/Preview.vue';
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
@@ -210,7 +208,7 @@ import generateCitation from '@/functions/generateCitation';
                 const id = ('citation-' + this.$store.getters.getCitations.length)
                 const citation = generateCitation(id, "book", data)
                 //@ts-ignore
-                this.$store.dispatch('setEditingCitation', citation.toObject())
+                this.$store.dispatch('setEditingCitation', citation);
                 this.$router.push({path: '/edit/book/'})
                 //@ts-ignore
             }).catch(error => {

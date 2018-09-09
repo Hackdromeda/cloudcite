@@ -312,8 +312,8 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
   },
   computed: {
     filteredCitationData: {
-        get() {
-            return removeEmptyFromObject(this.$data.citationData)
+        async get() {
+            return await removeEmptyFromObject(this.$data.citationData)
         }
     },
     allowSave: function() {

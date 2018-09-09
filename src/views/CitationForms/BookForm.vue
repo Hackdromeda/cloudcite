@@ -198,10 +198,10 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
         Preview,
         MoonLoader
     },
-  data () {
+  async data () {
       return {
         typing: false,
-        citationData: removeEmptyFromObject(this.$store.getters.getEditingCitation),
+        citationData: await removeEmptyFromObject(this.$store.getters.getEditingCitation),
         bookCitationOptions: [
             {
                 "key": "Book",
@@ -391,8 +391,8 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
   },
   computed: {
     filteredCitationData: {
-        get() {
-            return removeEmptyFromObject(this.$data.citationData)
+        async get() {
+            return await removeEmptyFromObject(this.$data.citationData)
         }
     },
     allowSave: function() {

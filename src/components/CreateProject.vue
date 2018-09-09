@@ -53,8 +53,8 @@ import debounce from 'lodash/debounce';
     }
   },
   methods: {
-      createProject() {
-        this.$store.dispatch('createProject', removeEmptyFromObject(Object.assign(this.$data.project, {creatingProject: null})));
+      async createProject() {
+        this.$store.dispatch('createProject', await removeEmptyFromObject(Object.assign(this.$data.project, {creatingProject: null})));
         this.$router.push({path: '/projects/'})
       }
   }

@@ -35,8 +35,6 @@ import { Component, Vue } from 'vue-property-decorator';
 import SearchStyles from '../components/SearchStyles.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
-//@ts-ignore
-import * as _ from 'lodash';
 
 @Component({
   components: {

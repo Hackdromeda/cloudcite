@@ -102,8 +102,11 @@ import * as  _ from 'lodash/core';
                     this.$router.push({path: '/edit/website/'})
                     //@ts-ignore
                 }).catch(error => {
-                    console.log(error)
-                    this.$data.loadingCitation = false
+                    this.$data.loadingCitation = false;
+                    //@ts-ignore
+                    this.$data.websiteCitationData.URL = this.formatURL(this.$data.URL);
+                    //@ts-ignore
+                    this.citeEmpty();
                 })
         }
     },

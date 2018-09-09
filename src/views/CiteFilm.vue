@@ -50,6 +50,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+//@ts-ignore
 import generateCitation from '../functions/generateCitation';
 //@ts-ignore
 import debounce from 'lodash/debounce';
@@ -156,7 +157,8 @@ import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
                     data.contributors = [{given: "", middle: "", family: "", type: "Author"}]
                 }
                 const id = ('citation-' + this.$store.getters.getCitations.length)
-                const citation = await generateCitation(id, "motion_picture", data)
+                //@ts-ignore
+                const citation = await generateCitation(id, "motion_picture", data);
                 //@ts-ignore
                 this.$store.dispatch('setEditingCitation', citation);
                 this.$router.push({path: '/edit/film/'})

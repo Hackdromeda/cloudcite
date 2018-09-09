@@ -50,8 +50,9 @@ import rp from 'request-promise-native';
 //@ts-ignore
 import debounce from 'lodash/debounce';
 import Preview from '../components/Preview.vue';
-import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
-import generateCitation from '@/functions/generateCitation';
+import BounceLoader from 'vue-spinner/src/BounceLoader.vue';
+//@ts-ignore
+import generateCitation from '../functions/generateCitation';
 
 @Component({
   components: {
@@ -206,7 +207,8 @@ import generateCitation from '@/functions/generateCitation';
                 //@ts-ignore
                 data.issued = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): ""
                 const id = ('citation-' + this.$store.getters.getCitations.length)
-                const citation = await generateCitation(id, "book", data)
+                //@ts-ignore
+                const citation = await generateCitation(id, "book", data);
                 //@ts-ignore
                 this.$store.dispatch('setEditingCitation', citation);
                 this.$router.push({path: '/edit/book/'})

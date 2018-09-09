@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+//@ts-ignore
 import generateCitation from '../functions/generateCitation';
 //@ts-ignore
 import rp from 'request-promise-native';
@@ -93,7 +94,8 @@ import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
                         data.contributors.push({given: "", middle: "", family: "", type: "Author"})
                     }
                     const id = ('citation-' + this.$store.getters.getCitations.length)
-                    const citation = await generateCitation(id, "website", data)
+                    //@ts-ignore
+                    const citation = await generateCitation(id, "website", data);
                     this.$data.loadingCitation = false
                     //@ts-ignore
                     this.$store.dispatch('setEditingCitation', citation)

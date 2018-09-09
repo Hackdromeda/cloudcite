@@ -1,7 +1,6 @@
-//@ts-ignore
-const moment = require('moment');
+import moment from 'moment';
 
-export default function generateCitation(id: string, type: string, data: any) {
+export default function generateCitation(id, type, data) {
     return new Promise((resolve, reject) => {
         try {
             const dateAccessed = moment().toObject();

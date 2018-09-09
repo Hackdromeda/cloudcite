@@ -77,7 +77,7 @@ import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
                 body: {"URL": (this.$data.URL.substring(0, 4) == 'http') ? this.$data.URL: ('http://' + this.$data.URL), "format": "website"},
                 json: true
                 //@ts-ignore
-                }).then(data => {
+                }).then(async data => {
                     //@ts-ignore
                     data.URL = this.formatURL(this.$data.URL)
                     //@ts-ignore
@@ -93,7 +93,7 @@ import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
                         data.contributors.push({given: "", middle: "", family: "", type: "Author"})
                     }
                     const id = ('citation-' + this.$store.getters.getCitations.length)
-                    const citation = generateCitation(id, "website", data)
+                    const citation = await generateCitation(id, "website", data)
                     this.$data.loadingCitation = false
                     //@ts-ignore
                     this.$store.dispatch('setEditingCitation', citation)

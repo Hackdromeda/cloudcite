@@ -139,7 +139,7 @@ import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
                 body: {"title": this.$data.filmTitle, "movie": this.$data.selectedFilm.id, "format": "movie"},
                 json: true
                 //@ts-ignore
-            }).then(data => {
+            }).then(async data => {
                 console.log(data)
                 //@ts-ignore
                 data.contributors = [];
@@ -156,7 +156,7 @@ import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
                     data.contributors = [{given: "", middle: "", family: "", type: "Author"}]
                 }
                 const id = ('citation-' + this.$store.getters.getCitations.length)
-                const citation = generateCitation(id, "motion_picture", data)
+                const citation = await generateCitation(id, "motion_picture", data)
                 //@ts-ignore
                 this.$store.dispatch('setEditingCitation', citation);
                 this.$router.push({path: '/edit/film/'})

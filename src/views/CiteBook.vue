@@ -181,7 +181,7 @@ import generateCitation from '@/functions/generateCitation';
                 },
                 json: true
                 //@ts-ignore
-            }).then(data => {
+            }).then(async data => {
                 //@ts-ignore
                 data.contributors = [];
                 //@ts-ignore
@@ -206,7 +206,7 @@ import generateCitation from '@/functions/generateCitation';
                 //@ts-ignore
                 data.issued = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): ""
                 const id = ('citation-' + this.$store.getters.getCitations.length)
-                const citation = generateCitation(id, "book", data)
+                const citation = await generateCitation(id, "book", data)
                 //@ts-ignore
                 this.$store.dispatch('setEditingCitation', citation);
                 this.$router.push({path: '/edit/book/'})

@@ -19,8 +19,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
-import rp from 'request-promise-native';
-//@ts-ignore
 import generateCSL from '../functions/generateCSL';
 //@ts-ignore
 import generateHTML from '../functions/generateHTML';
@@ -28,8 +26,6 @@ import generateHTML from '../functions/generateHTML';
 import removeEmptyFromObject from '@/functions/removeEmptyFromObject';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
-//@ts-ignore
-import { Map } from 'immutable';
 
 @Component({
   props: ['cslObject','typing'],
@@ -44,14 +40,11 @@ import { Map } from 'immutable';
       } 
       else {
         this.$data.cslFormat = generatedHTML.format
-        var html = []
+        var html: any[] = [];
         if (generatedHTML.html && generatedHTML.html.length > 0) {
-          for (let i=0; i < generatedHTML.html.length; i++) {
-            html.push(generatedHTML.html[i].html)
-          }
+          //@ts-ignore
+          this.$data.cslHTML = html.concat(generatedHTML.html.map(htmlItem => htmlItem.html));
         }
-        //@ts-ignore
-        this.$data.cslHTML = html
       }
   },
   data () {
@@ -99,24 +92,11 @@ import { Map } from 'immutable';
     },
     copyCitation() {
       //@ts-ignore
-          var html = '<div class="csl-bib-body" style="'
-          //@ts-ignore
-          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? (' text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '')): '') + '">'
-          //@ts-ignore
-          for (let i=0; i < this.$data.cslHTML.length; i++) {
-            html += '<div style="clear: left;'
-            //@ts-ignore
-            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
-            //@ts-ignore
-            html += this.$data.cslHTML[i]
-            html += '</div>'
-          }
-          html += '</div>'
-          console.log(html)
       var dt = new clipboard.DT();
       //@ts-ignore
       dt.setData("text/plain", this.$refs.cslBibRef.textContent);
-      dt.setData("text/html", html);
+      //@ts-ignore
+      dt.setData("text/html", `<div class="csl-bib-body" style="${this.$data.cslFormat ? (this.$data.cslFormat.linespacing ? (`line-height:${this.$data.cslFormat.linespacing};`): ''): ''} ${this.$data.cslFormat ? (this.$data.cslFormat.hangingindent ? (`text-indent:-${this.$data.cslFormat.hangingindent}em;`): ''): ''}">${this.$data.cslHTML.map(cslHTMLItem => `<div style="clear: left;${(this.$data.cslFormat.entryspacing ? (`margin-bottom:${this.$data.cslFormat.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`)}</div>`);
       clipboard.write(dt);
     }
   },
@@ -131,14 +111,11 @@ import { Map } from 'immutable';
       } 
       else {
         this.$data.cslFormat = generatedHTML.format
-        var html = []
+        var html: any[] = []
         if (generatedHTML.html && generatedHTML.html.length > 0) {
-          for (let i=0; i < generatedHTML.html.length; i++) {
-            html.push(generatedHTML.html[i].html)
-          }
+          //@ts-ignore
+          this.$data.cslHTML = html.concat(generatedHTML.html.map(htmlItem => htmlItem.html));
         }
-        //@ts-ignore
-        this.$data.cslHTML = html
       }
     }
   }

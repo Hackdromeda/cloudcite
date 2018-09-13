@@ -135,28 +135,23 @@ export default class Preview extends Vue {}
     flex-direction: row;
     justify-content: flex-end;
   }
-@media (max-width: 991.97px) {
-  #preview {
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #e0e0e0;
-    padding: 20px;
-    border-radius: 5px;
-    min-height: 23vh;
-    text-align: left;
-    font-weight: normal !important;
-  }
-}
-@media (min-width: 991.98px) {
   #preview {
     background-color: #f5f5f5;
     color: #000;
     border: 1px solid #e0e0e0;
     padding: 20px;
     border-radius: 5px;
-    min-height: 16vh;
     text-align: left;
     font-weight: normal !important;
+  }
+@media (max-width: 991.97px) {
+  #preview {
+    min-height: 23vh;
+  }
+}
+@media (min-width: 991.98px) {
+  #preview {
+    min-height: 16vh;
   }
 }
 </style>

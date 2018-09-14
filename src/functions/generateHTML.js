@@ -6,7 +6,7 @@ export default async function generateHTML(data) {
             let requestData = await removeEmptyFromObject({style: data.style, locale: data.locale, csl: data.csl, lang: data.lang});
             if (requestData && requestData.style && requestData.locale && requestData.locale && requestData.csl && (Object.keys(requestData.csl).length > 0)) {
                 const response = await fetch("https://api.cloudcite.net/cite", {
-                    method: "POST", // *GET, POST, PUT, DELETE, etc.
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json; charset=utf-8",
                         "X-Api-Key": "9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy"
@@ -22,36 +22,23 @@ export default async function generateHTML(data) {
                     for (let i=0; i < response[1].length; i++) {
                         let generatedHTML = response[1][i];
                         let cslIndentIndex = (generatedHTML && generatedHTML[i]) ? generatedHTML[i].indexOf('class="csl-indent"'): -1;
-                        let generatedHTMLStart = "";
-                        let generatedHTMLEnd = "";
                         if (cslIndentIndex != -1) {
-                        generatedHTMLStart = generatedHTML.substring(0, cslIndentIndex - 1);
-                        generatedHTMLEnd = generatedHTML.substring(cslIndentIndex, generatedHTML.length);
-                        generatedHTML = generatedHTMLStart + ' style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ' + generatedHTMLEnd;
+                            generatedHTML = generatedHTML = ` ${response[1][i].substring(0, cslIndentIndex - 1)} style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ${response[1][i].substring(cslIndentIndex, response[1].length)} `;
                         }
                         let cslRightInlineIndex = (generatedHTML && generatedHTML[i]) ? generatedHTML.indexOf('class="csl-right-inline"'): -1;
                         if (cslRightInlineIndex != -1) {
-                        generatedHTMLStart = generatedHTML.substring(0, cslRightInlineIndex - 1);
-                        generatedHTMLEnd = generatedHTML.substring(cslRightInlineIndex, generatedHTML.length);
-                        generatedHTML = generatedHTMLStart + ' style="' + 'margin: 0 .4em 0 ' + (format.secondFieldAlign ? format.maxOffset + format.rightPadding : '0') + 'em;" ' + generatedHTMLEnd;
+                            generatedHTML = `${generatedHTML.substring(0, cslRightInlineIndex - 1)} style="margin: 0 .4em 0 ${format.secondFieldAlign ? format.maxOffset + format.rightPadding : '0'}em;" ${generatedHTML.substring(cslRightInlineIndex, generatedHTML.length)}`;
                         }
                         let cslLeftMarginIndex = (generatedHTML && generatedHTML[i]) ? generatedHTML.indexOf('class="csl-left-margin"'): -1;
                         if (cslLeftMarginIndex != -1) {
-                        generatedHTMLStart = generatedHTML.substring(0, cslLeftMarginIndex - 1);
-                        generatedHTMLEnd = generatedHTML.substring(cslLeftMarginIndex, generatedHTML.length);
-                        generatedHTML = generatedHTMLStart + ' style="' + 'float: left; padding-right: ' + format.rightpadding + 'em;' + (format.secondFieldAlign ? 'text-align: right; width: ' + format.maxoffset + 'em;': '') + '" ' + generatedHTMLEnd;
+                            generatedHTML = `${generatedHTML.substring(0, cslLeftMarginIndex - 1)} style="float: left; padding-right:${format.rightpadding}em; ${format.secondFieldAlign ? `text-align: right; width:${format.maxoffset}em;`: ''}" ${generatedHTML.substring(cslLeftMarginIndex, generatedHTML.length)}`;
                         }
                         html.push({id: format.entry_ids[i][0], html: generatedHTML});
                         if (format && response[1].length > 0) {
-                        richTextHTML += '<div class="csl-bib-body" style="';
-                        richTextHTML += ((format) ? ((format.linespacing ? ('line-height: ' + format.linespacing + '; '): '') + (format.hangingindent ? (' text-indent: -' + format.hangingindent + 'em;'): '')): '') + '">';
+                        richTextHTML = `<div class="csl-bib-body" style="${format && format.linespacing ? (`line-height: ${format.linespacing}; `): ''} ${format && format.hangingindent ? (` text-indent: -${format.hangingindent}em;`): ''}`;
                         for (let i=0; i < response[1].length; i++) {
                             richTextHTML += '<div style="clear: left;';
-                            richTextHTML += (format && format.entryspacing ? ('margin-bottom:' + format.entryspacing + 'em;"'): '"') + '>';
-                            if (data.cslHTML[i]) {
-                                richTextHTML += data.cslHTML[i];
-                            }
-                            richTextHTML += '</div>';
+                            richTextHTML += `${format && format.entryspacing ? (`margin-bottom:${format.entryspacing}em;`): ''}"> ${data.cslHTML[i] ? data.cslHTML[i]: ''}</div>`;
                         }
                         richTextHTML += '</div>';
                         }

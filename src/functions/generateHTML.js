@@ -37,8 +37,7 @@ export default async function generateHTML(data) {
                         if (format && response[1].length > 0) {
                         richTextHTML = `<div class="csl-bib-body" style="${format && format.linespacing ? (`line-height: ${format.linespacing}; `): ''} ${format && format.hangingindent ? (` text-indent: -${format.hangingindent}em;`): ''}`;
                         for (let i=0; i < response[1].length; i++) {
-                            richTextHTML += '<div style="clear: left;';
-                            richTextHTML += `${format && format.entryspacing ? (`margin-bottom:${format.entryspacing}em;`): ''}"> ${data.cslHTML[i] ? data.cslHTML[i]: ''}</div>`;
+                            richTextHTML += `<div style="clear: left;${format && format.entryspacing ? (`margin-bottom:${format.entryspacing}em;`): ''}"> ${data.cslHTML[i] ? data.cslHTML[i]: ''}</div>`;
                         }
                         richTextHTML += '</div>';
                         }

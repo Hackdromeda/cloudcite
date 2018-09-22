@@ -9,3 +9,5 @@ For help with CloudCite's APIs, check our [API docs](https://api.cloudcite.net).
 To report bugs in our code open a [GitHub Issue](https://github.com/Hackdromeda/cloudcite/issues).
 To contribute to our code, open a [Pull Request](https://github.com/Hackdromeda/cloudcite/pulls).
 To learn more about Hackdromeda, [visit our website](https://hackdromeda.com).
+
+This project uses hyperHTML, HyperHTML-app, and hyperHTML-Element.

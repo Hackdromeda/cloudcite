@@ -1,3 +1,4 @@
+//@ts-ignore
 import moment from 'moment';
 
 export default function generateCitation(id, type, data) {

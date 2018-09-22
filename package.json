@@ -1,13 +1,8 @@
 {
   "name": "cloudcite",
-  "version": "0.6.0",
-  "private": false,
+  "description": "Automatic bibliography generator.",
+  "version": "0.6.1",
   "license": "AGPL-3.0-or-later",
-  "author": {
-    "name": "Naval Patel",
-    "email": "navalpatel384@gmail.com",
-    "url": "https://navalpatel.me"
-  },
   "contributors": [
     {
       "name": "Naval Patel",
@@ -20,55 +15,27 @@
       "url": "https://avimshah.com"
     }
   ],
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern"
-  },
   "dependencies": {
-    "EventEmitter": "^1.0.0",
-    "auth0-js": "^9.6.1",
-    "bulma": "^0.7.1",
-    "clipboard-polyfill": "^2.5.2",
-    "fg-loadcss": "^2.0.1",
-    "jsdom": "^12.0.0",
-    "moment": "^2.22.2",
-    "path": "^0.12.7",
-    "postcss-loader": "^2.1.6",
-    "register-service-worker": "^1.0.0",
-    "semantic-ui-css": "^2.3.3",
-    "semantic-ui-search": "^2.3.3",
-    "semantic-ui-vue": "^0.2.11",
-    "typescript": "^3.0.1",
-    "vue": "^2.5.16",
-    "vue-class-component": "^6.0.0",
-    "vue-google-adsense": "^1.2.0",
-    "vue-mdc-adapter": "^0.18.2",
-    "vue-property-decorator": "^6.0.0",
-    "vue-router": "^3.0.1",
-    "vue-script2": "^2.0.3",
-    "vue-spinner": "^1.0.3",
-    "vuex": "^3.0.1",
-    "webpack": "^4.16.5"
+    "clipboard-polyfill": "^2.5.4",
+    "hyperhtml": "^2.14.0",
+    "hyperhtml-app": "^0.2.3"
+  },
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build --m": "webpack --mode production && cp _redirects ./dist",
+    "build --w": "webpack --mode production && copy _redirects ./dist",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development"
   },
   "devDependencies": {
-    "@prerenderer/renderer-jsdom": "^0.2.0",
-    "@vue/cli-plugin-babel": "^3.0.0-beta.15",
-    "@vue/cli-plugin-pwa": "^3.0.0-beta.15",
-    "@vue/cli-plugin-typescript": "^3.0.0-beta.15",
-    "@vue/cli-service": "^3.0.0-beta.15",
-    "node-sass": "^4.9.0",
-    "prerender-spa-plugin": "^3.3.0",
-    "sass-loader": "^7.0.1",
-    "vue-template-compiler": "^2.5.16"
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+    "clean-webpack-plugin": "^0.1.19",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.9.3",
+    "postcss-loader": "^3.0.0",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8",
+    "webpack-md5-hash": "^0.0.6",
+    "workbox-webpack-plugin": "^3.5.0"
+  }
 }

@@ -24,7 +24,7 @@ module.exports = {
             title: 'CloudCite',
             inject: false,
             hash: true,
-            template: './public/index.html',
+            template: './index.html',
             filename: 'index.html'
         }),
         new WorkboxPlugin.GenerateSW({

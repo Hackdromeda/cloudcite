@@ -25,7 +25,8 @@ module.exports = {
             inject: false,
             hash: true,
             template: './index.html',
-            filename: 'index.html'
+            filename: 'index.html',
+            favicon: './favicon.ico'
         }),
         new WorkboxPlugin.GenerateSW({
             clientsClaim: true,

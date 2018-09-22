@@ -1,0 +1,8 @@
+{
+  "/": {
+    "src/index.js": {
+      "type": "script",
+      "weight": 1
+    }
+  }
+}

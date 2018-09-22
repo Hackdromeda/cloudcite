@@ -18,7 +18,8 @@
   "dependencies": {
     "clipboard-polyfill": "^2.5.4",
     "hyperhtml": "^2.14.0",
-    "hyperhtml-app": "^0.2.3"
+    "hyperhtml-app": "^0.2.3",
+    "mobx": "^5.1.2"
   },
   "scripts": {
     "dev": "webpack --mode development --watch",

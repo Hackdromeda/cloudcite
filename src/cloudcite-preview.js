@@ -81,7 +81,7 @@ class CloudCitePreview extends HTMLElement {
             this._format = generatedHTML.format;
             if (generatedHTML.html && generatedHTML.html.length > 0) {
                 this._citationHTML = generatedHTML.html.map(htmlItem => htmlItem.html);
-                this._cslBibRef = hyperHTML.wire(this._citationHTML, ':preview')`
+                this._cslBibRef = hyperHTML.wire(this._citationHTML, 'html')`
                 <div class="csl-bib-body" style=${{lineHeight: this._format.linespacing, marginLeft: `${this._format.hangingindent}em`, textIndent: `-${this._format.hangingindent}em`, wordBreak: 'break-all'}}>
                     ${this._citationHTML.map(cslEntry =>
                         `<div id="cslEntryContainer" style="clear: left; margin-bottom: ${this._format.entryspacing}}">

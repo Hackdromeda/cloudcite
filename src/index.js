@@ -26,7 +26,17 @@ const renderRoute = hyperHTML.bind(routerOutletEl);
 router.get('/', () => {
   import('./cloudcite-app.js').then(() => {
     renderRoute`
+      <p>Hello Avi</p>
       <cloudcite-app name="hello"></cloudcite-app>
+    `
+    render()
+  })
+});
+
+router.get('/privacy', () => {
+  import('./cloudcite-privacy.js').then(({privacyPage}) => {
+    renderRoute`
+      ${privacyPage}
     `
     render()
   })
@@ -41,16 +51,34 @@ router.get('/', () => {
       </button>
 */
 
+router.get('/test', () => {
+  import('./cloudcite-app.js').then(() => {
+    renderRoute`
+      <p>Hello Avi</p>
+      <cloudcite-app name="hello"></cloudcite-app>
+    `
+    render()
+  })
+});
+
 router.get('/user/:name', ctx => {
   const userName = ctx.params.name
   
   renderRoute`
+    <p>Hello Avi</p>
     <h1>Hello ${userName}</h1>
     <button onclick=${() => router.navigate('/')}>
       Go back
     </button>
   `
   render()
+});
+
+router.get('*', () => {
+  renderRoute`
+      <p>Hello Avi</p>
+    `
+    render()
 });
 
 /**

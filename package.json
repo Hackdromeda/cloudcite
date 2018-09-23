@@ -23,8 +23,8 @@
   },
   "scripts": {
     "dev": "webpack --mode development --watch",
-    "build --m": "webpack --mode production && cp _redirects ./dist",
-    "build --w": "webpack --mode production && copy _redirects ./dist",
+    "build --m": "webpack --mode production && cp ./_redirects ./dist",
+    "build --w": "webpack --mode production && copy ./_redirects ./dist",
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development"
   },

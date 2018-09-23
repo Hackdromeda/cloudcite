@@ -19,7 +19,6 @@ class CloudCitePreview extends HTMLElement {
         this._format = [];
         this._citationHTML = [];
         this._cslBibRef = null;
-        this._copyCitationButton = null;
         this._citationData = EditingStore.editing;
         this.html = hyperHTML.bind(this.attachShadow({mode: 'closed'}));
     }
@@ -96,7 +95,7 @@ class CloudCitePreview extends HTMLElement {
                     console.log(this._cslBibRef.querySelector('#cslEntryContainer').innerText)
                     dt.setData("text/plain", this._cslBibRef.querySelector('#cslEntryContainer').innerText);
                     console.log(this._format)
-                    dt.setData("text/html", `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${this._citationHTML.map(cslHTMLItem => `<div style="clear: left;${(this._format.entryspacing ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`)}</div>`);
+                    dt.setData("text/html", `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${this._citationHTML.map(cslHTMLItem => `<div style="clear: left;${(this._format.entryspacing ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`).join('')}</div>`);
                     clipboard.write(dt);
                 })
                 return this._cslBibRef;

@@ -3,6 +3,8 @@ import removeEmptyFromObject from './functions/removeEmptyFromObject';
 import generateCSL from './functions/generateCSL';
 import generateHTML from './functions/generateHTML';
 import clipboard from 'clipboard-polyfill';
+import ProjectStore from './state/project-store';
+
 
 class CloudCiteBibliography extends HTMLElement {
     static get observedAttributes() {
@@ -11,13 +13,12 @@ class CloudCiteBibliography extends HTMLElement {
     
     constructor(...args) {
         super(...args);
-        this._citationStyle = 'modern-language-association';
-        this._locale = 'locales-en-US';
+        this._citationStyle = ProjectStore.style.value;
+        this._locale = ProjectStore.locale.value;
         this._format = [];
         this._citationHTML = [];
         this._cslBibRef = null;
-        this._copyCitationButton = null;
-        this._citationData = {"id":"citation-0","type":"website","URL":"cloudcite.net","contributors":[{"given":"Naval","middle":"","family":"Patel","type":"Author"}],"source":null,"archive":null,"archive_location":null,"call-number":null,"container-title":"CloudCite","dimensions":null,"edition":null,"ISBN":null,"medium":null,"number-of-volumes":null,"number-of-pages":null,"volume":null,"title":"CloudCite · The Best Free Automatic Bibliography Generator · MLA, APA, Chicago, Harvard Citation Styles","title-short":null,"genre":null,"publisher":null,"publisher-place":null,"issued":{"month":8,"day":10,"year":2018},"accessed":{"month":9,"day":19,"year":2018},"abstract":"CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago."};
+        this._citationData = {};
         this.html = hyperHTML.bind(this.attachShadow({mode: 'closed'}));
     }
 
@@ -71,7 +72,12 @@ class CloudCiteBibliography extends HTMLElement {
 
     async generatePreview() {
         let cslObject = await removeEmptyFromObject(this._citationData);
-        const generatedHTML = await generateHTML({style: this._citationStyle, locale: this._locale, csl: await generateCSL(cslObject), lang: "en-US", cslHTML: []});
+        for (let i = 0; i < ProjectStore.project.citations.length; i++) {
+            this._citationData[ProjectStore.project.citations[i].id] = ProjectStore.project.citations[i];
+        }
+        const generatedHTML = await generateHTML({style: this._citationStyle, locale: this._locale, csl: this._citationData, lang: "en-US", cslHTML: this._citationHTML});
+        this._format = generatedHTML.format;
+        this._citationHTML = generatedHTML.html;
         if (generatedHTML && generatedHTML.error) {
             console.log(generatedHTML.error)
         } 
@@ -80,22 +86,39 @@ class CloudCiteBibliography extends HTMLElement {
             if (generatedHTML.html && generatedHTML.html.length > 0) {
                 this._citationHTML = generatedHTML.html.map(htmlItem => htmlItem.html);
                 this._cslBibRef = hyperHTML.wire()`
-                <div class="csl-bib-body" style=${{lineHeight: this._format.linespacing, marginLeft: `${this._format.hangingindent}em`, textIndent: `-${this._format.hangingindent}em`, wordBreak: 'break-all'}}>
-                    ${this._citationHTML.map(cslEntry =>
-                        `<div id="cslEntryContainer" style="clear: left; margin-bottom: ${this._format.entryspacing}}">
-                            ${cslEntry}
+                <div>
+                    <button id="copyBibliographyButton">Copy Bibliography</button>
+                    <div style=${{marginTop: '10px', backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>
+                        <div class="csl-bib-body" style=${{lineHeight: this._format.linespacing, marginLeft: `${this._format.hangingindent}em`, textIndent: `-${this._format.hangingindent}em`, wordBreak: 'break-all'}}>
+                            ${this._citationHTML.map((cslEntry, index) =>
+                                `<div id="cslEntryContainer${index}" style="clear: left; margin-bottom: ${this._format.entryspacing}}">
+                                    ${cslEntry}
+                                </div>
+                                <button id="copyCitationButton${index}">Copy Citation</button>`
+                            )}
                         </div>
-                        <button id="copyCitationButton">Copy Citation</button>`
-                    )}
+                    </div>
                 </div>`;
-                this._cslBibRef.querySelector('#copyCitationButton').addEventListener('click', async e => {
+                this._cslBibRef.querySelector('#copyBibliographyButton').addEventListener('click', async e => {
                     let dt = new clipboard.DT(); 
-                    console.log(this._cslBibRef.querySelector('#cslEntryContainer').innerText)
-                    dt.setData("text/plain", this._cslBibRef.querySelector('#cslEntryContainer').innerText);
-                    console.log(this._format)
-                    dt.setData("text/html", `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${this._citationHTML.map(cslHTMLItem => `<div style="clear: left;${(this._format.entryspacing ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`)}</div>`);
+                    let bibliographyContent = "";
+                    for (let i = 0; i < ProjectStore.project.citations.length; i++) {
+                        bibliographyContent += this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText;
+                    }
+                    dt.setData("text/plain", bibliographyContent);
+                    dt.setData("text/html", `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${this._citationHTML.map(cslHTMLItem => `<div style="clear: left;${(this._format.entryspacing ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`).join('')}</div>`);
                     clipboard.write(dt);
-                })
+                });
+
+                for (let i = 0; i < ProjectStore.project.citations.length; i++) {
+                    this._cslBibRef.querySelector(`#copyCitationButton${i}`).addEventListener('click', async e => {
+                        let dt = new clipboard.DT(); 
+                        console.log(this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText)
+                        dt.setData("text/plain", this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText);
+                        dt.setData("text/html", `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${`<div style="clear: left;${(this._format.entryspacing ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${this._citationHTML[i]}</div>`}</div>`);
+                        clipboard.write(dt);
+                    });
+                }
                 return this._cslBibRef;
             }
         }
@@ -104,13 +127,13 @@ class CloudCiteBibliography extends HTMLElement {
     attributeChangedCallback() {
         this.render();
     }
-    connectedCallback() {
+    async connectedCallback() {
         this.render();
     }
 
     render() {
         return this.html`
-        <div style=${{backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>
+        <div>
             ${this.generatePreview()}
         </div>`;
     }

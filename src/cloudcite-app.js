@@ -1,5 +1,6 @@
 import * as hyperHTML from 'hyperhtml';
-import './cloudcite-preview.js';
+//import './cloudcite-preview';
+import './cloudcite-bibliography';
 
 class CloudCiteApp extends HTMLElement {
   static get observedAttributes() { return ['name']; }
@@ -16,7 +17,7 @@ class CloudCiteApp extends HTMLElement {
   }
   render() {
     return this.html`
-    <cloudcite-preview></cloudcite-preview>
+    <cloudcite-bibliography></cloudcite-bibliography>
     `;
   }
 }

@@ -85,7 +85,7 @@ class CloudCiteBibliography extends HTMLElement {
             this._format = generatedHTML.format;
             if (generatedHTML.html && generatedHTML.html.length > 0) {
                 this._citationHTML = generatedHTML.html.map(htmlItem => htmlItem.html);
-                this._cslBibRef = hyperHTML.wire()`
+                this._cslBibRef = hyperHTML.wire(this._citationHTML, ':bibliography')`
                 <div>
                     <button id="copyBibliographyButton">Copy Bibliography</button>
                     <div style=${{marginTop: '10px', backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>

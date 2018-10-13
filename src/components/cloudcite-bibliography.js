@@ -85,8 +85,11 @@ class CloudCiteBibliography extends HTMLElement {
                 this._citationHTML = generatedHTML.html.map(htmlItem => htmlItem.html);
                 this._cslBibRef = hyperHTML.wire(this._citationHTML, 'html')`
                 <div>
-                    <button id="copyBibliographyButton">Copy Bibliography</button>
-                    <div style=${{marginTop: '10px', backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>
+                    <div style=${{display: 'inlineFlex', backgroundColor: '#0066ff', borderRadius: '10px', padding: '10px', marginBottom: '3vh', minWidth: '25vh', color: '#ffffff', fontWeight: '550'}}>
+                        <button id="copyBibliographyButton">Copy Bibliography</button>
+                        <p style=${{fontSize: '15px'}}>More Export Options Coming Soon</p>
+                    </div>
+                    <div style=${{marginTop: '10px', backgroundColor: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>
                         <div class="csl-bib-body" style=${{lineHeight: this._format.linespacing, marginLeft: `${this._format.hangingindent}em`, textIndent: `-${this._format.hangingindent}em`}}>
                             ${this._citationHTML.map((cslEntry, index) =>
                                 `<div id="cslEntryContainer${index}" style="clear: left; margin-bottom: ${this._format.entryspacing}}">

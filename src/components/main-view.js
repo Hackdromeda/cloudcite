@@ -20,6 +20,9 @@ class MainView extends PageViewElement {
     return html`
       ${SharedStyles}
       <section>
+        <h2>Cite</h2>
+      </section>
+      <section>
         <h2>Bibliography</h2>
         <div style="display: flex;">
           <cloudcite-bibliography></cloudcite-bibliography>

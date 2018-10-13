@@ -1,4 +1,4 @@
-export default function removeEmptyFromObject(someObject) {
+export function removeEmptyFromObject(someObject) {
     return new Promise((resolve, reject) => {
         try {
             let entries = Object.entries(someObject);

@@ -1,6 +1,6 @@
-import removeEmptyFromObject from './removeEmptyFromObject';
+import { removeEmptyFromObject } from './removeEmptyFromObject';
 
-export default async function generateHTML(data) {
+export async function generateHTML(data) {
     return new Promise(async (resolve, reject) => {
         try {
             let requestData = await removeEmptyFromObject({style: data.style, locale: data.locale, csl: data.csl, lang: data.lang});

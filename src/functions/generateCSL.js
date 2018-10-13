@@ -1,6 +1,6 @@
-import removeEmptyFromObject from './removeEmptyFromObject';
+import { removeEmptyFromObject } from './removeEmptyFromObject';
 
-export default async function generateCSL(cslData) {
+export async function generateCSL(cslData) {
         return new Promise(async (resolve, reject) => {
             try {
                 var contributors = [];

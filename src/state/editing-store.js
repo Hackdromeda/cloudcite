@@ -19,4 +19,4 @@ decorate(Store, {
 });
 
 const EditingStore = new Store();
-export default EditingStore;
+export { EditingStore };

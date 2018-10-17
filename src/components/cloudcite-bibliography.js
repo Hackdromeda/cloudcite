@@ -2,7 +2,6 @@ import * as hyperHTML from 'hyperhtml';
 import { removeEmptyFromObject } from '../functions/removeEmptyFromObject';
 import { generateHTML } from '../functions/generateHTML';
 import { ProjectStore } from '../state/project-store';
-import { addToClipboard } from '../functions/addToClipboard';
 
 class CloudCiteBibliography extends HTMLElement {
     static get observedAttributes() {
@@ -17,6 +16,13 @@ class CloudCiteBibliography extends HTMLElement {
         this._citationHTML = [];
         this._cslBibRef = null;
         this._citationData = {};
+        this._textPlain = null;
+        this._textHTML = null;
+        this.addEventListener('copy', (e) => {
+            e.clipboardData.setData("text/plain", this._textPlain);
+            e.clipboardData.setData("text/html", this._textHTML);
+            e.preventDefault();
+        });
         this.html = hyperHTML.bind(this.attachShadow({mode: 'closed'}));
     }
 
@@ -71,9 +77,9 @@ class CloudCiteBibliography extends HTMLElement {
     async generatePreview() {
         let cslObject = await removeEmptyFromObject(this._citationData);
         for (let i = 0; i < ProjectStore.project.citations.length; i++) {
-            this._citationData[ProjectStore.project.citations[i].id] = ProjectStore.project.citations[i];
+            cslObject[ProjectStore.project.citations[i].id] = ProjectStore.project.citations[i];
         }
-        const generatedHTML = await generateHTML({style: this._citationStyle, locale: this._locale, csl: this._citationData, lang: "en-US", cslHTML: this._citationHTML});
+        const generatedHTML = await generateHTML({style: this._citationStyle, locale: this._locale, csl: cslObject, lang: "en-US", cslHTML: this._citationHTML});
         this._format = generatedHTML.format;
         this._citationHTML = generatedHTML.html;
         if (generatedHTML && generatedHTML.error) {
@@ -101,18 +107,37 @@ class CloudCiteBibliography extends HTMLElement {
                     </div>
                 </div>`;
 
-                this._cslBibRef.querySelector('#copyBibliographyButton').addEventListener('click', async e => {
-                    //let dt = new clipboard.default.DT(); 
+                this._cslBibRef.querySelector('#copyBibliographyButton').addEventListener('click', (e) => {
                     let bibliographyContent = "";
                     for (let i = 0; i < ProjectStore.project.citations.length; i++) {
                         bibliographyContent += this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText;
                     }
-                    addToClipboard(bibliographyContent, `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${this._citationHTML.map(cslHTMLItem => `<div style="clear: left;${(this._format.entryspacing ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`).join('')}</div>`);
+                    this._textPlain = bibliographyContent;
+                    this._textHTML = `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing != null ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent != null ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${this._citationHTML.map(cslHTMLItem => `<div style="clear: left;${(this._format.entryspacing != null ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`).join('')}</div>`;
+                    var element = document.createElement('textarea');
+                    element.value = this._textPlain;
+                    this._cslBibRef.appendChild(element);
+                    element.focus({
+                        preventScroll: true
+                    });
+                    element.setSelectionRange(0, element.value.length);
+                    document.execCommand('copy');
+                    this._cslBibRef.removeChild(element);
                 });
 
                 for (let i = 0; i < ProjectStore.project.citations.length; i++) {
-                    this._cslBibRef.querySelector(`#copyCitationButton${i}`).addEventListener('click', async e => {
-                        addToClipboard(this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText, `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${`<div style="clear: left;${(this._format.entryspacing ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${this._citationHTML[i]}</div>`}</div>`);
+                    this._cslBibRef.querySelector(`#copyCitationButton${i}`).addEventListener('click', (e) => {
+                        this._textPlain = this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText;
+                        this._textHTML = `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing != null ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent != null ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}"><div style="clear: left;${(this._format.entryspacing != null ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${this._citationHTML[i]}</div></div>`;
+                        var element = document.createElement('textarea');
+                        element.value = this._textPlain;
+                        document.body.appendChild(element);
+                        element.focus({
+                            preventScroll: true
+                        });
+                        element.setSelectionRange(0, element.value.length);
+                        document.execCommand('copy');
+                        document.body.removeChild(element);
                     });
                 }
                 return this._cslBibRef;

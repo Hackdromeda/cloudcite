@@ -124,7 +124,7 @@ class CloudCiteBibliography extends HTMLElement {
                     document.execCommand('copy');
                     this._cslBibRef.removeChild(element);
                 });
-
+                
                 for (let i = 0; i < ProjectStore.project.citations.length; i++) {
                     this._cslBibRef.querySelector(`#copyCitationButton${i}`).addEventListener('click', (e) => {
                         this._textPlain = this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText;

@@ -7,7 +7,7 @@
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: same-origin
   Feature-Policy: accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; camera 'none'; encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture 'none'; speaker 'none'; sync-xhr 'none'; usb 'none'; vr 'none'
-  Access-Control-Allow-Origin: *.cloudfront.net
+  Access-Control-Allow-Origin: *.cloudfront.net *.cloudcite.net
 /*.html
   Cache-Control: no-cache, no-store, must-revalidate
 /service-worker.js

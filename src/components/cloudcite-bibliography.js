@@ -113,7 +113,7 @@ class CloudCiteBibliography extends HTMLElement {
                         bibliographyContent += this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText;
                     }
                     this._textPlain = bibliographyContent;
-                    this._textHTML = `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing != null ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent != null ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${this._citationHTML.map(cslHTMLItem => `<div style="clear: left;${(this._format.entryspacing != null ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`).join('')}</div>`;
+                    this._textHTML = `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing != null ? (`line-height:${this._format.linespacing};`): ''): ''}${this._format ? (this._format.hangingindent != null ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${this._citationHTML.map(cslHTMLItem => `<div style="clear:left;${(this._format.entryspacing != null ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`).join('')}</div>`;
                     var element = document.createElement('textarea');
                     element.value = this._textPlain;
                     this._cslBibRef.appendChild(element);
@@ -122,13 +122,14 @@ class CloudCiteBibliography extends HTMLElement {
                     });
                     element.setSelectionRange(0, element.value.length);
                     document.execCommand('copy');
+                    console.log(this._textHTML)
                     this._cslBibRef.removeChild(element);
                 });
                 
                 for (let i = 0; i < ProjectStore.project.citations.length; i++) {
                     this._cslBibRef.querySelector(`#copyCitationButton${i}`).addEventListener('click', (e) => {
                         this._textPlain = this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText;
-                        this._textHTML = `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing != null ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent != null ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}"><div style="clear: left;${(this._format.entryspacing != null ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${this._citationHTML[i]}</div></div>`;
+                        this._textHTML = `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing != null ? (`line-height:${this._format.linespacing};`): ''): ''}${this._format ? (this._format.hangingindent != null ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}"><div style="clear:left;${(this._format.entryspacing != null ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${this._citationHTML[i]}</div></div>`;
                         var element = document.createElement('textarea');
                         element.value = this._textPlain;
                         document.body.appendChild(element);
@@ -137,6 +138,7 @@ class CloudCiteBibliography extends HTMLElement {
                         });
                         element.setSelectionRange(0, element.value.length);
                         document.execCommand('copy');
+                        console.log(this._textHTML)
                         document.body.removeChild(element);
                     });
                 }

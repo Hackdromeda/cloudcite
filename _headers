@@ -11,7 +11,7 @@
   Cache-Control: no-cache, no-store, must-revalidate
 /service-worker.js
   Cache-Control: no-cache, no-store, must-revalidate
-/*.js
+/src/*/*.js
   Cache-Control: max-age=2628000, public
-/*.css
+/src/*/*.css
   Cache-Control: max-age=2628000, public

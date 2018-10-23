@@ -11,13 +11,12 @@
   ],
   "builds": [
     {
-      "name": "es6-bundled",
+      "name": "esm-bundled",
       "browserCapabilities": [
         "es2015",
-        "serviceworker"
+        "modules"
       ],
       "js": {
-        "compile": "es2015",
         "minify": true
       },
       "css": {

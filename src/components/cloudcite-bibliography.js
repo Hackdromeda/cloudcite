@@ -148,7 +148,7 @@ class CloudCiteBibliography extends HTMLElement {
     attributeChangedCallback() {
         this.render();
     }
-    async connectedCallback() {
+    connectedCallback() {
         this.render();
     }
 

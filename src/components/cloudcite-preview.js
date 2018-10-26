@@ -19,6 +19,8 @@ class CloudCitePreview extends HTMLElement {
         this._citationHTML = [];
         this._cslBibRef = null;
         this._citationData = EditingStore.editing;
+        this._textPlain = null;
+        this._textHTML = null;
         this.html = hyperHTML.bind(this.attachShadow({mode: 'closed'}));
     }
 
@@ -90,7 +92,17 @@ class CloudCitePreview extends HTMLElement {
                     )}
                 </div>`;
                 this._cslBibRef.querySelector('#copyCitationButton').addEventListener('click', async e => {
-                    addToClipboard(this._cslBibRef.querySelector('#cslEntryContainer').innerText, `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing ? (`line-height:${this._format.linespacing};`): ''): ''} ${this._format ? (this._format.hangingindent ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}">${this._citationHTML.map(cslHTMLItem => `<div style="clear: left;${(this._format.entryspacing ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`).join('')}</div>`);
+                    this._textPlain = this._cslBibRef.querySelector(`#cslEntryContainer`).innerText;
+                    this._textHTML = `<div class="csl-bib-body" style="${this._format ? (this._format.linespacing != null ? (`line-height:${this._format.linespacing};`): ''): ''}${this._format ? (this._format.hangingindent != null ? (`text-indent:-${this._format.hangingindent}em;`): ''): ''}"><div style="clear:left;${(this._format.entryspacing != null ? (`margin-bottom:${this._format.entryspacing}em;"`): '"')}>${this._citationHTML[0]}</div></div>`;
+                    var element = document.createElement('textarea');
+                    element.value = this._textPlain;
+                    this._cslBibRef.appendChild(element);
+                    element.focus({
+                        preventScroll: true
+                    });
+                    element.setSelectionRange(0, element.value.length);
+                    document.execCommand('copy');
+                    this._cslBibRef.removeChild(element);
                 })
                 return this._cslBibRef;
             }
@@ -106,7 +118,7 @@ class CloudCitePreview extends HTMLElement {
 
     render() {
         return this.html`
-        <div style=${{backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>
+        <div style=${{marginTop: '10px', backgroundColor: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>
             ${this.generatePreview()}
         </div>`;
     }

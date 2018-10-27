@@ -89,9 +89,8 @@ class CloudCiteBibliography extends HTMLElement {
                 this._citationHTML = generatedHTML.html.map(htmlItem => htmlItem.html);
                 this._cslBibRef = hyperHTML.wire(this._citationHTML, 'html')`
                 <div>
-                    <div style=${{display: 'inlineFlex', backgroundColor: '#0066ff', borderRadius: '10px', padding: '10px', marginBottom: '3vh', minWidth: '25vh', color: '#ffffff', fontWeight: '550'}}>
-                        <button id="copyBibliographyButton">Copy Bibliography</button>
-                        <p style=${{fontSize: '15px'}}>More Export Options Coming Soon</p>
+                    <div id="copyBibliographyText" style=${{textAlign: 'center', backgroundColor: '#0066ff', borderRadius: '10px', padding: '2px', marginBottom: '3vh', minWidth: '25vh', color: '#ffffff', cursor: 'pointer'}}>
+                        <h2>Copy Bibliography</h2>
                     </div>
                     <div style=${{marginTop: '10px', backgroundColor: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>
                         <div class="csl-bib-body" style=${{lineHeight: this._format.linespacing, marginLeft: `${this._format.hangingindent}em`, textIndent: `-${this._format.hangingindent}em`}}>
@@ -105,7 +104,7 @@ class CloudCiteBibliography extends HTMLElement {
                     </div>
                 </div>`;
 
-                this._cslBibRef.querySelector('#copyBibliographyButton').addEventListener('click', (e) => {
+                this._cslBibRef.querySelector('#copyBibliographyText').addEventListener('click', (e) => {
                     let bibliographyContent = "";
                     for (let i = 0; i < ProjectStore.project.citations.length; i++) {
                         bibliographyContent += this._cslBibRef.querySelector(`#cslEntryContainer${i}`).innerText;
@@ -158,7 +157,9 @@ class CloudCiteBibliography extends HTMLElement {
 
     render() {
         return this.html`
-        <div></div>`;
+        <div>
+            ${ProjectStore.project.citations.length == 0 ? this.html`<p>This bibliography looks a little empty. You can create a new citation from the menu.</p>`: ``}
+        </div>`;
     }
 }
   

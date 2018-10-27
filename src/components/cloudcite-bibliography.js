@@ -4,12 +4,10 @@ import { generateHTML } from '../functions/generateHTML';
 import { ProjectStore } from '../state/project-store';
 
 class CloudCiteBibliography extends HTMLElement {
-    static get observedAttributes() {
-        return []
-    }
     
     constructor(...args) {
         super(...args);
+        this.html = hyperHTML.bind(this.attachShadow({mode: 'open'}));
         this._citationStyle = ProjectStore.style.value;
         this._locale = ProjectStore.locale.value;
         this._format = [];
@@ -18,12 +16,6 @@ class CloudCiteBibliography extends HTMLElement {
         this._citationData = {};
         this._textPlain = null;
         this._textHTML = null;
-        this.addEventListener('copy', (e) => {
-            e.clipboardData.setData("text/plain", this._textPlain);
-            e.clipboardData.setData("text/html", this._textHTML);
-            e.preventDefault();
-        });
-        this.html = hyperHTML.bind(this.attachShadow({mode: 'closed'}));
     }
 
     get citationStyle() {
@@ -72,6 +64,12 @@ class CloudCiteBibliography extends HTMLElement {
 
     set cslBibRef(value) {
         this._cslBibRef = value;
+    }
+
+    _copyToClipboard(e) {
+        e.clipboardData.setData("text/plain", this._textPlain);
+        e.clipboardData.setData("text/html", this._textHTML);
+        e.preventDefault();
     }
 
     async generatePreview() {
@@ -140,7 +138,7 @@ class CloudCiteBibliography extends HTMLElement {
                         this._cslBibRef.removeChild(element);
                     });
                 }
-                return this._cslBibRef;
+                this.shadowRoot.appendChild(this._cslBibRef);
             }
         }
     }
@@ -149,14 +147,18 @@ class CloudCiteBibliography extends HTMLElement {
         this.render();
     }
     connectedCallback() {
+        this.addEventListener('copy', this._copyToClipboard);
+        this.generatePreview();
         this.render();
+    }
+
+    disconnectedCallback() {
+        this.removeEventListener('copy', this._copyToClipboard);
     }
 
     render() {
         return this.html`
-        <div>
-            ${this.generatePreview()}
-        </div>`;
+        <div></div>`;
     }
 }
   

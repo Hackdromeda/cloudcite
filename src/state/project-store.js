@@ -21,32 +21,38 @@ class Store {
     }
     set locale(value) {
         this.projectLocale = value;
+        localStorage.setItem('projectLocale', JSON.stringify(this.projectLocale));
     }
     get style() {
         return this.projects[this.selectedProject].style;
     }
     set style(value) {
         this.projects[this.selectedProject].style = value;
+        localStorage.setItem('projects', JSON.stringify(this.projects));
     }
     get selected() {
         return this.selectedProject;
     }
     set selected(index) {
         this.selectedProject = index;
+        localStorage.setItem('selectedProject', this.selectedProject);
     }
     get project() {
         return this.projects[this.selectedProject];
     }
     set project(value) {
         this.projects[this.selectedProject] = value;
+        localStorage.setItem('projects', JSON.stringify(this.projects));
     }
     addFavoriteStyle(style) {
         if (this.favoriteStyles.filter(element => element.value === style.value).length == 0) {
             this.favoriteStyles.push(style);
+            localStorage.setItem('favoriteStyles', JSON.stringify(this.favoriteStyles));
         }
     }
     removeFavoriteStyle(style) {
         this.favoriteStyles = this.favoriteStyles.filter(element => element.value !== style.value);
+        localStorage.setItem('favoriteStyles', JSON.stringify(this.favoriteStyles));
     }
     addProject(project) {
         if (this.projects.filter(element => element.id === project.id).length == 0) {
@@ -60,6 +66,7 @@ class Store {
         localStorage.setItem('projectLocale', JSON.stringify(this.projectLocale));
         localStorage.setItem('favoriteStyles', JSON.stringify(this.favoriteStyles));
         localStorage.setItem('projects', JSON.stringify(this.projects));
+        localStorage.setItem('selectedProject', this.selectedProject);
     }
 }
 

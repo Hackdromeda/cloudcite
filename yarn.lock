@@ -549,11 +549,11 @@
     lit-html "^0.12.0"
 
 "@polymer/polymer@^3.0.0":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.0.5.tgz#eaa42e70df7de818b5e1839452c82a5f83e39929"
-  integrity sha512-Zbmhtr5vZ3NoHWwFYLKI4ff7yfE6DZopI8vaS7HvmUIuNqsv/EpEDXfNEYjqePQmkMX5LU9OIKV1eX/+9aveow==
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.1.0.tgz#3e1b7447a1e350fd654e1823def655d0f0828a70"
+  integrity sha512-hwN8IMERsFATz/9dSMxYHL+84J9uBkPuuarxJWlTsppZ4CAYTZKnepBfNrKoyNsafBmA3yXBiiKPPf+fJtza7A==
   dependencies:
-    "@webcomponents/shadycss" "^1.2.0"
+    "@webcomponents/shadycss" "^1.5.2"
 
 "@polymer/sinonjs@^1.14.1":
   version "1.17.1"
@@ -1163,7 +1163,7 @@
     "@types/events" "*"
     "@types/inquirer" "*"
 
-"@webcomponents/shadycss@^1.2.0":
+"@webcomponents/shadycss@^1.5.2":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.5.2.tgz#ad72f43000c39ba4ac61e625131f34f4b7cfe55f"
   integrity sha512-0OyrmVc7S+INtzoqP2ofAo+OdVn2Nj0Qvq4wD9FEGN7nMmLRxaD2mzy6hD6EslzxUSuGH302CDU4KXiY66SEqg==
@@ -4574,10 +4574,15 @@ hawk@~6.0.2:
     hoek "4.x.x"
     sntp "2.x.x"
 
-he@1.1.1, he@1.1.x:
+he@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
   integrity sha1-k0EP0hsAlzUVH4howvJx80J+I/0=
+
+he@1.2.x:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
+  integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
 hoek@4.x.x:
   version "4.2.1"
@@ -4607,14 +4612,14 @@ hpack.js@^2.1.6:
     wbuf "^1.1.0"
 
 html-minifier@^3.5.10:
-  version "3.5.20"
-  resolved "https://registry.yarnpkg.com/html-minifier/-/html-minifier-3.5.20.tgz#7b19fd3caa0cb79f7cde5ee5c3abdf8ecaa6bb14"
-  integrity sha512-ZmgNLaTp54+HFKkONyLFEfs5dd/ZOtlquKaTnqIWFmx3Av5zG6ZPcV2d0o9XM2fXOTxxIf6eDcwzFFotke/5zA==
+  version "3.5.21"
+  resolved "https://registry.yarnpkg.com/html-minifier/-/html-minifier-3.5.21.tgz#d0040e054730e354db008463593194015212d20c"
+  integrity sha512-LKUKwuJDhxNa3uf/LPR/KVjm/l3rBqtYeCOAekvG8F1vItxMUpueGd94i/asDDr8/1u7InxzFA5EeGjhhG5mMA==
   dependencies:
     camel-case "3.0.x"
     clean-css "4.2.x"
     commander "2.17.x"
-    he "1.1.x"
+    he "1.2.x"
     param-case "2.1.x"
     relateurl "0.2.x"
     uglify-js "3.4.x"
@@ -6663,9 +6668,9 @@ peek-stream@^1.1.0:
     through2 "^2.0.3"
 
 pem@^1.8.3:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/pem/-/pem-1.13.1.tgz#57dd3e0c044fbcf709db026a737e1aad7dc8330f"
-  integrity sha512-gA/kl8/MWWBaVRRv8M4iRkaJXEbp0L9NyG5ggZlbvQxylZAq5K5wGesAZifs89kwL/m4EGdekXtBMOzXM9rv7w==
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/pem/-/pem-1.13.2.tgz#7b68acbb590fdc13772bca487983cb84cd7b443e"
+  integrity sha512-MPJWuEb/r6AG+GpZi2JnfNtGAZDeL/8+ERKwXEWRuST5i+4lq/Uy36B352OWIUSPQGH+HR1HEDcIDi+8cKxXNg==
   dependencies:
     es6-promisify "^6.0.0"
     md5 "^2.2.1"
@@ -6881,9 +6886,9 @@ polymer-bundler@^4.0.1, polymer-bundler@^4.0.3:
     vscode-uri "^1.0.1"
 
 polymer-cli@^1.7.6:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/polymer-cli/-/polymer-cli-1.8.0.tgz#38126d0622719cbe8dd6229c775df1bf86c2fcde"
-  integrity sha512-M0ieZtjiwa2KwmTzfKGq8U9Up4iLz4GF2Bx+52hiuUM6JPYCT2M/KL9v63NcG0qs1tEgH66itDZMmJthy48rwg==
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/polymer-cli/-/polymer-cli-1.8.1.tgz#95d72fc42a23250d54a490552be3ecf24e87ea66"
+  integrity sha512-EX4GwTy5lQYpBbx69d8o7n3GjbGewkotNO9QwXki+vmClyT4jdjKn9OTOwJ9IuJbO7cVrCsZ3f/eBqyto39JhQ==
   dependencies:
     "@types/chalk" "^0.4.31"
     "@types/del" "^3.0.0"
@@ -6968,7 +6973,7 @@ polymer-project-config@^4.0.0, polymer-project-config@^4.0.1:
     minimatch-all "^1.1.0"
     plylog "^0.5.0"
 
-polyserve@^0.27.0, polyserve@^0.27.11:
+polyserve@^0.27.0, polyserve@^0.27.11, polyserve@^0.27.13:
   version "0.27.13"
   resolved "https://registry.yarnpkg.com/polyserve/-/polyserve-0.27.13.tgz#00795cfd418f618f6cb662a92b0acdaffc0c4819"
   integrity sha512-9YlIJRx4TJ07ywVHpK/+W4tEPMcoJ4oyJWHkSDrPck5jmT5bitCme8dONCSxERZrE4J8hagHE3oOPa5U9iFfYg==
@@ -8734,9 +8739,9 @@ typical@^2.6.1:
   integrity sha1-XAgOXWYcu+OCWdLnCjxyU+hziB0=
 
 ua-parser-js@^0.7.15:
-  version "0.7.18"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.18.tgz#a7bfd92f56edfb117083b69e31d2aa8882d4b1ed"
-  integrity sha512-LtzwHlVHwFGTptfNSgezHp7WUlwiqb0gA9AALRbKaERfxwJoiX0A73QbTToxteIAuIaFshhgIZfqK8s7clqgnA==
+  version "0.7.19"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.19.tgz#94151be4c0a7fb1d001af7022fdaca4642659e4b"
+  integrity sha512-T3PVJ6uz8i0HzPxOF9SWzWAlfN/DavlpQqepn22xgve/5QecC+XMCAtmUNnY7C9StehaV6exjUCI801lOI7QlQ==
 
 uglify-js@3.4.x:
   version "3.4.9"
@@ -9149,9 +9154,9 @@ wct-browser-legacy@^1.0.1:
     stacky "^1.3.1"
 
 wct-local@^2.1.1:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/wct-local/-/wct-local-2.1.2.tgz#91ea7e7be582e81f7b24945f3c98be4d27d20314"
-  integrity sha512-F83d53SJ1X9PvyXMi/NQajU5X6SP1baWilW56xdcTIMjpGq4/YTbxs+yqdqXgapV4SfUdjFBnyfwcpc4uESZng==
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/wct-local/-/wct-local-2.1.3.tgz#624f2bf29213ea140ae41326e4af1adf7ed91cef"
+  integrity sha512-pOGyT07Bh6TAJVk7E3P+n5RybjtYBqm745fCfY5vuhQd069mN1WUlivMgZzWfJuvuXVpKFkAERrN/+tTjbmgmQ==
   dependencies:
     "@types/express" "^4.0.30"
     "@types/freeport" "^1.0.19"
@@ -9191,9 +9196,9 @@ wd@^1.2.0:
     vargs "0.1.0"
 
 web-component-tester@^6.7.1:
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/web-component-tester/-/web-component-tester-6.8.0.tgz#400afc10571a2f2e1a6031b6527659d6bcb453f0"
-  integrity sha512-zj1nZ7dq270svfkdPo4Mc4CuCTab/Wp0SMIKb8g6xD0Q76g15ttHyscYAxQkywVuabwgWeTXiotUOiQaiwX8uA==
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/web-component-tester/-/web-component-tester-6.9.0.tgz#9666b9054d4ce76cc769195be9a0ff72b23ea47b"
+  integrity sha512-l5KzzhlHJQ+I2qtVlo5cdUZdXenfb70mNJdHdOXc9YdgpUdkT1kQ9cRKWguaVpXQmphcpWjw8KOgkf5oUkafUw==
   dependencies:
     "@polymer/sinonjs" "^1.14.1"
     "@polymer/test-fixture" "^0.0.3"
@@ -9210,7 +9215,7 @@ web-component-tester@^6.7.1:
     lodash "^3.10.1"
     multer "^1.3.0"
     nomnom "^1.8.1"
-    polyserve "^0.27.11"
+    polyserve "^0.27.13"
     resolve "^1.5.0"
     semver "^5.3.0"
     send "^0.11.1"

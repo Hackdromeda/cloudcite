@@ -7,12 +7,10 @@ import ProjectStore from './state/project-store';
 import EditingStore from './state/editing-store';
 
 class CloudCitePreview extends HTMLElement {
-    static get observedAttributes() {
-        return []
-    }
     
     constructor(...args) {
         super(...args);
+        this.html = hyperHTML.bind(this.attachShadow({mode: 'open'}));
         this._citationStyle = ProjectStore.style.value;
         this._locale = ProjectStore.locale.value;
         this._format = [];
@@ -21,7 +19,6 @@ class CloudCitePreview extends HTMLElement {
         this._citationData = EditingStore.editing;
         this._textPlain = null;
         this._textHTML = null;
-        this.html = hyperHTML.bind(this.attachShadow({mode: 'closed'}));
     }
 
     get citationStyle() {

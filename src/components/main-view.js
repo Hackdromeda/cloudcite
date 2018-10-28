@@ -14,6 +14,7 @@ import { SharedStyles } from './shared-styles.js';
 import './cloudcite-bibliography';
 
 class MainView extends PageViewElement {
+
   render() {
     return html`
       ${SharedStyles}

@@ -160,9 +160,7 @@ class CloudCiteBibliography extends HTMLElement {
             ${ProjectStore.project.citations.length == 0 ? this.html`<p>This bibliography looks a little empty. You can create a new citation from the menu.</p>`: ``}
             ${{
                 any: this.generatePreview(),
-                placeholder: this.html`
-                    <div style=${{backgroundColor: '#e0e0e0', borderRadius: '10px', padding: '2px', marginBottom: '3vh', minWidth: '85vh', minHeight: '10vh'}}></div>
-                    <div style=${{backgroundColor: '#e0e0e0', borderRadius: '10px', padding: '2px', marginBottom: '3vh', minWidth: '85vh', minHeight: `${ProjectStore.project.citations.length * 15}vh`}}></div>`
+                placeholder: this.html`<p>Loading...</p>`
             }}
         </div>`;
     }

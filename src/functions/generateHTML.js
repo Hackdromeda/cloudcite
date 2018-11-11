@@ -22,15 +22,15 @@ export async function generateHTML(data) {
                     for (let i=0; i < response[1].length; i++) {
                         let generatedHTML = response[1][i];
                         let cslIndentIndex = (generatedHTML && generatedHTML[i]) ? generatedHTML[i].indexOf('class="csl-indent"'): -1;
-                        if (cslIndentIndex != -1) {
+                        if (cslIndentIndex !== -1) {
                             generatedHTML = generatedHTML = ` ${response[1][i].substring(0, cslIndentIndex - 1)} style="margin: .5em 0 0 2em; padding: 0 0 .2em .5em; border-left: 5px solid #ccc;" ${response[1][i].substring(cslIndentIndex, response[1].length)} `;
                         }
                         let cslRightInlineIndex = (generatedHTML && generatedHTML[i]) ? generatedHTML.indexOf('class="csl-right-inline"'): -1;
-                        if (cslRightInlineIndex != -1) {
+                        if (cslRightInlineIndex !== -1) {
                             generatedHTML = `${generatedHTML.substring(0, cslRightInlineIndex - 1)} style="margin: 0 .4em 0 ${format.secondFieldAlign ? format.maxOffset + format.rightPadding : '0'}em;" ${generatedHTML.substring(cslRightInlineIndex, generatedHTML.length)}`;
                         }
                         let cslLeftMarginIndex = (generatedHTML && generatedHTML[i]) ? generatedHTML.indexOf('class="csl-left-margin"'): -1;
-                        if (cslLeftMarginIndex != -1) {
+                        if (cslLeftMarginIndex !== -1) {
                             generatedHTML = `${generatedHTML.substring(0, cslLeftMarginIndex - 1)} style="float: left; padding-right:${format.rightpadding}em; ${format.secondFieldAlign ? `text-align: right; width:${format.maxoffset}em;`: ''}" ${generatedHTML.substring(cslLeftMarginIndex, generatedHTML.length)}`;
                         }
                         html.push({id: format.entry_ids[i][0], html: generatedHTML});

@@ -45,7 +45,7 @@ class Store {
         localStorage.setItem('projects', JSON.stringify(this.projects));
     }
     addFavoriteStyle(style) {
-        if (this.favoriteStyles.filter(element => element.value === style.value).length === 0) {
+        if (this.favoriteStyles.filter(element => element.value === style.value).length == 0) {
             this.favoriteStyles.push(style);
             localStorage.setItem('favoriteStyles', JSON.stringify(this.favoriteStyles));
         }
@@ -55,7 +55,7 @@ class Store {
         localStorage.setItem('favoriteStyles', JSON.stringify(this.favoriteStyles));
     }
     addProject(project) {
-        if (this.projects.filter(element => element.id === project.id).length === 0) {
+        if (this.projects.filter(element => element.id === project.id).length == 0) {
             this.projects.push(project);
         }
     }

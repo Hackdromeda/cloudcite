@@ -1,26 +1,29 @@
-dist/
-!www/favicon.ico
-www/
+/src/.DS_Store
+/dist/
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
 
-*~
-*.sw[mnpcod]
-*.log
-*.lock
-*.tmp
-*.tmp.*
-log.txt
-*.sublime-project
-*.sublime-workspace
+# Editor directories and files
+.idea
+.vscode
+.vs
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
 
-.stencil/
-.idea/
-.vscode/
-.sass-cache/
-.versions/
-node_modules/
-$RECYCLE.BIN/
+*.zip
 
+/testing/
+/node_modules/
+/src/node_modules/\.cache/
+/node_modules/\.cache/
+/src/dist/
+/src/Auth/
+/public/static/locales/
+/public/static/styles/
+/ignore/
+
+public/static/\.DS_Store
 .DS_Store
-Thumbs.db
-UserInterfaceState.xcuserstate
-.env

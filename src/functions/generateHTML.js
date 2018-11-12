@@ -1,10 +1,10 @@
-import { removeEmptyFromObject } from './removeEmptyFromObject';
+import removeEmptyFromObject from './removeEmptyFromObject';
 
-export async function generateHTML(data) {
+export default async function generateHTML(data) {
     return new Promise(async (resolve, reject) => {
         try {
             let requestData = await removeEmptyFromObject({style: data.style, locale: data.locale, csl: data.csl, lang: data.lang});
-            if (requestData && requestData.style && requestData.locale && requestData.csl && (Object.keys(requestData.csl).length > 0)) {
+            if (requestData && requestData.style && requestData.locale && requestData.locale && requestData.csl && (Object.keys(requestData.csl).length > 0)) {
                 const response = await fetch("https://api.cloudcite.net/cite", {
                     method: "POST",
                     headers: {

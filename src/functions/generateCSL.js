@@ -1,13 +1,12 @@
-import { removeEmptyFromObject } from './removeEmptyFromObject';
+import removeEmptyFromObject from './removeEmptyFromObject';
 
-export async function generateCSL(cslData) {
+export default async function generateCSL(cslData) {
         return new Promise(async (resolve, reject) => {
             try {
-                var contributors = [];
                 if (cslData.contributors && cslData.contributors.length > 0) {
-                    contributors = await Promise.all(cslData.contributors.map(async contributor => await removeEmptyFromObject(Object.assign(contributor, {given: (contributor.middle && contributor.middle != "" ? (contributor.given + " " + contributor.middle): contributor.given), middle: null}))));
+                    var contributors = await Promise.all(cslData.contributors.map(async contributor => await removeEmptyFromObject(Object.assign(contributor, {given: (contributor.middle && contributor.middle != "" ? (contributor.given + " " + contributor.middle): contributor.given), middle: null}))));
                 } else {
-                    contributors = [];
+                    var contributors = [];
                 }
                 resolve({
                     [cslData.id]: await removeEmptyFromObject({

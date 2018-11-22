@@ -4,9 +4,9 @@
   "private": false,
   "license": "AGPL-3.0-or-later",
   "author": {
-    "name": "Naval Patel",
-    "email": "navalpatel384@gmail.com",
-    "url": "https://navalpatel.me"
+    "name": "Hackdromeda",
+    "email": "info@hackdromeda.com",
+    "url": "https://hackdromeda.com"
   },
   "contributors": [
     {
@@ -21,6 +21,9 @@
     },
     {
       "name": "Akash Patel"
+    },
+    {
+      "name": "Vikram Narendar"
     }
   ],
   "scripts": {

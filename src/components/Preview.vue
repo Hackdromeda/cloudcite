@@ -19,56 +19,54 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
-import generateCSL from '../functions/generateCSL';
+import rp from 'request-promise-native';
 //@ts-ignore
-import generateHTML from '../functions/generateHTML';
+import { generateCSL } from '../functions/generateCSL';
 //@ts-ignore
-import removeEmptyFromObject from '@/functions/removeEmptyFromObject';
+import { generateHTML } from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
+//@ts-ignore
+import _ from 'lodash';
+import { styles } from '@/assets/styles';
 
 @Component({
   props: ['cslObject','typing'],
   components: {},
   async created() {
       //@ts-ignore
-      let cslObject = await removeEmptyFromObject(this.cslData);
-      //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: await generateCSL(cslObject), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: []})
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: []})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       } 
       else {
         this.$data.cslFormat = generatedHTML.format
-        var html: any[] = [];
+        var html = []
         if (generatedHTML.html && generatedHTML.html.length > 0) {
-          //@ts-ignore
-          this.$data.cslHTML = html.concat(generatedHTML.html.map(htmlItem => htmlItem.html));
+          for (let i=0; i < generatedHTML.html.length; i++) {
+            html.push(generatedHTML.html[i].html)
+          }
         }
+        //@ts-ignore
+        this.$data.cslHTML = html
       }
   },
   data () {
     return {
       cslHTML: [],
       cslFormat: null,
-      styles: require('./styles.json')
+      styles: styles
     }
   },
   computed: {
     cslData: {
       get() {
-        let newCSLObject = JSON.stringify(this.$props.cslObject);
-        return JSON.parse(newCSLObject);
+        return _.cloneDeep(this.$props.cslObject)
       }
     },
     typingStatus: {
       get() {
         return this.$props.typing
-      }
-    },
-    locale: {
-      get() {
-        return this.$store.getters.getLocale;
       }
     }
   },
@@ -92,30 +90,44 @@ import clipboard from "clipboard-polyfill";
     },
     copyCitation() {
       //@ts-ignore
+          var html = '<div class="csl-bib-body" style="'
+          //@ts-ignore
+          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? (' text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '')): '') + '">'
+          //@ts-ignore
+          for (let i=0; i < this.$data.cslHTML.length; i++) {
+            html += '<div style="clear: left;'
+            //@ts-ignore
+            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
+            //@ts-ignore
+            html += this.$data.cslHTML[i]
+            html += '</div>'
+          }
+          html += '</div>'
+          console.log(html)
       var dt = new clipboard.DT();
       //@ts-ignore
       dt.setData("text/plain", this.$refs.cslBibRef.textContent);
-      //@ts-ignore
-      dt.setData("text/html", `<div class="csl-bib-body" style="${this.$data.cslFormat ? (this.$data.cslFormat.linespacing ? (`line-height:${this.$data.cslFormat.linespacing};`): ''): ''} ${this.$data.cslFormat ? (this.$data.cslFormat.hangingindent ? (`text-indent:-${this.$data.cslFormat.hangingindent}em;`): ''): ''}">${this.$data.cslHTML.map(cslHTMLItem => `<div style="clear: left;${(this.$data.cslFormat.entryspacing ? (`margin-bottom:${this.$data.cslFormat.entryspacing}em;"`): '"')}>${cslHTMLItem}</div>`)}</div>`);
+      dt.setData("text/html", html);
       clipboard.write(dt);
     }
   },
   watch: {
     async typingStatus() {
       //@ts-ignore
-      let cslObject = await removeEmptyFromObject(this.cslData);
-      //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: await generateCSL(cslObject), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: []})
+      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: []})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       } 
       else {
         this.$data.cslFormat = generatedHTML.format
-        var html: any[] = []
+        var html = []
         if (generatedHTML.html && generatedHTML.html.length > 0) {
-          //@ts-ignore
-          this.$data.cslHTML = html.concat(generatedHTML.html.map(htmlItem => htmlItem.html));
+          for (let i=0; i < generatedHTML.html.length; i++) {
+            html.push(generatedHTML.html[i].html)
+          }
         }
+        //@ts-ignore
+        this.$data.cslHTML = html
       }
     }
   }
@@ -135,23 +147,26 @@ export default class Preview extends Vue {}
     flex-direction: row;
     justify-content: flex-end;
   }
+@media (max-width: 991.97px) {
   #preview {
     background-color: #f5f5f5;
     color: #000;
-    border: 1px solid #e0e0e0;
     padding: 20px;
     border-radius: 5px;
+    min-height: 23vh;
     text-align: left;
     font-weight: normal !important;
-  }
-@media (max-width: 991.97px) {
-  #preview {
-    min-height: 23vh;
   }
 }
 @media (min-width: 991.98px) {
   #preview {
+    background-color: #f5f5f5;
+    color: #000;
+    padding: 20px;
+    border-radius: 5px;
     min-height: 16vh;
+    text-align: left;
+    font-weight: normal !important;
   }
 }
 </style>

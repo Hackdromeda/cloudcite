@@ -1,21 +1,19 @@
 <template>
     <div id="citeBook">
-            <div style="min-height: 35vh;">
-                <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
+            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+                <div style="padding: 7vh;">
                     <h1>Cite a Book</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">
                         You can start citing a book by typing the title and selecting the book you want to cite. You can also find books by ISBN, OCLC, and LCCN.
                     </h2>
                 </div>
             </div>
-            <span style="margin-top: 5vh;">
-                <mdc-select style="margin-right: 3vh;" v-model="bookIdentificationSelected">
-                    <option v-for="(identification, i) in bookIdentification" :key="i" :value="identification.value" v-cloak> {{ identification.text }}</option>
-                </mdc-select>
-                <mdc-textfield v-model="bookIdentificationField" label="Find a book to cite..."  trailing-icon="search" @input="getAsyncData" ref="bookInput"/>
-            </span>
+            <div style="display: inline-flex; margin-top: 5vh;">
+                <sui-dropdown style="margin-right: 3vh;" fluid v-model="bookIdentificationSelected" :options="bookIdentification" selection search/>
+                <sui-input v-model="bookIdentificationField" :data="bookData" placeholder="Find a book to cite..." @input="getSearchResults" icon="search" ref="bookInput"/>
+            </div>
             <div style="margin-top: 3vh;">
-                <mdc-button @click="citeEmpty()" outlined dense>Manual Citation</mdc-button>
+                <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
             </div>
 
             <div v-if="isFetching">
@@ -45,199 +43,169 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-//@ts-ignore
-import rp from 'request-promise-native';
-//@ts-ignore
-import debounce from 'lodash/debounce';
 import Preview from '../components/Preview.vue';
-import BounceLoader from 'vue-spinner/src/BounceLoader.vue';
-//@ts-ignore
-import generateCitation from '../functions/generateCitation';
+import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
+import { generateCitation } from '@/functions/generateCitation';
+import { Citation } from '@/models/citation.model';
 
 @Component({
   components: {
     Preview,
     BounceLoader
-  },
-  mounted() {
-    //@ts-ignore
-    this.$refs.bookInput.$el.children[0].focus();
-  },
-  data () {
-    return {
-        bookData: [],
-        selectedBook: null,
-        bookIdentificationSelected: 'Title',
-        empty: false,
-        bookIdentification: [
-            {
-                "key": "Title",
-                "text": "Title",
-                "value": "Title"
-            },
-            {
-                "key": "ISBN",
-                "text": "ISBN",
-                "value": "ISBN"
-            },
-            {
-                "key": "OCLC",
-                "text": "OCLC",
-                "value": "OCLC"
-            },
-            {
-                "key": "LCCN",
-                "text": "LCCN",
-                "value": "LCCN"
-            }
-        ],
-        bookIdentificationField: null,
+  }
+})
+export default class CiteBook extends Vue {
+    bookData: any[] = [];
+    selectedBook: any = null;
+    bookIdentificationSelected: string = 'Title';
+    empty: boolean = false
+    bookIdentification: any[] = [
+        {
+            "key": "Title",
+            "text": "Title",
+            "value": "Title"
+        },
+        {
+            "key": "ISBN",
+            "text": "ISBN",
+            "value": "ISBN"
+        },
+        {
+            "key": "OCLC",
+            "text": "OCLC",
+            "value": "OCLC"
+        },
+        {
+            "key": "LCCN",
+            "text": "LCCN",
+            "value": "LCCN"
+        }
+    ];
+
+    bookIdentificationField: any = null;
+    bookCitationData: Citation = {"type": "book", "contributors": [{given: "", middle: "", family: "", type: "Author"}], "title": "", "publisher": "", id: `citation-${this.$store.getters.getProjectCitations.length}`};
+    isFetching: boolean = false;
+
+    mounted() {
         //@ts-ignore
-        bookCitationData: {"type": "book", "contributors": [{first: "", middle: "", last: "", type: "Author"}], "chapter": "", "volNumber": "", "title": "", "publisher": "", "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, id: 'citation-' + this.$store.getters.getCitations.length},
-        isFetching: false
+        this.$refs.bookInput.$el.children[0].focus();
     }
-  },
-  methods: {
+
     setContributorType(index: number, type: string) {
         this.$data.bookCitationData.contributors[index].type = type
-    },
-    getAsyncData: debounce(function () {
+    }
+
+    async getSearchResults() {
         //@ts-ignore
-        this.bookData = []
+        this.$data.bookData = []
         //@ts-ignore
         if (this.$data.bookIdentificationSelected && this.$data.bookIdentificationSelected.trim() != "" && this.$data.bookIdentificationField && this.$data.bookIdentificationField.trim() != "") {
-        //@ts-ignore
-        this.isFetching = true
-        //@ts-ignore
-        rp({
-            uri: 'https://api.cloudcite.net/autofill',
-            headers: {
-                'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-            },
-            method: 'POST',
+            this.$data.isFetching = true
             //@ts-ignore
-            body: {
-                    //@ts-ignore
-                    "title": this.$data.bookIdentificationSelected === "Title" ? this.$data.bookIdentificationField: null,
-                    //@ts-ignore
-                    "isbn": this.$data.bookIdentificationSelected === "ISBN" ? this.$data.bookIdentificationField: null,
-                    //@ts-ignore
-                    "oclc": this.$data.bookIdentificationSelected === "OCLC" ? this.$data.bookIdentificationField: null,
-                    //@ts-ignore
-                    "lccn": this.$data.bookIdentificationSelected === "LCCN" ? this.$data.bookIdentificationField: null,
-                    //@ts-ignore
-                    "author": this.$data.bookCitationData.contributors.filter(b => b.type === 'author')[0],
-                    //@ts-ignore
-                    "publisher": this.$data.bookCitationData.publisher,
-                    "format": "book"
-            },
-            json: true
-            //@ts-ignore
-        }).then(data => {
-                //@ts-ignore
-                if(data.items != null){
-                    //@ts-ignore
-                    data.items.forEach(item => {
-                        //@ts-ignore
-                        if (item.volumeInfo && item.volumeInfo.imageLinks && item.volumeInfo.imageLinks.thumbnail) {
-                            item.volumeInfo.imageLinks.thumbnail = item.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://')
-                        }
-                        //@ts-ignore
-                        this.bookData.push(item)
-                    })
-                }
-                if(data.items != null && data.items.length > 0){
-                    //@ts-ignore
-                    this.empty = false;
-                }
-                else{
-                    //@ts-ignore
-                    this.empty = true;
-                }
-                //@ts-ignore
-                this.isFetching = false
-            })
-            //@ts-ignore
-            .catch((error) => {
-                //@ts-ignore
-                this.isFetching = false
-                throw error
-            })
-        }
-    }, 500),
-    citeBook(book: any) {
-        this.$data.selectedBook = book
-        if (this.$data.selectedBook != null && this.$data.selectedBook != '') {
-            rp({
-                uri: 'https://api.cloudcite.net/autofill',
+            const searchResults: any = await
+            fetch('https://api.cloudcite.net/autofill', {
+                method: 'POST',
                 headers: {
                     'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
                 },
-                method: 'POST',
+                body: JSON.stringify({
+                        //@ts-ignore
+                        "title": this.$data.bookIdentificationSelected === "Title" ? this.$data.bookIdentificationField: null,
+                        //@ts-ignore
+                        "isbn": this.$data.bookIdentificationSelected === "ISBN" ? this.$data.bookIdentificationField: null,
+                        //@ts-ignore
+                        "oclc": this.$data.bookIdentificationSelected === "OCLC" ? this.$data.bookIdentificationField: null,
+                        //@ts-ignore
+                        "lccn": this.$data.bookIdentificationSelected === "LCCN" ? this.$data.bookIdentificationField: null,
+                        //@ts-ignore
+                        "author": this.$data.bookCitationData.contributors.filter(b => b.type === 'author')[0],
+                        //@ts-ignore
+                        "publisher": this.$data.bookCitationData.publisher,
+                        "format": "book"
+                })
+            }).then(response => {
+                return response.json();
+            });
+
+            if(searchResults.items != null){
                 //@ts-ignore
-                body: {
+                searchResults.items.forEach((item: any) => {
+                    //@ts-ignore
+                    if (item.volumeInfo && item.volumeInfo.imageLinks && item.volumeInfo.imageLinks.thumbnail) {
+                        item.volumeInfo.imageLinks.thumbnail = item.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://')
+                    }
+                    //@ts-ignore
+                    this.bookData.push(item)
+                })
+            }
+            if (searchResults.items != null && searchResults.items.length > 0){
+                this.$data.empty = false;
+            }
+            else {
+                this.$data.empty = true;
+            }
+            this.$data.isFetching = false;
+        }
+    }
+
+    async citeBook(book: any) {
+        this.$data.selectedBook = book
+        if (this.$data.selectedBook != null && this.$data.selectedBook != '') {
+            const autofillData: any = await fetch('https://api.cloudcite.net/autofill', {
+                method: 'POST',
+                headers: {
+                    'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+                },
+                body: JSON.stringify({
                     "title": this.$data.selectedBook.volumeInfo.title,
                     "book": this.$data.selectedBook.id,
                     "format": "book"
-                },
-                json: true
-                //@ts-ignore
-            }).then(async data => {
-                //@ts-ignore
-                data.contributors = [];
-                //@ts-ignore
-                if (data.author && data.author.length > 0) {
-                    //@ts-ignore
-                    data.author.forEach(author => {
-                        //@ts-ignore
-                        data.contributors.push({given: author.given ? author.given.split(" ")[0]: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
-                    });
-                }
-                if (data.editor && data.editor.length > 0) {
-                    //@ts-ignore
-                    data.editor.forEach(editor => {
-                        //@ts-ignore
-                        data.contributors.push({given: editor.given ? editor.given.split(" ")[0]: "", middle: editor.given ? (editor.given.split(" ").length == 2 ? editor.given.split(" ")[1]: ""): "", family: editor.family ? editor.family: "", type: "Editor"})
-                    });
-                }
-                //@ts-ignore
-                if (data.contributors.length == 0) {
-                    data.contributors = [{given: "", middle: "", family: "", type: "Author"}]
-                }
-                //@ts-ignore
-                data.issued = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): ""
-                const id = ('citation-' + this.$store.getters.getCitations.length)
-                //@ts-ignore
-                const citation = await generateCitation(id, "book", data);
-                //@ts-ignore
-                this.$store.dispatch('setEditingCitation', citation);
-                this.$router.push({path: '/edit/book/'})
-                //@ts-ignore
-            }).catch(error => {
-                console.log(error)
-            })
+                }),
+            }).then(response => {
+                return response.json();
+            });
+
+            autofillData.contributors = [];
+
+            if (autofillData.author && autofillData.author.length > 0) {
+                autofillData.author.forEach((author: any) => {
+                    autofillData.contributors.push({given: author.given ? author.given.split(" ")[0]: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"});
+                });
+            }
+
+            if (autofillData.editor && autofillData.editor.length > 0) {
+                autofillData.editor.forEach((editor: any) => {
+                    autofillData.contributors.push({given: editor.given ? editor.given.split(" ")[0]: "", middle: editor.given ? (editor.given.split(" ").length == 2 ? editor.given.split(" ")[1]: ""): "", family: editor.family ? editor.family: "", type: "Editor"});
+                });
+            }
+            if (autofillData.contributors.length == 0) {
+                autofillData.contributors = [{given: "", middle: "", family: "", type: "Author"}];
+            }
+            autofillData.issued = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): "";
+            const citation = generateCitation("book", autofillData);
+            //@ts-ignore
+            this.$store.dispatch('setEditingCitation', citation);
+            this.$router.push({path: '/edit/book/'});
         }
-    },
+    }
+
     citeEmpty() {
         //@ts-ignore
         this.$store.dispatch('setEditingCitation', this.$data.bookCitationData)
         this.$router.push({path: '/edit/book/'})
     }
-  },
-    computed: {
-      numOfRows: function () {
-          //@ts-ignore
-          if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
-              return 8;
-          }
-          else{
-              return 2;
-          }
-      }
-  }
-})
 
-export default class CiteBook extends Vue {}
+    get numOfRows() {
+        //@ts-ignore
+        if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
+            return 8;
+        }
+        else{
+            return 2;
+        }
+    }
+
+}
 </script>
 
 <style scoped lang="scss">

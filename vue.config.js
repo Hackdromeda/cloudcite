@@ -12,6 +12,7 @@ module.exports = {
     return {
       plugins: [
         new GenerateSW({
+          importWorkboxFrom: 'local',
           runtimeCaching: [{
             urlPattern: 'https?://([a-z]+[.])*cloudcite[.]net',
             handler: 'networkFirst',
@@ -106,11 +107,6 @@ module.exports = {
   parallel: true,
 
   css: {
-    loaderOptions: {
-      sass: {
-        includePaths: [path.resolve(__dirname,'node_modules')],
-      },
-    },
     extract: true
   },
 

@@ -1,227 +1,173 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { State } from '@/models/state.model';
+import { Project } from '@/models/project.model';
+import { Locale } from '@/models/locale.model';
+import { Style } from '@/models/style.model';
+import { Citation } from '@/models/citation.model';
+const crypto = require('crypto');
 
 Vue.use(Vuex)
 
+let projectId: string = crypto.randomBytes(20).toString('hex');
+
 export default new Vuex.Store({
-  state: {
-    "selectedProject": 0,
-    "editingCitation": null,
-    "favoriteStyles": [{"key":"modern-language-association","text":"Modern Language Association 8th edition (MLA)","value":"modern-language-association"},{"key":"apa","text":"American Psychological Association 6th edition (APA)","value":"apa"},{"key":"chicago-note-bibliography","text":"Chicago Manual of Style 17th edition (note)","value":"chicago-note-bibliography"},{"key":"turabian-fullnote-bibliography","text":"Turabian 8th edition (full note)","value":"turabian-fullnote-bibliography"},{"key":"ieee","text":"IEEE","value":"ieee"},{"key":"elsevier-harvard","text":"Elsevier - Harvard (with titles)","value":"elsevier-harvard"},{"key":"american-medical-association","value":"american-medical-association","text":"American Medical Association (AMA)"},{"key":"american-sociological-association","text":"American Sociological Association (ASA)","value":"american-sociological-association"},{"key":"vancouver","text":"Vancouver","value":"vancouver"}],
-    "message": {
+  state: <State> {
+    selectedProject: projectId,
+    locale: {
+      key: "English (US)",
+      text: "English (US)",
+      value: "locales-en-US"
+    },
+    editingCitation: null,
+    favoriteStyles: [
+      {"key":"modern-language-association","text":"Modern Language Association 8th edition (MLA)","value":"modern-language-association"},
+      {"key": "apa","text": "American Psychological Association 6th edition (APA)","value": "apa"},
+      {"key":"chicago-note-bibliography","text":"Chicago Manual of Style 17th edition (note)","value":"chicago-note-bibliography"},
+      {"key":"turabian-fullnote-bibliography","text":"Turabian 8th edition (full note)","value":"turabian-fullnote-bibliography"},
+      {"key":"ieee","text":"IEEE","value":"ieee"},
+      {"key":"elsevier-harvard","text":"Elsevier - Harvard (with titles)","value":"elsevier-harvard"},
+      {"key":"american-medical-association","value":"american-medical-association","text":"American Medical Association (AMA)"},
+      {"key":"american-sociological-association","text":"American Sociological Association (ASA)","value":"american-sociological-association"},
+      {"key":"vancouver","text":"Vancouver","value":"vancouver"}
+    ],
+    message: {
       "type": null,
       "description": null
     },
-    "locale": {
-      "value": "locales-en-US",
-      "text": "English (US)",
-      "key": "English (US)"
-    },
-    "projects": [
+    projects: [
       {
-        "id": "Project-0",
-        "title": "Project 1",
+        "id": projectId,
+        "title": "New Project",
         "citations": [],
         "style": {
           "key":"modern-language-association",
           "text":"Modern Language Association 8th edition (MLA)",
-          "value":"modern-language-association"
-        },
-        "cachedBibliography": {outdated: true}
+          "value":"modern-language-association"},
       }
-    ],
+    ]
   },
   mutations: {
-    setMessage(state: any, payload: any) {
-      state.message = payload
+    setMessage(state: State, payload: any) {
+      state.message = Object.assign(state.message, {type: payload.type, description: payload.description});
     },
-    addCitation(state: any, payload: any) {
+    addCitation(state: State, payload: Citation) {
+      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.find((project: Project) => project.id == state.selectedProject), {citations: payload})]);
+    },
+    removeCitation(state: State, payload: string) {
       //@ts-ignore
-      if (state.projects[state.selectedProject].citations.filter(c => c.id === payload.id).length > 0) {
-        for (var i = 0; i < state.projects[state.selectedProject].citations.length; i++) {
-          //@ts-ignore
-          if (state.projects[state.selectedProject].citations[i].id == payload.id) {
-            //@ts-ignore
-            state.projects[state.selectedProject].citations[i] = payload
-          }
+      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.find((project: Project) => project.id == state.selectedProject), {citations: state.projects.find((project: Project) => project.id == state.selectedProject).citations.filter((citation: Citation) => citation.id !== payload)})]);
+    },
+    resetCitations(state: State) {
+      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.find((project: Project) => project.id == state.selectedProject), {citations: []})]);
+    },
+    resetProjects(state: State) {
+      let projectId: string = crypto.randomBytes(10).toString('hex');
+      state.projects = [
+        {
+          "id": projectId,
+          "title": "New Project",
+          "citations": [],
+          "style": state.favoriteStyles[0]
         }
-      } else {
-        state.projects[state.selectedProject].citations.push(payload)
-      }
+      ];
+      state.selectedProject = projectId;
     },
-    removeCitation(state: any, payload: number) {
-      state.projects[state.selectedProject].citations = state.projects[state.selectedProject].citations.splice(payload, 1)
-    },
-    removeCitationById(state: any, payload: string) {
-      //@ts-ignore
-      state.projects[state.selectedProject].citations = state.projects[state.selectedProject].citations.filter(citation => citation.id !== payload)
-    },
-    setCitations(state: any, payload: any[]) {
-      state.projects[state.selectedProject].citations = payload;
-    },
-    setState(state: any) {
-      //@ts-ignore
-      var cloudciteStorageString: string = localStorage.getItem('cloudcite');
-      if (cloudciteStorageString) {
-        var cloudciteStorage = JSON.parse(cloudciteStorageString);
-        state.selectedProject = cloudciteStorage.selectedProject;
-        state.favoriteStyles = cloudciteStorage.favoriteStyles;
-        state.locale = cloudciteStorage.locale;
-        state.projects = cloudciteStorage.projects;
-        state.message = cloudciteStorage.message;
-      }
-    },
-    setLocale(state: any, payload: any) {
+    setLocale(state: State, payload: Locale) {
       state.locale = payload;
     },
-    selectProject(state: any, payload: number) {
-      state.selectedProject = payload
+    addProject(state: State, payload: Project) {
+      state.projects = state.projects.concat([Object.assign(payload, {id: crypto.randomBytes(20).toString('hex')})]);
     },
-    removeProject(state: any, payload: number) {
-      var firstProjects = state.projects.slice(0, payload)
-      var lastProjects = state.projects.slice(payload + 1, state.projects.length)
-      for (let i=0; i < lastProjects.length; i++) {
-        lastProjects[i].id = "Project-" + (parseInt(lastProjects[i].id.substring((lastProjects[i].id.indexOf('-') + 1))) - 1)
-      }
-      state.projects = firstProjects.concat(lastProjects)
-      if (state.selectedProject == payload) {
-        state.selectedProject = 0
-      }
+    removeProject(state: State, payload: string) {
+      state.projects = state.projects.filter((project: Project) => project.id !== payload);;
     },
-    saveState(state: any) {
-      localStorage.setItem('cloudcite', JSON.stringify({selectedProject: state.selectedProject, locale: state.locale, projects: state.projects, favoriteStyles: state.favoriteStyles, message: state.message}));
+    selectProject(state: State, payload: string) {
+      state.selectedProject = payload;
     },
-    setEditingCitation(state: any, payload: any) {
+    setEditingCitation(state: State, payload: Citation) {
       state.editingCitation = payload
     },
-    setProjectStyle(state: any, payload: any) {
-      for (let i=0; i < state.projects.length; i++) {
-        if (state.projects[i].id == payload.id) {
-          state.projects[i].style = payload.style
-        }
-      }
+    setProjectTitle(state: State, payload: string) {
+      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.filter((project: Project) => project.id == state.selectedProject)[0], {title: payload})]);
     },
-    setProject(state: any, payload: any) {
-      for (let i=0; i < state.projects.length; i++) {
-        //@ts-ignore
-        if (state.projects[i].id == payload.id) {
-          state.projects[i] = payload
-        }
-      }
+    setProjectStyle(state: State, payload: Style) {
+      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.filter((project: Project) => project.id == state.selectedProject)[0], {style: payload})]);
     },
-    createProject(state: any, payload: any) {
-      state.projects.push(payload)
+    addFavoriteStyle(state: State, payload: Style) {
+      state.favoriteStyles = state.favoriteStyles.concat([payload]);
     },
-    editProject(state: any, payload: any) {
-      for (let i=0; i < state.projects.length; i++) {
-        if (state.projects[i].id == payload.id) {
-          state.projects[i] = payload
-        }
-      }
-    },
-    cacheBibliography(state: any, payload: any) {
-      state.projects[state.selectedProject].cachedBibliography = payload
-    },
-    addFavoriteStyle(state: any, payload: any) {
-      state.favoriteStyles.unshift(payload)
-    },
-    removeFavoriteStyle(state: any, payload: any) {
-      //@ts-ignore
-      state.favoriteStyles = state.favoriteStyles.filter(style => style.key !== payload.key)
+    removeFavoriteStyle(state: State, payload: string) {
+      state.favoriteStyles = state.favoriteStyles.filter((style: Style) => style.value !== payload)
     }
   },
   actions: {
     setMessage(context: any, payload: any) {
-      context.commit('setMessage', payload)
-      context.commit('saveState')
+      context.commit('setMessage', payload);
     },
-    addCitation(context: any, payload: any) {
-      context.commit('addCitation', payload)
-      context.commit('saveState')
+    addCitation(context: any, payload: Citation) {
+      context.commit('addCitation', payload);
     },
-    removeCitation(context: any, payload: number) {
-      context.commit('removeCitation', payload)
-      context.commit('saveState')
+    removeCitation(context: any, payload: string) {
+      context.commit('removeCitation', payload);
     },
-    removeCitationById(context: any, payload: string) {
-      context.commit('removeCitationById', payload)
-      context.commit('saveState')
+    resetCitations(context: any) {
+      context.commit('setCitations');
     },
-    setCitations(context: any, payload: any[]) {
-      context.commit('setCitations', payload)
-      context.commit('saveState')
+    setLocale(context: any, payload: Locale) {
+      context.commit('setLocale', payload);
     },
-    setState(context: any) {
-      context.commit('setState')
+    addProject(context: any, payload: Project) {
+      context.commit('addProject', payload);
     },
-    saveState(context: any) {
-      context.commit('saveState')
+    removeProject(context: any, payload: string) {
+      context.commit('removeProject', payload);
     },
-    setLocale(context: any, payload: any) {
-      context.commit('setLocale', payload)
-      context.commit('saveState')
+    selectProject(context: any, payload: string) {
+      context.commit('selectProject', payload);
     },
-    selectProject(context: any, payload: number) {
-      context.commit('selectProject', payload)
-      context.commit('saveState')
+    setEditingCitation(context: any, payload: Citation) {
+      context.commit('setEditingCitation', payload);
     },
-    removeProject(context: any, payload: number) {
-      context.commit('removeProject', payload)
-      context.commit('saveState')
+    setProjectTitle(context: any, payload: string) {
+      context.commit('setProjectTitle', payload);
     },
-    setEditingCitation(context: any, payload: any) {
-      context.commit('setEditingCitation', payload)
+    setProjectStyle(context: any, payload: Style) {
+      context.commit('setProjectStyle', payload);
     },
-    setProjectStyle(context: any, payload: any) {
-      context.commit('setProjectStyle', payload)
-      context.commit('saveState')
+    addFavoriteStyle(context: any, payload: Style) {
+      context.commit('addFavoriteStyle', payload);
     },
-    setProject(context: any, payload: any) {
-      context.commit('setProject', payload)
-      context.commit('saveState')
-    },
-    createProject(context: any, payload: any) {
-      context.commit('createProject', payload)
-      context.commit('saveState')
-    },
-    editProject(context: any, payload: any) {
-      context.commit('editProject', payload)
-      context.commit('saveState')
-    },
-    cacheBibliography(context: any, payload: any) {
-      context.commit('cacheBibliography', payload)
-      context.commit('saveState')
-    },
-    addFavoriteStyle(context: any, payload: any) {
-      context.commit('addFavoriteStyle', payload)
-      context.commit('saveState')
-    },
-    removeFavoriteStyle(context: any, payload: any) {
-      context.commit('removeFavoriteStyle', payload)
-      context.commit('saveState')
+    removeFavoriteStyle(context: any, payload: string) {
+      context.commit('removeFavoriteStyle', payload);
     }
   },
   getters: {
-    getEditingCitation(state: any) {
-      return state.editingCitation;
-    },
-    getProjects(state: any) {
-      return state.projects;
-    },
-    getState(state: any) {
-      return state;
-    },
-    getCitations(state: any) {
-      return state.projects[state.selectedProject].citations;
-    },
-    getFavoriteStyles(state: any) {
-      return state.favoriteStyles;
-    },
-    getMessage(state: any) {
+    getMessage(state: State) {
       return state.message;
     },
-    getLocale(state: any) {
+    getEditingCitation(state: State) {
+      return state.editingCitation;
+    },
+    getProjects(state: State) {
+      return state.projects;
+    },
+    getFavoriteStyles(state: State) {
+      return state.favoriteStyles;
+    },
+    getSelectedProject(state: State) {
+      return state.projects.find((project: Project) => project.id == state.selectedProject);
+    },
+    getLocale(state: State) {
       return state.locale;
+    },
+    getProjectStyle(state: State) {
+      //@ts-ignore
+      return state.projects.find((project: Project) => project.id == state.selectedProject).style;
+    },
+    getProjectCitations(state: State) {
+      //@ts-ignore
+      return state.projects.find((project: Project) => project.id == state.selectedProject).citations;
     }
   }
 })

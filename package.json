@@ -4,9 +4,9 @@
   "private": false,
   "license": "AGPL-3.0-or-later",
   "author": {
-    "name": "Hackdromeda",
-    "email": "info@hackdromeda.com",
-    "url": "https://hackdromeda.com"
+    "name": "Naval Patel",
+    "email": "navalpatel384@gmail.com",
+    "url": "https://navalpatel.me"
   },
   "contributors": [
     {
@@ -18,12 +18,6 @@
       "name": "Avi Shah",
       "email": "me@avimshah.com",
       "url": "https://avimshah.com"
-    },
-    {
-      "name": "Akash Patel"
-    },
-    {
-      "name": "Vikram Narendar"
     }
   ],
   "scripts": {
@@ -31,13 +25,15 @@
     "build": "vue-cli-service build --modern"
   },
   "dependencies": {
+    "@types/node": "^10.12.15",
     "EventEmitter": "^1.0.0",
     "auth0-js": "^9.6.1",
     "bulma": "^0.7.1",
     "clipboard-polyfill": "^2.5.2",
     "fg-loadcss": "^2.0.1",
+    "immutable": "^3.8.2",
     "jsdom": "^12.0.0",
-    "moment": "^2.22.2",
+    "moment": "^2.23.0",
     "path": "^0.12.7",
     "postcss-loader": "^2.1.6",
     "register-service-worker": "^1.0.0",
@@ -48,7 +44,6 @@
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",
     "vue-google-adsense": "^1.2.0",
-    "vue-mdc-adapter": "^0.18.2",
     "vue-property-decorator": "^6.0.0",
     "vue-router": "^3.0.1",
     "vue-script2": "^2.0.3",

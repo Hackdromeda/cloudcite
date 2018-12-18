@@ -24,9 +24,9 @@
 import { Component, Vue } from 'vue-property-decorator';
 import SearchStyles from '../components/SearchStyles.vue';
 //@ts-ignore
-import removeEmptyFromObject from '@/functions/removeEmptyFromObject';
-//@ts-ignore
 import debounce from 'lodash/debounce';
+//@ts-ignore
+import * as _ from 'lodash';
 
 @Component({
   components: {
@@ -38,11 +38,8 @@ import debounce from 'lodash/debounce';
             "id": "Project-" + (this.$store.state.projects.length),
             "title": "Project " + (this.$store.state.projects.length + 1),
             "citations": [],
-            "style": {
-                "key":"modern-language-association",
-                "text":"Modern Language Association 8th edition (MLA)",
-                "value":"modern-language-association"
-            },
+            "style": "modern-language-association",
+            "locale": "locales-en-US",
             "cachedBibliography": {outdated: true},
             "message": {
                 "type": null,
@@ -53,8 +50,8 @@ import debounce from 'lodash/debounce';
     }
   },
   methods: {
-      async createProject() {
-        this.$store.dispatch('createProject', await removeEmptyFromObject(Object.assign(this.$data.project, {creatingProject: null})));
+      createProject() {
+        this.$store.dispatch('createProject', _.pickBy(Object.assign(this.$data.project, {creatingProject: null}), _.identity))
         this.$router.push({path: '/projects/'})
       }
   }

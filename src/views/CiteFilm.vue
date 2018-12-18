@@ -1,7 +1,7 @@
 <template>
     <div id="citeFilm">
-            <div style="min-height: 35vh;">
-                <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
+            <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+                <div class="container" style="padding: 7vh;">
                     <h1>Cite a Film</h1>
                     <h2 class="subtitle" style="margin-top: 10vh;">
                         You can start citing a film by typing the title and selecting the film you want to cite.
@@ -9,11 +9,11 @@
                 </div>
             </div>
 
-            <div style="margin-top: 5vh;">
-                <mdc-textfield v-model="filmTitle" label="Find a movie to cite..."  trailing-icon="search" @input="getAsyncData" ref="filmInput"/>
+            <div style="display: inline-flex; margin-top: 5vh;">
+                <sui-input v-model="filmTitle" :data="filmData" placeholder="Find a movie to cite..." @input="getSearchResults" icon="search" ref="filmInput"/>
             </div>
             <div style="margin-top: 3vh;">
-                <mdc-button @click="citeEmpty()" outlined dense>Manual Citation</mdc-button>
+                <sui-button type="button" @click="citeEmpty()" basic primary size="mini">Manual Citation</sui-button>
             </div>
             
             <div v-if="isFetching">
@@ -50,67 +50,57 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import { generateCitation } from '../functions/generateCitation';
 //@ts-ignore
-import generateCitation from '../functions/generateCitation';
-//@ts-ignore
-import debounce from 'lodash/debounce';
-//@ts-ignore
-import rp from 'request-promise-native';
+import { debounce } from 'lodash/debounce';
 import Preview from '../components/Preview.vue';
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
+import { Citation } from '@/models/citation.model';
 
 @Component({
-  components: {
-    Preview,
-    BounceLoader
-  },
-  mounted() {
-    //@ts-ignore
-    this.$refs.filmInput.$el.children[0].focus();
-  },
-  data () {
-      return {
-        //@ts-ignore
-        filmCitationData: {"type": "motion_picture", "contributors": [{first: "", middle: "", last: "", type: "Author"}], "title": '', "publisher": '', "publisher-place": '', "accessed": {month: "", day: "", year: ""}, "issued": {month: "", day: "", year: ""}, "abstract": '', "id": 'citation-' + this.$store.getters.getCitations.length},
-        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"],
-        filmData: [],
-        filmTitle: '',
-        dataPosition: null,
-        selectedFilm: '',
-        isFetching: false,
-        filmPage: 1,
-        empty: false
-      }
-  },
-  methods: {
-      getAsyncData: debounce(function () {
-        //@ts-ignore
+    components: {
+        Preview,
+        BounceLoader
+    }
+})
+export default class CiteFilm extends Vue {
+    filmCitationData: Citation = {type: "motion_picture", contributors: [{given: "", middle: "", family: "", type: "Author"}], "title": '', "publisher": '', "publisher-place": '', "abstract": '', "id": `citation-${this.$store.getters.getProjectCitations.length}`};
+    monthNames: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "Month Published"];
+    filmData: any[] = [];
+    filmTitle: string = '';
+    dataPosition: any = null;
+    selectedFilm: string = '';
+    isFetching: boolean = false;
+    filmPage: number = 1;
+    empty: boolean = false;
+
+    async getSearchResults() {
         if (this.$data.filmTitle && this.$data.filmTitle.trim() != "" && this.$data.filmPage) {
-        //@ts-ignore
-        this.$data.filmData = []
-        //@ts-ignore
-        this.$data.dataPosition = []
-        //@ts-ignore
-        this.$data.isFetching = true
-        //@ts-ignore
-        rp({
-            uri: 'https://api.cloudcite.net/autofill',
-            headers: {
-                'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-            },
-            method: 'POST',
-            //@ts-ignore
-            body: {"title": this.$data.filmTitle, "format": "movie", "page": this.$data.filmPage},
-            json: true
-            //@ts-ignore
-        }).then(data => {
                 //@ts-ignore
-                data.results.forEach((item) => this.$data.filmData.push(item))
+                this.$data.filmData = []
                 //@ts-ignore
-                this.$data.dataPosition = {"total_results": data.total_results, "page": data.page, "total_pages": data.total_pages}
+                this.$data.dataPosition = []
+                //@ts-ignore
+                this.$data.isFetching = true
+                //@ts-ignore
+                const searchResults: any = await
+                fetch('https://api.cloudcite.net/autofill', {
+                    method: 'POST',
+                    headers: {
+                        'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+                    },
+                    //@ts-ignore
+                    body: JSON.stringify({title: this.$data.filmTitle, format: "movie", page: this.$data.filmPage}),
+                    //@ts-ignore
+                }).then(response => {
+                    return response.json();
+                });
+                searchResults.results.forEach((item: any) => this.$data.filmData.push(item))
+                //@ts-ignore
+                this.$data.dataPosition = {"total_results": searchResults.total_results, "page": searchResults.page, "total_pages": searchResults.total_pages}
                 //@ts-ignore
                 this.$data.isFetching = false
-                if(data.length > 0){
+                if(searchResults.length > 0){
                     //@ts-ignore
                     this.$data.empty = false;
                 }
@@ -118,82 +108,68 @@ import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
                     //@ts-ignore
                     this.$data.empty = true;
                 }
-            })
-            //@ts-ignore
-            .catch((error) => {
-                //@ts-ignore
-                this.$data.isFetching = false
-                throw error
-            })
         }
-    }, 250),
-    citeFilm: function(film) {
+    }
+
+    async citeFilm (film: any) {
         this.$data.selectedFilm = film;
         if (this.$data.selectedFilm != null && this.$data.selectedFilm != '') {
-            rp({
-                uri: 'https://api.cloudcite.net/autofill',
+            const autofillData: any = await
+            fetch('https://api.cloudcite.net/autofill', {
+                method: 'POST',
                 headers: {
                     'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
                 },
-                method: 'POST',
                 //@ts-ignore
-                body: {"title": this.$data.filmTitle, "movie": this.$data.selectedFilm.id, "format": "movie"},
-                json: true
+                body: JSON.stringify({"title": this.$data.filmTitle, "movie": this.$data.selectedFilm.id, format: "movie"}),
                 //@ts-ignore
-            }).then(async data => {
-                console.log(data)
+            }).then(response => {
+                return response.json();
+            });;
+            autofillData.contributors = [];
+            //@ts-ignore
+            if (autofillData.director && autofillData.director.length > 0) {
                 //@ts-ignore
-                data.contributors = [];
-                //@ts-ignore
-                if (data.director && data.director.length > 0) {
+                autofillData.director.forEach((author: any) => {
                     //@ts-ignore
-                    data.director.forEach(author => {
-                        //@ts-ignore
-                        data.contributors.push({given: author.given ? author.given.split(" ")[0]: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
-                    });
-                }
-                //@ts-ignore
-                if (data.contributors.length == 0) {
-                    data.contributors = [{given: "", middle: "", family: "", type: "Author"}]
-                }
-                const id = ('citation-' + this.$store.getters.getCitations.length)
-                //@ts-ignore
-                const citation = await generateCitation(id, "motion_picture", data);
-                //@ts-ignore
-                this.$store.dispatch('setEditingCitation', citation);
-                this.$router.push({path: '/edit/film/'})
-                //@ts-ignore
-            }).catch(error => {
-                console.log(error)
-            })
+                    autofillData.contributors.push({given: author.given ? author.given.split(" ")[0]: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"});
+                });
+            }
+            //@ts-ignore
+            if (autofillData.contributors.length == 0) {
+                autofillData.contributors = [{given: "", middle: "", family: "", type: "Author"}];
+            }
+            const citation = generateCitation("motion_picture", autofillData);
+            //@ts-ignore
+            this.$store.dispatch('setEditingCitation', citation);
+            this.$router.push({path: '/edit/film/'});
         }
-      },
-      citeEmpty() {
+    }
+
+    citeEmpty() {
         //@ts-ignore
         this.$store.dispatch('setEditingCitation', this.$data.filmCitationData)
         this.$router.push({path: '/edit/film/'})
-    },
-    updatePage(page) {
+    }
+
+    updatePage(page: number) {
         //@ts-ignore
         this.filmPage = page;
         //@ts-ignore
-        this.getAsyncData()
+        this.getSearchResults()
     }
-  },
-  computed: {
-      numOfRows: function () {
-          //@ts-ignore
-          if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
-              return 5;
-          }
-          else{
-              return 2
-          }
-      }
-  }
-})
-export default class CiteFilm extends Vue {
+
+    get numOfRows() {
+        //@ts-ignore
+        if(Math.max(document.documentElement.clientWidth, window.innerWidth || 0) >= 850){
+            return 5;
+        }
+        else{
+            return 2
+        }
+    }
 }
+
 </script>
 
 <style scoped lang="scss">

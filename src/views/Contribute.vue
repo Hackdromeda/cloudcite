@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div style="min-height: 35vh;">
-      <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
+    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+      <div class="container" style="padding: 7vh;">
         <h1>Contribute</h1>
         <h2 class="subtitle" style="margin-top: 10vh;">
           CloudCite is an AGPLv3 licensed open source project and completely free to use. However, the amount of effort needed to maintain CloudCite and its APIs, develop new features, and store your references is not sustainable without proper financial backing. You can support CloudCite development and maintenance costs via the following methods:
@@ -13,7 +13,7 @@
           <h3>One-Time Donation</h3>
           <p>Buy us a coffee, lunch, or even a new computer through these channels:</p>
           <div id="one-time-donations" style="display: block;">
-            <a href="https://www.paypal.me/avishah395" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.paypal.me/avishah395" target="_blank">
               <img src="/static/images/paypal.png" style="width:100px">
             </a>
             <a @click="selectCoin('btc')"><svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38"><g fill="none" fill-rule="evenodd"><circle fill="#FFAD02" cx="19" cy="19" r="19"></circle><path d="M24.7 19.68a3.63 3.63 0 0 0 1.47-2.06c.74-2.77-.46-4.87-3.2-5.6l.89-3.33a.23.23 0 0 0-.16-.28l-1.32-.35a.23.23 0 0 0-.28.15l-.89 3.33-1.75-.47.88-3.32a.23.23 0 0 0-.16-.28l-1.31-.35a.23.23 0 0 0-.28.15l-.9 3.33-3.73-1a.23.23 0 0 0-.27.16l-.36 1.33c-.03.12.04.25.16.28l.22.06a1.83 1.83 0 0 1 1.28 2.24l-1.9 7.09a1.83 1.83 0 0 1-2.07 1.33.23.23 0 0 0-.24.12l-.69 1.24a.23.23 0 0 0 0 .2c.02.07.07.12.14.13l3.67.99-.89 3.33c-.03.12.04.24.16.27l1.32.35c.12.03.24-.04.28-.16l.89-3.32 1.76.47-.9 3.33c-.02.12.05.24.16.27l1.32.35c.12.03.25-.04.28-.16l.9-3.32.87.23c2.74.74 4.83-.48 5.57-3.25.35-1.3-.05-2.6-.92-3.48zm-5.96-5.95l2.64.7a1.83 1.83 0 0 1 1.28 2.24 1.83 1.83 0 0 1-2.23 1.3l-2.64-.7.95-3.54zm1.14 9.8l-3.51-.95.95-3.54 3.51.94a1.83 1.83 0 0 1 1.28 2.24 1.83 1.83 0 0 1-2.23 1.3z" fill="#FFF"></path></g></svg>
@@ -34,10 +34,10 @@
           <h3>Recurring Pledge</h3>
           <p>Donate a fixed amount with each release. You can support us through Patreon or OpenCollective.</p>
           <div id="one-time-donations" style="display: block;">
-            <a href="https://patreon.com/cloudcite" target="_blank" rel="noopener noreferrer">
+            <a href="https://patreon.com/cloudcite" target="_blank">
               <img src="/static/images/patreon-min.png" style="width:38px">
             </a>
-            <a href="https://opencollective.com/cloudcite" target="_blank" rel="noopener noreferrer">
+            <a href="https://opencollective.com/cloudcite" target="_blank">
               <img src="/static/images/open-collective.jpg" style="width:38px">
             </a>
           </div>            
@@ -45,16 +45,16 @@
       </div>
       <div id="code">
           <h3>Contribute Code</h3>
-            <p>Help us with features and bugs listed on our <a href="https://github.com/Hackdromeda/cloudcite/projects" target="_blank" rel="noopener noreferrer">GitHub Project Board</a>.</p>
+            <p>Help us with features and bugs listed on our <a href="https://github.com/Hackdromeda/cloudcite/projects" target="_blank">GitHub Project Board</a>.</p>
             <br>
-            <a href="https://github.com/Hackdromeda/cloudcite/" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/Hackdromeda/cloudcite/" target="_blank">
               <img src="/static/images/GitHub-Mark-32px.png" style="width:38px">
             </a>
             <br>
       </div>
       <div id="free">
           <h3>Contribute At No Cost</h3>
-          <p>Consider disabling your ad blocker on this website. We do not use ads that cover the entire screen or cause similar disruptions to the process of creating a bibliography.</p>
+          <p>Consider disabling your ad blocker on this website. Our ads are only on our blog and the contribute page and will not disrupt your bibliography generation experience. Interacting with the ads helps us support future development of CloudCite.</p>
           <br>
           <Adsense
               data-ad-client="ca-pub-2986930095691189"

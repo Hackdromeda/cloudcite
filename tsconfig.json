@@ -6,20 +6,22 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "baseUrl": ".",
     "types": [
-      "node"    ],
+      "node"
+    ],
     "paths": {
       "@/*": [
         "src/*"
       ]
     },
     "lib": [
-      "es2015",
+      "esnext",
       "dom",
       "dom.iterable",
       "scripthost"

@@ -1,4 +1,4 @@
-[{
+export const locales = [{
     "value": "locales-af-ZA",
     "text": "Afrikaans",
     "key": "Afrikaans"

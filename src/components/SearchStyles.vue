@@ -13,8 +13,8 @@
           <div v-for="(style, i) in stylesData" :key="i" style="text-align: left; margin-top: 5vh;">
             <span style="font-size: 1.8rem; font-weight: 400; margin-top: 5vh;" v-cloak>{{ style.text.substring(0, 55)}}{{(style.text.length > 55) ? '...': ''}}</span>
             <span style="text-align: right; float: right;">
-            <mdc-button @click="addFavoriteStyle(style)" v-if="favoriteStyles.filter(favorite => favorite.value == style.value).length == 0" raised>Add Favorite</mdc-button>
-            <mdc-button @click="removeFavoriteStyle(style)" v-else raised>Remove Favorite</mdc-button>
+            <sui-button @click="addFavoriteStyle(style)" v-if="favoriteStyles.filter(favorite => favorite.value == style.value).length == 0" type="button" basic primary>Add Favorite</sui-button>
+            <sui-button @click="removeFavoriteStyle(style)" v-else type="button" basic negative>Remove Favorite</sui-button>
             </span>
             <sui-divider/>
           </div>
@@ -22,13 +22,19 @@
         </sui-modal-description>
       </sui-modal-content>
       <sui-modal-actions>
-        <mdc-button @click="showMoreStyles = false" raised>Finished Adding Styles</mdc-button>
+        <sui-button type="button" primary @click="showMoreStyles = false">
+          Finished Adding Styles
+        </sui-button>
       </sui-modal-actions>
     </sui-modal>
-    <mdc-select v-model="selectedStyle" :label="getProjectStyle.text">
-      <option v-for="(style, i) in favoriteStyles" :key="i" :value="style.value" v-cloak> {{ style.text }}</option>
-    </mdc-select>
-    <mdc-button @click="showMoreStyles = true" raised>More Styles Available</mdc-button>
+    <sui-form>
+      <sui-form-field>
+        <sui-dropdown fluid :options="favoriteStyles" :placeholder="getProjectStyle" search selection v-model="selectedStyle" direction="downward"/>
+      </sui-form-field>
+      <sui-form-field>
+        <sui-button @click="showMoreStyles = true" type="button" basic primary size="mini">More Styles Available</sui-button>
+      </sui-form-field>
+    </sui-form>
   </div>
 </template>
 
@@ -36,6 +42,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
 import debounce from 'lodash/debounce';
+import { styles } from '@/assets/styles';
+import { locales } from '@/assets/locales';
 
 @Component({
   props: ['projectOption'],
@@ -43,9 +51,8 @@ import debounce from 'lodash/debounce';
   data() {
     return {
       //styles.json file is based on styles from https://citationstyles.org/
-      //@ts-ignore
-      styles: require('./styles.json'),
-      locales: require('./locales.json'),
+      styles: styles,
+      locales: locales,
       selectedStyle: null,
       searchInput: null,
       stylesData: [],
@@ -82,7 +89,7 @@ import debounce from 'lodash/debounce';
     getProjectStyle: {
       get() {
         //@ts-ignore
-        return this.project.style
+        return this.$data.styles.filter(style => style.key == this.$store.state.projects[this.$store.state.selectedProject].style)[0].text
       }
     },
     favoriteStyles: {
@@ -95,11 +102,11 @@ import debounce from 'lodash/debounce';
     //@ts-ignore
     selectedStyle() {
       //@ts-ignore
-      this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0]})
+      this.$store.dispatch('setProjectStyle', {id: this.project.id, style: this.$data.selectedStyle})
       //@ts-ignore
-      if (this.$data.styles.filter(style => style.value == this.$data.selectedStyle).length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.filter(locale => locale == this.locale.value).length == 0) {
+      if (this.$data.styles.filter(style => style.value == this.$data.selectedStyle).length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.length > 0 && this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc.filter(locale => locale == this.project.locale).length == 0) {
         //@ts-ignore
-        this.$store.dispatch('setLocale', {id: this.project.id, locale: this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc[0]})
+        this.$store.dispatch('setProjectLocale', {id: this.project.id, locale: this.$data.styles.filter(style => style.value == this.$data.selectedStyle)[0].loc[0]})
       }
       this.$store.dispatch('cacheBibliography', {outdated: true})
     },

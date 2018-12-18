@@ -1,39 +1,40 @@
 <template>
   <div id="localeChange">
-    <mdc-select v-model="selectedLocale" :label="locale.text" outlined>
-      <option v-for="(language, i) in languages" :key="i" :value="language.value" v-cloak> {{ language.text }}</option>
-    </mdc-select>
+    <sui-dropdown button class="icon" floating icon="world" labeled :options="languages" search v-model="selectedLocale"/>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-//@ts-ignore
+import { styles } from '@/assets/styles';
+import { locales } from '@/assets/locales';
 
 @Component({
+  props: ['projectOption'],
   components: {},
   data() {
     return {
-      styles: require('./styles.json'),
+      styles: styles,
       //locales.json file is based on locales from https://citationstyles.org/
-      //@ts-ignore
-      languages: require('./locales.json'),
-      //@ts-ignore
-      selectedLocale: this.locale
+      languages: locales,
+      selectedLocale: this.$store.state.locale
     }
   },
   computed: {
-    locale: {
+    project: {
       get() {
-        return this.$store.getters.getLocale;
+        return this.$props.projectOption
+      },
+      set() {
+
       }
     }
   },
   watch: {
     //@ts-ignore
     selectedLocale() {
+      this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
       //@ts-ignore
-      this.$store.dispatch('setLocale', this.$data.languages.filter(locale => locale.value == this.$data.selectedLocale)[0]);
-      this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}));
+      this.project.locale = this.$data.selectedLocale
     }
   }
 })

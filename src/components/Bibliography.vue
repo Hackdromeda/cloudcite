@@ -1,29 +1,36 @@
 <template>
-  <div id="bibliography">
-    <div v-if="projects[selectedProject].citations.length > 0" id="bibliographyActions" >
-      <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
-    </div>
-    <div style="background-color: #eeeeee; color: #000; border-radius: 5px; padding: 5vh;" v-if="projects[selectedProject].citations.length == 0">
-      <p>Your bibliography will be here after you cite a website, book, or film.</p>
-    </div>
-    <div v-else>
-      <div id="bibliographyPreview">
-        <div v-if="loading">
-          <mdc-linear-progress indeterminate/>
+  <div>
+    <div id="bibliography">
+      <input id="titleInput" placeholder="Enter Project Title" v-model="title" maxlength="20"/>
+      <div style="margin-top: 5vh;" v-if="getProjectCitations.length > 0" id="bibliographyActions" >
+        <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
+      </div>
+      <div v-if="getProjectCitations.length == 0" style="margin-top: 10vh;">
+        <p>Your bibliography will be here after you cite a website, book, or film.</p>
+      </div>
+      <div v-else>
+        <div v-if="loading" style="display: inline-flex">
+          <div>
+            <bounce-loader color="#005eea"/>
+          </div>
         </div>
-        <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
-          <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
-            <div v-if="$store.getters.getCitations.filter(citation => citation.id == cslEntry.id).length > 0">
-              <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
-                <div id="citationOptions">
-                  <span>
-                    <a @click="copyCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="clipboard" /></a>
-                    <a @click="editCitation(cslEntry.id, cslEntry.type)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
-                    <a @click="removeCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="trash" /></a>
-                  </span>
-                </div>
+        <div id="bibliographyPreview">
+        <sui-segment v-if="!loading">
+          <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
+            <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
+              <div v-if="getProjectCitations.filter(citation => citation.id == cslEntry.id).length > 0">
+                <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
+                  <div id="citationOptions">
+                    <span>
+                      <a @click="copyCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="clipboard" /></a>
+                      <a @click="editCitation(cslEntry.id, cslEntry.type)"><sui-icon style="color: #4b636e;" name="pencil" /></a>
+                      <a @click="removeCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="trash" /></a>
+                    </span>
+                  </div>
+              </div>
             </div>
           </div>
+        </sui-segment>
         </div>
       </div>
     </div>
@@ -33,42 +40,46 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
-import generateCSL from '../functions/generateCSL';
+import rp from 'request-promise-native';
 //@ts-ignore
-import removeEmptyFromObject from '../functions/removeEmptyFromObject';
+import { generateCSL } from '../functions/generateCSL';
 //@ts-ignore
-import generateHTML from '../functions/generateHTML';
+import { generateHTML } from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore
+import debounce from 'lodash/debounce';
+//@ts-ignore
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue';
-import SearchStyles from './SearchStyles.vue';
+//@ts-ignore
+import _ from 'lodash';
+import { simplifyObject } from '@/functions/simplifyObject';
+import { styles } from '@/assets/styles';
+import { mapGetters } from 'vuex';
+import { mapMutations } from 'vuex';
 
 @Component({
   components: {
-    SearchStyles,
     BounceLoader
   },
   async created() {
     this.$data.loading = true;
     //@ts-ignore
-    if (this.$store.getters.getCitations.length > 0 && this.projects[this.selectedProject].cachedBibliography && !this.projects[this.selectedProject].cachedBibliography.outdated) {
+    if (this.$store.getters.getProjectCitations.length > 0 && this.$store.getters.cachedBibliography && !this.$store.getters.getSelectedProject.cachedBibliography.outdated) {
       //@ts-ignore
-      this.$data.cslHTML = this.projects[this.selectedProject].cachedBibliography.html
+      this.$data.cslHTML = this.$store.getters.getSelectedProject.cachedBibliography.html
       //@ts-ignore
-      this.$data.cslFormat = this.projects[this.selectedProject].cachedBibliography.type
+      this.$data.cslFormat = this.$store.getters.getSelectedProject.cachedBibliography.type
     }
-    else if (this.$store.getters.getCitations.length > 0) {
+    else if (this.$store.getters.getProjectCitations.length > 0) {
       //@ts-ignore
       var cslData = {}
-      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+      for (let i=0; i < this.$store.getters.getProjectCitations.length; i++) {
         //@ts-ignore
-        let generatedCSL = await generateCSL(this.$store.getters.getCitations[i]);
-        //@ts-ignore
-        cslData[this.$store.getters.getCitations[i].id] = generatedCSL[this.$store.getters.getCitations[i].id]
+        cslData[this.getProjectCitations[i].id] = generateCSL(this.getProjectCitations[i])[this.getProjectCitations[i].id]
       }
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.projects[this.selectedProject].style.value, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.projects[this.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      const generatedHTML = await generateHTML({style: this.$store.getters.getSelectedProject.style, locale: this.$store.getters.getSelectedProject.locale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.getters.getSelectedProject.style)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       }
@@ -76,30 +87,28 @@ import SearchStyles from './SearchStyles.vue';
         this.$data.cslFormat = generatedHTML.format
         this.$data.cslHTML = generatedHTML.html
         //@ts-ignore
-        this.$store.dispatch('cacheBibliography', Object.assign(this.projects[this.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.getters.getSelectedProject.cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
       }
     }
     this.$data.loading = false;
   },
   async updated() {
     //@ts-ignore
-    if (this.$store.getters.getCitations.length > 0 && this.projects[this.selectedProject].cachedBibliography && !this.projects[this.selectedProject].cachedBibliography.outdated) {
+    if (this.getProjectCitations.length > 0 && this.$store.getters.getSelectedProject.cachedBibliography && !this.$store.getters.getSelectedProject.cachedBibliography.outdated) {
       //@ts-ignore
-      this.$data.cslHTML = this.projects[this.selectedProject].cachedBibliography.html
+      this.$data.cslHTML = this.$store.getters.getSelectedProject.cachedBibliography.html
       //@ts-ignore
-      this.$data.cslFormat = this.projects[this.selectedProject].cachedBibliography.type
+      this.$data.cslFormat = this.$store.getters.getSelectedProject.cachedBibliography.type
     }
-    else if (this.$store.getters.getCitations.length > 0) {
+    else if (this.$store.getters.getProjectCitations.length > 0) {
       //@ts-ignore
       var cslData = {}
-      for (let i=0; i < this.$store.getters.getCitations.length; i++) {
+      for (let i=0; i < this.$store.getters.getProjectCitations.length; i++) {
         //@ts-ignore
-        let generatedCSL = await generateCSL(this.$store.getters.getCitations[i]);
-        //@ts-ignore
-        cslData[this.$store.getters.getCitations[i].id] = generatedCSL[this.$store.getters.getCitations[i].id]
+        cslData[this.getProjectCitations[i].id] = generateCSL(this.getProjectCitations[i])[this.getProjectCitations[i].id]
       }
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.projects[this.selectedProject].style.value, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.projects[this.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      const generatedHTML = await generateHTML({style: this.$store.getters.getProjectStyle, locale: this.$store.getters.getLocale, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.getters.getProjectStyle)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       }
@@ -107,7 +116,7 @@ import SearchStyles from './SearchStyles.vue';
         this.$data.cslFormat = generatedHTML.format
         this.$data.cslHTML = generatedHTML.html
         //@ts-ignore
-        this.$store.dispatch('cacheBibliography', Object.assign(this.projects[this.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
+        this.$store.dispatch('cacheBibliography', Object.assign(this.$store.getters.getSelectedProject.cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
       }
     }
   },
@@ -115,36 +124,29 @@ import SearchStyles from './SearchStyles.vue';
     return {
       bibliographyTitle: "Bibliography",
       citationsData: [],
-      typing: false,
       cslHTML: [],
       cslFormat: null,
-      styles: require('./styles.json'),
+      styles: styles,
       loading: false
     }
   },
   computed: {
-    style: {
+    ...mapGetters([
+      'getProjectCitations'
+    ]),
+    title: {
       get() {
-        return this.$store.state.projects[this.$store.state.selectedProject].style
-      }
-    },
-    locale: {
-      get() {
-        return this.$store.getters.getLocale
-      }
-    },
-    projects: {
-      get() {
-        return this.$store.getters.getProjects
-      }
-    },
-    selectedProject: {
-      get() {
-        return this.$store.state.selectedProject
+        return this.$store.getters.getSelectedProject.title
+      },
+      set(title: string) {
+        this.$store.dispatch('setProjectTitle', title)
       }
     }
   },
   methods: {
+    ...mapMutations([
+      'setProjectTitle'
+    ]),
     copyBibliography() {
       var html = '<div class="csl-bib-body" style="';
       //@ts-ignore
@@ -210,11 +212,11 @@ import SearchStyles from './SearchStyles.vue';
           clipboard.write(dt);
         }
     },
-    async editCitation(id: string, type: string) {
+    editCitation(id: string, type: string) {
       //@ts-ignore
-      var cslData = this.$store.getters.getCitations.filter(citation => citation.id == id)[0]
+      var cslData = this.getProjectCitations.filter(citation => citation.id == id)[0]
       //@ts-ignore
-      cslData.contributors = await Promise.all(cslData.contributors.map(async contributor => await removeEmptyFromObject(Object.assign(contributor, {given: (contributor.given && contributor.given.split(" ")[0] ? contributor.given.split(" ")[0]: null), middle: (contributor.given && contributor.given.split(" ")[1] ? contributor.given.split(" ")[1]: null)}))));
+      cslData.contributors = cslData.contributors.map(contributor => simplifyObject(Object.assign(contributor, {given: (contributor.given && contributor.given.split(" ")[0] ? contributor.given.split(" ")[0]: null), middle: (contributor.given && contributor.given.split(" ")[1] ? contributor.given.split(" ")[1]: null)})));
       //@ts-ignore
       if (cslData && cslData.type && cslData.type == "website") {
         //@ts-ignore
@@ -238,94 +240,28 @@ import SearchStyles from './SearchStyles.vue';
       //@ts-ignore
       this.$store.dispatch('removeCitationById', id)
     }
-  },
-  watch: {
-    //@ts-ignore
-    async style() {
-      this.$data.loading = true;
-      if (this.$store.getters.getCitations.length > 0) {
-        this.$data.cslHTML = []
-        this.$data.cslFormat = null
-        //@ts-ignore
-        var cslData = {}
-        for (let i=0; i < this.$store.getters.getCitations.length; i++) {
-          //@ts-ignore
-          let generatedCSL = await generateCSL(this.$store.getters.getCitations[i]);
-          //@ts-ignore
-          cslData[this.$store.getters.getCitations[i].id] = generatedCSL[this.$store.getters.getCitations[i].id]
-        }
-        //@ts-ignore
-        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
-        if (generatedHTML.error) {
-          console.log(generatedHTML.error)
-        }
-        else {
-          this.$data.cslFormat = generatedHTML.format
-          this.$data.cslHTML = generatedHTML.html
-          //@ts-ignore
-          this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
-        }
-      }
-      this.$data.loading = false;
-    },
-    async locale() {
-      this.$data.loading = true;
-      if (this.$store.getters.getCitations.length > 0) {
-        this.$data.cslHTML = []
-        this.$data.cslFormat = null
-        //@ts-ignore
-        var cslData = {}
-        for (let i=0; i < this.$store.getters.getCitations.length; i++) {
-          //@ts-ignore
-          let generatedCSL = await generateCSL(this.$store.getters.getCitations[i]);
-          //@ts-ignore
-          cslData[this.$store.getters.getCitations[i].id] = generatedCSL[this.$store.getters.getCitations[i].id]
-        }
-        //@ts-ignore
-        const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style.value, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
-        if (generatedHTML.error) {
-          console.log(generatedHTML.error)
-        }
-        else {
-          this.$data.cslFormat = generatedHTML.format
-          this.$data.cslHTML = generatedHTML.html
-          //@ts-ignore
-          this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: false, html: this.$data.cslHTML, type: this.$data.cslFormat, richText: generatedHTML.richTextHTML ? generatedHTML.richTextHTML: ""}))
-        }
-      }
-      this.$data.loading = false;
-    }
   }
 })
 export default class Bibliography extends Vue {}
 </script>
 
 <style scoped lang="scss">
-#bibliographyPreview {
-  background-color: #fff;
-  color: #000;
-  text-align: left;
-  font-weight: normal !important;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #e0e0e0;
-}
 @media (min-width: 991.98px) {
   #bibliographyPreview {
+    color: #000;
     min-height: 16vh;
-  }
-  #bibliography {
-    margin-left: 28%;
-    margin-right: 28%;
+    text-align: left;
+    font-weight: normal !important;
   }
 }
 @media (max-width: 991.97px) {
   #bibliographyActions {
     font-size: 0.9rem;
   }
-  #bibliography {
-    margin-left: 5%;
-    margin-right: 5%;
+  #bibliographyPreview {
+    color: #000;
+    text-align: left;
+    font-weight: normal !important;
   }
 }
 #citationOptions {
@@ -338,7 +274,7 @@ export default class Bibliography extends Vue {}
   padding: 10px;
   text-align: center;
   justify-content: center;
-  border-radius: 5px;
+  background-color: #fff;
 }
 #bibliographyTitle {
   color: #fff;
@@ -351,11 +287,24 @@ export default class Bibliography extends Vue {}
 #bibliographyActions {
   display: inline-flex;
   background-color: #0066ff;
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 10px;
   margin-bottom: 3vh;
   min-width: 25vh;
   color: #fff;
   font-weight: 550;
+}
+#titleInput {
+  text-align: center;
+  display: inline-flex;
+  color: #005eea;
+  min-height: 60px;
+  font-size: 2rem;
+  font-weight: 550;
+  border-color: transparent;
+  margin-bottom: 3vh;
+}
+#titleInput:focus {
+  outline: none;
 }
 </style>

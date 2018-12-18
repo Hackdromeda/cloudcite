@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div style="min-height: 20vh;">
-            <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
+        <div style="min-height: 20vh; background-color: #005eea; color: #fff; margin-bottom: 5vh;">
+            <div class="container" style="padding: 7vh;">
                 <h1 v-cloak>Editing {{ project.title }}</h1>
             </div>
         </div>
@@ -20,6 +20,12 @@
                             <sui-form-field style="text-align: left;">
                                 <SearchStyles :projectOption="project"/>
                             </sui-form-field>
+                            <sui-form-field>
+                                <div class="ui labeled input">
+                                    <div class="ui label">Locale</div>
+                                    <p style="padding: 5px;" v-cloak>{{ project.locale }}</p>
+                                </div>
+                            </sui-form-field>
                             <sui-button type="button" @click="editProject()">Done Editing</sui-button>
                         </sui-form>
                     </sui-grid-column>
@@ -35,6 +41,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import SearchStyles from '../components/SearchStyles.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
+//@ts-ignore
+import * as _ from 'lodash';
 
 @Component({
   components: {

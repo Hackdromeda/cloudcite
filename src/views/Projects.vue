@@ -1,7 +1,7 @@
 <template>
   <div id="projects">
-    <div style="min-height: 35vh;">
-        <div style="padding: 7vh; background-color: #2962ff; color: #eceff1;">
+    <div style="min-height: 35vh; background-color: #005eea; color: #fff;">
+        <div class="container" style="padding: 7vh;">
             <h1>Projects</h1>
             <h2 class="subtitle" style="margin-top: 10vh;">
                 You can manage all of your projects here.
@@ -16,8 +16,14 @@
                 <h4 style="color: #005eea; font-size: 1.5rem; text-align: center;" v-cloak>
                   {{ project.title }}
                 </h4>
-                <p v-if="project.style && project.style.value" style="font-size: 1rem; text-align: left;" v-cloak>
+                <p v-if="project.style" style="font-size: 1rem; text-align: left;" v-cloak>
                   <b>Style</b>: <SearchStyles :projectOption="project"/>
+                </p>
+                <p v-if="project.locale && project.locale.length <= 27" style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Locale</b>: {{ project.locale }}
+                </p>
+                <p v-if="project.locale && project.locale.length > 27" style="font-size: 1rem; text-align: left;" v-cloak>
+                  <b>Locale</b>: {{ project.locale.substring(0, 27) + '...'}}
                 </p>
                 <p style="font-size: 1rem; text-align: left;" v-cloak>
                   <b>Number of Citations</b>: {{ project.citations.length }}
@@ -93,10 +99,10 @@ export default class Projects extends Vue {}
 </script>
 
 <style scoped lang="scss">
-  h3 {
-    font-size: 1.1rem;
-    font-weight: 500;
-  }
+    h3 {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
   @media (max-width: 991.97px) {
     #projectSegment {
       padding: 10px;

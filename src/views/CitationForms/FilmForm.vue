@@ -8,7 +8,7 @@
         <sui-form id="editForm">
             <div v-for="(contributor, i) in citationData.contributors" :key="i">
                 <sui-form-field>
-                    <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="contributorTypes" placeholder="Director" direction="downward" selection/>
+                    <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="contributorTypes" placeholder="Author" direction="downward" selection/>
                 </sui-form-field>
                 <sui-form-field>
                     <div class="ui labeled input">
@@ -136,7 +136,7 @@
                 </div>
             </sui-form-field>
             <sui-form-field v-if="allowSave" style="margin-top: 3vh;">
-                <Preview :cslObject="citationData" :typing="typing"/>
+                <Preview :cslObject="filteredCitationData" :typing="typing"/>
             </sui-form-field>
             <div is="sui-button-group">
                 <sui-button type="button" @click="cancel()">Cancel</sui-button>
@@ -149,12 +149,13 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-//@ts-ignore
-import rp from 'request-promise-native';
 import Preview from '@/components/Preview.vue';
 //@ts-ignore
 import debounce from 'lodash/debounce';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
+//@ts-ignore
+import * as _ from 'lodash';
+import { simplifyObject } from '@/functions/simplifyObject';
 @Component({
     components: {
         Preview,
@@ -167,9 +168,9 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
         citationData: this.$store.getters.getEditingCitation,
         contributorTypes: [
             {
-                "key": "Director",
-                "text": "Director",
-                "value": "Director"
+                "key": "Author",
+                "text": "Director/Producer/Scriptwriter",
+                "value": "Author"
             }
         ],
         monthAccessedNames: [
@@ -309,6 +310,11 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
       }
   },
   computed: {
+    filteredCitationData: {
+        get() {
+            return simplifyObject(this.$data.citationData)
+        }
+    },
     allowSave: function() {
         var citationExists = false
         var keys = Object.keys(this.$data.citationData)
@@ -345,7 +351,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
             this.$router.push({path: '/'})
         },
         clearContributor(index: number) {
-            this.$data.citationData.contributors[index] = Object.assign(this.$data.citationData.contributors[index], {given: null, middle: null, family: null, type: "Director"})
+            this.$data.citationData.contributors[index] = Object.assign(this.$data.citationData.contributors[index], {given: null, middle: null, family: null, type: "Author"})
             this.$data.typing = true
         },
         removeContributor(index: number) {
@@ -354,7 +360,7 @@ import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
             this.$data.typing = true
         },
         addContributor() {
-            this.$data.citationData.contributors.push({given: '', middle: '', family: '', type: 'Director'})
+            this.$data.citationData.contributors.push({given: '', middle: '', family: '', type: 'Author'})
             this.$data.typing = true
         }
     },

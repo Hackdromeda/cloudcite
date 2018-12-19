@@ -20,16 +20,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import { generateCitation } from '../functions/generateCitation';
 import { mapGetters } from 'vuex';
 import { Citation } from '@/models/citation.model';
-import Preview from '../components/Preview.vue';
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue';
 
 @Component({
     components: {
-        Preview,
         BounceLoader
     }
 })

@@ -52,14 +52,16 @@ export default new Vuex.Store({
       state.message = Object.assign(state.message, {type: payload.type, description: payload.description});
     },
     addCitation(state: State, payload: Citation) {
-      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.find((project: Project) => project.id == state.selectedProject), {citations: payload})]);
+      //@ts-ignore
+      state.projects.find((project: Project) => project.id == state.selectedProject).citations.push(payload);
     },
     removeCitation(state: State, payload: string) {
       //@ts-ignore
-      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.find((project: Project) => project.id == state.selectedProject), {citations: state.projects.find((project: Project) => project.id == state.selectedProject).citations.filter((citation: Citation) => citation.id !== payload)})]);
+      state.projects.find((project: Project) => project.id == state.selectedProject).citations = state.projects.find((project: Project) => project.id == state.selectedProject).citations.filter((citation: Citation) => citation.id !== payload);
     },
     resetCitations(state: State) {
-      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.find((project: Project) => project.id == state.selectedProject), {citations: []})]);
+      //@ts-ignore
+      state.projects.find((project: Project) => project.id == state.selectedProject).citations = [];
     },
     resetProjects(state: State) {
       let projectId: string = crypto.randomBytes(10).toString('hex');
@@ -89,13 +91,15 @@ export default new Vuex.Store({
       state.editingCitation = payload
     },
     setProjectTitle(state: State, payload: string) {
-      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.filter((project: Project) => project.id == state.selectedProject)[0], {title: payload})]);
+      //@ts-ignore
+      state.projects.find((project: Project) => project.id == state.selectedProject).title = payload;
     },
     setProjectStyle(state: State, payload: Style) {
-      state.projects = state.projects.filter((project: Project) => project.id != state.selectedProject).concat([Object.assign(state.projects.filter((project: Project) => project.id == state.selectedProject)[0], {style: payload})]);
+      //@ts-ignore
+      state.projects.find((project: Project) => project.id == state.selectedProject).style = payload;
     },
     addFavoriteStyle(state: State, payload: Style) {
-      state.favoriteStyles = state.favoriteStyles.concat([payload]);
+      state.favoriteStyles = state.favoriteStyles.filter((style: Style) => style.value !== payload.value).concat([payload]);
     },
     removeFavoriteStyle(state: State, payload: string) {
       state.favoriteStyles = state.favoriteStyles.filter((style: Style) => style.value !== payload)

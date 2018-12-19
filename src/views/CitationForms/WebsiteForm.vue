@@ -8,7 +8,7 @@
         <sui-form id="editForm">
             <div v-for="(contributor, i) in citationData.contributors" :key="i">
                 <sui-form-field>
-                    <sui-dropdown fluid @input="typing = true" v-model="citationData.contributors[i].type" :options="contributorTypes" placeholder="Author" direction="downward" selection/>
+                    <sui-dropdown fluid @input="typing = true" v-model="contributor.type" :options="contributorTypes" placeholder="Author" direction="downward" selection/>
                 </sui-form-field>
                 <sui-form-field>
                     <div class="ui labeled input">
@@ -29,8 +29,8 @@
                     </div>
                 </sui-form-field>
                 <div is="sui-button-group" style="margin-bottom: 3vh;">
-                    <sui-button v-if="citationData.contributors.length == 1" type="button"  @click="clearContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
-                    <sui-button v-if="citationData.contributors.length > 1" type="button" @click="removeContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
+                    <sui-button v-if="contributors.length == 1" type="button"  @click="clearContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
+                    <sui-button v-if="contributors.length > 1" type="button" @click="removeContributor(i)" style="background-color: #b71c1c; color: #fff;">Remove Contributor</sui-button>
                     <sui-button-or />
                     <sui-button type="button" style="background-color: #005eea; color: #fff;" @click="addContributor()" positive>Add Contributor</sui-button>
                 </div>
@@ -63,7 +63,7 @@
             <!-- Website Form End -->
             <div style="margin-bottom: 15px;">
                 <sui-form-field>
-                    <sui-dropdown fluid @input="typing = true" v-model="citationData.accessed.month" :options="monthAccessedNames" placeholder="Month Accessed" selection search/>
+                    <sui-dropdown fluid @input="typing = true" v-model="citationData.accessed.month" :options="monthNames" placeholder="Month Accessed" selection search/>
                 </sui-form-field>
                 <sui-form-field>
                     <div class="ui labeled input">
@@ -79,7 +79,7 @@
                 </sui-form-field>
             </div>
             <sui-form-field>
-                <sui-dropdown fluid @input="typing = true" v-model="citationData.issued.month" :options="monthPublishedNames" placeholder="Month Published" selection search/>
+                <sui-dropdown fluid @input="typing = true" v-model="citationData.issued.month" :options="monthNames" placeholder="Month Published" selection search/>
             </sui-form-field>
             <sui-form-field>
                 <div class="ui labeled input">
@@ -94,7 +94,7 @@
                 </div>
             </sui-form-field>
             <sui-form-field v-if="allowSave" style="margin-top: 3vh;">
-                <Preview :cslObject="filteredCitationData" :typing="typing"/>
+                <Preview :cslObject="citationData" :typing="typing"/>
             </sui-form-field>
             <div is="sui-button-group">
                 <sui-button type="button" @click="cancel()">Cancel</sui-button>
@@ -105,195 +105,66 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+<script>
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import Preview from '@/components/Preview.vue';
-//@ts-ignore
-import debounce from 'lodash/debounce';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
-//@ts-ignore
-import * as _ from 'lodash';
-import { simplifyObject } from '@/functions/simplifyObject';
+const debounce = require('lodash.debounce');
+
 @Component({
     components: {
         Preview,
         MoonLoader
     },
-  data () {
-      return {
-        typing: false,
-        type: "website",
-        citationData: this.$store.getters.getEditingCitation,
-        contributorTypes: [
-            {
-                "key": "Author",
-                "text": "Author",
-                "value": "Author"
-            },
-            {
-                "key": "Editor",
-                "text": "Editor",
-                "value": "Editor"
-            },
-            {
-                "key": "Translator",
-                "text": "Translator",
-                "value": "Translator"
-            }
-        ],
-        monthAccessedNames: [
-            {
-                "key": "Month Accessed",
-                "text": "Month Accessed",
-                "value": ""
-            },
-            {
-                "key": "January",
-                "text": "January",
-                "value": 1
-            },
-            {
-                "key": "February",
-                "text": "February",
-                "value": 2
-            },
-            {
-                "key": "March",
-                "text": "March",
-                "value": 3
-            },
-            {
-                "key": "April",
-                "text": "April",
-                "value": 4
-            },
-            {
-                "key": "May",
-                "text": "May",
-                "value": 5
-            },
-            {
-                "key": "June",
-                "text": "June",
-                "value": 6
-            },
-            {
-                "key": "July",
-                "text": "July",
-                "value": 7
-            },
-            {
-                "key": "August",
-                "text": "August",
-                "value": 8
-            },
-            {
-                "key": "September",
-                "text": "September",
-                "value": 9
-            },
-            {
-                "key": "October",
-                "text": "October",
-                "value": 10
-            },
-            {
-                "key": "November",
-                "text": "November",
-                "value": 11
-            },
-            {
-                "key": "December",
-                "text": "December",
-                "value": 12
-            }
-        ],
-        monthPublishedNames: [
-            {
-                "key": "Month Published",
-                "text": "Month Published",
-                "value": ""
-            },
-            {
-                "key": "January",
-                "text": "January",
-                "value": 1
-            },
-            {
-                "key": "February",
-                "text": "February",
-                "value": 2
-            },
-            {
-                "key": "March",
-                "text": "March",
-                "value": 3
-            },
-            {
-                "key": "April",
-                "text": "April",
-                "value": 4
-            },
-            {
-                "key": "May",
-                "text": "May",
-                "value": 5
-            },
-            {
-                "key": "June",
-                "text": "June",
-                "value": 6
-            },
-            {
-                "key": "July",
-                "text": "July",
-                "value": 7
-            },
-            {
-                "key": "August",
-                "text": "August",
-                "value": 8
-            },
-            {
-                "key": "September",
-                "text": "September",
-                "value": 9
-            },
-            {
-                "key": "October",
-                "text": "October",
-                "value": 10
-            },
-            {
-                "key": "November",
-                "text": "November",
-                "value": 11
-            },
-            {
-                "key": "December",
-                "text": "December",
-                "value": 12
-            }
-        ]
-      }
-  },
-  computed: {
-    filteredCitationData: {
-        get() {
-            return simplifyObject(this.$data.citationData)
-        }
-    },
-    allowSave: function() {
-        var citationExists = false
-        var keys = Object.keys(this.$data.citationData)
+    watch: {
+        typing: debounce(function(newValue, previousValue) {
+            this.$data.typing = false;
+            console.log(
+                'TYPING'
+            )
+        }, 2000)
+    }
+})
+export default class WebsiteForm extends Vue {
+    typing = false;
+    type = "website";
+    citationData = this.$store.getters.getEditingCitation;
+    contributorTypes = [
+        {"key":"Author","text":"Author","value":"Author"},
+        {"key":"Editor","text":"Editor","value":"Editor"},
+        {"key":"Translator","text":"Translator","value":"Translator"}
+    ];
+    monthNames = [
+        {"key":"Month Accessed","text":"Month Accessed"},
+        {"key":"January","text":"January","value":1},
+        {"key":"February","text":"February","value":2},
+        {"key":"March","text":"March","value":3},
+        {"key":"April","text":"April","value":4},
+        {"key":"May","text":"May","value":5},
+        {"key":"June","text":"June","value":6},
+        {"key":"July","text":"July","value":7},
+        {"key":"August","text":"August","value":8},
+        {"key":"September","text":"September","value":9},
+        {"key":"October","text":"October","value":10},
+        {"key":"November","text":"November","value":11},
+        {"key":"December","text":"December","value":12}
+    ];
+
+    get contributors() {
+        return this.$data.citationData.contributors;
+    }
+
+    get allowSave() {
+        let citationExists = false
+        let keys = Object.keys(this.$data.citationData)
         for (let i=0; i < keys.length; i++) {
             if (keys[i] != "id" && keys[i] != "type" && this.$data.citationData[keys[i]] && ((typeof this.$data.citationData[keys[i]] == 'string' && this.$data.citationData[keys[i]].trim() != "") || (typeof this.$data.citationData[keys[i]] == 'number'))) {
                 citationExists = true
                 break;
             }
             else if (this.$data.citationData[keys[i]] && (typeof this.$data.citationData[keys[i]] == 'object')) {
-                var objectKeys = Object.keys(this.$data.citationData[keys[i]])
-                for (let j=0; j < objectKeys.length; j++) {
+                let objectKeys = Object.keys(this.$data.citationData[keys[i]])
+                for (let j = 0; j < objectKeys.length; j++) {
                     if (this.$data.citationData[keys[i]][objectKeys[j]] && ((typeof this.$data.citationData[keys[i]][objectKeys[j]] == 'string' && this.$data.citationData[keys[i]][objectKeys[j]].trim() != "") || (typeof this.$data.citationData[keys[i]][objectKeys[j]] == 'number'))) {
                         citationExists = true
                         break;
@@ -306,40 +177,34 @@ import { simplifyObject } from '@/functions/simplifyObject';
         }
         return citationExists
     }
-  },
-    methods: {
-        cancel() {
-            this.$store.dispatch('setEditingCitation', null)
-            this.$router.push({path: '/'})
-        },
-        cite() {
-            this.$store.dispatch('addCitation', this.$data.citationData)
-            this.$store.dispatch('cacheBibliography', Object.assign(this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography, {outdated: true}))
-            this.$store.dispatch('setEditingCitation', null)
-            this.$router.push({path: '/'})
-        },
-        clearContributor(index: number) {
-            this.$data.citationData.contributors[index] = Object.assign(this.$data.citationData.contributors[index], {given: null, middle: null, family: null, type: "Author"})
-            this.$data.typing = true
-        },
-        removeContributor(index: number) {
-            //@ts-ignore
-            this.$data.citationData.contributors = this.$data.citationData.contributors.slice(0, index).concat(this.$data.citationData.contributors.slice(index + 1, this.$data.citationData.contributors.length))
-            this.$data.typing = true
-        },
-        addContributor() {
-            this.$data.citationData.contributors.push({given: '', middle: '', family: '', type: 'Author'})
-            this.$data.typing = true
-        }
-    },
-    watch: {
-        typing: debounce(function () {
-        //@ts-ignore
-        this.$data.typing = false
-        }, 3000)
+
+    cancel() {
+        this.$store.dispatch('setEditingCitation', null)
+        this.$router.push({path: '/'})
     }
-})
-export default class WebsiteForm extends Vue {}
+
+    cite() {
+        this.$store.dispatch('addCitation', this.$data.citationData)
+        this.$store.dispatch('setEditingCitation', null)
+        this.$router.push({path: '/'})
+    }
+
+    clearContributor(index) {
+        this.$data.citationData.contributors[index] = Object.assign(this.$data.citationData.contributors[index], {given: null, middle: null, family: null, type: "Author"});
+        this.typing = true;
+    }
+
+    removeContributor(index) {
+        //@ts-ignore
+        this.$data.citationData.contributors = this.$data.citationData.contributors.slice(0, index).concat(this.$data.citationData.contributors.slice(index + 1, this.$data.citationData.contributors.length));
+        this.typing = true;
+    }
+
+    addContributor() {
+        this.$data.citationData.contributors.push({given: '', middle: '', family: '', type: 'Author'});
+        this.typing = true;
+    }
+}
 </script>
 
 <style scoped lang="scss">

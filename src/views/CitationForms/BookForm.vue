@@ -186,11 +186,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import Preview from '@/components/Preview.vue';
-//@ts-ignore
-import debounce from 'lodash/debounce';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
-//@ts-ignore
-import * as _ from 'lodash';
 import { simplifyObject } from '@/functions/simplifyObject';
 
 @Component({
@@ -445,10 +441,10 @@ import { simplifyObject } from '@/functions/simplifyObject';
         }
     },
     watch: {
-        typing: debounce(function () {
+        typing: function () {
         //@ts-ignore
         this.$data.typing = false
-        }, 3000)
+        }
     }
 })
 export default class BookForm extends Vue {}

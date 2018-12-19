@@ -79,7 +79,7 @@
     },
     methods: {
       cite(option: string) {
-        this.$data.selectedFormat = option
+        this.$data.selectedFormat = option;
         this.$router.push({
           path: ('/cite/' + option.toLowerCase() + '/'),
           //@ts-ignore

@@ -1,11 +1,8 @@
 <template>
   <div id="preview">
-    <div class="csl-bib-body" :style="(cslHTML.indexOf('csl-left-margin') == -1 && cslFormat) ? ('line-height: ' + cslFormat.linespacing + ';' + 'margin-left: ' + cslFormat.hangingindent + 'em; text-indent: -' + cslFormat.hangingindent + 'em;'): '' + 'word-break: break-all;'" ref="cslBibRef">
+    <div class="csl-bib-body" :style="`${cslHTML.indexOf('csl-left-margin') == -1 && cslFormat ? (`line-height:${cslFormat.linespacing};margin-left:${cslFormat.hangingindent}em;text-indent: -${cslFormat.hangingindent}em;`): ''}word-break: break-all;`" ref="cslBibRef">
       <div v-for="(cslEntry, i) in cslHTML" :key="i">
-        <div :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry"/>
-        <div id="previewStatus" v-if="typingStatus">
-          Editing Citation
-        </div>
+        <div :style="`clear: left;${cslFormat && cslFormat.entryspacing ? (`margin-bottom:${cslFormat.entryspacing}em;`): ''}`" v-html="cslEntry"/>
         <div id="citationOptions">
           <span>
             <a @click="copyCitation()"><i style="color: #4b636e;" class="clipboard icon" size="small"></i></a>
@@ -17,39 +14,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-//@ts-ignore
-import rp from 'request-promise-native';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 //@ts-ignore
 import { generateCSL } from '../functions/generateCSL';
 //@ts-ignore
 import { generateHTML } from '../functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
-//@ts-ignore
-import _ from 'lodash';
 import { styles } from '@/assets/styles';
+import { simplifyObject } from '@/functions/simplifyObject';
+
 
 @Component({
-  props: ['cslObject','typing'],
-  components: {},
+  props: ['cslObject', 'typing'],
   async created() {
-      //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: []})
-      if (generatedHTML.error) {
-        console.log(generatedHTML.error)
-      } 
-      else {
-        this.$data.cslFormat = generatedHTML.format
-        var html = []
-        if (generatedHTML.html && generatedHTML.html.length > 0) {
-          for (let i=0; i < generatedHTML.html.length; i++) {
-            html.push(generatedHTML.html[i].html)
-          }
-        }
-        //@ts-ignore
-        this.$data.cslHTML = html
-      }
+    //@ts-ignore
+    const generatedHTML = await generateHTML({style: this.$store.getters.getProjectStyle.value, locale: this.$store.getters.getLocale.value, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.getters.getProjectStyle.value)[0].loc ? null: 'en-US'), cslHTML: []})
+    if (generatedHTML.error) {
+      console.log(generatedHTML.error);
+    } 
+    else {
+      this.$data.cslFormat = generatedHTML.format;
+      this.$data.cslHTML = generatedHTML.html.reduce((accumulator: any, currentValue: any) => accumulator.concat([currentValue.html]), []);
+    }
   },
   data () {
     return {
@@ -61,12 +48,12 @@ import { styles } from '@/assets/styles';
   computed: {
     cslData: {
       get() {
-        return _.cloneDeep(this.$props.cslObject)
+        return simplifyObject(this.$props.cslObject);
       }
     },
     typingStatus: {
       get() {
-        return this.$props.typing
+        return this.$props.typing;
       }
     }
   },
@@ -90,44 +77,35 @@ import { styles } from '@/assets/styles';
     },
     copyCitation() {
       //@ts-ignore
-          var html = '<div class="csl-bib-body" style="'
-          //@ts-ignore
-          html += ((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? (' text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '')): '') + '">'
-          //@ts-ignore
-          for (let i=0; i < this.$data.cslHTML.length; i++) {
-            html += '<div style="clear: left;'
-            //@ts-ignore
-            html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>'
-            //@ts-ignore
-            html += this.$data.cslHTML[i]
-            html += '</div>'
-          }
-          html += '</div>'
-          console.log(html)
+      let html: string = `<div class="csl-bib-body" style="${((this.$data.cslFormat) ? ((this.$data.cslFormat.linespacing ? ('line-height: ' + this.$data.cslFormat.linespacing + '; '): '') + (this.$data.cslFormat.hangingindent ? (' text-indent: -' + this.$data.cslFormat.hangingindent + 'em;'): '')): '')}">${this.$data.cslHTML.reduce((accumulator: any, currentValue: any) => `<div style="clear: left;${this.$data.cslFormat.entryspacing ? (`margin-bottom:${this.$data.cslFormat.entryspacing}em;"`): '"'}${currentValue}</div>`, '')}</div>`;
       var dt = new clipboard.DT();
       //@ts-ignore
       dt.setData("text/plain", this.$refs.cslBibRef.textContent);
       dt.setData("text/html", html);
       clipboard.write(dt);
+      /*
+      let element = document.createElement('textarea');
+      element.value = this.$refs.cslBibRef.innerText;
+      this._cslBibRef.appendChild(element);
+      element.focus({
+        preventScroll: true
+      });
+      element.setSelectionRange(0, element.value.length);
+      document.execCommand('copy');
+      this._cslBibRef.removeChild(element);
+      */
     }
   },
   watch: {
     async typingStatus() {
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.state.projects[this.$store.state.selectedProject].style, locale: this.$store.state.projects[this.$store.state.selectedProject].locale, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.state.projects[this.$store.state.selectedProject].style)[0].loc ? null: 'en-US'), cslHTML: []})
+      const generatedHTML = await generateHTML({style: this.$store.getters.getProjectStyle.value, locale: this.$store.getters.getLocale.value, csl: generateCSL(this.cslData), lang: (this.$data.styles.filter(style => style.value == this.$store.getters.getProjectStyle.value)[0].loc ? null: 'en-US'), cslHTML: []})
       if (generatedHTML.error) {
-        console.log(generatedHTML.error)
+        console.log(generatedHTML.error);
       } 
       else {
-        this.$data.cslFormat = generatedHTML.format
-        var html = []
-        if (generatedHTML.html && generatedHTML.html.length > 0) {
-          for (let i=0; i < generatedHTML.html.length; i++) {
-            html.push(generatedHTML.html[i].html)
-          }
-        }
-        //@ts-ignore
-        this.$data.cslHTML = html
+        this.$data.cslFormat = generatedHTML.format;
+        this.$data.cslHTML = generatedHTML.html.reduce((accumulator: any, currentValue: any) => accumulator.concat([currentValue.html]), []);
       }
     }
   }

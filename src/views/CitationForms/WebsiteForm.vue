@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { Vue, Component, Watch } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import Preview from '@/components/Preview.vue';
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue';
 const debounce = require('lodash.debounce');
@@ -119,9 +119,6 @@ const debounce = require('lodash.debounce');
     watch: {
         typing: debounce(function(newValue, previousValue) {
             this.$data.typing = false;
-            console.log(
-                'TYPING'
-            )
         }, 2000)
     }
 })

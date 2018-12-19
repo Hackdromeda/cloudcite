@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { generateCitation } from '../functions/generateCitation';
+import { generateCitation } from '@/functions/generateCitation';
 import { mapGetters } from 'vuex';
 import { Citation } from '@/models/citation.model';
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue';

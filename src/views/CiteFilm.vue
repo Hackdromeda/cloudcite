@@ -49,13 +49,12 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import { generateCitation } from '../functions/generateCitation';
-//@ts-ignore
-import { debounce } from 'lodash/debounce';
-import Preview from '../components/Preview.vue';
+import Preview from '@/components/Preview.vue';
 import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
 import { Citation } from '@/models/citation.model';
+const debounce = require('lodash.debounce');
 
 @Component({
     components: {

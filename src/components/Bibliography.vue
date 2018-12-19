@@ -101,9 +101,9 @@ export default class Bibliography extends Vue {
     html += '<div style="clear: left;';
     //@ts-ignore
     html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>';
-    for (let i=0; i < this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html.length; i++) {
+    for (let i=0; i < this.$store.getters.getSelectedProject.cachedBibliography.html.length; i++) {
       //@ts-ignore
-      html += this.$store.state.projects[this.$store.state.selectedProject].cachedBibliography.html[i].html;
+      html += this.$data.cslHTML[i];
     }
     html += '</div>';
     html += '</div>';
@@ -185,8 +185,7 @@ export default class Bibliography extends Vue {
   }
 
   removeCitation(id: string) {
-    //@ts-ignore
-    this.$store.dispatch('removeCitationById', id)
+    this.$store.dispatch('removeCitation', id)
   }
 
 }

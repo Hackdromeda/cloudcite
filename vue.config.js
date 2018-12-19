@@ -103,7 +103,7 @@ module.exports = {
   },
 
   baseUrl: "/",
-  productionSourceMap: true,
+  productionSourceMap: false,
   parallel: true,
 
   css: {

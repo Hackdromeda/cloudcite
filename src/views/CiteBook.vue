@@ -181,7 +181,6 @@ export default class CiteBook extends Vue {
             if (autofillData.contributors.length == 0) {
                 autofillData.contributors = [{given: "", middle: "", family: "", type: "Author"}];
             }
-            autofillData.issued = this.$data.selectedBook.volumeInfo.publishedDate ? (new Date(this.$data.selectedBook.volumeInfo.publishedDate).getFullYear()): "";
             const citation = generateCitation("book", autofillData);
             //@ts-ignore
             this.$store.dispatch('setEditingCitation', citation);

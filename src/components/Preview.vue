@@ -23,6 +23,7 @@ import { generateHTML } from '../functions/generateHTML';
 import clipboard from "clipboard-polyfill";
 import { styles } from '@/assets/styles';
 import { simplifyObject } from '@/functions/simplifyObject';
+var cloneDeep = require('lodash.clonedeep');
 
 
 @Component({
@@ -48,7 +49,7 @@ import { simplifyObject } from '@/functions/simplifyObject';
   computed: {
     cslData: {
       get() {
-        return simplifyObject(this.$props.cslObject);
+        return simplifyObject(cloneDeep(this.$props.cslObject));
       }
     },
     typingStatus: {

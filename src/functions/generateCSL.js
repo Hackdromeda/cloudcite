@@ -22,6 +22,7 @@ export function generateCSL(cslData) {
             "type": cslData.type,
             "id": cslData.id,
             "author": contributors.filter(c => c.type == "Author" && (c.family || c.given || c.middle)).map(author => simplifyObject(author)),
+            "director": contributors.filter(c => c.type == "Director" && (c.family || c.given || c.middle)).map(director => simplifyObject(director)),
             "container-author": contributors.filter(c => c.type == "Container Author" && (c.family || c.given || c.middle)).map(containerAuthor => simplifyObject(containerAuthor)),
             "editor": contributors.filter(c => c.type == "Editor" && (c.family || c.given || c.middle)).map(editor => simplifyObject(editor)),
             "translator": contributors.filter(c => c.type == "Translator" && (c.family || c.given || c.middle)).map(translator => simplifyObject(translator)),

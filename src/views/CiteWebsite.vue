@@ -86,7 +86,7 @@ export default class CiteWebsite extends Vue {
                 if (autofillData.contributors.length == 0) {
                     autofillData.contributors.push({given: "", middle: "", family: "", type: "Author"})
                 }
-                const citation = generateCitation("website", autofillData)
+                const citation = generateCitation('website', autofillData)
                 this.$data.loadingCitation = false
                 //@ts-ignore
                 this.$store.dispatch('setEditingCitation', citation);
@@ -95,8 +95,7 @@ export default class CiteWebsite extends Vue {
     }
 
     citeEmpty() {
-        //@ts-ignore
-        this.$store.dispatch('setEditingCitation', this.$data.websiteCitationData)
+        this.$store.dispatch('setEditingCitation', generateCitation('website', this.$data.websiteCitationData));
         this.$router.push({path: '/edit/website/'})
     }
 

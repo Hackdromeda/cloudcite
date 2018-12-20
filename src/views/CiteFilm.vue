@@ -146,8 +146,7 @@ export default class CiteFilm extends Vue {
     }
 
     citeEmpty() {
-        //@ts-ignore
-        this.$store.dispatch('setEditingCitation', this.$data.filmCitationData)
+        this.$store.dispatch('setEditingCitation', generateCitation('motion_picture', this.$data.filmCitationData));
         this.$router.push({path: '/edit/film/'})
     }
 

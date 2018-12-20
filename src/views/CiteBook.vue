@@ -190,7 +190,7 @@ export default class CiteBook extends Vue {
 
     citeEmpty() {
         //@ts-ignore
-        this.$store.dispatch('setEditingCitation', this.$data.bookCitationData)
+        this.$store.dispatch('setEditingCitation', generateCitation('book', this.$data.bookCitationData));
         this.$router.push({path: '/edit/book/'})
     }
 

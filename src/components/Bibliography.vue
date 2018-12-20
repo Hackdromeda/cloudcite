@@ -105,9 +105,9 @@ export default class Bibliography extends Vue {
     html += '<div style="clear: left;';
     //@ts-ignore
     html += (this.$data.cslFormat.entryspacing ? ('margin-bottom:' + this.$data.cslFormat.entryspacing + 'em;"'): '"') + '>';
-    for (let i=0; i < this.$store.getters.getSelectedProject.cachedBibliography.html.length; i++) {
+    for (let i=0; i < this.$data.cslHTML.length; i++) {
       //@ts-ignore
-      html += this.$data.cslHTML[i];
+      html += this.$data.cslHTML[i].html;
     }
     html += '</div>';
     html += '</div>';

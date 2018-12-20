@@ -1,7 +1,9 @@
 <template>
   <div>
     <div id="bibliography">
-      <input id="titleInput" placeholder="Enter Project Title" v-model="title" maxlength="20"/>
+      <div>
+        <input id="titleInput" placeholder="Enter Project Title" @input="typing = true" v-model="title" maxlength="20"/>
+      </div>
       <div style="margin-top: 5vh;" v-if="getProjectCitations.length > 0" id="bibliographyActions" >
         <a @click="copyBibliography()"><i style="color: #fff;" class="clipboard icon" size="small"></i></a><p style="padding-left: 25px;">More Export Options Coming Soon</p>
       </div>
@@ -15,10 +17,11 @@
           </div>
         </div>
         <div id="bibliographyPreview">
-        <sui-segment v-if="!loading && cslFormat">
-          <div class="csl-bib-body" :style="(`${cslFormat.linespacing ? (`line-height:${cslFormat.linespacing};`): ''})${cslFormat.hangingindent ? (`margin-left:${cslFormat.hangingindent}em;`): ''}${cslFormat.hangingindent ? (`text-indent: -${cslFormat.hangingindent}em;`): ''}`)">
+        <sui-segment v-if="!loading">
+          <div class="csl-bib-body" :style="(cslFormat) ? (((cslFormat.linespacing) ? ('line-height: ' + cslFormat.linespacing + ';'): '') + ((cslFormat.hangingindent) ? ('margin-left: ' + cslFormat.hangingindent + 'em;'): '') + ((cslFormat.hangingindent) ? ('text-indent: -' + cslFormat.hangingindent + 'em;'): '')): ''">
             <div v-for="(cslEntry, i) in this.$data.cslHTML" :key="i">
-                <div :id="cslEntry.id" :style="(`clear: left;${cslFormat && cslFormat.entryspacing ? (`margin-bottom:${cslFormat.entryspacing}em;`): ''}`)" v-html="cslEntry.html"/>
+              <div v-if="getProjectCitations.filter(citation => citation.id == cslEntry.id).length > 0">
+                <div :id="cslEntry.id" :style="'clear: left;' + cslFormat && cslFormat.entryspacing ? ('margin-bottom:' + cslFormat.entryspacing + 'em;'): ''" v-html="cslEntry.html"/>
                   <div id="citationOptions">
                     <span>
                       <a @click="copyCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="clipboard" /></a>
@@ -26,6 +29,7 @@
                       <a @click="removeCitation(cslEntry.id)"><sui-icon style="color: #4b636e;" name="trash" /></a>
                     </span>
                   </div>
+              </div>
             </div>
           </div>
         </sui-segment>
@@ -38,9 +42,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 //@ts-ignore
-import { generateCSL } from '../functions/generateCSL';
+import { generateCSL } from '@/functions/generateCSL';
 //@ts-ignore
-import { generateHTML } from '../functions/generateHTML';
+import { generateHTML } from '@/functions/generateHTML';
 //@ts-ignore
 import clipboard from "clipboard-polyfill";
 //@ts-ignore

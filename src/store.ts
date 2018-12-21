@@ -185,6 +185,7 @@ export default new Vuex.Store({
     },
     setProjects(context: any, payload: Project[]) {
       context.commit('setProjects');
+      context.dispatch('saveState');
     },
     setEditingCitation(context: any, payload: Citation) {
       context.commit('setEditingCitation', payload);

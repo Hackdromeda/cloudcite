@@ -68,7 +68,7 @@ import { localState } from '@/store';
           this.$store.dispatch('setLocale', originalState.locale);
         }
         if (originalState.favoriteStyles !== this.$store.getters.getFavoriteStyles) {
-          this.$store.dispatch('setLocale', originalState.locale);
+          this.$store.dispatch('setFavoriteStyles', originalState.favoriteStyles);
         }
         if (originalState.projects !== this.$store.getters.getProjects) {
           this.$store.dispatch('setProjects', originalState.projects);

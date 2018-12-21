@@ -110,7 +110,13 @@ export default new Vuex.Store({
       }
     },
     removeProject(state: State, payload: string) {
-      state.projects = state.projects.filter((project: Project) => project.id !== payload);
+      if (state.projects.length > 1) {
+        if (state.selectedProject == payload) {
+          //@ts-ignore
+          state.selectedProject = state.projects.find((project: Project) => project.id !== payload).id;
+        }
+        state.projects = state.projects.filter((project: Project) => project.id !== payload);
+      }
     },
     selectProject(state: State, payload: string) {
       state.selectedProject = payload;

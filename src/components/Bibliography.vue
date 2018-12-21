@@ -74,6 +74,14 @@ export default class Bibliography extends Vue {
     return this.$store.getters.getSelectedProject.title
   }
 
+  get getSelectedProject() {
+    return this.$store.getters.getSelectedProject;
+  }
+
+  get locale() {
+    return this.$store.getters.getLocale;
+  }
+
   set title(title: string) {
     this.$store.dispatch('setProjectTitle', title)
   }
@@ -81,11 +89,11 @@ export default class Bibliography extends Vue {
   async created() {
     this.$data.loading = true;
     //@ts-ignore
-    if (this.$store.getters.getProjectCitations.length > 0) {
+    if (this.getProjectCitations.length > 0) {
       //@ts-ignore
       let cslData = this.getProjectCitations.reduce((accumulator: any, currentValue: any) => Object.assign(accumulator, {[currentValue.id]: generateCSL(currentValue)[currentValue.id]}), {});
       //@ts-ignore
-      const generatedHTML = await generateHTML({style: this.$store.getters.getSelectedProject.style.value, locale: this.$store.getters.getLocale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.getters.getSelectedProject.style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
+      const generatedHTML = await generateHTML({style: this.getSelectedProject.style.value, locale: this.locale.value, csl: cslData, lang: (this.$data.styles.filter(style => style.value == this.$store.getters.getSelectedProject.style.value)[0].loc ? null: 'en-US'), cslHTML: this.$data.cslHTML})
       if (generatedHTML.error) {
         console.log(generatedHTML.error)
       }

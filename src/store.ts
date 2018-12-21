@@ -5,9 +5,16 @@ import { Project } from '@/models/project.model';
 import { Locale } from '@/models/locale.model';
 import { Style } from '@/models/style.model';
 import { Citation } from '@/models/citation.model';
+import localForage from "localforage";
 const crypto = require('crypto');
 
 Vue.use(Vuex)
+
+export const localState = localForage.createInstance({
+  name: 'cloudcite',
+  version: 1.0,
+  driver: localForage.INDEXEDDB
+});
 
 let projectId: string = crypto.randomBytes(20).toString('hex');
 
@@ -53,15 +60,26 @@ export default new Vuex.Store({
     },
     addCitation(state: State, payload: Citation) {
       //@ts-ignore
+      state.projects.find((project: Project) => project.id == state.selectedProject).citations = state.projects.find((project: Project) => project.id == state.selectedProject).citations.filter((citation: Citation) => citation.id !== payload.id);
+      //@ts-ignore
       state.projects.find((project: Project) => project.id == state.selectedProject).citations.push(payload);
     },
     removeCitation(state: State, payload: string) {
       //@ts-ignore
       state.projects.find((project: Project) => project.id == state.selectedProject).citations = state.projects.find((project: Project) => project.id == state.selectedProject).citations.filter((citation: Citation) => citation.id !== payload);
     },
-    resetCitations(state: State) {
+    resetCitations(state: State, payload: string) {
       //@ts-ignore
-      state.projects.find((project: Project) => project.id == state.selectedProject).citations = [];
+      state.projects.find((project: Project) => project.id == payload).citations = [];
+    },
+    resetProject(state: State, payload: string) {
+      let project = state.projects.find((project: Project) => project.id == payload);
+      project = {
+        "id": payload,
+        "title": "New Project",
+        "citations": [],
+        "style": state.favoriteStyles[0]
+      };
     },
     resetProjects(state: State) {
       let projectId: string = crypto.randomBytes(10).toString('hex');
@@ -79,16 +97,26 @@ export default new Vuex.Store({
       state.locale = payload;
     },
     addProject(state: State, payload: Project) {
-      state.projects = state.projects.concat([Object.assign(payload, {id: crypto.randomBytes(20).toString('hex')})]);
+      if (state.projects.find((project: Project) => project.id == payload.id)) {
+        //@ts-ignore
+        state.projects.find((project: Project) => project.id == payload.id).title = payload.title;
+        //@ts-ignore
+        state.projects.find((project: Project) => project.id == payload.id).citations = payload.citations;
+        //@ts-ignore
+        state.projects.find((project: Project) => project.id == payload.id).style = payload.style;
+      }
+      else {
+        state.projects.push(Object.assign(payload, {id: crypto.randomBytes(20).toString('hex')}));
+      }
     },
     removeProject(state: State, payload: string) {
-      state.projects = state.projects.filter((project: Project) => project.id !== payload);;
+      state.projects = state.projects.filter((project: Project) => project.id !== payload);
     },
     selectProject(state: State, payload: string) {
       state.selectedProject = payload;
     },
     setEditingCitation(state: State, payload: Citation) {
-      state.editingCitation = payload
+      state.editingCitation = payload;
     },
     setProjectTitle(state: State, payload: string) {
       //@ts-ignore
@@ -98,53 +126,87 @@ export default new Vuex.Store({
       //@ts-ignore
       state.projects.find((project: Project) => project.id == state.selectedProject).style = payload;
     },
+    setProjects(state: State, payload: Project[]) {
+      state.projects = payload;
+    },
     addFavoriteStyle(state: State, payload: Style) {
+      state.favoriteStyles = state.favoriteStyles.filter((style: Style) => style.value !== payload.value);
       state.favoriteStyles = state.favoriteStyles.filter((style: Style) => style.value !== payload.value).concat([payload]);
     },
     removeFavoriteStyle(state: State, payload: string) {
-      state.favoriteStyles = state.favoriteStyles.filter((style: Style) => style.value !== payload)
+      state.favoriteStyles = state.favoriteStyles.filter((style: Style) => style.value !== payload);
     }
   },
   actions: {
+    saveState({state}) {
+      localState.setItem('state', state)
+      .catch(function (error) {
+        if (process.env.NODE_ENV == 'dev') {
+          console.log(error);
+        }
+      });
+    },
     setMessage(context: any, payload: any) {
       context.commit('setMessage', payload);
     },
     addCitation(context: any, payload: Citation) {
       context.commit('addCitation', payload);
+      context.dispatch('saveState');
     },
     removeCitation(context: any, payload: string) {
       context.commit('removeCitation', payload);
+      context.dispatch('saveState');
     },
-    resetCitations(context: any) {
-      context.commit('setCitations');
+    resetCitations(context: any, payload: string) {
+      context.commit('resetCitations', payload);
+      context.dispatch('saveState');
     },
     setLocale(context: any, payload: Locale) {
       context.commit('setLocale', payload);
+      context.dispatch('saveState');
     },
     addProject(context: any, payload: Project) {
       context.commit('addProject', payload);
+      context.dispatch('saveState');
     },
     removeProject(context: any, payload: string) {
       context.commit('removeProject', payload);
+      context.dispatch('saveState');
     },
     selectProject(context: any, payload: string) {
       context.commit('selectProject', payload);
+      context.dispatch('saveState');
+    },
+    setProjects(context: any, payload: Project[]) {
+      context.commit('setProjects');
     },
     setEditingCitation(context: any, payload: Citation) {
       context.commit('setEditingCitation', payload);
     },
     setProjectTitle(context: any, payload: string) {
       context.commit('setProjectTitle', payload);
+      context.dispatch('saveState');
     },
     setProjectStyle(context: any, payload: Style) {
       context.commit('setProjectStyle', payload);
+      context.dispatch('saveState');
     },
     addFavoriteStyle(context: any, payload: Style) {
       context.commit('addFavoriteStyle', payload);
+      context.dispatch('saveState');
     },
     removeFavoriteStyle(context: any, payload: string) {
       context.commit('removeFavoriteStyle', payload);
-    }
+      context.dispatch('saveState');
+    },
+    resetProjects(context: any) {
+      context.commit('resetProjects');
+      context.dispatch('saveState');
+    },
+    resetProject(context: any, payload: string) {
+      context.commit('resetProjects', payload);
+      context.dispatch('saveState');
+    },
   },
   getters: {
     getMessage(state: State) {
@@ -155,6 +217,9 @@ export default new Vuex.Store({
     },
     getProjects(state: State) {
       return state.projects;
+    },
+    getProjectById: (state: State) => (id: string) => {
+      return state.projects.find((project: Project) => project.id == id);
     },
     getFavoriteStyles(state: State) {
       return state.favoriteStyles;

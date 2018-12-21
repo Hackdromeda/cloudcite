@@ -54,11 +54,30 @@ import AuthService from './Auth/AuthService';
 const auth = new AuthService()
 const { login, logout, authenticated, authNotifier } = auth
 import 'semantic-ui-css/semantic.min.css';
+import { localState } from '@/store';
 
 @Component({
-  components: {},
-  created () {
-    //this.$store.dispatch('setState')
+  beforeCreate() {
+    localState.getItem('state')
+    .then((originalState: any) => {
+      if (originalState) {
+        if (originalState.selectedProject != this.$store.getters.getSelectedProject) {
+          this.$store.dispatch('selectProject', originalState.selectedProject);
+        }
+        if (originalState.locale.value !== this.$store.getters.getLocale.value) {
+          this.$store.dispatch('setLocale', originalState.locale);
+        }
+        if (originalState.favoriteStyles !== this.$store.getters.getFavoriteStyles) {
+          this.$store.dispatch('setLocale', originalState.locale);
+        }
+        if (originalState.projects !== this.$store.getters.getProjects) {
+          this.$store.dispatch('setProjects', originalState.projects);
+        }
+      }
+    })
+    .catch((error: any) => {
+      console.log(error);
+    });
   },
   data () {
     //@ts-ignore

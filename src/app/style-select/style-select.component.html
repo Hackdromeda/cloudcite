@@ -1,0 +1,5 @@
+<mat-form-field>
+  <mat-select [(value)]="selectedStyle" [placeholder]="selectedStyle.text" (selectionChange)="updateStyle()">
+    <mat-option *ngFor="let style of favoriteStyles" [value]="style">{{ style.text }}</mat-option>
+  </mat-select>
+</mat-form-field>

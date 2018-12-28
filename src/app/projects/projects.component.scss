@@ -1,0 +1,31 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+:host {
+    display: flex;
+    justify-content: center;
+}
+
+mat-card {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+@media (max-width: 991.97px) {
+    mat-card {
+        margin: 3vh;
+    }
+    mat-form-field {
+        width: 35vh;
+    }
+}
+
+@media (min-width: 991.98px) {
+    mat-card {
+        min-width: 65vh;
+        min-height: 25vh;
+        max-width: 60vh;
+    }
+    mat-form-field {
+        width: 55vh;
+    }
+}

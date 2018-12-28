@@ -1,13 +1,7 @@
 {
-  "name": "cloudcite",
-  "version": "0.6.0",
-  "private": false,
+  "name": "cloudcite-app",
   "license": "AGPL-3.0-or-later",
-  "author": {
-    "name": "Naval Patel",
-    "email": "navalpatel384@gmail.com",
-    "url": "https://navalpatel.me"
-  },
+  "version": "0.0.1",
   "contributors": [
     {
       "name": "Naval Patel",
@@ -21,58 +15,66 @@
     }
   ],
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
+  "private": false,
   "dependencies": {
-    "@types/node": "^10.12.15",
-    "EventEmitter": "^1.0.0",
-    "auth0-js": "^9.6.1",
-    "bulma": "^0.7.1",
-    "clipboard-polyfill": "^2.5.2",
-    "fg-loadcss": "^2.0.1",
-    "immutable": "^3.8.2",
-    "jsdom": "^12.0.0",
+    "@angular/animations": "^7.1.4",
+    "@angular/cdk": "^7.2.0",
+    "@angular/common": "~7.1.4",
+    "@angular/compiler": "~7.1.4",
+    "@angular/core": "~7.1.4",
+    "@angular/forms": "~7.1.4",
+    "@angular/material": "^7.2.0",
+    "@angular/platform-browser": "~7.1.4",
+    "@angular/platform-browser-dynamic": "~7.1.4",
+    "@angular/pwa": "^0.11.2",
+    "@angular/router": "~7.1.4",
+    "@angular/service-worker": "~7.1.4",
+    "@ngrx/core": "^1.2.0",
+    "@ngrx/effects": "^7.0.0",
+    "@ngrx/store": "^7.0.0",
+    "@ngrx/store-devtools": "^7.0.0",
+    "@polymer/iron-icons": "^3.0.1",
+    "@vaadin/vaadin-app-layout": "^1.0.2",
+    "@vaadin/vaadin-button": "^2.1.1",
+    "@vaadin/vaadin-icons": "^4.2.1",
+    "@vaadin/vaadin-tabs": "^2.1.1",
+    "core-js": "^2.5.4",
+    "hammerjs": "^2.0.8",
+    "hyperhtml": "^2.20.2",
     "localforage": "^1.7.3",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.debounce": "^4.0.8",
+    "lodash.differenceby": "^4.8.0",
+    "mobx": "^5.8.0",
     "moment": "^2.23.0",
-    "path": "^0.12.7",
-    "postcss-loader": "^2.1.6",
-    "register-service-worker": "^1.0.0",
-    "semantic-ui-css": "^2.3.3",
-    "semantic-ui-search": "^2.3.3",
-    "semantic-ui-vue": "^0.2.11",
-    "typescript": "^3.0.1",
-    "vue": "^2.5.16",
-    "vue-class-component": "^6.0.0",
-    "vue-google-adsense": "^1.2.0",
-    "vue-property-decorator": "^6.0.0",
-    "vue-router": "^3.0.1",
-    "vue-script2": "^2.0.3",
-    "vue-spinner": "^1.0.3",
-    "vuex": "^3.0.1",
-    "webpack": "^4.16.5"
+    "rxjs": "~6.3.3",
+    "tslib": "^1.9.0",
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
-    "@prerenderer/renderer-jsdom": "^0.2.0",
-    "@vue/cli-plugin-babel": "^3.0.0-beta.15",
-    "@vue/cli-plugin-pwa": "^3.0.0-beta.15",
-    "@vue/cli-plugin-typescript": "^3.0.0-beta.15",
-    "@vue/cli-service": "^3.0.0-beta.15",
-    "node-sass": "^4.9.0",
-    "prerender-spa-plugin": "^3.3.0",
-    "sass-loader": "^7.0.1",
-    "vue-template-compiler": "^2.5.16"
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+    "@angular-devkit/build-angular": "~0.11.0",
+    "@angular/cli": "~7.1.2",
+    "@angular/compiler-cli": "~7.1.4",
+    "@angular/language-service": "~7.1.4",
+    "@types/jasmine": "~2.8.8",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^10.12.18",
+    "codelyzer": "~4.5.0",
+    "jasmine-core": "~2.99.1",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~3.1.1",
+    "karma-chrome-launcher": "~2.2.0",
+    "karma-coverage-istanbul-reporter": "~2.0.1",
+    "karma-jasmine": "~1.1.2",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "protractor": "~5.4.0",
+    "ts-node": "~7.0.0",
+    "tslint": "~5.11.0",
+    "typescript": "~3.1.6"
+  }
 }

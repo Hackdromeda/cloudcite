@@ -4,9 +4,6 @@ import { Observable } from 'rxjs';
 import { AddFavoriteStyle, RemoveFavoriteStyle } from '../actions/projects.actions';
 import { State } from '../models/projectState.model';
 import { Style } from '../models/style.model';
-import { styles } from './styles';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import differenceBy from 'lodash.differenceby';
 
 @Component({
   selector: 'app-styles-list',
@@ -16,14 +13,12 @@ import differenceBy from 'lodash.differenceby';
 
 export class StylesListComponent implements OnInit {
   state$: Observable<State>;
-  styles: Style[] = styles;
   favoriteStyles: Style[];
 
   constructor(private store: Store<({projectStore: State})>) {
     this.state$ = store.pipe(select('projectStore'));
     this.state$.subscribe(state => {
       this.favoriteStyles = state.favoriteStyles;
-      this.styles = differenceBy(this.styles, this.favoriteStyles, 'value')
     }).unsubscribe();
   }
 

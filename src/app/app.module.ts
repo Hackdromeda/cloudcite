@@ -16,7 +16,6 @@ import { AppEffects } from './app.effects';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { projectsReducer } from './reducers/projects.reducer';
 import { StyleSelectComponent } from './style-select/style-select.component';
 import { LocaleSelectComponent } from './locale-select/locale-select.component';
@@ -48,7 +47,6 @@ import { NgAisModule } from 'angular-instantsearch';
     MatInputModule,
     MatCardModule,
     MatSelectModule,
-    DragDropModule,
     NgAisModule.forRoot()
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center;">
+<!--<div style="display: flex; justify-content: center;">
   <div class="styles-container">
       <h2>Favorite Styles</h2>
       <div
@@ -23,4 +23,40 @@
       <div class="style-box" *ngFor="let style of styles" cdkDrag>{{ style.text }}</div>
     </div>
   </div>
+</div>-->
+
+<div class="styles-container">
+  <ais-instantsearch
+    [config]="{
+      apiKey: 'e8168f69a4758f6c98f19acb409d904e',
+      appId: 'X2RBUB2NNH',
+      indexName: 'STYLES',
+      routing: true
+    }"
+  >
+  <ais-search-box placeholder='Search for styles'>
+  </ais-search-box>
+  <ais-hits>
+    <ng-template
+      let-hits="hits"
+      let-results="results"
+    >
+      <!-- No results message -->
+      <div *ngIf="hits.length === 0 && results.query">
+        No results found matching <strong>{{results.query}}</strong>.
+      </div>
+      <!-- Hit template -->
+      <div *ngIf="hits.length != 0 && results.query">
+        <div style="margin-top: 2vh; margin-bottom: 2vh;" *ngFor="let hit of hits">
+          <input #styleInput type="checkbox" [checked]="checkIfSelected(hit.value)" (change)="updateFavoriteStyles(hit, styleInput.checked)">
+            <ais-highlight
+              attribute="text"
+              [hit]="hit"
+            >
+            </ais-highlight>
+        </div>
+      </div>
+    </ng-template>
+  </ais-hits>
+  </ais-instantsearch>
 </div>

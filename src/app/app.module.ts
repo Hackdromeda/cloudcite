@@ -21,6 +21,7 @@ import { projectsReducer } from './reducers/projects.reducer';
 import { StyleSelectComponent } from './style-select/style-select.component';
 import { LocaleSelectComponent } from './locale-select/locale-select.component';
 import { StylesListComponent } from './styles-list/styles-list.component';
+import { NgAisModule } from 'angular-instantsearch';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { StylesListComponent } from './styles-list/styles-list.component';
     MatInputModule,
     MatCardModule,
     MatSelectModule,
-    DragDropModule
+    DragDropModule,
+    NgAisModule.forRoot()
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [],

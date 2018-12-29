@@ -10,7 +10,8 @@ export const EDIT_PROJECT = '[Projects Component] Edit';
 export const RESET_PROJECTS = '[Projects Component] Reset';
 export const SET_STYLE = '[StyleSelect Component] SetStyle';
 export const SET_LOCALE = '[LocaleSelect Component SetLocale';
-export const SET_FAVORITE_STYLES = '[StylesList Component] SetFavoriteStyles';
+export const ADD_FAVORITE_STYLE = '[StylesList Component] AddFavoriteStyle';
+export const REMOVE_FAVORITE_STYLE = '[StylesList Component] RemoveFavoriteStyle';
 
  
 export class CreateProject implements Action {
@@ -48,9 +49,14 @@ export class SetLocale implements Action {
   constructor(public payload: Locale) {}
 }
 
-export class SetFavoriteStyles implements Action {
-  readonly type = SET_FAVORITE_STYLES;
-  constructor(public payload: Style[]) {}
+export class AddFavoriteStyle implements Action {
+  readonly type = ADD_FAVORITE_STYLE;
+  constructor(public payload: Style) {}
 }
 
-export type Actions = CreateProject | SelectProject | DeleteProject | EditProject | ResetProjects | SetStyle | SetFavoriteStyles | SetLocale;
+export class RemoveFavoriteStyle implements Action {
+  readonly type = REMOVE_FAVORITE_STYLE;
+  constructor(public payload: Style) {}
+}
+
+export type Actions = CreateProject | SelectProject | DeleteProject | EditProject | ResetProjects | SetStyle | SetLocale | AddFavoriteStyle | RemoveFavoriteStyle;

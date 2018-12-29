@@ -1,5 +1,4 @@
 import * as StoreActions from '../actions/projects.actions';
-import { Action } from '@ngrx/store';
 import { State } from '../models/projectState.model';
 //import * as localForage from 'localforage';
 
@@ -65,6 +64,10 @@ export function projectsReducer(state = initialState, action: StoreActions.Actio
       return Object.assign(state, {projects: state.projects.filter(project => project.id !== state.selectedProject).concat([Object.assign(state.projects.find(project => project.id == action.id), {style: action.style})])});
     case StoreActions.SET_LOCALE:
       return Object.assign(state, {locale: action.payload});
+    case StoreActions.ADD_FAVORITE_STYLE:
+      return Object.assign(state, {favoriteStyles: state.favoriteStyles.filter(style => style.value !== action.payload.value).concat([action.payload])});
+    case StoreActions.REMOVE_FAVORITE_STYLE:
+      return Object.assign(state, {favoriteStyles: state.favoriteStyles.filter(style => style.value !== action.payload.value)});
     default:
       return state;
   }

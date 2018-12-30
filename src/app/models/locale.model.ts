@@ -1,5 +1,4 @@
 export interface Locale {
-    text: string,
-    value: string,
-    key?: string
+    key: string,
+    value: string
 }

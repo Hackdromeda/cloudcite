@@ -1,6 +1,5 @@
 export interface Style {
-    key?: string,
-    text: string,
+    key: string,
     value: string,
-    loc?: string[]
+    priority?: number
 }

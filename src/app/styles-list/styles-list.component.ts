@@ -26,7 +26,7 @@ export class StylesListComponent implements OnInit {
   }
 
   checkIfSelected(style: string) {
-    let favoriteStyles = this.favoriteStyles.reduce((accumulator, currentValue) => accumulator.concat([currentValue.value]), []);
+    let favoriteStyles = this.favoriteStyles.reduce((accumulator, currentValue) => accumulator.concat([currentValue.key]), []);
     if (favoriteStyles.includes(style)) {
       return true;
     }
@@ -36,7 +36,7 @@ export class StylesListComponent implements OnInit {
   }
 
   updateFavoriteStyles(style, selected) {
-    let newStyle: Style =  {text: style.text, value: style.value};
+    let newStyle: Style =  {key: style.key, value: style.value};
     if (newStyle && selected) {
       this.store.dispatch(new AddFavoriteStyle(newStyle));
     }

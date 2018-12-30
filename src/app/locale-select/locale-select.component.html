@@ -1,5 +1,5 @@
 <mat-form-field>
-  <mat-select [(value)]="selectedLocale" [placeholder]="selectedLocale.text" (selectionChange)="updateLocale()">
-    <mat-option *ngFor="let locale of locales" [value]="locale">{{ locale.text }}</mat-option>
+  <mat-select [(value)]="selectedLocale" [placeholder]="selectedLocale.value" (selectionChange)="updateLocale()">
+    <mat-option *ngFor="let locale of locales" [value]="locale">{{ locale.value }}</mat-option>
   </mat-select>
 </mat-form-field>

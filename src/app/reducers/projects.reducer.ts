@@ -12,21 +12,20 @@ let projectId: string = window.crypto.getRandomValues(new Uint32Array(3)).join('
 export const initialState: State = {
   selectedProject: projectId,
   locale: {
-    key: "English (US)",
-    text: "English (US)",
-    value: "locales-en-US"
+    key: "locales-en-US",
+    value: "English (US)",
   },
   editingCitation: null,
   favoriteStyles: [
-    {"key":"modern-language-association","text":"Modern Language Association 8th edition (MLA)","value":"modern-language-association"},
-    {"key": "apa","text": "American Psychological Association 6th edition (APA)","value": "apa"},
-    {"key":"chicago-note-bibliography","text":"Chicago Manual of Style 17th edition (note)","value":"chicago-note-bibliography"},
-    {"key":"turabian-fullnote-bibliography","text":"Turabian 8th edition (full note)","value":"turabian-fullnote-bibliography"},
-    {"key":"ieee","text":"IEEE","value":"ieee"},
-    {"key":"elsevier-harvard","text":"Elsevier - Harvard (with titles)","value":"elsevier-harvard"},
-    {"key":"american-medical-association","value":"american-medical-association","text":"American Medical Association (AMA)"},
-    {"key":"american-sociological-association","text":"American Sociological Association (ASA)","value":"american-sociological-association"},
-    {"key":"vancouver","text":"Vancouver","value":"vancouver"}
+    {"key":"modern-language-association","value":"Modern Language Association 8th edition (MLA)"},
+    {"key": "apa","value": "American Psychological Association 6th edition (APA)"},
+    {"key":"chicago-note-bibliography","value":"Chicago Manual of Style 17th edition (note)"},
+    {"key":"turabian-fullnote-bibliography","value":"Turabian 8th edition (full note)"},
+    {"key":"ieee","value":"IEEE"},
+    {"key":"elsevier-harvard","value":"Elsevier - Harvard (with titles)"},
+    {"key":"american-medical-association","value":"American Medical Association (AMA)"},
+    {"key":"american-sociological-association","value":"American Sociological Association (ASA)"},
+    {"key":"vancouver","value":"Vancouver"}
   ],
   projects: [
     {
@@ -35,8 +34,7 @@ export const initialState: State = {
       "citations": [],
       "style": {
         "key":"modern-language-association",
-        "text":"Modern Language Association 8th edition (MLA)",
-        "value":"modern-language-association"
+        "value":"Modern Language Association 8th edition (MLA)"
       }
     }
   ]
@@ -65,9 +63,9 @@ export function projectsReducer(state = initialState, action: StoreActions.Actio
     case StoreActions.SET_LOCALE:
       return Object.assign(state, {locale: action.payload});
     case StoreActions.ADD_FAVORITE_STYLE:
-      return Object.assign(state, {favoriteStyles: state.favoriteStyles.filter(style => style.value !== action.payload.value).concat([action.payload])});
+      return Object.assign(state, {favoriteStyles: state.favoriteStyles.filter(style => style.key !== action.payload.key).concat([action.payload])});
     case StoreActions.REMOVE_FAVORITE_STYLE:
-      return Object.assign(state, {favoriteStyles: state.favoriteStyles.filter(style => style.value !== action.payload.value)});
+      return Object.assign(state, {favoriteStyles: state.favoriteStyles.filter(style => style.key !== action.payload.key)});
     default:
       return state;
   }

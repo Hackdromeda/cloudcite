@@ -21,9 +21,9 @@
       <!-- Hit template -->
       <div *ngIf="hits.length != 0 && results.query">
         <div style="margin-top: 2vh; margin-bottom: 2vh;" *ngFor="let hit of hits">
-          <input #styleInput type="checkbox" [checked]="checkIfSelected(hit.value)" (change)="updateFavoriteStyles(hit, styleInput.checked)">
+          <input #styleInput type="checkbox" [checked]="checkIfSelected(hit.key)" (change)="updateFavoriteStyles(hit, styleInput.checked)">
             <ais-highlight
-              attribute="text"
+              attribute="value"
               [hit]="hit"
             >
             </ais-highlight>

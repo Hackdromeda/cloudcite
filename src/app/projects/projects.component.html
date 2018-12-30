@@ -10,14 +10,14 @@
         <app-style-select></app-style-select>
       </div>
       <div *ngIf="project.style && project.id != state.selectedProject">
-        <b>Style:</b> {{ project.style.text }}
+        <b>Style:</b> {{ project.style.value }}
       </div>
       <div *ngIf="state.locale && project.id == state.selectedProject">
         <b>Locale: </b>
         <app-locale-select></app-locale-select>
       </div>
       <div *ngIf="state.locale && project.id != state.selectedProject">
-        <b>Locale:</b> {{ state.locale.text }}
+        <b>Locale:</b> {{ state.locale.value }}
       </div>
     </mat-card-content>
     <mat-card-actions>
@@ -41,13 +41,13 @@
         <div *ngIf="newProjectSelectedStyle">
           <b>Style: </b> 
           <mat-form-field>
-            <mat-select [(value)]="newProjectSelectedStyle" [placeholder]="newProjectSelectedStyle.text">
-              <mat-option *ngFor="let style of favoriteStyles" [value]="style">{{ style.text }}</mat-option>
+            <mat-select [(value)]="newProjectSelectedStyle" [placeholder]="newProjectSelectedStyle.value">
+              <mat-option *ngFor="let style of favoriteStyles" [value]="style">{{ style.value }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div *ngIf="state.locale">
-          <b>Locale:</b> {{ state.locale.text }}
+          <b>Locale:</b> {{ state.locale.value }}
         </div>
       </mat-card-content>
       <mat-card-actions>

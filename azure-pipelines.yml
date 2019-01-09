@@ -17,5 +17,6 @@ steps:
 
 - script: |
     npm install
+    npm rebuild node-sass --force
     npm run build
   displayName: 'npm install and build'

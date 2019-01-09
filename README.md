@@ -1,27 +1,11 @@
-# CloudciteApp
+# CloudCite [![Build Status](https://travis-ci.org/Hackdromeda/cloudcite.svg?branch=master)](https://travis-ci.org/Hackdromeda/cloudcite)
+## The best bibliography generator. No ads, no tracking, no gimmicks, no registration required, always secure (SSL, TLS 1.3, HSTS, and CSP), always fast (HTTP/2.0 and Brotli Compression) and 100% Open Source (AGPLv3).
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.2.
+This repository is for the frontend. The backend repository can be found [here](https://github.com/Hackdromeda/cloudcite-api).
 
-## Development server
+For help with using CloudCite, check our [self-service help docs](https://help.cloudcite.net).
+For help with CloudCite's APIs, check our [API docs](https://api.cloudcite.net).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+To report bugs in our code open a [GitHub Issue](https://github.com/Hackdromeda/cloudcite/issues).
+To contribute to our code, open a [Pull Request](https://github.com/Hackdromeda/cloudcite/pulls).
+To learn more about Hackdromeda, [visit our website](https://hackdromeda.com).

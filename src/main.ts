@@ -1,12 +1,34 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import Vue from 'vue'
+import App from './App.vue'
+import router from '@/router'
+import store from '@/store'
+import '@/registerServiceWorker'
+//@ts-ignore
+import VueScript from 'vue-script2'
+//@ts-ignore
+import Ads from 'vue-google-adsense'
+//@ts-ignore
+import SuiVue from 'semantic-ui-vue';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+Vue.use(VueScript)
+Vue.use(Ads.Adsense)
+Vue.use(Ads.InArticleAdsense)
+Vue.use(Ads.InFeedAdsense)
+Vue.use(SuiVue)
 
-if (environment.production) {
-  enableProdMode();
-}
+Vue.config.productionTip = false
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App),
+  mounted () {
+    document.dispatchEvent(new Event('render-event'))
+  }
+})
+//@ts-ignore
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+})

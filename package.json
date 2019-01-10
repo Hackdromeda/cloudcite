@@ -1,7 +1,7 @@
 {
   "name": "cloudcite",
-  "version": "0.6.0",
-  "private": false,
+  "version": "0.1.0",
+  "private": true,
   "license": "AGPL-3.0-or-later",
   "author": {
     "name": "Naval Patel",
@@ -20,56 +20,32 @@
       "url": "https://avimshah.com"
     }
   ],
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern"
-  },
   "dependencies": {
-    "EventEmitter": "^1.0.0",
-    "auth0-js": "^9.6.1",
-    "bulma": "^0.7.1",
-    "clipboard-polyfill": "^2.5.2",
-    "fg-loadcss": "^2.0.1",
-    "immutable": "^3.8.2",
-    "jsdom": "^12.0.0",
-    "path": "^0.12.7",
-    "postcss-loader": "^2.1.6",
-    "register-service-worker": "^1.0.0",
-    "request": "^2.87.0",
-    "request-promise-native": "^1.0.5",
-    "semantic-ui-css": "^2.3.3",
-    "semantic-ui-search": "^2.3.3",
-    "semantic-ui-vue": "^0.2.11",
-    "typescript": "^3.0.1",
-    "vue": "^2.5.16",
-    "vue-class-component": "^6.0.0",
-    "vue-google-adsense": "^1.2.0",
-    "vue-property-decorator": "^6.0.0",
-    "vue-router": "^3.0.1",
-    "vue-script2": "^2.0.3",
-    "vue-spinner": "^1.0.3",
-    "vuex": "^3.0.1",
-    "webpack": "^4.16.5"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.3",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
-  "devDependencies": {
-    "@prerenderer/renderer-jsdom": "^0.2.0",
-    "@vue/cli-plugin-babel": "^3.0.0-beta.15",
-    "@vue/cli-plugin-pwa": "^3.0.0-beta.15",
-    "@vue/cli-plugin-typescript": "^3.0.0-beta.15",
-    "@vue/cli-service": "^3.0.0-beta.15",
-    "node-sass": "^4.9.0",
-    "prerender-spa-plugin": "^3.3.0",
-    "sass-loader": "^7.0.1",
-    "vue-template-compiler": "^2.5.16"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "redux-devtools": "^3.5.0",
+    "redux-devtools-extension": "^2.13.7"
+  }
 }

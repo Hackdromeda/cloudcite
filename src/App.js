@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import './App.css';
-import Preview from './Preview/Preview';
+import Bibliography from './Bibliography/Bibliography.js';
 
 const mapStateToProps = state => ({
   ...state
@@ -26,7 +26,7 @@ class App extends Component {
             Visit CloudCite
           </a>
           <div><Link to="/projects">Projects</Link></div>
-          <Preview citation={EXPERIMENT_DATA} bibliography={true}/>
+          <Bibliography citation={EXPERIMENT_DATA}/>
       </div>
     );
   }

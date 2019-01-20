@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store';
-import App from './App';
-import './index.css';
 import * as serviceWorker from './serviceWorker';
-import Projects from './Projects/Projects';
+import './index.css';
+const App = lazy(() => import("./App.js"));
+const Projects = lazy(() => import('./Projects/Projects.js'));
+
+function loadingComponent(Component) {
+    return props => (
+      <Suspense fallback={<div></div>}>
+        <Component {...props} />
+      </Suspense>
+    );
+}
 
 ReactDOM.render(
     <Provider store={configureStore()}>
         <Router>
-            <div>
-                <Route path="/" exact component={App} />
-                <Route path="/projects" component={Projects}/>
-            </div>
+            <Switch>
+                <Route path="/" exact component={loadingComponent(App)} />
+                <Route path="/projects" component={loadingComponent(Projects)}/>
+            </Switch>
         </Router>
     </Provider>, 
     document.getElementById('root')

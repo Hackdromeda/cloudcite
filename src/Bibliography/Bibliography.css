@@ -1,0 +1,11 @@
+#bibliographyActions {
+  text-align: center; 
+  justify-content: center;
+  display: inline-flex;
+  background-color: #0066ff;
+  border-radius: 20px;
+  padding: 10px;
+  min-width: 25vh;
+  color: #fff;
+  font-weight: 550;
+}

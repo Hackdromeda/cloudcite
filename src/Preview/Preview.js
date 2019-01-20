@@ -97,8 +97,8 @@ class Preview extends Component {
                                 cslPreview.removeChild(element);
                             });
                         }
-                        this.refs.preview.appendChild(cslPreview);
                     }
+                    this.refs.preview.appendChild(cslPreview);
             }
         }
     }

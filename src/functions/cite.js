@@ -1,6 +1,12 @@
 const CSL = require('citeproc');
 
-export async function cite(style, locale, citationData) {
+/**
+ * 
+ * @param {Object} style 
+ * @param {Object} locale 
+ * @param {Array<Object>} citationTray Contains an array of citations
+ */
+export async function cite(style, locale, citationTray) {
     const styleFile = await fetch(`/static/csl-files/styles/${style}.csl`)
                                 .then((response) => {
                                     return response.text();
@@ -16,16 +22,18 @@ export async function cite(style, locale, citationData) {
                                     return styleText;
                                 });                     
     let itemIDList = [];
-    let citations = citationData.items.reduce((accumulator, currentValue) => {
+   
+    let citationsObject = citationTray.reduce((accumulator, currentValue) => {
         itemIDList.push(currentValue.id);
         return Object.assign(accumulator, {[currentValue.id]: currentValue});
     }, {});
+
     let sys = {
-        retrieveLocale: function (lang) {
+        retrieveLocale: function() {
             return localeFile;
         },
         retrieveItem: function(id) {
-            return citations[id];
+            return citationsObject[id];
         }
     };
     let citeproc = new CSL.Engine(sys, styleFile);

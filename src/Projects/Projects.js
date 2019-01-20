@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CREATE_PROJECT, DELETE_PROJECT, SELECT_PROJECT } from '../actions/projectActions';
+import { CREATE_PROJECT, DELETE_PROJECT, SELECT_PROJECT } from '../actions/projects';
 import { Link } from "react-router-dom";
 import './Projects.css';
 const crypto = require('crypto');
@@ -11,9 +11,9 @@ const mapStateToProps = state => ({
 });
   
 const mapDispatchToProps = dispatch => ({
-    CREATE_PROJECT: (PROJECT) => dispatch(CREATE_PROJECT(PROJECT)),
-    DELETE_PROJECT: (PROJECT_ID) => dispatch(DELETE_PROJECT(PROJECT_ID)),
-    SELECT_PROJECT: (PROJECT_ID) => dispatch(SELECT_PROJECT(PROJECT_ID)),
+    CREATE_PROJECT: (project) => dispatch(CREATE_PROJECT(project)),
+    DELETE_PROJECT: (projectId) => dispatch(DELETE_PROJECT(projectId)),
+    SELECT_PROJECT: (projectId) => dispatch(SELECT_PROJECT(projectId)),
 });
 
 class Projects extends Component {

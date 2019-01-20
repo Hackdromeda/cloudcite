@@ -21,6 +21,8 @@
     }
   ],
   "dependencies": {
+    "citeproc": "^2.1.212",
+    "hyperhtml": "^2.25.4",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",

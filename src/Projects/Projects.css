@@ -1,3 +1,11 @@
 #projects {
     text-align: center;
 }
+
+.projectActionButton {
+    cursor: pointer;
+    color: #546e7a;
+}
+.projectActionButton:hover {
+    color: #29434e;
+}

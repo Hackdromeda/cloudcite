@@ -9,3 +9,11 @@
   color: #fff;
   font-weight: 550;
 }
+
+.bibliographyActionButton {
+  cursor: pointer;
+  color: #546e7a;
+}
+.bibliographyActionButton:hover {
+  color: #29434e;
+}

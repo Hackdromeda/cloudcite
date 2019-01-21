@@ -59,42 +59,4 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-/**
- <Menu>
-    <Menu.Item
-    name='API'
-    active={window.location.href.includes('api')}
-    onClick={() => window.open('https://api.cloudcite.net/', '_blank')}
-    />
-    <Menu.Item
-    name='Blog'
-    active={window.location.href.includes('blog')}
-    onClick={() => window.open('https://cloudcite.net/blog', '_blank')}
-    />
-    <Menu.Item
-    name='Status'
-    active={window.location.href.includes('status')}
-    onClick={() => window.open('https://status.cloudcite.net/', '_blank')}
-    />
-    <Menu.Item
-    name='Help'
-    active={window.location.href.includes('help')}
-    onClick={() => window.open('https://help.cloudcite.net/', '_blank')}
-    />
-    <Menu.Item
-    name='Feedback'
-    active={window.location.href.includes('feedback')}
-    onClick={() => window.open('https://feedback.cloudcite.net/', '_blank')}
-    />
-    <Menu.Item
-    name='Contribute'
-    active={window.location.href.includes('contribute')}
-    onClick={() => window.open('https://github.com/Hackdromeda/cloudcite/', '_blank')}
-    />
-</Menu>
- */
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.register();

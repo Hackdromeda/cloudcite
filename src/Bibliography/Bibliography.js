@@ -46,13 +46,13 @@ class Bibliography extends Component {
                                         ${cslEntry}
                                     </div>
                                         <div style="text-align: right;">
-                                                <span id="copyCitationButton${index}" style="cursor: pointer; color: #000000;">
+                                                <span id="copyCitationButton${index}" class="bibliographyActionButton">
                                                     <i class="copy outline icon"></i>
                                                 </span>
-                                                <span style="cursor: pointer; color: #000000;">
+                                                <span class="bibliographyActionButton">
                                                     <i class="pencil alternate icon"></i>
                                                 </span>
-                                                <span style="cursor: pointer; color: #000000;">
+                                                <span class="bibliographyActionButton">
                                                     <i class="trash icon"></i>
                                                 </span>
                                             </div>
@@ -114,8 +114,10 @@ class Bibliography extends Component {
 
     render() {
         return (
-            <div style={{marginTop: '10px', backgroundColor: '#ffffff', padding: '20px', textAlign: 'left', justifyContent: 'center', fontWeight: 'normal !important'}}>
-                <div ref="bibliography"/>
+            <div>
+                <div style={{marginTop: '10px', backgroundColor: '#ffffff', padding: '20px', textAlign: 'left', justifyContent: 'center', fontWeight: 'normal !important'}}>
+                    <div ref="bibliography"/>
+                </div>
             </div>
         )
     }

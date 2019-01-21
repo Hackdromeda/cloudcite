@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import Bibliography from './Bibliography/Bibliography.js';
-import { Divider } from 'semantic-ui-react';
+import { Divider, Button } from 'semantic-ui-react';
+
 
 const mapStateToProps = state => ({
   ...state
@@ -22,6 +23,11 @@ class App extends Component {
             <div style={{padding: '5vh'}}>
               <h1>Welcome to CloudCite</h1>
               <p>CloudCite processes citations in the cloud so you never have to create citations manually again.</p>
+              <div style={{textAlign: 'center'}}>
+                <Button id="citeButton">Website</Button>
+                <Button id="citeButton">Book</Button>
+                <Button id="citeButton">Film</Button>
+              </div>
             </div>
             <Divider/>
             <Bibliography citation={EXPERIMENT_DATA}/>

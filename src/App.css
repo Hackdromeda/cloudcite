@@ -2,6 +2,19 @@
   text-align: center;
 }
 
+#citeButton {
+  margin: 3px;
+  padding: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  color: #fff;
+  font-weight: 500;
+  background-color: #006DFC;
+}
+#citeButton:hover {
+  background-color: #207DF6;
+}
+
 @media (max-width: 991.97px) {
   .container {
     margin-left: 1vh;

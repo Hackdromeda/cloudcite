@@ -114,7 +114,7 @@ class Bibliography extends Component {
 
     render() {
         return (
-            <div style={{marginTop: '10px', backgroundColor: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>
+            <div style={{marginTop: '10px', backgroundColor: '#ffffff', padding: '20px', textAlign: 'left', justifyContent: 'center', fontWeight: 'normal !important'}}>
                 <div ref="bibliography"/>
             </div>
         )

@@ -17,7 +17,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <Bibliography citation={EXPERIMENT_DATA}/>
+          <div className="container">
+            <Bibliography citation={EXPERIMENT_DATA}/>
+          </div>
       </div>
     );
   }

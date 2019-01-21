@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
 import './App.css';
 import Bibliography from './Bibliography/Bibliography.js';
 
@@ -18,14 +17,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <a
-            href="https://cloudcite.net/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Visit CloudCite
-          </a>
-          <div><Link to="/projects">Projects</Link></div>
           <Bibliography citation={EXPERIMENT_DATA}/>
       </div>
     );

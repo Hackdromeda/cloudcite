@@ -42,8 +42,8 @@ class Projects extends Component {
                 <Grid columns={4} padded>
                     {this.props.projects.map(function(project, index) {
                         return (
-                            <Grid.Column>
-                                <Card key={index} style={{minWidth: '30vh', minHeight: '30vh'}}>
+                            <Grid.Column key={index}>
+                                <Card style={{minWidth: '30vh', minHeight: '30vh'}}>
                                     <Card.Content header={project.title} />
                                     <Card.Content style={{textAlign: 'left'}} description={`Style: ${project.style.value}`} />
                                     <Card.Content extra>

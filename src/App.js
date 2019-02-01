@@ -4,7 +4,6 @@ import './App.css';
 import Bibliography from './Bibliography/Bibliography.js';
 import { Divider, Button } from 'semantic-ui-react';
 
-
 const mapStateToProps = state => ({
   ...state
 });

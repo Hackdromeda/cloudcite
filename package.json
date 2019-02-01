@@ -22,7 +22,9 @@
   ],
   "dependencies": {
     "citeproc": "^2.1.212",
+    "dom-augmentor": "^0.2.7",
     "hyperhtml": "^2.25.4",
+    "neverland": "^1.1.5",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
@@ -50,6 +52,9 @@
   ],
   "devDependencies": {
     "redux-devtools": "^3.5.0",
-    "redux-devtools-extension": "^2.13.7"
+    "redux-devtools-extension": "^2.13.7",
+    "rollup": "^1.0.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0"
   }
 }

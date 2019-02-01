@@ -20,9 +20,10 @@ export async function cite(style, locale, citationTray) {
                                 })
                                 .then((styleText) => {
                                     return styleText;
-                                });                     
+                                });    
+                                                 
     let itemIDList = [];
-   
+
     let citationsObject = citationTray.reduce((accumulator, currentValue) => {
         itemIDList.push(currentValue.id);
         return Object.assign(accumulator, {[currentValue.id]: currentValue});
@@ -36,6 +37,7 @@ export async function cite(style, locale, citationTray) {
             return citationsObject[id];
         }
     };
+
     let citeproc = new CSL.Engine(sys, styleFile);
     citeproc.updateItems(itemIDList);
     return citeproc.makeBibliography();

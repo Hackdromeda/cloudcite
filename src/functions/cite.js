@@ -7,14 +7,14 @@ const CSL = require('citeproc');
  * @param {Array<Object>} citationTray Contains an array of citations
  */
 export async function cite(style, locale, citationTray) {
-    const styleFile = await fetch(`/static/csl-files/styles/${style}.csl`)
+    const styleFile = await fetch(`https://cdn.cloudcite.net/styles/${style}.csl`)
                                 .then((response) => {
                                     return response.text();
                                 })
                                 .then((styleText) => {
                                     return styleText;
                                 });
-    const localeFile = await fetch(`/static/csl-files/locales/${locale}.xml`)
+    const localeFile = await fetch(`https://cdn.cloudcite.net/locales/${locale}.xml`)
                                 .then((response) => {
                                     return response.text();
                                 })

@@ -33,11 +33,9 @@ class Bibliography extends Component {
         e.preventDefault();
     }
 
-    copyBibliographyText(e, cslBibliographyRef, generatedHTML) {
-        let format = generatedHTML.format;
-        let citationHTML = generatedHTML.html.map(htmlItem => htmlItem.html);
+    copyBibliographyText(e, cslBibliographyRef, format, citationHTML) {
         let bibliographyContent = "";
-        for (let i = 0; i < generatedHTML.html.length; i++) {
+        for (let i = 0; i < citationHTML.length; i++) {
             bibliographyContent += cslBibliographyRef.querySelector(`#cslEntryContainer${i}`).innerText;
         }
         let textPlain = bibliographyContent;
@@ -69,7 +67,7 @@ class Bibliography extends Component {
                 let cslBibliographyRef = hyperHTML.wire()`
                         <div oncopy="${(e) => this.copyCSL(e, cslBibliographyRef)}" style="text-align: center; justify-content: center;">
                             <div id="bibliographyActions">
-                                <span id="copyBibliographyText" onclick="${(e) => this.copyBibliographyText(e, cslBibliographyRef, generatedHTML)}" style="cursor: pointer;">Copy Bibliography <i class="copy icon"></i></span>
+                                <span id="copyBibliographyText" onclick="${(e) => this.copyBibliographyText(e, cslBibliographyRef, format, citationHTML)}" style="cursor: pointer;">Copy Bibliography <i class="copy icon"></i></span>
                             </div>
                             <div style=${{marginTop: '10px', backgroundColor: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important'}}>
                                 <div class="csl-bib-body" style=${{lineHeight: format.linespacing, marginLeft: `${format.hangingindent}em`, textIndent: `-${format.hangingindent}em`}}>

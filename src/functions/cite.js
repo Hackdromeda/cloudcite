@@ -1,5 +1,4 @@
-const CSL = require('citeproc');
-
+import CSL from 'citeproc';
 /**
  * 
  * @param {Object} style 
@@ -20,10 +19,9 @@ export async function cite(style, locale, citationTray) {
                                 })
                                 .then((styleText) => {
                                     return styleText;
-                                });    
-                                                 
+                                });                           
     let itemIDList = [];
-
+    
     let citationsObject = citationTray.reduce((accumulator, currentValue) => {
         itemIDList.push(currentValue.id);
         return Object.assign(accumulator, {[currentValue.id]: currentValue});

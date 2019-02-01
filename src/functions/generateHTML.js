@@ -7,7 +7,7 @@ import { cite } from './cite';
  * @param {Array<Object>} citationTray 
  * @param {Array<String>} cslHTML 
  */
-export async function generateHTML(style, locale, citationTray, cslHTML) {
+export async function generateHTML(style, locale, citationTray) {
     let csl = generateCSL(citationTray);
     return new Promise(async (resolve, reject) => {
         try {
@@ -16,7 +16,6 @@ export async function generateHTML(style, locale, citationTray, cslHTML) {
                 if (response[0] && response[1].length > 0) {
                     const format = response[0];
                     let html = [];
-                    let richTextHTML = "";
                     for (let i=0; i < response[1].length; i++) {
                         let generatedHTML = response[1][i];
                         let cslIndentIndex = (generatedHTML && generatedHTML[i]) ? generatedHTML[i].indexOf('class="csl-indent"'): -1;
@@ -32,15 +31,8 @@ export async function generateHTML(style, locale, citationTray, cslHTML) {
                             generatedHTML = `${generatedHTML.substring(0, cslLeftMarginIndex - 1)} style="float: left; padding-right:${format.rightpadding}em; ${format.secondFieldAlign ? `text-align: right; width:${format.maxoffset}em;`: ''}" ${generatedHTML.substring(cslLeftMarginIndex, generatedHTML.length)}`;
                         }
                         html.push({id: format.entry_ids[i][0], html: generatedHTML});
-                        if (format && response[1].length > 0) {
-                            richTextHTML = `<div class="csl-bib-body" style="${format && format.linespacing ? (`line-height: ${format.linespacing}; `): ''} ${format && format.hangingindent ? (` text-indent: -${format.hangingindent}em;`): ''}`;
-                            for (let i=0; i < response[1].length; i++) {
-                                richTextHTML += `<div style="clear: left;${format && format.entryspacing ? (`margin-bottom:${format.entryspacing}em;`): ''}"> ${cslHTML[i] ? cslHTML[i]: ''}</div>`;
-                            }
-                            richTextHTML += '</div>';
-                        }
                     }
-                    resolve({format: format, html: html, richTextHTML: richTextHTML});
+                    resolve({format: format, html: html});
                 }
                 else {
                     reject({error: "HTML can not be generated"});

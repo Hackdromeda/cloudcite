@@ -1,5 +1,5 @@
 import moment from 'moment';
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 /**
  * @param {String} type 

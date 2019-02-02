@@ -20,6 +20,10 @@ class Bibliography extends Component {
         this.generatePreview();
     }
 
+    componentDidUpdate() {
+        this.generatePreview();
+    }
+
     state = {
         textPlain: "",
         textHTML: ""
@@ -108,7 +112,7 @@ class Bibliography extends Component {
                             cslBibliographyRef.removeChild(element);
                         });
                     }
-                this.refs.bibliography.appendChild(cslBibliographyRef);
+                hyperHTML.bind(this.refs.bibliography)`${cslBibliographyRef}`;
             }
         }
     }

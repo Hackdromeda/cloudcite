@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import Bibliography from './Bibliography/Bibliography.js';
+import LocaleSearch from './LocaleSearch/LocaleSearch.js'
 import { Divider, Button } from 'semantic-ui-react';
 
 const mapStateToProps = state => ({
@@ -31,6 +32,7 @@ class App extends Component {
             <Divider/>
             <Bibliography citation={EXPERIMENT_DATA}/>
           </div>
+          <LocaleSearch/>
       </div>
     );
   }

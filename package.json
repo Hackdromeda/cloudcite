@@ -21,10 +21,12 @@
     }
   ],
   "dependencies": {
+    "algoliasearch": "^3.32.0",
     "citeproc": "^2.1.212",
     "hyperhtml": "^2.25.4",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-instantsearch-dom": "^5.3.2",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3",

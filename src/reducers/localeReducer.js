@@ -1,5 +1,8 @@
 const initialState = {
-    locale: "locales-en-US"
+    locale: {
+	    "value": "locales-en-US",
+	    "text": "English (US)"
+	}
 };
 
 export default (state = initialState, action) => {

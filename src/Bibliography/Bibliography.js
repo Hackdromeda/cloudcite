@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
-//import stardust, { html } from 'neverland';
-//import { useRef } from 'augmentor';
 import './Bibliography.css';
 import * as hyperHTML from 'hyperhtml';
 
 const mapStateToProps = state => ({
     style: state.projectsReducer.projects.find((project) => project.id === state.projectsReducer.selectedProject).style,
-    locale: state.localeReducer.locale
+    locale: state.localeReducer.locale.value
 });
   
 const mapDispatchToProps = dispatch => ({

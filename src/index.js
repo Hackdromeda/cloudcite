@@ -8,6 +8,7 @@ import { Menu } from 'semantic-ui-react'
 import './index.css';
 const App = lazy(() => import("./App.js"));
 const Projects = lazy(() => import('./Projects/Projects.js'));
+const CiteForm = lazy(() => import('./CiteForm/CiteForm.js'));
 
 function loadingComponent(Component) {
     return props => (
@@ -52,6 +53,7 @@ ReactDOM.render(
                 <Switch>
                     <Route path="/" exact component={loadingComponent(App)} />
                     <Route path="/projects" component={loadingComponent(Projects)}/>
+                    <Route path="/cite" component={loadingComponent(CiteForm)}/>
                 </Switch>
             </div>
         </Router>

@@ -109,7 +109,7 @@ class CiteForm extends Component {
     let form = (
     <Form>
       <Form.Field>
-        <Dropdown selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
+        <Dropdown lazyLoad selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
       </Form.Field>
       {
         this.state.contributors.length === 0 ? 
@@ -152,22 +152,22 @@ class CiteForm extends Component {
       }
       <div style={{marginTop: '15px'}}/>
       <Form.Field>
-        <Dropdown selection label="Month Accessed" placeholder="Month Accessed" options={this.state.monthNames} value={this.state.citation.year}/>
+        <Dropdown selection lazyLoad label="Month Accessed" placeholder="Month Accessed" options={this.state.monthNames} value={this.state.citation.accessed.month}/>
       </Form.Field>
       <Form.Field>
-        <Input label="Day Accessed" placeholder="Day Accessed" value={this.state.citation.accessed.day}/>
+        <Input label="Day Accessed" type="number" placeholder="Day Accessed" value={this.state.citation.accessed.day}/>
       </Form.Field>
       <Form.Field>
-        <Input label="Year Accessed" placeholder="Year Accessed" value={this.state.citation.accessed.year}/>
+        <Input label="Year Accessed" type="number" placeholder="Year Accessed" value={this.state.citation.accessed.year}/>
       </Form.Field>
       <Form.Field>
-        <Dropdown selection label="Month Published" placeholder="Month Published" options={this.state.monthNames}/>
+        <Dropdown selection lazyLoad label="Month Published" placeholder="Month Published" options={this.state.monthNames}/>
       </Form.Field>
       <Form.Field>
-        <Input label="Day Published" placeholder="Day Published"/>
+        <Input label="Day Published" type="number" placeholder="Day Published"/>
       </Form.Field>
       <Form.Field>
-        <Input label="Year Published" placeholder="Year Published"/>
+        <Input label="Year Published" type="number" placeholder="Year Published"/>
       </Form.Field>
       <div style={{marginTop: '15px'}}/>
       {inputMap.map((field, index) => 

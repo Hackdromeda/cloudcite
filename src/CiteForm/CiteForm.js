@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';
+import './CiteForm.css';
 
 const mapStateToProps = state => ({
 
@@ -170,7 +171,7 @@ class CiteForm extends Component {
 
   render() {
     return (
-    	<div>
+    	<div id="citeForm">
      		<Dropdown style={{marginBottom: '10px'}} placeholder="Other" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
         {this.state.form}
      	</div>

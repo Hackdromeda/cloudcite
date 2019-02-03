@@ -142,7 +142,7 @@ class CiteForm extends Component {
       }
       <div style={{marginTop: '10px'}}/>
       {inputMap.map((field, index) => 
-        <Form.Field key={index}>
+        <Form.Field key={field.csl}>
           <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''}/>
         </Form.Field>
       )}

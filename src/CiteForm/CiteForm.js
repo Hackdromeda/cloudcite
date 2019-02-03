@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Form } from 'semantic-ui-react';
+import { Dropdown, Form, Input } from 'semantic-ui-react';
 import { types } from './types.js';
 
 const mapStateToProps = state => ({
@@ -97,44 +97,39 @@ class CiteForm extends Component {
   contributorsFormBuilder() {
     if (this.state.contributors.length === 0) {
       return (
-        <div>
+        <span style={{marginTop: '10px', marginBottom: '10px'}}>
           <Form.Field>
-            <label>Contributor</label>
-            <Dropdown selection placeholder="Author" options={this.state.contributorTypes}/>
+            <Dropdown selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
           </Form.Field>
           <Form.Field>
-            <label>First Name</label>
-            <input placeholder="First Name"/>
+            <Input label="First Name" placeholder="First Name"/>
           </Form.Field>
           <Form.Field>
-            <label>Middle Name</label>
-            <input placeholder="Middle Name"/>
+            <Input label="Middle Name" placeholder="Middle Name"/>
           </Form.Field>
           <Form.Field>
-            <label>Last Name</label>
-            <input placeholder="Last Name"/>
+            <Input label="Last Name" placeholder="Last Name"/>
           </Form.Field>
-        </div>
+        </span>
       );
     }
     else {
       return (
         <Dropdown selection placeholder="Author" options={this.state.contributorTypes}/>,
         this.state.contributors.map((contributor, index) => 
-          <div key={index}>
+          <span key={index}>
             <Form.Field>
-              <label>First Name</label>
-              <input placeholder="First Name" value={contributor.given}/>
+              <Input label="First Name" placeholder="First Name" value={contributor.given}/>
             </Form.Field>
             <Form.Field>
             <label>Middle Name</label>
-              <input placeholder="Middle Name" value={contributor.middle}/>
+              <Input label="Middle Name" placeholder="Middle Name" value={contributor.middle}/>
             </Form.Field>
             <Form.Field>
               <label>Last Name</label>
-              <input placeholder="Last Name" value={contributor.family}/>
+              <Input label="Last Name" placeholder="Last Name" value={contributor.family}/>
             </Form.Field>
-          </div>
+          </span>
         )
       );
     }
@@ -144,11 +139,42 @@ class CiteForm extends Component {
     let inputMap = typeMap.filter(element => element.csl && element.UI && !element.group);
     let form = (
     <Form>
-      {this.contributorsFormBuilder()}
+      <Form.Field>
+        <Dropdown selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
+      </Form.Field>
+      {
+        this.state.contributors.length === 0 ? 
+        (
+          <div>
+            <Form.Field>
+              <Input label="First Name" placeholder="First Name"/>
+            </Form.Field>
+            <Form.Field>
+              <Input label="Middle Name" placeholder="Middle Name"/>
+            </Form.Field>
+            <Form.Field>
+              <Input label="Last Name" placeholder="Last Name"/>
+            </Form.Field>
+          </div>
+        ):
+        this.state.contributors.map((contributor, index) => 
+          <div key={index}>
+            <Form.Field>
+              <Input label="First Name" placeholder="First Name" value={contributor.given}/>
+            </Form.Field>
+            <Form.Field>
+              <Input label="Middle Name" placeholder="Middle Name" value={contributor.middle}/>
+            </Form.Field>
+            <Form.Field>
+              <Input label="Last Name" placeholder="Last Name" value={contributor.family}/>
+            </Form.Field>
+          </div>
+        )
+      }
+      <div style={{marginTop: '10px'}}/>
       {inputMap.map((field, index) => 
         <Form.Field key={index}>
-          <label>{field.UI ? field.UI: ''}</label>
-          <input placeholder={field.UI ? field.UI: ''}/>
+          <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''}/>
         </Form.Field>
       )}
     </Form>
@@ -176,7 +202,7 @@ class CiteForm extends Component {
   render() {
     return (
     	<div>
-     		<Dropdown placeholder="Other" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
+     		<Dropdown style={{marginBottom: '10px'}} placeholder="Other" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
         {this.state.form}
      	</div>
     );

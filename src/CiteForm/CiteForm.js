@@ -12,11 +12,20 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
+let currentDate = new Date();
+
 class CiteForm extends Component {
 
   state = {
     contributors: [],
     form: (<div/>),
+    citation: {
+      "accessed": {
+        "month": currentDate.getMonth() + 1,
+        "day": currentDate.getDate(),
+        "year": currentDate.getFullYear()
+      }
+    },
     contributorTypes: [
             {
                 "text": "Author",
@@ -96,7 +105,7 @@ class CiteForm extends Component {
   }
 
   buildForm(typeMap) {
-    let inputMap = typeMap.filter(element => element.csl && element.csl != '' && element.UI && element.UI != '' && !element.group);
+    let inputMap = typeMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group);
     let form = (
     <Form>
       <Form.Field>
@@ -141,7 +150,26 @@ class CiteForm extends Component {
           </div>
         )
       }
-      <div style={{marginTop: '10px'}}/>
+      <div style={{marginTop: '15px'}}/>
+      <Form.Field>
+        <Dropdown selection label="Month Accessed" placeholder="Month Accessed" options={this.state.monthNames} value={this.state.citation.year}/>
+      </Form.Field>
+      <Form.Field>
+        <Input label="Day Accessed" placeholder="Day Accessed" value={this.state.citation.accessed.day}/>
+      </Form.Field>
+      <Form.Field>
+        <Input label="Year Accessed" placeholder="Year Accessed" value={this.state.citation.accessed.year}/>
+      </Form.Field>
+      <Form.Field>
+        <Dropdown selection label="Month Published" placeholder="Month Published" options={this.state.monthNames}/>
+      </Form.Field>
+      <Form.Field>
+        <Input label="Day Published" placeholder="Day Published"/>
+      </Form.Field>
+      <Form.Field>
+        <Input label="Year Published" placeholder="Year Published"/>
+      </Form.Field>
+      <div style={{marginTop: '15px'}}/>
       {inputMap.map((field, index) => 
         <Form.Field key={field.csl}>
           <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''}/>

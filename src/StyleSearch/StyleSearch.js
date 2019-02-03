@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ADD_FAVORITE_STYLE, REMOVE_FAVORITE_STYLE } from '../actions/favoriteStyles';
-import { Input, List, Button } from 'semantic-ui-react';
+import { Input, List } from 'semantic-ui-react';
 import algoliasearch from 'algoliasearch/lite';
 import './StyleSearch.scss';
 

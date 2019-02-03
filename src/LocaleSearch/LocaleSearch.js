@@ -20,7 +20,7 @@ class LocaleSearch extends Component {
 
   	render() {
 	    return (
-	      <Dropdown placeholder={this.props.locale.text} fluid search selection options={locales} onChange={(e, value) => this.handleChange(e, value)}></Dropdown>
+	      <Dropdown placeholder={this.props.locale.text} search selection options={locales} onChange={(e, value) => this.handleChange(e, value)}></Dropdown>
 	    );
   	}
 }

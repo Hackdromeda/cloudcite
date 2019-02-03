@@ -21,7 +21,7 @@ class FavoriteStyleSearch extends Component {
 
   	render() {
 	    return (
-	      <Dropdown placeholder={this.props.projects.find(project => project.id === this.props.selectedProject).style.value} fluid search selection options={this.props.favoriteStyles.map(style => Object.assign(style, {text: style.value}))} onChange={(e, value) => this.handleChange(e, value)}></Dropdown>
+	      <Dropdown placeholder={this.props.projects.find(project => project.id === this.props.selectedProject).style.value} search selection options={this.props.favoriteStyles.map(style => Object.assign(style, {text: style.value}))} onChange={(e, value) => this.handleChange(e, value)}></Dropdown>
 	    );
   	}
 }

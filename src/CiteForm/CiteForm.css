@@ -1,0 +1,20 @@
+@media (max-width: 991.97px) {
+    #citeForm {
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        margin-left: 2vh;
+        margin-right: 2vh;
+        text-align: left;
+        font-size: 16px;
+    }
+}
+@media (min-width: 991.98px) {
+    #citeForm {
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        margin-left: 45vh;
+        margin-right: 45vh;
+        text-align: left;
+        font-size: 16px;
+    }
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Form, Input } from 'semantic-ui-react';
+import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';
 
 const mapStateToProps = state => ({
@@ -94,49 +94,8 @@ class CiteForm extends Component {
         ]
   }
 
-  contributorsFormBuilder() {
-    if (this.state.contributors.length === 0) {
-      return (
-        <span style={{marginTop: '10px', marginBottom: '10px'}}>
-          <Form.Field>
-            <Dropdown selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
-          </Form.Field>
-          <Form.Field>
-            <Input label="First Name" placeholder="First Name"/>
-          </Form.Field>
-          <Form.Field>
-            <Input label="Middle Name" placeholder="Middle Name"/>
-          </Form.Field>
-          <Form.Field>
-            <Input label="Last Name" placeholder="Last Name"/>
-          </Form.Field>
-        </span>
-      );
-    }
-    else {
-      return (
-        <Dropdown selection placeholder="Author" options={this.state.contributorTypes}/>,
-        this.state.contributors.map((contributor, index) => 
-          <span key={index}>
-            <Form.Field>
-              <Input label="First Name" placeholder="First Name" value={contributor.given}/>
-            </Form.Field>
-            <Form.Field>
-            <label>Middle Name</label>
-              <Input label="Middle Name" placeholder="Middle Name" value={contributor.middle}/>
-            </Form.Field>
-            <Form.Field>
-              <label>Last Name</label>
-              <Input label="Last Name" placeholder="Last Name" value={contributor.family}/>
-            </Form.Field>
-          </span>
-        )
-      );
-    }
-  }
-
   buildForm(typeMap) {
-    let inputMap = typeMap.filter(element => element.csl && element.UI && !element.group);
+    let inputMap = typeMap.filter(element => element.csl && element.csl != '' && element.UI && element.UI != '' && !element.group);
     let form = (
     <Form>
       <Form.Field>
@@ -155,6 +114,11 @@ class CiteForm extends Component {
             <Form.Field>
               <Input label="Last Name" placeholder="Last Name"/>
             </Form.Field>
+            <Button.Group>
+              <Button style={{backgroundColor: '#b71c1c', color: '#ffffff'}}>Remove Contributor</Button>
+              <Button.Or />
+              <Button style={{backgroundColor: '#005eea', color: '#ffffff'}}>Add Contributor</Button>
+            </Button.Group>
           </div>
         ):
         this.state.contributors.map((contributor, index) => 
@@ -168,6 +132,11 @@ class CiteForm extends Component {
             <Form.Field>
               <Input label="Last Name" placeholder="Last Name" value={contributor.family}/>
             </Form.Field>
+            <Button.Group>
+              <Button style={{backgroundColor: '#b71c1c', color: '#ffffff'}}>Remove Contributor</Button>
+              <Button.Or />
+              <Button style={{backgroundColor: '#005eea', color: '#ffffff'}}>Add Contributor</Button>
+            </Button.Group>
           </div>
         )
       }

@@ -221,7 +221,9 @@ class CiteForm extends Component {
   render() {
     return (
     	<div id="citeForm">
-     		<Dropdown style={{marginBottom: '10px'}} placeholder="Other" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
+        <div style={{textAlign: 'center'}}>
+     		 <Dropdown style={{marginBottom: '10px'}} placeholder="Select" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
+        </div>
         {this.state.form}
      	</div>
     );

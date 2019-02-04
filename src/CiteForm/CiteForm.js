@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';
 import './CiteForm.css';
 import { createCitation } from '../functions/createCitation.js';
-import Preview from '../Preview/Preview.js';
 import { withRouter } from 'react-router-dom';
+import ContributorFormBuilder from './ContributorFormBuilder.js';
 
 const mapStateToProps = state => ({
 
@@ -18,10 +18,14 @@ const mapDispatchToProps = dispatch => ({
 let currentDate = new Date();
 
 class CiteForm extends Component {
+  constructor(props) {
+    super(props);
+    this.addContributor = this.addContributor.bind(this);
+    this.removeContributor = this.removeContributor.bind(this);
+  }
 
   state = {
     form: (<div/>),
-    contributors: [],
     citation: {
       ...createCitation(),
       contributors: [{given: '', middle: '', family: ''}]
@@ -105,7 +109,7 @@ class CiteForm extends Component {
   }
 
   cancelCitation() {
-    this.props.history.push('/');
+    this.props.history.goBack();
   }
 
   addContributor() {
@@ -130,9 +134,9 @@ class CiteForm extends Component {
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: [...this.state.citation.contributors.slice(0, index).concat(this.state.citation.contributors.slice(index + 1, this.state.citation.contributors.length))]
+          contributors: this.state.citation.contributors.filter((contributor, i) => i !== index)
         }
-      })
+      });
     }
   }
 
@@ -143,31 +147,9 @@ class CiteForm extends Component {
       <Form.Field>
         <Dropdown lazyLoad selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
       </Form.Field>
-      {
-        this.state.contributors.map((contributor, index) =>
-        <div key={index}>{contributor.given}</div>
-        )
-      }
-      {
-        this.state.citation.contributors.map((contributor, index) => 
-          <div key={index}>
-            <Form.Field>
-              <Input label="First Name" placeholder="First Name" defaultValue={contributor.given}/>
-            </Form.Field>
-            <Form.Field>
-              <Input label="Middle Name" placeholder="Middle Name" defaultValue={contributor.middle}/>
-            </Form.Field>
-            <Form.Field>
-              <Input label="Last Name" placeholder="Last Name" defaultValue={contributor.family}/>
-            </Form.Field>
-            <Button.Group>
-              <Button style={{backgroundColor: '#b71c1c', color: '#ffffff'}} onClick={(e) => this.removeContributor(index)}>Remove Contributor</Button>
-              <Button.Or />
-              <Button style={{backgroundColor: '#005eea', color: '#ffffff'}} onClick={(e) => this.addContributor()}>Add Contributor</Button>
-            </Button.Group>
-          </div>
-        )
-      }
+      {this.state.citation.contributors.map((contributor, index) =>
+        <ContributorFormBuilder key={index} index={index} contributor={contributor} removeContributor={this.removeContributor} addContributor={this.addContributor}/>
+      )}
       <div style={{marginTop: '15px'}}/>
       <Form.Field>
         <Dropdown selection lazyLoad label="Month Accessed" placeholder="Month Accessed" options={this.state.monthNames} value={this.state.citation.accessed.month}/>
@@ -193,9 +175,6 @@ class CiteForm extends Component {
           <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''}/>
         </Form.Field>
       )}
-      <Form.Field>
-        <Preview citation={[this.state.citation]}/>
-      </Form.Field>
       <Button.Group>
         <Button onClick={(e) => this.cancelCitation()}>Cancel</Button>
         <Button.Or />
@@ -229,6 +208,16 @@ class CiteForm extends Component {
         <div style={{textAlign: 'center'}}>
      		 <Dropdown style={{marginBottom: '10px'}} placeholder="Select" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
         </div>
+        <Form>
+          <Form.Field>
+            <Dropdown lazyLoad selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
+          </Form.Field>
+          {this.state.citation.contributors.map((contributor, index) =>
+            <div key={index} style={{marginTop: '10px'}}>
+              <ContributorFormBuilder index={index} contributor={contributor} removeContributor={this.removeContributor} addContributor={this.addContributor}/>
+            </div>
+          )}
+        </Form>
         {this.state.form}
      	</div>
     );

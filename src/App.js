@@ -6,7 +6,7 @@ import LocaleSearch from './LocaleSearch/LocaleSearch.js';
 import StyleSearch from './StyleSearch/StyleSearch.js';
 import FavoriteStyleSearch from './FavoriteStyleSearch/FavoriteStyleSearch.js';
 import { Divider, Button } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = state => ({
   ...state

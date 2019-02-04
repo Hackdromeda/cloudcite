@@ -5,6 +5,7 @@ import { types } from './types.js';
 import './CiteForm.css';
 import { createCitation } from '../functions/createCitation.js';
 import Preview from '../Preview/Preview.js';
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = state => ({
 
@@ -103,6 +104,10 @@ class CiteForm extends Component {
         ]
   }
 
+  cancelCitation() {
+    this.props.history.push('/');
+  }
+
   addContributor() {
     this.setState({
       citation: {
@@ -192,7 +197,7 @@ class CiteForm extends Component {
         <Preview citation={[this.state.citation]}/>
       </Form.Field>
       <Button.Group>
-        <Button>Cancel</Button>
+        <Button onClick={(e) => this.cancelCitation()}>Cancel</Button>
         <Button.Or />
         <Button style={{backgroundColor: '#005eea', color: '#ffffff'}}>Save</Button>
       </Button.Group>
@@ -230,4 +235,4 @@ class CiteForm extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CiteForm);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CiteForm));

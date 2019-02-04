@@ -19,8 +19,6 @@ const mapDispatchToProps = dispatch => ({
 class Projects extends Component {
 
     render() {
-        const randomNames = ['Sallie', 'George', 'Steven', 'Alex', 'Cole', 'Brad', 'Squidward'];
-
         this.createProject = () => {
             let projectId = crypto.randomBytes(20).toString('hex');
             this.props.CREATE_PROJECT({
@@ -33,7 +31,8 @@ class Projects extends Component {
         }
 
         this.deleteProject = (projectId) => {
-            // setTimeout(document.getElementById(projectId).classList.add('fadeOut'), 1000);
+            // TODO: Fade-out on delete.
+            // FIXME: selectedProject changes when projects before its index are deleted.
             this.props.DELETE_PROJECT(projectId);
         }
 
@@ -50,7 +49,7 @@ class Projects extends Component {
         this.scrollToTop = (scrollDuration) => { // Source: https://stackoverflow.com/questions/21474678/scrolltop-animation-without-jquery
             let scrollStep = -window.scrollY / (scrollDuration / 15),
                 scrollInterval = setInterval(function () {
-                    if (window.scrollY != 0) {
+                    if (window.scrollY !== 0) {
                         window.scrollBy(0, scrollStep);
                         scrollStep -= 20;
                     }

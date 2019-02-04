@@ -38,21 +38,25 @@ class Projects extends Component {
         }
 
         this.selectProject = (projectId) => {
-            // document.querySelectorAll('.selected').forEach(thing => {
-            //     thing.classList.remove('selected');
-            //     thing.childNodes[2].childNodes[0].disabled = false;
-            //     thing.childNodes[2].childNodes[2].disabled = false;
-            // });
-            // document.getElementById(projectId).classList.add('selected');
-            // const selected = document.querySelector('.selected').childNodes[2];
-            // selected.childNodes[0].disabled = true;
-            // selected.childNodes[2].disabled = true;
-
+            this.scrollToTop(1000);
             // document.body.scrollTop = 0; // For Safari
             // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 
             this.props.SELECT_PROJECT(projectId);
 
+        }
+
+
+        this.scrollToTop = (scrollDuration) => { // Source: https://stackoverflow.com/questions/21474678/scrolltop-animation-without-jquery
+            let scrollStep = -window.scrollY / (scrollDuration / 15),
+                scrollInterval = setInterval(function () {
+                    if (window.scrollY != 0) {
+                        window.scrollBy(0, scrollStep);
+                        scrollStep -= 20;
+                    }
+                    else
+                        clearInterval(scrollInterval);
+                }, 15);
         }
 
         // Transition Styling for New Cards

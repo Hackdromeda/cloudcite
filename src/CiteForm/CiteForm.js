@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import ContributorFormBuilder from './ContributorFormBuilder.js';
 import DateAccessedFormBuilder from './DateAccessedFormBuilder.js';
 import DateIssuedFormBuilder from './DateIssuedFormBuilder.js';
+import Preview from '../Preview/Preview.js';
 
 const mapStateToProps = state => ({
 
@@ -191,6 +192,8 @@ class CiteForm extends Component {
                 <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
               </Form.Field>
           )}
+          <div style={{marginTop: '15px'}}/>
+          <Preview citation={[this.state.citation]}/>
           <Button.Group>
             <Button onClick={(e) => this.cancelCitation()}>Cancel</Button>
             <Button.Or />

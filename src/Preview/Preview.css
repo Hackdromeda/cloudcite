@@ -1,0 +1,22 @@
+@media (max-width: 991.97px) {
+  #preview {
+    background-color: #f5f5f5;
+    color: #000;
+    padding: 20px;
+    border-radius: 5px;
+    min-height: 23vh;
+    text-align: left;
+    font-weight: normal !important;
+  }
+}
+@media (min-width: 991.98px) {
+  #preview {
+    background-color: #f5f5f5;
+    color: #000;
+    padding: 20px;
+    border-radius: 5px;
+    min-height: 16vh;
+    text-align: left;
+    font-weight: normal !important;
+  }
+}

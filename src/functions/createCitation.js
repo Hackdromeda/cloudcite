@@ -1,9 +1,8 @@
+import crypto from 'crypto';
 /**
- * @param {String} type 
- * @param {Object} citationData
  * @return {Object} new citation
  */
-export function createCitation(citationData) {
+export function createCitation() {
 	let currentDate = new Date();
     return {
         "id": crypto.randomBytes(10).toString('hex'),
@@ -12,6 +11,6 @@ export function createCitation(citationData) {
         	"day": currentDate.getDate(),
         	"year": currentDate.getFullYear()
         },
-        ...citationData
+ 		"contributors": []
     }
 }

@@ -132,6 +132,15 @@ class CiteForm extends Component {
     });
   }
 
+  setCSLValue(e, cslKey, { value }) {
+    this.setState({
+      citation: {
+        ...this.state.citation,
+        [cslKey]: value
+      }
+    });
+  }
+
   async handleChange(e, { value }) {
     try {
       if (localStorage.getItem(`cloudcite_typemap_${value}`)) {
@@ -179,7 +188,7 @@ class CiteForm extends Component {
           {this.state.typeMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group)
             .map((field, index) => 
               <Form.Field key={field.csl}>
-                <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''}/>
+                <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
               </Form.Field>
           )}
           <Button.Group>

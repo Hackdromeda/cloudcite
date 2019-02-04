@@ -4,6 +4,7 @@ import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';
 import './CiteForm.css';
 import { createCitation } from '../functions/createCitation.js';
+import Preview from '../Preview/Preview.js';
 
 const mapStateToProps = state => ({
 
@@ -187,6 +188,9 @@ class CiteForm extends Component {
           <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''}/>
         </Form.Field>
       )}
+      <Form.Field>
+        <Preview citation={[this.state.citation]}/>
+      </Form.Field>
       <Button.Group>
         <Button>Cancel</Button>
         <Button.Or />

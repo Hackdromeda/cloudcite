@@ -24,6 +24,7 @@
     "algoliasearch": "^3.32.0",
     "citeproc": "^2.1.212",
     "hyperhtml": "^2.25.4",
+    "node-sass": "*",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
@@ -32,8 +33,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.84.0",
-    "node-sass": "*"
+    "semantic-ui-react": "^0.84.0"
   },
   "scripts": {
     "start": "react-scripts start",

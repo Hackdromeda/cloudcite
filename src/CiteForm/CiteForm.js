@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';
+import './CiteForm.css';
+import { createCitation } from '../functions/createCitation.js';
 
 const mapStateToProps = state => ({
 
@@ -11,11 +13,17 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
+let currentDate = new Date();
+
 class CiteForm extends Component {
 
   state = {
-    contributors: [],
     form: (<div/>),
+    contributors: [],
+    citation: {
+      ...createCitation(),
+      contributors: [{given: '', middle: '', family: ''}]
+    },
     contributorTypes: [
             {
                 "text": "Author",
@@ -29,7 +37,7 @@ class CiteForm extends Component {
                 "text": "Translator",
                 "value": "Translator"
             }
-        ],
+      ],
         monthNames: [
             {
                 "key": "January",
@@ -94,58 +102,96 @@ class CiteForm extends Component {
         ]
   }
 
+  addContributor() {
+    this.setState({
+      citation: {
+        ...this.state.citation,
+        contributors: [...this.state.citation.contributors, {given: '', middle: '', family: '', type: 'Author'}]
+      }
+    })
+  }
+
+  removeContributor(index) {
+    if (this.state.citation.contributors.length <= 1) {
+      this.setState({
+        citation: {
+          ...this.state.citation,
+          contributors: [{given: '', middle: '', family: '', type: 'Author'}]
+        }
+      })
+    }
+    else {
+      this.setState({
+        citation: {
+          ...this.state.citation,
+          contributors: [...this.state.citation.contributors.slice(0, index).concat(this.state.citation.contributors.slice(index + 1, this.state.citation.contributors.length))]
+        }
+      })
+    }
+  }
+
   buildForm(typeMap) {
-    let inputMap = typeMap.filter(element => element.csl && element.csl != '' && element.UI && element.UI != '' && !element.group);
+    let inputMap = typeMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group);
     let form = (
     <Form>
       <Form.Field>
-        <Dropdown selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
+        <Dropdown lazyLoad selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
       </Form.Field>
       {
-        this.state.contributors.length === 0 ? 
-        (
-          <div>
-            <Form.Field>
-              <Input label="First Name" placeholder="First Name"/>
-            </Form.Field>
-            <Form.Field>
-              <Input label="Middle Name" placeholder="Middle Name"/>
-            </Form.Field>
-            <Form.Field>
-              <Input label="Last Name" placeholder="Last Name"/>
-            </Form.Field>
-            <Button.Group>
-              <Button style={{backgroundColor: '#b71c1c', color: '#ffffff'}}>Remove Contributor</Button>
-              <Button.Or />
-              <Button style={{backgroundColor: '#005eea', color: '#ffffff'}}>Add Contributor</Button>
-            </Button.Group>
-          </div>
-        ):
-        this.state.contributors.map((contributor, index) => 
+        this.state.contributors.map((contributor, index) =>
+        <div key={index}>{contributor.given}</div>
+        )
+      }
+      {
+        this.state.citation.contributors.map((contributor, index) => 
           <div key={index}>
             <Form.Field>
-              <Input label="First Name" placeholder="First Name" value={contributor.given}/>
+              <Input label="First Name" placeholder="First Name" defaultValue={contributor.given}/>
             </Form.Field>
             <Form.Field>
-              <Input label="Middle Name" placeholder="Middle Name" value={contributor.middle}/>
+              <Input label="Middle Name" placeholder="Middle Name" defaultValue={contributor.middle}/>
             </Form.Field>
             <Form.Field>
-              <Input label="Last Name" placeholder="Last Name" value={contributor.family}/>
+              <Input label="Last Name" placeholder="Last Name" defaultValue={contributor.family}/>
             </Form.Field>
             <Button.Group>
-              <Button style={{backgroundColor: '#b71c1c', color: '#ffffff'}}>Remove Contributor</Button>
+              <Button style={{backgroundColor: '#b71c1c', color: '#ffffff'}} onClick={(e) => this.removeContributor(index)}>Remove Contributor</Button>
               <Button.Or />
-              <Button style={{backgroundColor: '#005eea', color: '#ffffff'}}>Add Contributor</Button>
+              <Button style={{backgroundColor: '#005eea', color: '#ffffff'}} onClick={(e) => this.addContributor()}>Add Contributor</Button>
             </Button.Group>
           </div>
         )
       }
-      <div style={{marginTop: '10px'}}/>
+      <div style={{marginTop: '15px'}}/>
+      <Form.Field>
+        <Dropdown selection lazyLoad label="Month Accessed" placeholder="Month Accessed" options={this.state.monthNames} value={this.state.citation.accessed.month}/>
+      </Form.Field>
+      <Form.Field>
+        <Input label="Day Accessed" type="number" placeholder="Day Accessed" defaultValue={this.state.citation.accessed.day}/>
+      </Form.Field>
+      <Form.Field>
+        <Input label="Year Accessed" type="number" placeholder="Year Accessed" defaultValue={this.state.citation.accessed.year}/>
+      </Form.Field>
+      <Form.Field>
+        <Dropdown selection lazyLoad label="Month Published" placeholder="Month Published" options={this.state.monthNames}/>
+      </Form.Field>
+      <Form.Field>
+        <Input label="Day Published" type="number" placeholder="Day Published"/>
+      </Form.Field>
+      <Form.Field>
+        <Input label="Year Published" type="number" placeholder="Year Published"/>
+      </Form.Field>
+      <div style={{marginTop: '15px'}}/>
       {inputMap.map((field, index) => 
-        <Form.Field key={index}>
+        <Form.Field key={field.csl}>
           <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''}/>
         </Form.Field>
       )}
+      <Button.Group>
+        <Button>Cancel</Button>
+        <Button.Or />
+        <Button style={{backgroundColor: '#005eea', color: '#ffffff'}}>Save</Button>
+      </Button.Group>
     </Form>
     );
 
@@ -170,7 +216,7 @@ class CiteForm extends Component {
 
   render() {
     return (
-    	<div>
+    	<div id="citeForm">
      		<Dropdown style={{marginBottom: '10px'}} placeholder="Other" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
         {this.state.form}
      	</div>

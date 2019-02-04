@@ -190,12 +190,18 @@ class CiteForm extends Component {
 
   async handleChange(e, { value }) {
     try {
-      const typeMap = await fetch(`https://cdn.cloudcite.net/maps/${value}.json`)
+      if (localStorage.getItem(`cloudcite_typemap_${value}`)) {
+        const typeMap = JSON.parse(localStorage.getItem(`cloudcite_typemap_${value}`));
+        this.buildForm(typeMap);
+      }
+      else {
+        const typeMap = await fetch(`https://cdn.cloudcite.net/maps/${value}.json`)
                               .then((response) => {
                                 return response.json();
                               });
-      this.buildForm(typeMap);
-      
+        localStorage.setItem(`cloudcite_typemap_${value}`, JSON.stringify(typeMap));
+        this.buildForm(typeMap);
+      }
     }
     catch (error) {
       console.log(error);

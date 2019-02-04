@@ -32,7 +32,6 @@ class CiteForm extends Component {
 
   state = {
     typeMap: [],
-    form: (<div/>),
     citation: createCitation(),
     contributorTypes: [
             {
@@ -133,34 +132,10 @@ class CiteForm extends Component {
     });
   }
 
-  buildForm(typeMap) {
-    let inputMap = typeMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group);
-    let form = (
-    <Form>
-      <div style={{marginTop: '15px'}}/>
-      {inputMap.map((field, index) => 
-        <Form.Field key={field.csl}>
-          <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''}/>
-        </Form.Field>
-      )}
-      <Button.Group>
-        <Button onClick={(e) => this.cancelCitation()}>Cancel</Button>
-        <Button.Or />
-        <Button style={{backgroundColor: '#005eea', color: '#ffffff'}}>Save</Button>
-      </Button.Group>
-    </Form>
-    );
-
-    this.setState({
-      form: form
-    });
-  }
-
   async handleChange(e, { value }) {
     try {
       if (localStorage.getItem(`cloudcite_typemap_${value}`)) {
         const typeMap = JSON.parse(localStorage.getItem(`cloudcite_typemap_${value}`));
-        this.buildForm(typeMap);
         this.setState({
           typeMap: typeMap
         });
@@ -171,7 +146,6 @@ class CiteForm extends Component {
                                 return response.json();
                               });
         localStorage.setItem(`cloudcite_typemap_${value}`, JSON.stringify(typeMap));
-        this.buildForm(typeMap);
         this.setState({
           typeMap: typeMap
         });
@@ -201,8 +175,19 @@ class CiteForm extends Component {
           <DateAccessedFormBuilder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday}/>
           <div style={{marginTop: '15px'}}/>
           <DateIssuedFormBuilder issued={this.state.citation.issued} changeDateIssued={this.changeDateIssued}/>
+          <div style={{marginTop: '15px'}}/>
+          {this.state.typeMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group)
+            .map((field, index) => 
+              <Form.Field key={field.csl}>
+                <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''}/>
+              </Form.Field>
+          )}
+          <Button.Group>
+            <Button onClick={(e) => this.cancelCitation()}>Cancel</Button>
+            <Button.Or />
+            <Button style={{backgroundColor: '#005eea', color: '#ffffff'}}>Save</Button>
+          </Button.Group>
         </Form>
-        {this.state.form}
      	</div>
     );
   }

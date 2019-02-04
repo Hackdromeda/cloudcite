@@ -7,21 +7,15 @@ import CSL from 'citeproc';
  */
 export async function cite(style, locale, citationTray) {
     const styleFile = await fetch(`https://cdn.cloudcite.net/styles/${style}.csl`)
-                                .then((response) => {
-                                    return response.text();
-                                })
-                                .then((styleText) => {
-                                    return styleText;
-                                });
+                          .then((response) => {
+                            return response.text();
+                          });
     const localeFile = await fetch(`https://cdn.cloudcite.net/locales/${locale}.xml`)
-                                .then((response) => {
-                                    return response.text();
-                                })
-                                .then((styleText) => {
-                                    return styleText;
-                                });                           
+                          .then((response) => {
+                            return response.text();
+                          });
     let itemIDList = [];
-    
+
     let citationsObject = citationTray.reduce((accumulator, currentValue) => {
         itemIDList.push(currentValue.id);
         return Object.assign(accumulator, {[currentValue.id]: currentValue});
@@ -38,5 +32,5 @@ export async function cite(style, locale, citationTray) {
 
     let citeproc = new CSL.Engine(sys, styleFile);
     citeproc.updateItems(itemIDList);
-    return citeproc.makeBibliography();
+    return citeproc.makeBibliography();                       
 }

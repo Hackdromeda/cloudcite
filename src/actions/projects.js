@@ -26,6 +26,16 @@ export const RESET_PROJECTS = () => dispatch => {
    });
 }
 
+export const ADD_CITATION = (PROJECT_ID, CITATION) => dispatch => {
+   dispatch({
+      type: 'ADD_CITATION',
+      payload: {
+         id: PROJECT_ID,
+         citation: CITATION
+      }
+   });
+}
+
 export const SET_STYLE = (PROJECT_ID, STYLE) => dispatch => {
    dispatch({
       type: 'SET_STYLE',

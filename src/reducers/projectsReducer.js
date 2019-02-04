@@ -38,6 +38,10 @@ export default (state = initialState, action) => {
                     }
                 ]
             };
+        case 'ADD_CITATION':
+            return { 
+                ...state, projects: state.projects.filter(project => project.id !== state.selectedProject).concat({...state.projects.find(project => project.id === action.payload.id), citations: state.projects.find(project => project.id === action.payload.id).citations.concat(action.payload.citation)})
+            };
         case 'SET_STYLE':
             return { ...state, projects: state.projects.filter(project => project.id !== state.selectedProject).concat([Object.assign(state.projects.find(project => project.id === action.payload.id), {style: action.payload.style})])};
         

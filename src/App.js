@@ -9,7 +9,8 @@ import { Divider, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = state => ({
-  ...state
+  selectedProject: state.projectsReducer.selectedProject,
+  projects: state.projectsReducer.projects
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -43,7 +44,7 @@ class App extends Component {
               </div>
             </div>
             <Divider/>
-            <Bibliography citation={EXPERIMENT_DATA}/>
+            <Bibliography citation={this.props.projects.find((project) => project.id === this.props.selectedProject).citations}/>
           </div>
           <div>
           <FavoriteStyleSearch/>

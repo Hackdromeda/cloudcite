@@ -5,24 +5,71 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import * as serviceWorker from './serviceWorker';
 import { Menu } from 'semantic-ui-react'
-import './index.css';
+import './index.scss';
 const App = lazy(() => import("./App.js"));
 const Projects = lazy(() => import('./Projects/Projects.js'));
 const CiteForm = lazy(() => import('./CiteForm/CiteForm.js'));
 
 function loadingComponent(Component) {
     return props => (
-      <Suspense fallback={<div></div>}>
-        <Component {...props} />
-      </Suspense>
+        <Suspense fallback={<div></div>}>
+            <Component {...props} />
+        </Suspense>
     );
 }
 
 ReactDOM.render(
     <Provider store={store}>
         <Router>
-            <div>
-                <Menu>
+            <header>
+                <div className="nav-container">
+                    <Link to="/">
+                        <div className="navbar-title">CloudCite</div>
+                    </Link>
+                    <div className="collapse">
+                        <nav>
+                            <ul>
+                                <li>
+                                    <Link to="/projects" className="navbar-link">
+                                        Projects
+                                    </Link>
+                                </li>
+                                <li>
+                                    <a href="https://api.cloudcite.net/" target="_blank" className="navbar-link" rel="noopener noreferrer">
+                                        API
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://cloudcite.net/blog" target="_blank" className="navbar-link" rel="noopener noreferrer">
+                                        Blog
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://status.cloudcite.net/" target="_blank" className="navbar-link" rel="noopener noreferrer">
+                                        Status
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://help.cloudcite.net/" target="_blank" className="navbar-link" rel="noopener noreferrer">
+                                        Help
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://feedback.cloudcite.net/" target="_blank" className="navbar-link" rel="noopener noreferrer">
+                                        Feedback
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/Hackdromeda/cloudcite/" target="_blank" className="navbar-link" rel="noopener noreferrer">
+                                        Contribute
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                {/* <Menu>
                     <Link to="/">
                         <Menu.Item header>
                             <div className="navbar-title">CloudCite</div>
@@ -49,15 +96,15 @@ ReactDOM.render(
                     <a href="https://github.com/Hackdromeda/cloudcite/" target="_blank" className="navbar-link" rel="noopener noreferrer">
                         <Menu.Item name='Contribute'/>
                     </a>
-                </Menu>
+                </Menu> */}
                 <Switch>
                     <Route path="/" exact component={loadingComponent(App)} />
-                    <Route path="/projects" component={loadingComponent(Projects)}/>
-                    <Route path="/cite" component={loadingComponent(CiteForm)}/>
+                    <Route path="/projects" component={loadingComponent(Projects)} />
+                    <Route path="/cite" component={loadingComponent(CiteForm)} />
                 </Switch>
-            </div>
+            </header>
         </Router>
-    </Provider>, 
+    </Provider>,
     document.getElementById('root')
 );
 

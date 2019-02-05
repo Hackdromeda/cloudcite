@@ -2,7 +2,7 @@ import crypto from 'crypto';
 /**
  * @return {Object} new citation
  */
-export function createCitation() {
+export function createCitation(citationData) {
     return {
         "id": crypto.randomBytes(10).toString('hex'),
         "accessed": {
@@ -15,6 +15,7 @@ export function createCitation() {
         	"day": "",
         	"year": ""
         },
- 		"contributors": [{given: '', middle: '', family: ''}]
+ 		"contributors": citationData && citationData.contributors ? citationData.contributors: [{key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: ''}],
+        ...citationData
     }
 }

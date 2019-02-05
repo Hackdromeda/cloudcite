@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
 import * as hyperHTML from 'hyperhtml';
+import cloneDeep from 'lodash.clonedeep';
 import './Preview.css';
 
 const mapStateToProps = state => ({
@@ -25,7 +26,7 @@ class Preview extends Component {
     }
 
     async generatePreview() {
-        const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.citation);
+        const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, cloneDeep(this.props.citation));
         if (generatedHTML && generatedHTML.error) {
             console.log(generatedHTML.error)
         } 

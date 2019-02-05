@@ -11,6 +11,7 @@ import ContributorFormBuilder from './ContributorFormBuilder.js';
 import DateAccessedFormBuilder from './DateAccessedFormBuilder.js';
 import DateIssuedFormBuilder from './DateIssuedFormBuilder.js';
 import Preview from '../Preview/Preview.js';
+import crypto from 'crypto';
 
 const mapStateToProps = state => ({
   selectedProject: state.projectsReducer.selectedProject,
@@ -27,6 +28,7 @@ class CiteForm extends Component {
     super(props);
     this.addContributor = this.addContributor.bind(this);
     this.removeContributor = this.removeContributor.bind(this);
+    this.setContributor = this.setContributor.bind(this);
     this.changeDateAccessed = this.changeDateAccessed.bind(this);
     this.removeDateAccessed = this.removeDateAccessed.bind(this);
     this.setDateAccessedToday = this.setDateAccessedToday.bind(this);
@@ -35,21 +37,7 @@ class CiteForm extends Component {
 
   state = {
     typeMap: [],
-    citation: createCitation(),
-    contributorTypes: [
-            {
-                "text": "Author",
-                "value": "Author"
-            },
-            {
-                "text": "Editor",
-                "value": "Editor"
-            },
-            {
-                "text": "Translator",
-                "value": "Translator"
-            }
-      ]
+    citation: createCitation(null)
   }
 
   cancelCitation() {
@@ -70,17 +58,17 @@ class CiteForm extends Component {
     this.setState({
       citation: {
         ...this.state.citation,
-        contributors: [...this.state.citation.contributors, {given: '', middle: '', family: '', type: 'Author'}]
+        contributors: [...this.state.citation.contributors, {key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author'}]
       }
     })
   }
 
-  removeContributor(index) {
+  removeContributor(key) {
     if (this.state.citation.contributors.length <= 1) {
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: [{given: '', middle: '', family: '', type: 'Author'}]
+          contributors: [{key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author'}]
         }
       })
     }
@@ -88,10 +76,19 @@ class CiteForm extends Component {
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: this.state.citation.contributors.filter((contributor, i) => i !== index)
+          contributors: this.state.citation.contributors.filter((contributor) => contributor.key !== key)
         }
       });
     }
+  }
+
+  setContributor(e, key, field, { value }) {
+    this.setState({
+      citation: {
+        ...this.state.citation,
+        contributors: this.state.citation.contributors.map((contributor) => contributor.key === key ? {...contributor, [field]: value}: contributor)
+      }
+    });
   }
 
   changeDateAccessed(e, field, { value }) {
@@ -155,27 +152,13 @@ class CiteForm extends Component {
   }
 
   async handleChange(e, { value }) {
-    try {
-      if (localStorage.getItem(`cloudcite_typemap_${value}`)) {
-        const typeMap = JSON.parse(localStorage.getItem(`cloudcite_typemap_${value}`));
-        this.setState({
-          typeMap: typeMap
-        });
-      }
-      else {
-        const typeMap = await fetch(`https://cdn.cloudcite.net/maps/${value}.json`)
-                              .then((response) => {
-                                return response.json();
-                              });
-        localStorage.setItem(`cloudcite_typemap_${value}`, JSON.stringify(typeMap));
-        this.setState({
-          typeMap: typeMap
-        });
-      }
-    }
-    catch (error) {
-      console.log(error);
-    }
+    const typeMap = await fetch(`https://cdn.cloudcite.net/maps/${value}.json`)
+                          .then((response) => {
+                            return response.json();
+                          });
+    this.setState({
+      typeMap: typeMap
+    });
   }
 
   render() {
@@ -188,12 +171,9 @@ class CiteForm extends Component {
         {
           this.state.typeMap.length > 0 ? (
             <div>
-              <Form.Field>
-              <Dropdown lazyLoad selection label="Contributor" placeholder="Author" options={this.state.contributorTypes}/>
-              </Form.Field>
               {this.state.citation.contributors.map((contributor, index) =>
-                <div key={index} style={{marginTop: '10px'}}>
-                  <ContributorFormBuilder index={index} contributor={contributor} removeContributor={this.removeContributor} addContributor={this.addContributor}/>
+                <div key={contributor.key} style={{marginTop: '10px'}}>
+                  <ContributorFormBuilder contributor={contributor} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
                 </div>
               )}
               <div style={{marginTop: '15px'}}/>

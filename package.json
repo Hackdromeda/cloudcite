@@ -22,8 +22,9 @@
   ],
   "dependencies": {
     "algoliasearch": "^3.32.0",
-    "citeproc": "^2.1.212",
+    "citeproc": "^2.1.214",
     "hyperhtml": "^2.25.4",
+    "lodash.clonedeep": "^4.5.0",
     "node-sass": "*",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
@@ -52,7 +53,7 @@
   ],
   "devDependencies": {
     "redux-devtools": "^3.5.0",
-    "redux-devtools-extension": "^2.13.7",
+    "redux-devtools-extension": "^2.13.8",
     "rollup": "^1.0.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0"

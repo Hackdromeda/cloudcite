@@ -3,28 +3,11 @@ import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 
 class ContributorFormBuilder extends Component {
 
-  state = {
-    contributorTypes: [
-            {
-                "text": "Author",
-                "value": "Author"
-            },
-            {
-                "text": "Editor",
-                "value": "Editor"
-            },
-            {
-                "text": "Translator",
-                "value": "Translator"
-            }
-    ]
-  }
-
   render() {
     return (
       <Fragment>
         <Form.Field>
-          <Dropdown lazyLoad selection label="Contributor" placeholder="Contributor Type" value={this.props.contributor.type} options={this.state.contributorTypes} onChange={(e, value) => this.props.setContributor(e, this.props.contributor.key, 'type', value)}/>
+          <Dropdown lazyLoad selection label="Contributor" placeholder="Contributor Type" value={this.props.contributor.type} options={this.props.creatorsMap} onChange={(e, value) => this.props.setContributor(e, this.props.contributor.key, 'type', value)}/>
         </Form.Field>
         <Form.Field>
           <Input label="First Name" placeholder="First Name" defaultValue={this.props.contributor.given} onChange={(e, value) => this.props.setContributor(e, this.props.contributor.key, 'given', value)}/>

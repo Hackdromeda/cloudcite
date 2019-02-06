@@ -207,9 +207,9 @@ class CiteForm extends Component {
     return (
     	<div id="citeForm">
         <div style={{textAlign: 'center'}}>
-     		 <Dropdown style={{marginBottom: '10px'}} placeholder="Select" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
+     		 <Dropdown fluid style={{marginBottom: '10px'}} placeholder="Select Citation Type" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
         </div>
-        <Form>
+        <Form widths="equal">
         {
           this.state.fieldMap.length > 0 ? (
             <div>

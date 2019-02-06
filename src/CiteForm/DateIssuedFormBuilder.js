@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Form, Input, Dropdown } from 'semantic-ui-react';
+import { Button, Form, Input, Dropdown } from 'semantic-ui-react';
 import { monthNames } from './monthNames.js';
 
 class DateIssuedFormBuilder extends Component {
@@ -16,6 +16,11 @@ class DateIssuedFormBuilder extends Component {
         <Form.Field>
           <Input label="Year Published" type="number" placeholder="Year Published" defaultValue={this.props.issued.year} onChange={(e, value) => this.props.changeDateIssued(e, 'year', value)}/>
         </Form.Field>
+        <Button.Group>
+          <Button style={{backgroundColor: '#b71c1c', color: '#ffffff'}} onClick={() => this.props.removeDateIssued()}>Remove Date</Button>
+          <Button.Or />
+          <Button style={{backgroundColor: '#005eea', color: '#ffffff'}} onClick={() => this.props.setDateIssuedToday()}>Today</Button>
+        </Button.Group>
       </Fragment>
     );
   }

@@ -1,6 +1,7 @@
 import { simplifyObject } from './simplifyObject';
 
 /**
+ * @param {Array<String>} creatorsTypes
  * @param {Array<Object>} citationTray
  * @return {Object} CSL Object
  */
@@ -11,9 +12,8 @@ export function generateCSL(creatorsTypes, citationTray) {
             contributors = citationData.contributors.map(contributor => simplifyObject(Object.assign(contributor, {given: (contributor.middle && contributor.middle !== "" ? (`${contributor.given} ${contributor.middle}`): contributor.given), middle: null})));
         }
         let contributorsData = creatorsTypes.reduce((accumulator, currentValue) => {
-            return Object.assign(accumulator, {[currentValue]: contributors.filter(c => c.type === currentValue && (c.family || c.given || c.middle)).map(contributor => simplifyObject(contributor))})
+            return Object.assign(accumulator, {[currentValue]: contributors.filter(c => c.type && c.type === currentValue && (c.family || c.given || c.middle)).map(contributor => simplifyObject(contributor))})
         }, {});
-        console.log(contributorsData)
 
         return accumulator.concat(simplifyObject({
             "accessed": simplifyObject({

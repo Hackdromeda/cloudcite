@@ -35,6 +35,8 @@ class CiteForm extends Component {
     this.removeDateAccessed = this.removeDateAccessed.bind(this);
     this.setDateAccessedToday = this.setDateAccessedToday.bind(this);
     this.changeDateIssued = this.changeDateIssued.bind(this);
+    this.removeDateIssued = this.removeDateIssued.bind(this);
+    this.setDateIssuedToday = this.setDateIssuedToday.bind(this);
   }
 
   state = {
@@ -145,6 +147,33 @@ class CiteForm extends Component {
     });
   }
 
+  removeDateIssued() {
+    this.setState({
+      citation: {
+        ...this.state.citation,
+        issued: {
+          month: "",
+          day: "",
+          year: ""
+        }
+      }
+    });
+  }
+
+  setDateIssuedToday() {
+    let currentDate = new Date();
+    this.setState({
+      citation: {
+        ...this.state.citation,
+        issued: {
+          month: currentDate.getMonth() + 1,
+          day: currentDate.getDate(),
+          year: currentDate.getFullYear()
+        }
+      }
+    })
+  }
+
   setCSLValue(e, cslKey, { value }) {
     this.setState({
       citation: {
@@ -192,7 +221,7 @@ class CiteForm extends Component {
               <div style={{marginTop: '15px'}}/>
               <DateAccessedFormBuilder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday}/>
               <div style={{marginTop: '15px'}}/>
-              <DateIssuedFormBuilder issued={this.state.citation.issued} changeDateIssued={this.changeDateIssued}/>
+              <DateIssuedFormBuilder issued={this.state.citation.issued} changeDateIssued={this.changeDateIssued} removeDateIssued={this.removeDateIssued} setDateIssuedToday={this.setDateIssuedToday}/>
               <div style={{marginTop: '15px'}}/>
             </div>
           ): <div/>

@@ -12,7 +12,7 @@ const CiteForm = lazy(() => import('./CiteForm/CiteForm.js'));
 
 function loadingComponent(Component) {
     return props => (
-        <Suspense fallback={<div></div>}>
+        <Suspense fallback={<div/>}>
             <Component {...props} />
         </Suspense>
     );

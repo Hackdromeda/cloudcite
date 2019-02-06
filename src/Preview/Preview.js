@@ -26,7 +26,7 @@ class Preview extends Component {
     }
 
     async generatePreview() {
-        const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, cloneDeep(this.props.citation));
+        const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.creatorsMap, cloneDeep(this.props.citations));
         if (generatedHTML && generatedHTML.error) {
             console.log(generatedHTML.error)
         } 

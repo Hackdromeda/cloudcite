@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import Bibliography from './Bibliography/Bibliography.js';
 import LocaleSearch from './LocaleSearch/LocaleSearch.js';
 import StyleSearch from './StyleSearch/StyleSearch.js';
 import FavoriteStyleSearch from './FavoriteStyleSearch/FavoriteStyleSearch.js';
 import { Divider, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+//import Bibliography from './Bibliography/Bibliography.js';
+//<Bibliography citation={this.props.projects.find((project) => project.id === this.props.selectedProject).citations}/>
 
 const mapStateToProps = state => ({
   selectedProject: state.projectsReducer.selectedProject,
@@ -44,7 +45,6 @@ class App extends Component {
               </div>
             </div>
             <Divider/>
-            <Bibliography citation={this.props.projects.find((project) => project.id === this.props.selectedProject).citations}/>
           </div>
           <div>
           <FavoriteStyleSearch/>

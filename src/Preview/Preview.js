@@ -7,7 +7,8 @@ import './Preview.css';
 
 const mapStateToProps = state => ({
     style: state.projectsReducer.projects.find((project) => project.id === state.projectsReducer.selectedProject).style,
-    locale: state.localeReducer.locale.value
+    locale: state.localeReducer.locale.value,
+    creatorsTypes: state.creatorsTypesReducer.creatorsTypes
 });
   
 const mapDispatchToProps = dispatch => ({
@@ -26,7 +27,7 @@ class Preview extends Component {
     }
 
     async generatePreview() {
-        const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.creatorsMap, cloneDeep(this.props.citations));
+        const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.creatorsTypes, cloneDeep(this.props.citations));
         if (generatedHTML && generatedHTML.error) {
             console.log(generatedHTML.error)
         } 

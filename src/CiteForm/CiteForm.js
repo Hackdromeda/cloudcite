@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ADD_CITATION } from '../actions/projects';
 import { SET_CITATION_SAVE_MODE } from '../actions/citationSaveMode';
-import { UPDATE_CREATORS_MAP } from '../actions/creatorsMap';
+import { UPDATE_CREATORS_TYPES } from '../actions/creatorsTypes';
 import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';
 import './CiteForm.css';
@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   ADD_CITATION: (id, citation) => dispatch(ADD_CITATION(id, citation)),
   SET_CITATION_SAVE_MODE: (payload) => dispatch(SET_CITATION_SAVE_MODE(payload)),
-  UPDATE_CREATORS_MAP: (creatorsMap) => dispatch(UPDATE_CREATORS_MAP(creatorsMap))
+  UPDATE_CREATORS_TYPES: (creatorsMap) => dispatch(UPDATE_CREATORS_TYPES(creatorsMap))
 });
 
 class CiteForm extends Component {
@@ -171,7 +171,7 @@ class CiteForm extends Component {
       fieldMap: fieldMap,
       creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, {"key": creator.index, "text": creator.UI, "value": creator.csl}))
     });
-    this.props.UPDATE_CREATORS_MAP(creatorsMap);
+    this.props.UPDATE_CREATORS_TYPES(creatorsMap);
   }
 
   render() {
@@ -204,7 +204,7 @@ class CiteForm extends Component {
               </Form.Field>
           )}
           <div style={{marginTop: '15px'}}/>
-          <Preview citations={[this.state.citation]} creatorsMap={this.state.creatorsMap}/>
+          <Preview citations={[this.state.citation]}/>
           {
             this.state.fieldMap.length > 0 ? (
               <Button.Group style={{marginTop: '15px'}}>

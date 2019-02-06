@@ -4,16 +4,17 @@ import { simplifyObject } from './simplifyObject';
  * @param {Array<Object>} citationTray
  * @return {Object} CSL Object
  */
-export function generateCSL(creatorsMap, citationTray) { 
+export function generateCSL(creatorsTypes, citationTray) { 
     return citationTray.reduce((accumulator, citationData) => {
         let contributors = [];
         if (citationData.contributors && citationData.contributors.length > 0) {
             contributors = citationData.contributors.map(contributor => simplifyObject(Object.assign(contributor, {given: (contributor.middle && contributor.middle !== "" ? (`${contributor.given} ${contributor.middle}`): contributor.given), middle: null})));
         }
-        let contributorTypes = creatorsMap.map((creator) => creator.csl);
-        let contributorsData = contributorTypes.reduce((accumulator, currentValue) => {
+        let contributorsData = creatorsTypes.reduce((accumulator, currentValue) => {
             return Object.assign(accumulator, {[currentValue]: contributors.filter(c => c.type === currentValue && (c.family || c.given || c.middle)).map(contributor => simplifyObject(contributor))})
         }, {});
+        console.log(contributorsData)
+
         return accumulator.concat(simplifyObject({
             "accessed": simplifyObject({
                 "month": (citationData.accessed.month && citationData.accessed.month >= 1 && citationData.accessed.month <= 12) ? citationData.accessed.month: null,

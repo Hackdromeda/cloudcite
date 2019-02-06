@@ -7,8 +7,8 @@ import { cite } from './cite';
  * @param {Array<Object>} citationTray 
  * @param {Array<String>} cslHTML 
  */
-export async function generateHTML(style, locale, creatorsMap, citationTray) {
-    let csl = generateCSL(creatorsMap, citationTray);
+export async function generateHTML(style, locale, creatorsTypes, citationTray) {
+    let csl = generateCSL(creatorsTypes, citationTray);
     return new Promise(async (resolve, reject) => {
         try {
             if (style && locale && csl && (Object.keys(csl).length > 0)) {

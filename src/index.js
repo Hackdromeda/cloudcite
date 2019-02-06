@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import * as serviceWorker from './serviceWorker';
-import { Menu } from 'semantic-ui-react'
 import './index.scss';
 const App = lazy(() => import("./App.js"));
 const Projects = lazy(() => import('./Projects/Projects.js'));

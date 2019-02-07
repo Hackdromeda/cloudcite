@@ -4,16 +4,16 @@ import { cite } from './cite';
 /**
  * @param {Object} style 
  * @param {Object} locale 
+ * @param {Array<String>} creatorTypes
  * @param {Array<Object>} citationTray 
- * @param {Array<String>} cslHTML 
  */
 export async function generateHTML(style, locale, creatorsTypes, citationTray) {
     let csl = generateCSL(creatorsTypes, citationTray);
     return new Promise(async (resolve, reject) => {
         try {
-            if (style && locale && csl && (Object.keys(csl).length > 0)) {
+            if (style && locale && csl) {
                 const response = await cite(style, locale, csl);
-                if (response[0] && response[1].length > 0) {
+                if (response[0] && response[1]) {
                     const format = response[0];
                     let html = [];
                     for (let i=0; i < response[1].length; i++) {

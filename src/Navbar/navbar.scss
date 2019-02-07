@@ -1,0 +1,83 @@
+$blue: rgb(66, 134, 244);
+@mixin easeOut {
+  transition: all 0.5s ease-out;
+}
+
+.nav {
+  @include easeOut;
+  overflow: hidden;
+  background-color:#fff;
+  box-shadow: 0 0 1rem rgba(#000,0.2);
+
+  :first-child {
+    font-weight:bold;
+    font-size:20px;
+    color:rgb(0, 94, 234);
+  }
+
+  a {
+    @include easeOut;
+    float: left;
+    display: block;
+    color: $blue;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+
+    &:not(:first-child):not(:last-child):hover:after{
+      content:"";
+      display:block;
+      background-color:$blue;
+      height:1px;
+    }
+
+    &:not(:first-child):not(:last-child):hover{
+       @include easeOut;
+        background-color:rgba(darken(#fff,20),0.5);
+        color: darken($blue,30);
+    }
+
+    &#burger {
+      display:none;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .nav {
+    @include easeOut;
+
+    a {
+      @include easeOut;
+
+      &:not(:first-child) {
+       display: none;
+      }
+      
+      &#burger {
+        display:block;
+        position:absolute;
+        top:0;
+        right:0;
+      }
+    }
+    
+    &.responsive {
+      @include easeOut;
+
+      a {
+        float: none;
+        display: block;
+        text-align: left;
+        &:not(:first-child) {
+          background-color:darken(#fff,5);
+        }
+        
+        &:not(:first-child):not(:last-child):hover:after{
+          display:none;
+        }
+      }
+    }
+  } 
+}

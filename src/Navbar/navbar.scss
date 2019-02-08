@@ -11,7 +11,7 @@ $blue: rgb(66, 134, 244);
 
   :first-child {
     font-weight:bold;
-    font-size:20px;
+    font-size:1.6rem;
     color:rgb(0, 94, 234);
   }
 
@@ -19,11 +19,11 @@ $blue: rgb(66, 134, 244);
     @include easeOut;
     float: left;
     display: block;
-    color: $blue;
+    color: #37474f;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 1.1rem;
 
     &:not(:first-child):not(:last-child):hover:after{
       content:"";
@@ -34,8 +34,8 @@ $blue: rgb(66, 134, 244);
 
     &:not(:first-child):not(:last-child):hover{
        @include easeOut;
-        background-color:rgba(darken(#fff,20),0.5);
-        color: darken($blue,30);
+        background-color:rgba(darken(#ffffff, 15) ,0.5);
+        color: darken($blue, 15);
     }
 
     &#burger {

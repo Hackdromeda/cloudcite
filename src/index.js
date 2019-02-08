@@ -10,9 +10,7 @@ import Navbar from "./Navbar/Navbar";
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router>
-            <Navbar />
-        </Router>
+        <Navbar/>
     </Provider>,
     document.getElementById('root')
 );

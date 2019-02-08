@@ -10,5 +10,5 @@ export default combineReducers({
     localeReducer, 
     favoriteStylesReducer,
     citationSaveModeReducer,
-    creatorsTypesReducer
+    creatorsTypesReducer,
 });

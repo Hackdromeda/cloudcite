@@ -8,6 +8,7 @@ import './index.scss';
 const App = lazy(() => import("./App.js"));
 const Projects = lazy(() => import('./Projects/Projects.js'));
 const CiteForm = lazy(() => import('./CiteForm/CiteForm.js'));
+const WebsiteAutofill = lazy(() => import('./WebsiteAutofill/WebsiteAutofill.js'));
 
 function loadingComponent(Component) {
     return props => (
@@ -99,6 +100,7 @@ ReactDOM.render(
                 <Switch>
                     <Route path="/" exact component={loadingComponent(App)} />
                     <Route path="/projects" component={loadingComponent(Projects)} />
+                    <Route path="/cite/website" component={loadingComponent(WebsiteAutofill)} />
                     <Route path="/cite" component={loadingComponent(CiteForm)} />
                 </Switch>
             </header>

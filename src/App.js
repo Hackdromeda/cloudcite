@@ -26,6 +26,17 @@ class App extends Component {
     console.log(value);
   }
 
+  cite(type) {
+    switch (type) {
+      case "webpage":
+        this.props.history.push('/cite/website');
+        break;
+      case "other":
+        this.props.history.push('/cite');
+        break;
+      default: this.props.history.push('/cite');
+    }
+  }
   citeOther() {
     this.props.history.push('/cite');
   }
@@ -38,10 +49,10 @@ class App extends Component {
               <h1>Welcome to CloudCite</h1>
               <p>CloudCite processes citations in the cloud so you never have to create citations manually again.</p>
               <div style={{textAlign: 'center'}}>
-                <Button id="citeButton">Website</Button>
+                <Button id="citeButton" onClick={(e) => this.cite("webpage")}>Website</Button>
                 <Button id="citeButton">Book</Button>
                 <Button id="citeButton">Film</Button>
-                <Button id="citeButton" onClick={(e) => this.citeOther()}>Other</Button>
+                <Button id="citeButton" onClick={(e) => this.cite("other")}>Other</Button>
               </div>
             </div>
             <Divider/>

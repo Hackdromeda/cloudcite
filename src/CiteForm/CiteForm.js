@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   ADD_CITATION: (id, citation) => dispatch(ADD_CITATION(id, citation)),
   SET_CITATION_SAVE_MODE: (payload) => dispatch(SET_CITATION_SAVE_MODE(payload)),
-  UPDATE_CREATORS_TYPES: (creatorsMap) => dispatch(UPDATE_CREATORS_TYPES(creatorsMap))
+  UPDATE_CREATORS_TYPES: (creatorsMap) => dispatch(UPDATE_CREATORS_TYPES(creatorsMap)),
 });
 
 class CiteForm extends Component {
@@ -40,9 +40,9 @@ class CiteForm extends Component {
   }
 
   state = {
-    fieldMap: [],
-    creatorsMap: [],
-    citation: createCitation(null)
+    fieldMap: this.props.fieldMap ? this.props.fieldMap: [],
+    creatorsMap: this.props.creatorsMap ? this.props.creatorsTypes: [],
+    citation: this.props.citationData ? createCitation(this.props.citationData): createCitation(null)
   }
 
   cancelCitation() {
@@ -50,11 +50,15 @@ class CiteForm extends Component {
   }
 
   saveCitation() {
-    if (this.props.citationSaveMode === 'ADD') {
+    const SAVE_MODES = {
+      ADD: "ADD",
+      EDIT: "EDIT"
+    }
+    if (this.props.citationSaveMode === SAVE_MODES.ADD) {
       this.props.ADD_CITATION(this.props.selectedProject, this.state.citation);
     }
     else {
-      this.props.SET_CITATION_SAVE_MODE('ADD');
+      this.props.SET_CITATION_SAVE_MODES(SAVE_MODES.EDIT);
     }
     this.props.history.push('/');
   }
@@ -213,11 +217,7 @@ class CiteForm extends Component {
         {
           this.state.fieldMap.length > 0 ? (
             <div>
-              {this.state.citation.contributors.map((contributor, index) =>
-                <div key={contributor.key} style={{marginTop: '10px'}}>
-                  <ContributorFormBuilder creatorsMap={this.state.creatorsMap} contributor={contributor} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
-                </div>
-              )}
+              <ContributorFormBuilder citation={this.state.citation} creatorsMap={this.state.creatorsMap} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
               <div style={{marginTop: '15px'}}/>
               <DateAccessedFormBuilder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday}/>
               <div style={{marginTop: '15px'}}/>

@@ -4,7 +4,7 @@ import './App.css';
 import LocaleSearch from './LocaleSearch/LocaleSearch.js';
 import StyleSearch from './StyleSearch/StyleSearch.js';
 import FavoriteStyleSearch from './FavoriteStyleSearch/FavoriteStyleSearch.js';
-import { Divider, Button } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 //import Bibliography from './Bibliography/Bibliography.js';
 //<Bibliography citation={this.props.projects.find((project) => project.id === this.props.selectedProject).citations}/>
@@ -43,20 +43,21 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-          <div className="container">
-            <div style={{padding: '5vh'}}>
-              <h1>Welcome to CloudCite</h1>
-              <p>CloudCite processes citations in the cloud so you never have to create citations manually again.</p>
-              <div style={{textAlign: 'center'}}>
-                <Button id="citeButton" onClick={(e) => this.cite("webpage")}>Website</Button>
-                <Button id="citeButton">Book</Button>
-                <Button id="citeButton">Film</Button>
-                <Button id="citeButton" onClick={(e) => this.cite("other")}>Other</Button>
+      <div style={{textAlign: 'center'}}>
+        <div style={{backgroundColor: 'rgb(0, 94, 234)', color: '#ffffff', minHeight: '35vh', marginBottom: '5vh'}}>
+            <div className="container">
+              <div style={{paddingLeft: '5vh', paddingRight: '5vh', paddingTop: '10vh', paddingBottom: '10vh'}}>
+                <h1>Welcome to CloudCite</h1>
+                <p>CloudCite processes citations in the cloud so you never have to create citations manually again.</p>
+                <div style={{textAlign: 'center'}}>
+                  <Button id="citeButton" onClick={(e) => this.cite("webpage")}>Website</Button>
+                  <Button id="citeButton">Book</Button>
+                  <Button id="citeButton">Film</Button>
+                  <Button id="citeButton" onClick={(e) => this.cite("other")}>Other</Button>
+                </div>
               </div>
-            </div>
-            <Divider/>
           </div>
+        </div>
           <div>
           <FavoriteStyleSearch/>
           </div>

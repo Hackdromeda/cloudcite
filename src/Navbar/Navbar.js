@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, Component, Fragment, useState } from 'react';
+import React, { lazy, Suspense, Fragment, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 import './navbar.scss';

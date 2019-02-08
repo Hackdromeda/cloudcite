@@ -1,0 +1,12 @@
+@media (max-width: 991.97px) {
+  .container {
+    margin-left: 1vh;
+    margin-right: 1vh;
+  }
+}
+@media (min-width: 991.98px) {
+  .container {
+    margin-left: 30vh;
+    margin-right: 30vh;
+  }
+}

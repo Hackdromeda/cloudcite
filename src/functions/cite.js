@@ -6,9 +6,6 @@ import CSL from 'citeproc';
  * @param {Array<Object>} citationTray Contains an array of citations
  */
 export async function cite(style, locale, citationTray) {
-    console.log(style)
-    console.log(locale)
-    console.log(citationTray)
     const styleFile = await fetch(`https://cdn.cloudcite.net/styles/${style}.csl`)
                           .then((response) => {
                             return response.text();

@@ -15,6 +15,20 @@ $blue: rgb(66, 134, 244);
     color:rgb(0, 94, 234);
   }
 
+  &:not(.responsive){
+    a:not(:first-child):not(:last-child):hover{
+     border-bottom :5px solid $blue;
+     padding: 11.5px 16px;
+    }
+    
+    a.current:not(:first-child):not(:last-child){
+      border-bottom :5px solid $blue;
+      padding: 11.5px 16px;
+      background-color:rgba(darken(#fff, 15) ,0.5);
+      color:$blue;
+    }
+  }
+
   a {
     @include easeOut;
     float: left;
@@ -24,18 +38,11 @@ $blue: rgb(66, 134, 244);
     padding: 14px 16px;
     text-decoration: none;
     font-size: 1.1rem;
-
-    &:not(:first-child):not(:last-child):hover:after{
-      content:"";
-      display:block;
-      background-color:$blue;
-      height:1px;
-    }
+   
 
     &:not(:first-child):not(:last-child):hover{
-       @include easeOut;
-        background-color:rgba(darken(#ffffff, 15) ,0.5);
-        color: darken($blue, 15);
+      @include easeOut;
+      background-color:rgba(darken(#fff, 15) ,0.5);
     }
 
     &#burger {
@@ -44,7 +51,7 @@ $blue: rgb(66, 134, 244);
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 680px) {
   .nav {
     @include easeOut;
 
@@ -64,18 +71,26 @@ $blue: rgb(66, 134, 244);
     }
     
     &.responsive {
-      @include easeOut;
 
       a {
         float: none;
         display: block;
         text-align: left;
-        &:not(:first-child) {
+        &:not(:first-child):not(:last-child) {
+          @include easeOut;
           background-color:darken(#fff,5);
-        }
-        
-        &:not(:first-child):not(:last-child):hover:after{
-          display:none;
+          &:hover {
+            @include easeOut;
+            background-color:darken(#fff,20);
+            border-left :5px solid $blue;
+          }
+
+          &.current:not(:first-child):not(:last-child){
+            border-left :5px solid $blue;
+            background-color:darken(#fff, 20);
+            color:$blue;
+            font-weight:bold;
+          }
         }
       }
     }

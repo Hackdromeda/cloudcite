@@ -17,21 +17,21 @@ function loadingComponent(Component) {
 
 function Navbar() {
 
-const [openNavbarMenu, setOpenNavbarMenu] = useState(false);
+  const [openNavbarMenu, setOpenNavbarMenu] = useState(false);
 
   return (
     <Router>
       <Fragment>
         <div id="navbar" className="nav">
-          <Link className="closeHam" to="/">CloudCite</Link>
-          <Link className="closeHam" to="/projects">Projects</Link>
+          <Link className="page closeHam current" to="/">CloudCite</Link>
+          <Link className="page closeHam" to="/projects">Projects</Link>
           <a href="https://api.cloudcite.net/" target="_blank" className="closeHam" rel="noopener noreferrer">API</a>
           <a href="https://cloudcite.net/blog" target="_blank" className="closeHam" rel="noopener noreferrer">Blog</a>
           <a href="https://status.cloudcite.net/" target="_blank" className="closeHam" rel="noopener noreferrer">Status</a>
           <a href="https://help.cloudcite.net/" target="_blank" className="closeHam" rel="noopener noreferrer">Help</a>
           <a href="https://feedback.cloudcite.net/" target="_blank" className="closeHam" rel="noopener noreferrer">Feedback</a>
           <a href="https://github.com/Hackdromeda/cloudcite/" target="_blank" className="closeHam" rel="noopener noreferrer">Contribute</a>
-          <a id="burger" onClick={() => setOpenNavbarMenu(!openNavbarMenu)} href="javascript:void(0)">{openNavbarMenu ? <Icon name="close"/>: <Icon name="bars"/>}</a>
+          <a id="burger" onClick={() => setOpenNavbarMenu(!openNavbarMenu)} href="javascript:void(0)">{openNavbarMenu ? <Icon name="close" /> : <Icon name="bars" />}</a>
         </div>
         <Switch>
           <Route path="/" exact component={loadingComponent(App)} />
@@ -39,7 +39,7 @@ const [openNavbarMenu, setOpenNavbarMenu] = useState(false);
           <Route path="/cite" component={loadingComponent(CiteForm)} />
         </Switch>
       </Fragment>
-     </Router>
+    </Router>
   );
 }
 

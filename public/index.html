@@ -43,13 +43,17 @@
   <meta property="og:site_name" content="CloudCite">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@Cloud_Cite">
-  <meta name="twitter:description" content="CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.">
+  <meta name="twitter:description"
+    content="CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.">
   <meta name="twitter:image:src" content="https://cloudcite.net/static/icons/CloudCite+Blue+(Online).png">
-  <meta name="description" property="og:description" content="CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.">
+  <meta name="description" property="og:description"
+    content="CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago.">
   <meta name="author" content="CloudCite">
   <meta name="publisher" content="CloudCite">
-  <script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","@id":"#website","url":"https:\/\/cloudcite.net\/","name":"CloudCite"}</script>
-  <script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"Organization","url":"https:\/\/cloudcite.net\/","sameAs":["https:\/\/twitter.com\/Cloud_Cite"],"@id":"#organization","name":"CloudCite","logo":"https:\/\/cloudcite.net\/static\/icons\/CloudCite+Blue+(Online).png","contactPoint": {"@type": "ContactPoint","email": "support@cloudcite.net", "contactType": "customer service", "url":"https:\/\/help.cloudcite.net\/"},"parentOrganization": {"@type": "Organization","name": "Hackdromeda", "url":"https:\/\/hackdromeda.com\/"}}</script>
+  <script
+    type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","@id":"#website","url":"https:\/\/cloudcite.net\/","name":"CloudCite"}</script>
+  <script
+    type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"Organization","url":"https:\/\/cloudcite.net\/","sameAs":["https:\/\/twitter.com\/Cloud_Cite"],"@id":"#organization","name":"CloudCite","logo":"https:\/\/cloudcite.net\/static\/icons\/CloudCite+Blue+(Online).png","contactPoint": {"@type": "ContactPoint","email": "support@cloudcite.net", "contactType": "customer service", "url":"https:\/\/help.cloudcite.net\/"},"parentOrganization": {"@type": "Organization","name": "Hackdromeda", "url":"https:\/\/hackdromeda.com\/"}}</script>
   <title>CloudCite · The Best Automatic Bibliography Generator</title>
 </head>
 
@@ -73,6 +77,9 @@
   document.querySelectorAll(".closeHam").forEach(a => {
     a.addEventListener('click', closeHam);
   });
+  document.querySelectorAll(".page").forEach(page => {
+    page.addEventListener('click', currentPage);
+  });
 
   function hamburger() {
     if (x.className === "nav") {
@@ -84,6 +91,13 @@
 
   function closeHam() {
     x.classList.remove("responsive");
+  }
+
+  function currentPage() {
+    if (!this.classList.contains('current')) {
+      document.querySelector(".current").classList.remove('current');
+      this.classList.add('current');
+    }
   }
 </script>
 

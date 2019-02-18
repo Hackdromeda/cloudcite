@@ -29,7 +29,7 @@ class App extends Component {
   cite(type) {
     switch (type) {
       case "webpage":
-        this.props.history.push('/cite/website');
+        this.props.history.push('/website');
         break;
       case "other":
         this.props.history.push('/cite');

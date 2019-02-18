@@ -55,29 +55,21 @@ class WebsiteAutofill extends Component {
     }
 
     async citeURL(url) {
-        let citationData = await fetch('https://api.cloudcite.net/autofill', {
+        let citationData = await fetch('https://api.cloudcite.net/autofillv2', {
             method: 'POST',
             headers: {
                 'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
             },
             body: JSON.stringify({
                 "format": "website",
-                "URL": (url.substring(0, 4) === 'http') ? url: (`http://${url}`)
+                "URL": (url.substring(0, 4) === 'http') ? url: (`http://${url}`),
+                "transform": true
             })
         }).then((response) => response.json());
 
-        citationData.URL = this.formatURL(citationData.URL);
-        citationData.contributors = [];
-        if (citationData.author && citationData.author.length > 0) {
-            //@ts-ignore
-            citationData.author.forEach(author => {
-                //@ts-ignore
-                citationData.contributors.push({given: author.given ? author.given.split(" ")[0]: "", middle: author.given ? (author.given.split(" ").length == 2 ? author.given.split(" ")[1]: ""): "", family: author.family ? author.family: "", type: "Author"})
-            });
-        }
-        if (citationData.contributors.length == 0) {
-            citationData.contributors.push({given: "", middle: "", family: "", type: "Author"})
-        }
+        //citationData.URL = this.formatURL(citationData.URL);
+        console.log('WEBSITE AUTOFILLV2 RESPONSE');
+        console.log(citationData);
         this.setState({citationData: citationData});
     }
 

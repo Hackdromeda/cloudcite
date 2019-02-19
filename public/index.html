@@ -72,7 +72,9 @@
     -->
 </body>
 <script>
+  // Responsive Navbar Hamburger Functionality 
   const x = document.getElementById("navbar");
+  document.body.addEventListener('click', bodyClick);
   document.getElementById("burger").addEventListener('click', hamburger);
   document.querySelectorAll(".closeHam").forEach(a => {
     a.addEventListener('click', closeHam);
@@ -80,6 +82,14 @@
   document.querySelectorAll(".page").forEach(page => {
     page.addEventListener('click', currentPage);
   });
+
+  document.querySelector('.hamMenu').addEventListener('click', toggleMenu);
+
+  function toggleMenu() {
+    (this.className.includes('bars'))
+      ? this.className = "icon hamMenu close"
+      : this.className = "icon hamMenu bars"
+  }
 
   function hamburger() {
     if (x.className === "nav") {
@@ -89,8 +99,18 @@
     }
   }
 
+  function bodyClick(e) {
+    if (!e.target.className.includes("ham") && !e.target.className.includes("Ham")) {
+      if (x.classList.contains('responsive')) {
+        x.classList.remove("responsive");
+        document.querySelector('.hamMenu').className = 'icon hamMenu bars';
+      }
+    }
+  }
+
   function closeHam() {
     x.classList.remove("responsive");
+    document.querySelector('.hamMenu').className = 'icon hamMenu bars';
   }
 
   function currentPage() {

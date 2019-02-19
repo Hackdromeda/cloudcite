@@ -74,7 +74,9 @@ $blue: rgb(66, 134, 244);
         display:block;
         top:0;
         right:10px;
-        cursor: pointer;
+        .icon{
+          cursor: pointer;
+        }
       }
     }
     

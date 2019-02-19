@@ -5,7 +5,8 @@ import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
 import './WebsiteAutofill.scss';
-import Loader from 'react-loaders'
+import Loader from 'react-loaders';
+import crypto from 'crypto';
 
 const mapStateToProps = state => ({
 });
@@ -35,8 +36,7 @@ class WebsiteAutofill extends Component {
             });
         this.setState({
             fieldMap: fieldMap,
-            creatorsMap: creatorsMap,
-            loaderVisible: false
+            creatorsMap: creatorsMap
         });
     }
 
@@ -69,16 +69,16 @@ class WebsiteAutofill extends Component {
                     },
                     body: JSON.stringify({
                         "format": "website",
+                        "id": crypto.randomBytes(10).toString('hex'),
                         "URL": (url.substring(0, 4) === 'http') ? url : (`http://${url}`),
                         "transform": true
                     })
                 }).then((response) => response.json());
                 citationData.URL = this.formatURL(citationData.URL);
                 this.setState({ citationData: citationData, loaderVisible: false });
-                this.setState({ citationData: citationData });
             }
             catch (error) {
-                this.setState({ citationData: createCitation({ "type": "webpage", "URL": this.formatURL(url) }) });
+                this.setState({ citationData: createCitation({ "type": "webpage", "URL": this.formatURL(url) }), loaderVisible: false });
             }
         }
     }

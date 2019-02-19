@@ -8,7 +8,7 @@ class DateAccessedFormBuilder extends Component {
     return (
       <Fragment>
         <Form.Group>
-          <Form.Field control={Dropdown} selection lazyLoad label="Month Accessed" placeholder="Month Accessed" options={monthNames} value={this.props.accessed.month} onChange={(e, value) => this.props.changeDateAccessed(e, 'month', value)}/>
+          <Form.Field control={Dropdown} selection lazyLoad label="Month Accessed" placeholder="Month Accessed" options={monthNames} value={parseInt(this.props.accessed.month) ? parseInt(this.props.accessed.month): this.props.accessed.month} onChange={(e, value) => this.props.changeDateAccessed(e, 'month', value)}/>
           <Form.Field control={Input} label="Day Accessed" type="number" placeholder="Day Accessed" defaultValue={this.props.accessed.day} onChange={(e, value) => this.props.changeDateAccessed(e, 'day', value)}/>
           <Form.Field control={Input}  label="Year Accessed" type="number" placeholder="Year Accessed" defaultValue={this.props.accessed.year} onChange={(e, value) => this.props.changeDateAccessed(e, 'year', value)}/>
         </Form.Group>

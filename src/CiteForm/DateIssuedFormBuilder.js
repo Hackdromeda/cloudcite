@@ -8,7 +8,7 @@ class DateIssuedFormBuilder extends Component {
     return (
       <Fragment>
         <Form.Group>
-          <Form.Field control={Dropdown} selection lazyLoad label="Month Published" placeholder="Month Published" options={monthNames} value={this.props.issued.month} onChange={(e, value) => this.props.changeDateIssued(e, 'month', value)}/>
+          <Form.Field control={Dropdown} selection lazyLoad label="Month Published" placeholder="Month Published" options={monthNames} value={parseInt(this.props.issued.month) ? parseInt(this.props.issued.month): this.props.issued.month} onChange={(e, value) => this.props.changeDateIssued(e, 'month', value)}/>
           <Form.Field control={Input} label="Day Published" type="number" placeholder="Day Published" defaultValue={this.props.issued.day} onChange={(e, value) => this.props.changeDateIssued(e, 'day', value)}/>
           <Form.Field control={Input} label="Year Published" type="number" placeholder="Year Published" defaultValue={this.props.issued.year} onChange={(e, value) => this.props.changeDateIssued(e, 'year', value)}/>
         </Form.Group>

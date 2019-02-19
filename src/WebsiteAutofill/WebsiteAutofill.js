@@ -66,10 +66,7 @@ class WebsiteAutofill extends Component {
                 "transform": true
             })
         }).then((response) => response.json());
-
-        //citationData.URL = this.formatURL(citationData.URL);
-        console.log('WEBSITE AUTOFILLV2 RESPONSE');
-        console.log(citationData);
+        citationData.URL = this.formatURL(citationData.URL);
         this.setState({citationData: citationData});
     }
 

@@ -45,6 +45,24 @@ class CiteForm extends Component {
     citation: this.props.citationData ? createCitation(this.props.citationData): createCitation(null)
   }
 
+  async componentDidMount() {
+    if (this.state.citation.type && this.state.citation.type != '') {
+      const fieldMap = await fetch(`https://cdn.cloudcite.net/fields/${this.state.citation.type}.json`)
+                          .then((response) => {
+                            return response.json();
+                          });
+      const creatorsMap = await fetch(`https://cdn.cloudcite.net/creators/${this.state.citation.type}.json`)
+                            .then((response) => {
+                              return response.json();
+                            });
+      this.setState({
+        fieldMap: fieldMap,
+        creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, {"key": creator.index, "text": creator.UI, "value": creator.csl}))
+      });
+      this.props.UPDATE_CREATORS_TYPES(creatorsMap);
+    }
+  }
+
   cancelCitation() {
     this.props.history.push('/');
   }
@@ -211,11 +229,11 @@ class CiteForm extends Component {
     return (
     	<div id="citeForm">
         <div style={{textAlign: 'center'}}>
-     		 <Dropdown fluid style={{marginBottom: '10px'}} placeholder="Select Citation Type" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
+     		 <Dropdown fluid style={{marginBottom: '10px'}} placeholder="Select Citation Type" value={this.state.citation.type ? this.state.citation.type: null} selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
         </div>
         <Form widths="equal">
         {
-          this.state.fieldMap.length > 0 ? (
+          this.state.fieldMap.length > 0 && this.state.creatorsMap ? (
             <div>
               <ContributorFormBuilder citation={this.state.citation} creatorsMap={this.state.creatorsMap} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
               <div style={{marginTop: '15px'}}/>
@@ -229,7 +247,7 @@ class CiteForm extends Component {
           {this.state.fieldMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group)
             .map((field, index) => 
               <Form.Field key={field.csl}>
-                <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
+                <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''} value={this.state.citation[field.csl] ? this.state.citation[field.csl]: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
               </Form.Field>
           )}
           <div style={{marginTop: '15px'}}/>

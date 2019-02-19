@@ -81,6 +81,7 @@ class WebsiteAutofill extends Component {
                 this.setState({ citationData: createCitation({ "type": "webpage", "URL": this.formatURL(url) }) });
             }
         }
+    }
 
         buildForm() {
             if (this.state.citationData && this.state.fieldMap && this.state.creatorsMap) {
@@ -91,7 +92,6 @@ class WebsiteAutofill extends Component {
                 );
             }
             else {
-
                 return (
                     <Form className="citeForm">
                         <Input onChange={(e) => this.setState({ websiteInputURL: e.target.value })} placeholder="Cite Website" disabled={this.state.loaderVisible} />

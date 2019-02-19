@@ -59,7 +59,7 @@ class Bibliography extends Component {
     }
 
     async generatePreview() {
-        const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.creatorsTypes, this.props.citation);
+        const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.creatorsTypes, this.props.citations);
         if (generatedHTML && generatedHTML.error) {
             console.log(generatedHTML.error)
         } 

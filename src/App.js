@@ -6,8 +6,7 @@ import StyleSearch from './StyleSearch/StyleSearch.js';
 import FavoriteStyleSearch from './FavoriteStyleSearch/FavoriteStyleSearch.js';
 import { Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-//import Bibliography from './Bibliography/Bibliography.js';
-//<Bibliography citation={this.props.projects.find((project) => project.id === this.props.selectedProject).citations}/>
+import Bibliography from './Bibliography/Bibliography.js';
 
 const mapStateToProps = state => ({
   selectedProject: state.projectsReducer.selectedProject,
@@ -58,6 +57,9 @@ class App extends Component {
               </div>
           </div>
         </div>
+          <div>
+            <Bibliography citations={this.props.projects.find((project) => project.id === this.props.selectedProject).citations}/>
+          </div>
           <div>
           <FavoriteStyleSearch/>
           </div>

@@ -227,7 +227,6 @@ class CiteForm extends Component {
 
   render() {
     return (
-<<<<<<< HEAD
     	<div id="citeForm">
         <div style={{textAlign: 'center'}}>
      		 <Dropdown fluid style={{marginBottom: '10px'}} placeholder="Select Citation Type" value={this.state.citation.type ? this.state.citation.type: null} selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
@@ -245,33 +244,10 @@ class CiteForm extends Component {
             </div>
           ): <div/>
         }
-=======
-      <div id="citeForm">
-        <div style={{ textAlign: 'center' }}>
-          <Dropdown fluid style={{ marginBottom: '10px' }} placeholder="Select Citation Type" selection search options={types.map((type, index) => Object.assign(type, { key: index }))} onChange={(e, value) => this.handleChange(e, value)} />
-        </div>
-        <Form widths="equal">
-          {
-            this.state.fieldMap.length > 0 ? (
-              <div>
-                <ContributorFormBuilder citation={this.state.citation} creatorsMap={this.state.creatorsMap} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor} />
-                <div style={{ marginTop: '15px' }} />
-                <DateAccessedFormBuilder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday} />
-                <div style={{ marginTop: '15px' }} />
-                <DateIssuedFormBuilder issued={this.state.citation.issued} changeDateIssued={this.changeDateIssued} removeDateIssued={this.removeDateIssued} setDateIssuedToday={this.setDateIssuedToday} />
-                <div style={{ marginTop: '15px' }} />
-              </div>
-            ) : <div />
-          }
->>>>>>> origin/master
           {this.state.fieldMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group)
             .map((field, index) =>
               <Form.Field key={field.csl}>
-<<<<<<< HEAD
                 <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''} value={this.state.citation[field.csl] ? this.state.citation[field.csl]: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
-=======
-                <Input label={field.UI ? field.UI : ''} placeholder={field.UI ? field.UI : ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)} />
->>>>>>> origin/master
               </Form.Field>
             )}
           <div style={{ marginTop: '15px' }} />

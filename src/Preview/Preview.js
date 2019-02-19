@@ -16,12 +16,7 @@ const mapDispatchToProps = dispatch => ({
 
 //citation prop is an array containing citation data
 class Preview extends Component {
-    constructor(props) {
-        super(props);
-        this.generatePreview();
-    }
-
-    componentDidUpdate() {
+    componentDidMount() {
         this.generatePreview();
     }
 
@@ -48,9 +43,9 @@ class Preview extends Component {
             <div id="preview" style={{marginTop: '10px'}}>
                 {
                     this.state.format && this.state.citationHTML.length > 0 ?
-                        <div class="csl-bib-body" style={{lineHeight: this.state.format.linespacing, marginLeft: `${this.state.format.hangingindent}em`, textIndent: `-${this.state.format.hangingindent}em`}}>
+                        <div className="csl-bib-body" style={{lineHeight: this.state.format.linespacing, marginLeft: `${this.state.format.hangingindent}em`, textIndent: `-${this.state.format.hangingindent}em`}}>
                             {this.state.citationHTML.map((cslEntry, index) =>
-                                <div id={`cslEntryContainer${index}`} style={{clear: 'left', marginBottom: this.state.format.entryspacing}}>
+                                <div key={index} id={`cslEntryContainer${index}`} style={{clear: 'left', marginBottom: this.state.format.entryspacing}}>
                                     <div dangerouslySetInnerHTML={{__html: cslEntry}}/>
                                 </div>
                             )}

@@ -16,6 +16,11 @@ const mapDispatchToProps = dispatch => ({
 
 class WebsiteAutofill extends Component {
 
+    constructor(props) {
+        super(props);
+        this.fetchFieldAndCreatorsMaps();
+    }
+
     state = {
         websiteInputURL: "",
         startCiting: false,
@@ -25,7 +30,7 @@ class WebsiteAutofill extends Component {
         loaderVisible: false
     }
 
-    async componentDidMount() {
+    async fetchFieldAndCreatorsMaps() {
         const fieldMap = await fetch(`https://cdn.cloudcite.net/fields/webpage.json`)
             .then((response) => {
                 return response.json();

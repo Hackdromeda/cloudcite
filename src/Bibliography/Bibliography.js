@@ -23,12 +23,7 @@ function toPlainText(richText) {
 class Bibliography extends Component {
     constructor(props) {
         super(props);
-        this.generatePreview();
         this.bibliographyRef = React.createRef();
-    }
-
-    componentDidUpdate() {
-        this.generatePreview();
     }
 
     state = {
@@ -36,6 +31,10 @@ class Bibliography extends Component {
         citationHTML: [],
         textPlain: "",
         textHTML: ""
+    }
+
+    componentDidMount() {
+        this.generatePreview();
     }
 
     copyCSL(e) {
@@ -64,6 +63,7 @@ class Bibliography extends Component {
 
     deleteCitation(id) {
         this.props.DELETE_CITATION(this.props.selectedProject, id);
+        this.generatePreview();
     }
 
     async generatePreview() {

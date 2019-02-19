@@ -4,6 +4,7 @@ import { Input, Button, Form } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import './WebsiteAutofill.scss';
+import Loader from 'react-loaders'
 
 const mapStateToProps = state => ({
 });
@@ -18,7 +19,8 @@ class WebsiteAutofill extends Component {
         startCiting: false,
         citationData: null,
         fieldMap: null,
-        creatorsMap: null
+        creatorsMap: null,
+        loaderVisible: false
     }
 
     async componentDidMount() {
@@ -32,12 +34,13 @@ class WebsiteAutofill extends Component {
             });
         this.setState({
             fieldMap: fieldMap,
-            creatorsMap: creatorsMap
+            creatorsMap: creatorsMap,
+            loaderVisible: false
         });
     }
 
     formatURL(url) {
-        let newURL: string = ""
+        let newURL = ""
         switch (url.substring(0, 7)) {
             case 'https:/':
                 newURL = url.substring(8, url.length)
@@ -55,32 +58,38 @@ class WebsiteAutofill extends Component {
     }
 
     async citeURL(url) {
-        let citationData = await fetch('https://api.cloudcite.net/autofillv2', {
-            method: 'POST',
-            headers: {
-                'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-            },
-            body: JSON.stringify({
-                "format": "website",
-                "URL": (url.substring(0, 4) === 'http') ? url : (`http://${url}`),
-                "transform": true
-            })
-        }).then((response) => response.json());
-        citationData.URL = this.formatURL(citationData.URL);
-        this.setState({ citationData: citationData });
+        if (url !== '') {
+            this.setState({ loaderVisible: true });
+            let citationData = await fetch('https://api.cloudcite.net/autofillv2', {
+                method: 'POST',
+                headers: {
+                    'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+                },
+                body: JSON.stringify({
+                    "format": "website",
+                    "URL": (url.substring(0, 4) === 'http') ? url : (`http://${url}`),
+                    "transform": true
+                })
+            }).then((response) => response.json());
+            citationData.URL = this.formatURL(citationData.URL);
+            this.setState({ citationData: citationData, loaderVisible: false });
+        }
     }
 
     buildForm() {
         if (this.state.citationData && this.state.fieldMap && this.state.creatorsMap) {
             return (
-                <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap} />
+                <div>
+                    <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap} />
+                </div>
             );
         }
         else {
+
             return (
                 <Form className="citeForm">
-                    <Input onChange={(e) => this.setState({ websiteInputURL: e.target.value })} placeholder="Cite Website" />
-                    <Button className="btn" onClick={() => this.citeURL(this.state.websiteInputURL)} type="submit">Cite Website</Button>
+                    <Input onChange={(e) => this.setState({ websiteInputURL: e.target.value })} placeholder="Cite Website" disabled={this.state.loaderVisible} />
+                    <Button className="btn" onClick={() => this.citeURL(this.state.websiteInputURL)} type="submit" disabled={this.state.websiteInputURL === '' || this.state.loaderVisible}>Cite Website</Button>
                 </Form>
             );
         }
@@ -94,6 +103,8 @@ class WebsiteAutofill extends Component {
                     <label>You can start citing a website by typing the website link and clicking on cite.</label>
                 </div>
                 {this.buildForm()}
+                <Loader type="pacman" active={this.state.loaderVisible} />
+
             </div>
         )
     }

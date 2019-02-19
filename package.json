@@ -23,7 +23,6 @@
   "dependencies": {
     "algoliasearch": "^3.32.0",
     "citeproc": "^2.1.214",
-    "hyperhtml": "^2.25.4",
     "loaders.css": "^0.1.2",
     "lodash.clonedeep": "^4.5.0",
     "lodash.identity": "^3.0.0",
@@ -59,7 +58,7 @@
   "devDependencies": {
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8",
-    "rollup": "^1.2.1",
+    "rollup": "^1.2.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0"
   }

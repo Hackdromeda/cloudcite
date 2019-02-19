@@ -40,7 +40,7 @@ export default (state = initialState, action) => {
             };
         case 'ADD_CITATION':
             return { 
-                ...state, projects: state.projects.filter(project => project.id !== state.selectedProject).concat({...state.projects.find(project => project.id === action.payload.id), citations: state.projects.find(project => project.id === action.payload.id).citations.concat(action.payload.citation)})
+                ...state, projects: state.projects.filter(project => project.id !== state.selectedProject).concat({...state.projects.find(project => project.id === action.payload.project_id), citations: state.projects.find(project => project.id === action.payload.project_id).citations.concat(action.payload.citation)})
             };
         case 'DELETE_CITATION':
             return {

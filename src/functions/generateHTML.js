@@ -9,6 +9,7 @@ import { cite } from './cite';
  */
 export async function generateHTML(style, locale, creatorsTypes, citationTray) {
     let csl = generateCSL(creatorsTypes, citationTray);
+    console.log(csl);
     return new Promise(async (resolve, reject) => {
         try {
             if (style && locale && csl) {

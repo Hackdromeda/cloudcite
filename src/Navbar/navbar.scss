@@ -54,6 +54,7 @@ $blue: rgb(66, 134, 244);
 @media screen and (max-width: 680px) {
   .nav {
     @include easeOut;
+    overflow:none;
 
     a {
       @include easeOut;
@@ -61,12 +62,19 @@ $blue: rgb(66, 134, 244);
       &:not(:first-child) {
        display: none;
       }
+
+      &:last-child {
+        position:absolute;
+        padding:none;
+        max-height:47px;
+        max-width:45px;
+      }
       
       &#burger {
         display:block;
-        position:absolute;
         top:0;
-        right:0;
+        right:10px;
+        cursor: pointer;
       }
     }
     

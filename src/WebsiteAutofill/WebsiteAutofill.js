@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Input, Button, Form } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
+import { createCitation } from '../functions/createCitation.js';
 import './WebsiteAutofill.scss';
 
 const mapStateToProps = state => ({
@@ -55,19 +56,24 @@ class WebsiteAutofill extends Component {
     }
 
     async citeURL(url) {
-        let citationData = await fetch('https://api.cloudcite.net/autofillv2', {
-            method: 'POST',
-            headers: {
-                'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-            },
-            body: JSON.stringify({
-                "format": "website",
-                "URL": (url.substring(0, 4) === 'http') ? url : (`http://${url}`),
-                "transform": true
-            })
-        }).then((response) => response.json());
-        citationData.URL = this.formatURL(citationData.URL);
-        this.setState({ citationData: citationData });
+        try {
+            let citationData = await fetch('https://api.cloudcite.net/autofillv2', {
+                method: 'POST',
+                headers: {
+                    'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+                },
+                body: JSON.stringify({
+                    "format": "website",
+                    "URL": (url.substring(0, 4) === 'http') ? url : (`http://${url}`),
+                    "transform": true
+                })
+            }).then((response) => response.json());
+            citationData.URL = this.formatURL(citationData.URL);
+            this.setState({ citationData: citationData });
+        }
+        catch (error) {
+            this.setState({ citationData: createCitation({"type": "webpage", "URL": this.formatURL(url)})});
+        }
     }
 
     buildForm() {

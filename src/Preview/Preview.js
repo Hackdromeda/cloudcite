@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
-import * as hyperHTML from 'hyperhtml';
 import cloneDeep from 'lodash.clonedeep';
 import './Preview.css';
 
@@ -26,33 +25,39 @@ class Preview extends Component {
         this.generatePreview();
     }
 
+    state = {
+        citationHTML: [],
+        format: null
+    }
+
     async generatePreview() {
         const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.creatorsTypes, cloneDeep(this.props.citations));
         if (generatedHTML && generatedHTML.error) {
             console.log(generatedHTML.error)
         } 
         else {
-            let format = generatedHTML.format;
-            if (generatedHTML.html && generatedHTML.html.length > 0) {
-                let citationHTML = generatedHTML.html.map(htmlItem => htmlItem.html);
-                let cslPreviewRef = hyperHTML.wire()`
-                    <div id="preview" style=${{marginTop: '10px'}}>
-                        <div class="csl-bib-body" style=${{lineHeight: format.linespacing, marginLeft: `${format.hangingindent}em`, textIndent: `-${format.hangingindent}em`}}>
-                            ${citationHTML.map((cslEntry, index) =>
-                                `<div id="cslEntryContainer${index}" style="clear: left; margin-bottom: ${format.entryspacing}}">
-                                    ${cslEntry}
-                                </div>`
-                            )}
-                        </div>
-                    </div>`;                  
-                hyperHTML.bind(this.refs.Preview)`${cslPreviewRef}`;
-            }
+            this.setState({
+                format: generatedHTML.format,
+                citationHTML: generatedHTML.html.map(htmlItem => htmlItem.html)
+            });
         }
     }
 
     render() {
         return (
-            <div ref="Preview"/>
+            <div id="preview" style={{marginTop: '10px'}}>
+                {
+                    this.state.format && this.state.citationHTML.length > 0 ?
+                        <div class="csl-bib-body" style={{lineHeight: this.state.format.linespacing, marginLeft: `${this.state.format.hangingindent}em`, textIndent: `-${this.state.format.hangingindent}em`}}>
+                            {this.state.citationHTML.map((cslEntry, index) =>
+                                <div id={`cslEntryContainer${index}`} style={{clear: 'left', marginBottom: this.state.format.entryspacing}}>
+                                    <div dangerouslySetInnerHTML={{__html: cslEntry}}/>
+                                </div>
+                            )}
+                        </div>: 
+                    <div/>
+                }
+            </div>
         )
     }
 }

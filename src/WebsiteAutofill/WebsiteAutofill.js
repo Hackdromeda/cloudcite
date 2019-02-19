@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Input, Button, Form } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
-import './WebsiteAutofill.css';
+import './WebsiteAutofill.scss';
 
 const mapStateToProps = state => ({
 });
@@ -23,13 +23,13 @@ class WebsiteAutofill extends Component {
 
     async componentDidMount() {
         const fieldMap = await fetch(`https://cdn.cloudcite.net/fields/webpage.json`)
-                          .then((response) => {
-                            return response.json();
-                          });
+            .then((response) => {
+                return response.json();
+            });
         const creatorsMap = await fetch(`https://cdn.cloudcite.net/creators/webpage.json`)
-                          .then((response) => {
-                            return response.json();
-                          });
+            .then((response) => {
+                return response.json();
+            });
         this.setState({
             fieldMap: fieldMap,
             creatorsMap: creatorsMap
@@ -43,7 +43,7 @@ class WebsiteAutofill extends Component {
                 newURL = url.substring(8, url.length)
                 break;
             case 'http://':
-                newURL =  url.substring(7, url.length)
+                newURL = url.substring(7, url.length)
                 break;
             default:
                 newURL = url
@@ -62,25 +62,33 @@ class WebsiteAutofill extends Component {
             },
             body: JSON.stringify({
                 "format": "website",
-                "URL": (url.substring(0, 4) === 'http') ? url: (`http://${url}`),
+                "URL": (url.substring(0, 4) === 'http') ? url : (`http://${url}`),
                 "transform": true
             })
         }).then((response) => response.json());
+<<<<<<< HEAD
         citationData.URL = this.formatURL(citationData.URL);
         this.setState({citationData: citationData});
+=======
+
+        //citationData.URL = this.formatURL(citationData.URL);
+        console.log('WEBSITE AUTOFILLV2 RESPONSE');
+        console.log(citationData);
+        this.setState({ citationData: citationData });
+>>>>>>> origin/master
     }
 
     buildForm() {
         if (this.state.citationData && this.state.fieldMap && this.state.creatorsMap) {
             return (
-                <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap}/>
+                <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap} />
             );
         }
         else {
             return (
-                <Form>
-                    <Input onChange={(e) => this.setState({websiteInputURL: e.target.value})} placeholder="Cite Website"/>
-                    <Button onClick={() => this.citeURL(this.state.websiteInputURL)} type="submit">Cite Website</Button>
+                <Form className="citeForm">
+                    <Input onChange={(e) => this.setState({ websiteInputURL: e.target.value })} placeholder="Cite Website" />
+                    <Button className="btn" onClick={() => this.citeURL(this.state.websiteInputURL)} type="submit">Cite Website</Button>
                 </Form>
             );
         }
@@ -89,6 +97,10 @@ class WebsiteAutofill extends Component {
     render() {
         return (
             <div>
+                <div className="top">
+                    <h1>Cite a Website</h1>
+                    <label>You can start citing a website by typing the website link and clicking on cite.</label>
+                </div>
                 {this.buildForm()}
             </div>
         )

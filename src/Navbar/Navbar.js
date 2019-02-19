@@ -16,6 +16,8 @@ function loadingComponent(Component) {
   );
 }
 
+
+
 function Navbar() {
 
   const [openNavbarMenu, setOpenNavbarMenu] = useState(false);
@@ -32,7 +34,7 @@ function Navbar() {
           <a href="https://help.cloudcite.net/" target="_blank" className="closeHam" rel="noopener noreferrer">Help</a>
           <a href="https://feedback.cloudcite.net/" target="_blank" className="closeHam" rel="noopener noreferrer">Feedback</a>
           <a href="https://github.com/Hackdromeda/cloudcite/" target="_blank" className="closeHam" rel="noopener noreferrer">Contribute</a>
-          <a id="burger" onClick={() => setOpenNavbarMenu(!openNavbarMenu)}>{openNavbarMenu ? <Icon name="close" /> : <Icon name="bars" />}</a>
+          <a id="burger"><Icon className="hamMenu bars" /></a>
         </div>
         <Switch>
           <Route path="/" exact component={loadingComponent(App)} />

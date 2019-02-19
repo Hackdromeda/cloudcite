@@ -40,9 +40,9 @@ class CiteForm extends Component {
   }
 
   state = {
-    fieldMap: this.props.fieldMap ? this.props.fieldMap: [],
-    creatorsMap: this.props.creatorsMap ? this.props.creatorsTypes: [],
-    citation: this.props.citationData ? createCitation(this.props.citationData): createCitation(null)
+    fieldMap: this.props.fieldMap ? this.props.fieldMap : [],
+    creatorsMap: this.props.creatorsMap ? this.props.creatorsTypes : [],
+    citation: this.props.citationData ? createCitation(this.props.citationData) : createCitation(null)
   }
 
   async componentDidMount() {
@@ -85,7 +85,7 @@ class CiteForm extends Component {
     this.setState({
       citation: {
         ...this.state.citation,
-        contributors: [...this.state.citation.contributors, {key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author'}]
+        contributors: [...this.state.citation.contributors, { key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author' }]
       }
     })
   }
@@ -95,7 +95,7 @@ class CiteForm extends Component {
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: [{key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author'}]
+          contributors: [{ key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author' }]
         }
       })
     }
@@ -113,7 +113,7 @@ class CiteForm extends Component {
     this.setState({
       citation: {
         ...this.state.citation,
-        contributors: this.state.citation.contributors.map((contributor) => contributor.key === key ? {...contributor, [field]: value}: contributor)
+        contributors: this.state.citation.contributors.map((contributor) => contributor.key === key ? { ...contributor, [field]: value } : contributor)
       }
     });
   }
@@ -207,26 +207,27 @@ class CiteForm extends Component {
 
   async handleChange(e, { value }) {
     const fieldMap = await fetch(`https://cdn.cloudcite.net/fields/${value}.json`)
-                          .then((response) => {
-                            return response.json();
-                          });
+      .then((response) => {
+        return response.json();
+      });
     const creatorsMap = await fetch(`https://cdn.cloudcite.net/creators/${value}.json`)
-                          .then((response) => {
-                            return response.json();
-                          });
+      .then((response) => {
+        return response.json();
+      });
     this.setState({
       citation: {
         ...this.state.citation,
         type: value
       },
       fieldMap: fieldMap,
-      creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, {"key": creator.index, "text": creator.UI, "value": creator.csl}))
+      creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, { "key": creator.index, "text": creator.UI, "value": creator.csl }))
     });
     this.props.UPDATE_CREATORS_TYPES(creatorsMap);
   }
 
   render() {
     return (
+<<<<<<< HEAD
     	<div id="citeForm">
         <div style={{textAlign: 'center'}}>
      		 <Dropdown fluid style={{marginBottom: '10px'}} placeholder="Select Citation Type" value={this.state.citation.type ? this.state.citation.type: null} selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
@@ -244,25 +245,48 @@ class CiteForm extends Component {
             </div>
           ): <div/>
         }
-          {this.state.fieldMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group)
-            .map((field, index) => 
-              <Form.Field key={field.csl}>
-                <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''} value={this.state.citation[field.csl] ? this.state.citation[field.csl]: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
-              </Form.Field>
-          )}
-          <div style={{marginTop: '15px'}}/>
-          <Preview citations={[this.state.citation]}/>
+=======
+      <div id="citeForm">
+        <div style={{ textAlign: 'center' }}>
+          <Dropdown fluid style={{ marginBottom: '10px' }} placeholder="Select Citation Type" selection search options={types.map((type, index) => Object.assign(type, { key: index }))} onChange={(e, value) => this.handleChange(e, value)} />
+        </div>
+        <Form widths="equal">
           {
             this.state.fieldMap.length > 0 ? (
-              <Button.Group style={{marginTop: '15px'}}>
+              <div>
+                <ContributorFormBuilder citation={this.state.citation} creatorsMap={this.state.creatorsMap} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor} />
+                <div style={{ marginTop: '15px' }} />
+                <DateAccessedFormBuilder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday} />
+                <div style={{ marginTop: '15px' }} />
+                <DateIssuedFormBuilder issued={this.state.citation.issued} changeDateIssued={this.changeDateIssued} removeDateIssued={this.removeDateIssued} setDateIssuedToday={this.setDateIssuedToday} />
+                <div style={{ marginTop: '15px' }} />
+              </div>
+            ) : <div />
+          }
+>>>>>>> origin/master
+          {this.state.fieldMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group)
+            .map((field, index) =>
+              <Form.Field key={field.csl}>
+<<<<<<< HEAD
+                <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''} value={this.state.citation[field.csl] ? this.state.citation[field.csl]: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
+=======
+                <Input label={field.UI ? field.UI : ''} placeholder={field.UI ? field.UI : ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)} />
+>>>>>>> origin/master
+              </Form.Field>
+            )}
+          <div style={{ marginTop: '15px' }} />
+          <Preview citations={[this.state.citation]} />
+          {
+            this.state.fieldMap.length > 0 ? (
+              <Button.Group style={{ marginTop: '15px' }}>
                 <Button onClick={(e) => this.cancelCitation()}>Cancel</Button>
                 <Button.Or />
-                <Button style={{backgroundColor: '#005eea', color: '#ffffff'}} onClick={(e) => this.saveCitation()}>Save</Button>
+                <Button style={{ backgroundColor: '#005eea', color: '#ffffff' }} onClick={(e) => this.saveCitation()}>Save</Button>
               </Button.Group>
-            ): <div/>
+            ) : <div />
           }
         </Form>
-     	</div>
+      </div>
     );
   }
 }

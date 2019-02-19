@@ -13,6 +13,7 @@ export async function generateHTML(style, locale, creatorsTypes, citationTray) {
         try {
             if (style && locale && csl) {
                 const response = await cite(style, locale, csl);
+                console.log(response)
                 if (response[0] && response[1]) {
                     const format = response[0];
                     let html = [];

@@ -26,12 +26,22 @@ export const RESET_PROJECTS = () => dispatch => {
    });
 }
 
-export const ADD_CITATION = (PROJECT_ID, CITATION) => dispatch => {
+export const ADD_CITATION = (PROJECT_ID, CITATION_ID) => dispatch => {
    dispatch({
       type: 'ADD_CITATION',
       payload: {
-         id: PROJECT_ID,
-         citation: CITATION
+         project_id: PROJECT_ID,
+         citation_id: CITATION_ID
+      }
+   });
+}
+
+export const DELETE_CITATION = (PROJECT_ID, CITATION_ID) => dispatch => {
+   dispatch({
+      type: 'DELETE_CITATION',
+      payload: {
+         project_id: PROJECT_ID,
+         citation_id: CITATION_ID
       }
    });
 }

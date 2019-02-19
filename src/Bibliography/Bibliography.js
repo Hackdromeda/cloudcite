@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
+import { DELETE_CITATION } from '../actions/projects';
 import './Bibliography.css';
 import * as hyperHTML from 'hyperhtml';
 
 const mapStateToProps = state => ({
+    selectedProject: state.projectsReducer.selectedProject,
     style: state.projectsReducer.projects.find((project) => project.id === state.projectsReducer.selectedProject).style,
     locale: state.localeReducer.locale.value,
     creatorsTypes: state.creatorsTypesReducer.creatorsTypes
 });
   
 const mapDispatchToProps = dispatch => ({
-    
+    DELETE_CITATION: (PROJECT_ID, CITATION_ID) => dispatch(DELETE_CITATION(PROJECT_ID, CITATION_ID))
 });
 
 //citation prop is an array containing citation data
@@ -56,6 +58,10 @@ class Bibliography extends Component {
         element.setSelectionRange(0, element.value.length);
         document.execCommand('copy');
         cslBibliographyRef.removeChild(element);
+    }
+
+    deleteCitation(id) {
+        this.props.DELETE_CITATION(this.props.selectedProject, id);
     }
 
     async generatePreview() {

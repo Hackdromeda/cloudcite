@@ -95,7 +95,7 @@ class WebsiteAutofill extends Component {
                 return (
                     <Form className="citeForm">
                         <Input onChange={(e) => this.setState({ websiteInputURL: e.target.value })} placeholder="Cite Website" disabled={this.state.loaderVisible} />
-                        <Button className="btn" onClick={() => this.citeURL(this.state.websiteInputURL)} type="submit" disabled={this.state.websiteInputURL === '' || this.state.loaderVisible}>Cite Website</Button>
+                        <Button className="btn" loading={this.state.loaderVisible} onClick={() => this.citeURL(this.state.websiteInputURL)} type="submit" disabled={this.state.websiteInputURL === '' || this.state.loaderVisible}>Cite Website</Button>
                     </Form>
                 );
             }

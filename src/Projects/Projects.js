@@ -68,7 +68,7 @@ class Projects extends Component {
                     return (
                         <div id={project.id} className="project-card new" key={index} name={this.props.selectedProject !== project.id ? "" : "selected"}>
                             <header className="card-header">{project.title}</header>
-                            <div className="project-card-content">Style: {this.props.projects.find(project => project.id === this.props.selectedProject).style.value}</div>
+                            <div className="project-card-content">Style: {project.style.value}</div>
                             <footer className="card-footer">
                                 <button disabled={this.props.selectedProject !== project.id ? false : true} onClick={() => this.selectProject(project.id)}>Select</button>
                                 <button>Edit</button>

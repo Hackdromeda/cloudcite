@@ -1,5 +1,15 @@
 $blue: #005EEA;
+$primary-color: $blue;
+@import 'loaders.css/src/animations/pacman.scss';
 
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: flex;
+  justify-content: center;
+  margin-top:10px;
+}
   .top{
     background-color: $blue;
     color:#fff;
@@ -27,3 +37,6 @@ $blue: #005EEA;
       margin-left:5px;
     }
   }
+
+
+  

@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 });
   
 const mapDispatchToProps = dispatch => ({
-    DELETE_CITATION: (PROJECT_ID, CITATION_ID) => dispatch(DELETE_CITATION(PROJECT_ID, CITATION_ID))
+    DELETE_CITATION: async (PROJECT_ID, CITATION_ID) => dispatch(DELETE_CITATION(PROJECT_ID, CITATION_ID))
 });
 
 function toPlainText(richText) {
@@ -24,19 +24,21 @@ class Bibliography extends Component {
     constructor(props) {
         super(props);
         this.bibliographyRef = React.createRef();
-        this.generatePreview();
+        this.state = {
+            format: null,
+            citationHTML: [],
+            textPlain: "",
+            textHTML: ""
+        }
     }
 
-    state = {
-        format: null,
-        citationHTML: [],
-        textPlain: "",
-        textHTML: ""
+    componentDidMount() {
+        this.generatePreview();
     }
 
 
     copyCSL(e) {
-        e.clipboardData.setData("text/plain", this.state.plain);
+        e.clipboardData.setData("text/plain", this.state.textPlain);
         e.clipboardData.setData("text/html", this.state.textHTML);
         e.preventDefault();
     }
@@ -60,8 +62,7 @@ class Bibliography extends Component {
     }
 
     deleteCitation(id) {
-        this.props.DELETE_CITATION(this.props.selectedProject, id);
-        this.generatePreview();
+        this.props.DELETE_CITATION(this.props.selectedProject, id).then(() => this.generatePreview());
     }
 
     async generatePreview() {

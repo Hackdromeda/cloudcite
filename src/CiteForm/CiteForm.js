@@ -9,12 +9,17 @@ import './CiteForm.css';
 import { createCitation } from '../functions/createCitation.js';
 import { withRouter } from 'react-router-dom';
 import crypto from 'crypto';
+import { generateHTML } from '../functions/generateHTML';
+import cloneDeep from 'lodash.clonedeep';
+
 const ContributorFormBuilder = React.lazy(() => import('./ContributorFormBuilder.js'));
 const DateAccessedFormBuilder = React.lazy(() => import('./DateAccessedFormBuilder.js'));
 const DateIssuedFormBuilder = React.lazy(() => import('./DateIssuedFormBuilder.js'));
 const Preview = React.lazy(() => import('../Preview/Preview.js'));
 
 const mapStateToProps = state => ({
+  style: state.projectsReducer.projects.find((project) => project.id === state.projectsReducer.selectedProject).style,
+  locale: state.localeReducer.locale.value,
   selectedProject: state.projectsReducer.selectedProject,
   citationSaveMode: state.citationSaveModeReducer.citationSaveMode
 });
@@ -42,7 +47,9 @@ class CiteForm extends Component {
   state = {
     fieldMap: this.props.fieldMap ? this.props.fieldMap : [],
     creatorsMap: this.props.creatorsMap ? this.props.creatorsTypes : [],
-    citation: this.props.citationData ? createCitation(this.props.citationData) : createCitation(null)
+    citation: this.props.citationData ? createCitation(this.props.citationData) : createCitation(null),
+    format: null,
+    citationHTML: []
   }
 
   async componentDidMount() {
@@ -58,8 +65,21 @@ class CiteForm extends Component {
       this.setState({
         fieldMap: fieldMap,
         creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, {"key": creator.index, "text": creator.UI, "value": creator.csl}))
-      });
+      }, () => this.generatePreview());
       this.props.UPDATE_CREATORS_TYPES(creatorsMap);
+    }
+  }
+
+  async generatePreview() {
+    try {
+      const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.state.creatorsMap, [cloneDeep(this.state.citation)]);
+      this.setState({
+        format: generatedHTML.format,
+        citationHTML: generatedHTML.html.map(htmlItem => htmlItem.html)
+      });
+    }
+    catch (error) {
+      console.log(error);
     }
   }
 
@@ -87,7 +107,7 @@ class CiteForm extends Component {
         ...this.state.citation,
         contributors: [...this.state.citation.contributors, { key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author' }]
       }
-    })
+    }, () => this.generatePreview())
   }
 
   removeContributor(key) {
@@ -97,7 +117,7 @@ class CiteForm extends Component {
           ...this.state.citation,
           contributors: [{ key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author' }]
         }
-      })
+      }, () => this.generatePreview())
     }
     else {
       this.setState({
@@ -105,7 +125,7 @@ class CiteForm extends Component {
           ...this.state.citation,
           contributors: this.state.citation.contributors.filter((contributor) => contributor.key !== key)
         }
-      });
+      }, () => this.generatePreview());
     }
   }
 
@@ -115,7 +135,7 @@ class CiteForm extends Component {
         ...this.state.citation,
         contributors: this.state.citation.contributors.map((contributor) => contributor.key === key ? { ...contributor, [field]: value } : contributor)
       }
-    });
+    }, () => this.generatePreview());
   }
 
   changeDateAccessed(e, field, { value }) {
@@ -127,7 +147,7 @@ class CiteForm extends Component {
           [field]: value
         }
       }
-    });
+    }, () => this.generatePreview());
   }
 
   removeDateAccessed() {
@@ -140,7 +160,7 @@ class CiteForm extends Component {
           year: ""
         }
       }
-    });
+    }, () => this.generatePreview());
   }
 
   setDateAccessedToday() {
@@ -154,7 +174,7 @@ class CiteForm extends Component {
           year: currentDate.getFullYear()
         }
       }
-    })
+    }, () => this.generatePreview())
   }
 
   changeDateIssued(e, field, { value }) {
@@ -166,7 +186,7 @@ class CiteForm extends Component {
           [field]: value
         }
       }
-    });
+    }, () => this.generatePreview());
   }
 
   removeDateIssued() {
@@ -179,7 +199,7 @@ class CiteForm extends Component {
           year: ""
         }
       }
-    });
+    }, () => this.generatePreview());
   }
 
   setDateIssuedToday() {
@@ -193,7 +213,7 @@ class CiteForm extends Component {
           year: currentDate.getFullYear()
         }
       }
-    })
+    }, () => this.generatePreview())
   }
 
   setCSLValue(e, cslKey, { value }) {
@@ -202,7 +222,7 @@ class CiteForm extends Component {
         ...this.state.citation,
         [cslKey]: value
       }
-    });
+    }, () => this.generatePreview());
   }
 
   async handleChange(e, { value }) {
@@ -221,7 +241,7 @@ class CiteForm extends Component {
       },
       fieldMap: fieldMap,
       creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, { "key": creator.index, "text": creator.UI, "value": creator.csl }))
-    });
+    }, () => this.generatePreview());
     this.props.UPDATE_CREATORS_TYPES(creatorsMap);
   }
 
@@ -251,7 +271,7 @@ class CiteForm extends Component {
               </Form.Field>
             )}
           <div style={{ marginTop: '15px' }} />
-          <Preview citations={[this.state.citation]} />
+          <Preview citationHTML={this.state.citationHTML} format={this.state.format} />
           {
             this.state.fieldMap.length > 0 ? (
               <Button.Group style={{ marginTop: '15px' }}>

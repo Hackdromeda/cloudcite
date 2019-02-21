@@ -2,7 +2,11 @@ import React, { Component, Fragment } from 'react';
 import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 
 class ContributorFormBuilder extends Component {
-
+  componentDidMount() {
+    if (this.props.citation.contributors.length === 0) {
+      this.props.addContributor();
+    }
+  }
   render() {
     return (
       <Fragment>

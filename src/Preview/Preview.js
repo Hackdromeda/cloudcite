@@ -14,6 +14,7 @@ const mapDispatchToProps = dispatch => ({
     
 });
 
+
 //citation prop is an array containing citation data
 class Preview extends Component {
     componentDidMount() {

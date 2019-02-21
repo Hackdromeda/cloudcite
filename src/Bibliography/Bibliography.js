@@ -24,6 +24,7 @@ class Bibliography extends Component {
     constructor(props) {
         super(props);
         this.bibliographyRef = React.createRef();
+        this.generatePreview();
     }
 
     state = {
@@ -33,9 +34,6 @@ class Bibliography extends Component {
         textHTML: ""
     }
 
-    componentDidMount() {
-        this.generatePreview();
-    }
 
     copyCSL(e) {
         e.clipboardData.setData("text/plain", this.state.plain);
@@ -67,15 +65,17 @@ class Bibliography extends Component {
     }
 
     async generatePreview() {
-        const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.creatorsTypes, this.props.citations);
-        if (generatedHTML && generatedHTML.error) {
-            console.log(generatedHTML.error)
-        } 
-        else {
+        try {
+            const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.creatorsTypes, this.props.citations);
+            let format = generatedHTML.format;
+            let citationHTML = generatedHTML.html.map(htmlItem => htmlItem.html);
             this.setState({
-                format: generatedHTML.format,
-                citationHTML: generatedHTML.html.map(htmlItem => htmlItem.html)
+                    format: format,
+                    citationHTML: citationHTML
             });
+        }
+        catch (error) {
+            console.log(error);
         }
     }
 

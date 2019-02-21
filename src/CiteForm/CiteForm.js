@@ -8,11 +8,11 @@ import { types } from './types.js';
 import './CiteForm.css';
 import { createCitation } from '../functions/createCitation.js';
 import { withRouter } from 'react-router-dom';
-import ContributorFormBuilder from './ContributorFormBuilder.js';
-import DateAccessedFormBuilder from './DateAccessedFormBuilder.js';
-import DateIssuedFormBuilder from './DateIssuedFormBuilder.js';
-import Preview from '../Preview/Preview.js';
 import crypto from 'crypto';
+const ContributorFormBuilder = React.lazy(() => import('./ContributorFormBuilder.js'));
+const DateAccessedFormBuilder = React.lazy(() => import('./DateAccessedFormBuilder.js'));
+const DateIssuedFormBuilder = React.lazy(() => import('./DateIssuedFormBuilder.js'));
+const Preview = React.lazy(() => import('../Preview/Preview.js'));
 
 const mapStateToProps = state => ({
   selectedProject: state.projectsReducer.selectedProject,

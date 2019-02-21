@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import LocaleSearch from './LocaleSearch/LocaleSearch.js';
-import StyleSearch from './StyleSearch/StyleSearch.js';
-import FavoriteStyleSearch from './FavoriteStyleSearch/FavoriteStyleSearch.js';
 import { Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import Bibliography from './Bibliography/Bibliography.js';
+const FavoriteStyleSearch = React.lazy(() => import('./FavoriteStyleSearch/FavoriteStyleSearch.js'));
+const LocaleSearch = React.lazy(() => import('./LocaleSearch/LocaleSearch.js'));
+const StyleSearch = React.lazy(() => import('./StyleSearch/StyleSearch.js'));
+const Bibliography = React.lazy(() => import('./Bibliography/Bibliography.js'));
 
 const mapStateToProps = state => ({
   selectedProject: state.projectsReducer.selectedProject,

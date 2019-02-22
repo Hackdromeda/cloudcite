@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
 import { DELETE_CITATION } from '../actions/projects';
-import './Bibliography.css';
+import './Bibliography.scss';
 
 const mapStateToProps = state => ({
     selectedProject: state.projectsReducer.selectedProject,

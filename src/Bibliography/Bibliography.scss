@@ -8,6 +8,7 @@
   min-width: 25vh;
   color: #fff;
   font-weight: 550;
+  user-select:none;
 }
 
 .bibliographyActionButton {
@@ -16,4 +17,20 @@
 }
 .bibliographyActionButton:hover {
   color: #29434e;
+}
+
+.settingsLink {
+  display:block;
+  float:right;
+  margin-top:1em;
+
+  background-color: #0066FF;
+  color: white;
+  font-weight: 550;
+  user-select:none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  &:hover {
+    color:white;
+  }
 }

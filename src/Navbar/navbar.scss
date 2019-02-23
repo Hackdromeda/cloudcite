@@ -18,12 +18,12 @@ $blue: rgb(66, 134, 244);
   &:not(.responsive){
     a:not(:first-child):not(:last-child):hover{
      border-bottom :5px solid $blue;
-     padding: 11.5px 16px;
+     padding: 11.5px 14px;
     }
     
     a.current:not(:first-child):not(:last-child){
       border-bottom :5px solid $blue;
-      padding: 11.5px 16px;
+      padding: 11.5px 14px;
       background-color:rgba(darken(#fff, 15) ,0.5);
       color:$blue;
     }
@@ -35,9 +35,9 @@ $blue: rgb(66, 134, 244);
     display: block;
     color: #37474f;
     text-align: center;
-    padding: 14px 16px;
+    padding: 14px 14px;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 16px;
    
 
     &:not(:first-child):not(:last-child):hover{

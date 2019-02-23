@@ -1,0 +1,20 @@
+.container {
+  padding:0rem 2rem 2rem 2rem;
+  #settingsHeader {
+    margin-top:1em;
+    color: #444;
+    font-size:20px;
+    
+  }
+  .options {
+    display: grid;
+    border-radius:8px;
+    padding:1rem;
+    box-shadow:0 0 1rem rgba(#000,0.2);
+    text-align:left;
+  }
+}
+
+.settingsLabel {
+  margin:0.5em 0;
+}

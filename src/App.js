@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import './App.css';
 import { Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-const FavoriteStyleSearch = React.lazy(() => import('./FavoriteStyleSearch/FavoriteStyleSearch.js'));
-const LocaleSearch = React.lazy(() => import('./LocaleSearch/LocaleSearch.js'));
-const StyleSearch = React.lazy(() => import('./StyleSearch/StyleSearch.js'));
 const Bibliography = React.lazy(() => import('./Bibliography/Bibliography.js'));
 
 const mapStateToProps = state => ({
@@ -36,33 +33,24 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{textAlign: 'center'}}>
-        <div style={{backgroundColor: 'rgb(0, 94, 234)', color: '#ffffff', minHeight: '35vh', marginBottom: '5vh'}}>
-            <div className="container">
-              <div style={{paddingLeft: '5vh', paddingRight: '5vh', paddingTop: '10vh', paddingBottom: '10vh'}}>
-                <h1>Welcome to CloudCite</h1>
-                <p>CloudCite processes citations in the cloud so you never have to create citations manually again.</p>
-                <div style={{textAlign: 'center'}}>
-                  <Button id="citeButton" onClick={(e) => this.cite("webpage")}>Website</Button>
-                  <Button id="citeButton">Book</Button>
-                  <Button id="citeButton">Film</Button>
-                  <Button id="citeButton" onClick={(e) => this.cite("other")}>Other</Button>
-                </div>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ backgroundColor: 'rgb(0, 94, 234)', color: '#ffffff', minHeight: '35vh', marginBottom: '5vh' }}>
+          <div className="container">
+            <div style={{ paddingLeft: '5vh', paddingRight: '5vh', paddingTop: '10vh', paddingBottom: '10vh' }}>
+              <h1>Welcome to CloudCite</h1>
+              <p>CloudCite processes citations in the cloud so you never have to create citations manually again.</p>
+              <div style={{ textAlign: 'center' }}>
+                <Button id="citeButton" onClick={(e) => this.cite("webpage")}>Website</Button>
+                <Button id="citeButton">Book</Button>
+                <Button id="citeButton">Film</Button>
+                <Button id="citeButton" onClick={(e) => this.cite("other")}>Other</Button>
               </div>
+            </div>
           </div>
         </div>
-          <div>
-            <Bibliography citations={this.props.projects.find((project) => project.id === this.props.selectedProject).citations}/>
-          </div>
-          <div>
-          <FavoriteStyleSearch/>
-          </div>
-          <div>
-          <LocaleSearch/>
-          </div>
-          <div>
-          <StyleSearch/>
-          </div>
+        <div>
+          <Bibliography citations={this.props.projects.find((project) => project.id === this.props.selectedProject).citations} />
+        </div>
       </div>
     );
   }

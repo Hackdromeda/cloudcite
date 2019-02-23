@@ -7,6 +7,7 @@ const App = lazy(() => import("../App.js"));
 const Projects = lazy(() => import('../Projects/Projects.js'));
 const CiteForm = lazy(() => import('../CiteForm/CiteForm.js'));
 const WebsiteAutofill = lazy(() => import('../WebsiteAutofill/WebsiteAutofill.js'));
+const Settings = lazy(() => import('../Settings/Settings.js'));
 
 function loadingComponent(Component) {
   return props => (
@@ -15,8 +16,6 @@ function loadingComponent(Component) {
     </Suspense>
   );
 }
-
-
 
 function Navbar() {
 
@@ -41,6 +40,7 @@ function Navbar() {
           <Route path="/projects" component={loadingComponent(Projects)} />
           <Route path="/cite" component={loadingComponent(CiteForm)} />
           <Route path="/website" component={loadingComponent(WebsiteAutofill)} />
+          <Route path="/settings" component={loadingComponent(Settings)} />
         </Switch>
       </Fragment>
     </Router>

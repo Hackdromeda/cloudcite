@@ -42,14 +42,13 @@ class CiteForm extends Component {
     this.changeDateIssued = this.changeDateIssued.bind(this);
     this.removeDateIssued = this.removeDateIssued.bind(this);
     this.setDateIssuedToday = this.setDateIssuedToday.bind(this);
-  }
-
-  state = {
-    fieldMap: this.props.fieldMap ? this.props.fieldMap : [],
-    creatorsMap: this.props.creatorsMap ? this.props.creatorsTypes : [],
-    citation: this.props.citationData ? createCitation(this.props.citationData) : createCitation(null),
-    format: null,
-    citationHTML: []
+    this.state = {
+      fieldMap: this.props.fieldMap ? this.props.fieldMap : [],
+      creatorsMap: this.props.creatorsMap ? this.props.creatorsTypes : [],
+      citation: this.props.citationData ? createCitation(this.props.citationData) : createCitation(null),
+      format: null,
+      citationHTML: []
+    };
   }
 
   async componentDidMount() {
@@ -72,7 +71,8 @@ class CiteForm extends Component {
 
   async generatePreview() {
     try {
-      const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.state.creatorsMap, [cloneDeep(this.state.citation)]);
+      let creatorsMap = this.state.creatorsMap.map((creator) => creator.csl);
+      const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, creatorsMap, [cloneDeep(this.state.citation)]);
       this.setState({
         format: generatedHTML.format,
         citationHTML: generatedHTML.html.map(htmlItem => htmlItem.html)

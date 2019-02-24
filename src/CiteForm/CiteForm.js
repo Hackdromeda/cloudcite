@@ -52,7 +52,7 @@ class CiteForm extends Component {
   }
 
   async componentDidMount() {
-    if (this.state.citation.type && this.state.citation.type != '') {
+    if (this.state.citation.type && this.state.citation.type !== '') {
       const fieldMap = await fetch(`https://cdn.cloudcite.net/fields/${this.state.citation.type}.json`)
                           .then((response) => {
                             return response.json();

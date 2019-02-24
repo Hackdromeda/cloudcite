@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Link, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
 import { EDIT_CITATION, DELETE_CITATION } from '../actions/projects';
@@ -106,7 +106,7 @@ class Bibliography extends Component {
                                                 <span id={`copyCitationButton${index}`} className="bibliographyActionButton">
                                                     <i className="copy outline icon" onClick={(e) => this.copyCitation(e, index)}></i>
                                                 </span>
-                                                <span className="bibliographyActionButton" className="bibliographyActionButton">
+                                                <span className="bibliographyActionButton">
                                                     <i className="pencil alternate icon" onClick={(e) => this.editCitation(this.state.format.entry_ids[index][0])}></i>
                                                 </span>
                                                 <span className="bibliographyActionButton">

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
 import { EDIT_CITATION, DELETE_CITATION } from '../actions/projects';
-import './Bibliography.scss';
+// import './Bibliography.scss';
 
 const mapStateToProps = state => ({
     selectedProject: state.projectsReducer.selectedProject,

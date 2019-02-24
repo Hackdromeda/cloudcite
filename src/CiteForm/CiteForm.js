@@ -4,7 +4,7 @@ import { ADD_CITATION, UPDATE_CITATION } from '../actions/projects';
 import { UPDATE_CREATORS_TYPES } from '../actions/creatorsTypes';
 import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';
-import './CiteForm.css';
+// import './CiteForm.css';
 import { createCitation } from '../functions/createCitation.js';
 import { withRouter } from 'react-router-dom';
 import crypto from 'crypto';

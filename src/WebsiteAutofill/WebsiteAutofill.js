@@ -4,7 +4,7 @@ import { Input, Button, Form } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
-import './WebsiteAutofill.scss';
+// import './WebsiteAutofill.scss';
 import Loader from 'react-loaders';
 import crypto from 'crypto';
 
@@ -88,37 +88,37 @@ class WebsiteAutofill extends Component {
         }
     }
 
-        buildForm() {
-            if (this.state.citationData && this.state.fieldMap && this.state.creatorsMap) {
-                return (
-                    <div>
-                        <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap} />
-                    </div>
-                );
-            }
-            else {
-                return (
-                    <Form className="citeForm">
-                        <Input onChange={(e) => this.setState({ websiteInputURL: e.target.value })} placeholder="Cite Website" disabled={this.state.loaderVisible}/>
-                        <Button className="btn" loading={this.state.loaderVisible} onClick={() => this.citeURL(this.state.websiteInputURL)} type="submit" disabled={this.state.websiteInputURL === '' || this.state.loaderVisible}>Cite Website</Button>
-                    </Form>
-                );
-            }
-        }
-
-        render() {
+    buildForm() {
+        if (this.state.citationData && this.state.fieldMap && this.state.creatorsMap) {
             return (
                 <div>
-                    <div className="top">
-                        <h1>Cite a Website</h1>
-                        <label>You can start citing a website by typing the website link and clicking on cite.</label>
-                    </div>
-                    {this.buildForm()}
-                    <Loader type="pacman" active={this.state.loaderVisible} />
-
+                    <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap} />
                 </div>
-            )
+            );
+        }
+        else {
+            return (
+                <Form className="citeForm">
+                    <Input onChange={(e) => this.setState({ websiteInputURL: e.target.value })} placeholder="Cite Website" disabled={this.state.loaderVisible} />
+                    <Button className="btn" loading={this.state.loaderVisible} onClick={() => this.citeURL(this.state.websiteInputURL)} type="submit" disabled={this.state.websiteInputURL === '' || this.state.loaderVisible}>Cite Website</Button>
+                </Form>
+            );
         }
     }
 
-    export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WebsiteAutofill));
+    render() {
+        return (
+            <div>
+                <div className="top">
+                    <h1>Cite a Website</h1>
+                    <label>You can start citing a website by typing the website link and clicking on cite.</label>
+                </div>
+                {this.buildForm()}
+                <Loader type="pacman" active={this.state.loaderVisible} />
+
+            </div>
+        )
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WebsiteAutofill));

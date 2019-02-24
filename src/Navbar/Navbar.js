@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
-import './navbar.scss';
+// import './navbar.scss';
 
 const App = lazy(() => import("../App.js"));
 const Projects = lazy(() => import('../Projects/Projects.js'));

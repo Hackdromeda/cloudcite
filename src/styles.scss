@@ -1,5 +1,15 @@
+// NOTE: When Project is Built, Add all .scss files to .gitignore.
+// All scss files will be transpiled into the styles.css file.
 @import '~semantic-ui-css/semantic.min.css';
-
+@import './Bibliography/Bibliography';
+@import './CiteForm/CiteForm';
+@import './Navbar/navbar';
+@import './Preview/Preview';
+@import './Projects/Projects';
+@import './Settings/settings';
+@import './StyleSearch/StyleSearch';
+@import './WebsiteAutofill/WebsiteAutofill';
+@import './App';
 
 body {
   margin: 0;

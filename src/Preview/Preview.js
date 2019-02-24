@@ -1,5 +1,5 @@
 import React from 'react';
-import './Preview.css';
+// import './Preview.scss';
 
 function Preview(props) {
     return (

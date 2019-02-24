@@ -1,3 +1,24 @@
+@media (max-width: 991.97px) {
+    #bibliography {
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        margin-left: 2vh;
+        margin-right: 2vh;
+        text-align: left;
+        font-size: 16px;
+    }
+}
+@media (min-width: 991.98px) {
+    #bibliography {
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        margin-left: 39vh;
+        margin-right: 39vh;
+        text-align: left;
+        font-size: 1rem;
+    }
+}
+
 #bibliographyActions {
   text-align: center; 
   justify-content: center;

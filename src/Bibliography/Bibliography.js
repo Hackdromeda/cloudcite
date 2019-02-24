@@ -88,7 +88,7 @@ class Bibliography extends Component {
 
     render() {
         return (
-            <div style={{ marginTop: '10px', backgroundColor: '#ffffff', padding: '20px', textAlign: 'left', justifyContent: 'center', fontWeight: 'normal !important' }}>
+            <div id="bibliography" style={{ marginTop: '10px', backgroundColor: '#ffffff', padding: '20px', textAlign: 'left', justifyContent: 'center', fontWeight: 'normal !important' }}>
                 {
                     this.state.format && this.state.citationHTML.length > 0 ?
                         <div ref="bibliographyRef" onCopy={(e) => this.copyCSL(e)} style={{ textAlign: 'center', justifyContent: 'center' }}>

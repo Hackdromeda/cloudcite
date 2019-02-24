@@ -20,6 +20,9 @@ class EditForm extends Component {
       creatorsMap: [],
       citationData: null
     };
+  }
+
+  componentDidMount() {
     this.fetchFieldAndCreatorsMaps();
   }
 

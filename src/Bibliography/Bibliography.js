@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
-import { DELETE_CITATION } from '../actions/projects';
+import { EDIT_CITATION, DELETE_CITATION } from '../actions/projects';
 import './Bibliography.scss';
 
 const mapStateToProps = state => ({
@@ -13,7 +13,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    DELETE_CITATION: async (PROJECT_ID, CITATION_ID) => dispatch(DELETE_CITATION(PROJECT_ID, CITATION_ID))
+    EDIT_CITATION: async (PROJECT_ID, CITATION_ID) => dispatch(EDIT_CITATION(PROJECT_ID, CITATION_ID)),
+    DELETE_CITATION: async (PROJECT_ID, CITATION_ID) => dispatch(DELETE_CITATION(PROJECT_ID, CITATION_ID)),
 });
 
 function toPlainText(richText) {
@@ -62,6 +63,10 @@ class Bibliography extends Component {
         }, () => document.execCommand('copy'));
     }
 
+    editCitation(id) {
+        this.props.EDIT_CITATION(this.props.selectedProject, id).then(() => this.props.history.push('/edit'));
+    }
+
     deleteCitation(id) {
         this.props.DELETE_CITATION(this.props.selectedProject, id).then(() => this.generatePreview());
     }
@@ -101,8 +106,8 @@ class Bibliography extends Component {
                                                 <span id={`copyCitationButton${index}`} className="bibliographyActionButton">
                                                     <i className="copy outline icon" onClick={(e) => this.copyCitation(e, index)}></i>
                                                 </span>
-                                                <span className="bibliographyActionButton">
-                                                    <i className="pencil alternate icon"></i>
+                                                <span className="bibliographyActionButton" className="bibliographyActionButton">
+                                                    <i className="pencil alternate icon" onClick={(e) => this.editCitation(this.state.format.entry_ids[index][0])}></i>
                                                 </span>
                                                 <span className="bibliographyActionButton">
                                                     <i className="trash icon" onClick={(e) => this.deleteCitation(this.state.format.entry_ids[index][0])}></i>
@@ -122,4 +127,4 @@ class Bibliography extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bibliography);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Bibliography));

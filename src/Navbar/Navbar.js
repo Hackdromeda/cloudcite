@@ -6,6 +6,7 @@ import './navbar.scss';
 const App = lazy(() => import("../App.js"));
 const Projects = lazy(() => import('../Projects/Projects.js'));
 const CiteForm = lazy(() => import('../CiteForm/CiteForm.js'));
+const EditForm = lazy(() => import('../EditForm/EditForm.js'));
 const WebsiteAutofill = lazy(() => import('../WebsiteAutofill/WebsiteAutofill.js'));
 const Settings = lazy(() => import('../Settings/Settings.js'));
 
@@ -39,6 +40,7 @@ function Navbar() {
           <Route path="/" exact component={loadingComponent(App)} />
           <Route path="/projects" component={loadingComponent(Projects)} />
           <Route path="/cite" component={loadingComponent(CiteForm)} />
+          <Route path="/edit" component={loadingComponent(EditForm)} />
           <Route path="/website" component={loadingComponent(WebsiteAutofill)} />
           <Route path="/settings" component={loadingComponent(Settings)} />
         </Switch>

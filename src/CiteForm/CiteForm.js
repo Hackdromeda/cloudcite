@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ADD_CITATION } from '../actions/projects';
-import { SET_CITATION_SAVE_MODE } from '../actions/citationSaveMode';
+import { ADD_CITATION, EDIT_CITATION, UPDATE_CITATION } from '../actions/projects';
 import { UPDATE_CREATORS_TYPES } from '../actions/creatorsTypes';
 import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';
@@ -21,12 +20,13 @@ const mapStateToProps = state => ({
   style: state.projectsReducer.projects.find((project) => project.id === state.projectsReducer.selectedProject).style,
   locale: state.localeReducer.locale.value,
   selectedProject: state.projectsReducer.selectedProject,
-  citationSaveMode: state.citationSaveModeReducer.citationSaveMode
+  projects: state.projectsReducer.projects
 });
 
 const mapDispatchToProps = dispatch => ({
-  ADD_CITATION: (id, citation) => dispatch(ADD_CITATION(id, citation)),
-  SET_CITATION_SAVE_MODE: (payload) => dispatch(SET_CITATION_SAVE_MODE(payload)),
+  ADD_CITATION: (project_id, citation) => dispatch(ADD_CITATION(project_id, citation)),
+  EDIT_CITATION: (project_id, citation_id) => dispatch(EDIT_CITATION(project_id, citation_id)),
+  UPDATE_CITATION: (project_id, citation) => dispatch(UPDATE_CITATION(project_id, citation)),
   UPDATE_CREATORS_TYPES: (creatorsMap) => dispatch(UPDATE_CREATORS_TYPES(creatorsMap)),
 });
 
@@ -88,15 +88,11 @@ class CiteForm extends Component {
   }
 
   saveCitation() {
-    const SAVE_MODES = {
-      ADD: "ADD",
-      EDIT: "EDIT"
-    }
-    if (this.props.citationSaveMode === SAVE_MODES.ADD) {
-      this.props.ADD_CITATION(this.props.selectedProject, this.state.citation);
+    if (this.props.projects.find(project => project.id === this.props.selectedProject).edit) {
+      this.props.UPDATE_CITATION(this.props.selectedProject, this.state.citation);
     }
     else {
-      this.props.SET_CITATION_SAVE_MODES(SAVE_MODES.EDIT);
+      this.props.ADD_CITATION(this.props.selectedProject, this.state.citation);
     }
     this.props.history.push('/');
   }

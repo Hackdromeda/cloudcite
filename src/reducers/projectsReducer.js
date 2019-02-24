@@ -11,7 +11,8 @@ const initialState = {
         "style": {
           "key":"modern-language-association",
           "value":"Modern Language Association 8th edition (MLA)"
-        }
+        },
+        "edit": null
       }
     ]
 };
@@ -41,6 +42,14 @@ export default (state = initialState, action) => {
         case 'ADD_CITATION':
             return { 
                 ...state, projects: state.projects.filter(project => project.id !== state.selectedProject).concat({...state.projects.find(project => project.id === action.payload.project_id), citations: state.projects.find(project => project.id === action.payload.project_id).citations.concat(action.payload.citation)})
+            };
+        case 'EDIT_CITATION':
+            return {
+                ...state, projects: state.projects.filter(project => project.id !== state.selectedProject).concat({...state.projects.find(project => project.id === action.payload.project_id), edit: action.payload.citation_id})
+            };
+        case 'UPDATE_CITATION':
+            return {
+                ...state, projects: state.projects.filter(project => project.id !== state.selectedProject).concat({...state.projects.find(project => project.id === action.payload.project_id), citations: state.projects.find(project => project.id === action.payload.project_id).citations.filter(citation => citation.id !== action.payload.citation.id).concat(action.payload.citation)})
             };
         case 'DELETE_CITATION':
             return {

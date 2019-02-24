@@ -36,6 +36,26 @@ export const ADD_CITATION = (PROJECT_ID, CITATION) => dispatch => {
    });
 }
 
+export const EDIT_CITATION = (PROJECT_ID, CITATION_ID) => dispatch => {
+   dispatch({
+      type: 'EDIT_CITATION',
+      payload: {
+         project_id: PROJECT_ID,
+         citation_id: CITATION_ID
+      }
+   });
+}
+
+export const UPDATE_CITATION = (PROJECT_ID, CITATION) => dispatch => {
+   dispatch({
+      type: 'UPDATE_CITATION',
+      payload: {
+         project_id: PROJECT_ID,
+         citation: CITATION
+      }
+   });
+}
+
 export const DELETE_CITATION = (PROJECT_ID, CITATION_ID) => dispatch => {
    dispatch({
       type: 'DELETE_CITATION',

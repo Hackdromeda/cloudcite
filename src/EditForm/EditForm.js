@@ -23,10 +23,6 @@ class EditForm extends Component {
     this.fetchFieldAndCreatorsMaps();
   }
 
-  componentWillUnmount() {
-    this.props.EDIT_CITATION(this.props.selectedProject, null);
-  }
-
   async fetchFieldAndCreatorsMaps() {
     let citation_id = this.props.projects.find(project => project.id === this.props.selectedProject).edit;
     let type = this.props.projects.find(project => project.id === this.props.selectedProject).citations.find(citation => citation.id === citation_id).type;
@@ -48,7 +44,13 @@ class EditForm extends Component {
 
   render() {
     return (
-      <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap} />
+      <div>
+      {
+        this.state.fieldMap.length > 0 && this.state.creatorsMap.length > 0 && this.state.citationData ? 
+          <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap} />:
+          <div/>
+      }
+      </div>
     );
   }
 }

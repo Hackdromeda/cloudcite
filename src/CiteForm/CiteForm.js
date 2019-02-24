@@ -24,10 +24,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  ADD_CITATION: (project_id, citation) => dispatch(ADD_CITATION(project_id, citation)),
-  EDIT_CITATION: (project_id, citation_id) => dispatch(EDIT_CITATION(project_id, citation_id)),
-  UPDATE_CITATION: (project_id, citation) => dispatch(UPDATE_CITATION(project_id, citation)),
-  UPDATE_CREATORS_TYPES: (creatorsMap) => dispatch(UPDATE_CREATORS_TYPES(creatorsMap)),
+  ADD_CITATION: async (project_id, citation) => dispatch(ADD_CITATION(project_id, citation)),
+  UPDATE_CITATION: async (project_id, citation) => dispatch(UPDATE_CITATION(project_id, citation)),
+  UPDATE_CREATORS_TYPES: async (creatorsMap) => dispatch(UPDATE_CREATORS_TYPES(creatorsMap)),
 });
 
 class CiteForm extends Component {
@@ -89,12 +88,11 @@ class CiteForm extends Component {
 
   saveCitation() {
     if (this.props.projects.find(project => project.id === this.props.selectedProject).edit) {
-      this.props.UPDATE_CITATION(this.props.selectedProject, this.state.citation);
+      this.props.UPDATE_CITATION(this.props.selectedProject, this.state.citation).then(() => this.props.history.push('/'));
     }
     else {
-      this.props.ADD_CITATION(this.props.selectedProject, this.state.citation);
+      this.props.ADD_CITATION(this.props.selectedProject, this.state.citation).then(() => this.props.history.push('/'));
     }
-    this.props.history.push('/');
   }
 
   addContributor() {

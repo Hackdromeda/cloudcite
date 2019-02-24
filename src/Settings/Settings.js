@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
-import './settings.scss';
+// import './settings.scss';
 
 const FavoriteStyleSearch = React.lazy(() => import('../FavoriteStyleSearch/FavoriteStyleSearch.js'));
 const LocaleSearch = React.lazy(() => import('../LocaleSearch/LocaleSearch.js'));

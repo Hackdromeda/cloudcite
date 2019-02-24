@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { ADD_FAVORITE_STYLE, REMOVE_FAVORITE_STYLE } from '../actions/favoriteStyles';
 import { Input, List } from 'semantic-ui-react';
 import algoliasearch from 'algoliasearch/lite';
-import './StyleSearch.scss';
+// import './StyleSearch.scss';
 
 const searchClient = algoliasearch('X2RBUB2NNH', 'e8168f69a4758f6c98f19acb409d904e');
 const index = searchClient.initIndex('STYLES');

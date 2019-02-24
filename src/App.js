@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './App.css';
+// import './App.scss';
 import { Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 const Bibliography = React.lazy(() => import('./Bibliography/Bibliography.js'));

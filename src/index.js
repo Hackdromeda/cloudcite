@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import * as serviceWorker from './serviceWorker';
-import './index.scss';
+import './styles.css';
 import Navbar from "./Navbar/Navbar";
+
 
 ReactDOM.render(
     <Provider store={store}>
-        <Navbar/>
+        <Navbar />
     </Provider>,
     document.getElementById('root')
 );

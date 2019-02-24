@@ -1,6 +1,6 @@
 $blue: #005EEA;
 $primary-color: $blue;
-@import 'loaders.css/src/animations/pacman.scss';
+@import 'node_modules/loaders.css/src/animations/pacman.scss';
 
 .loader-hidden {
   display: none;

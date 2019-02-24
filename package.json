@@ -28,7 +28,6 @@
     "lodash.identity": "^3.0.0",
     "lodash.pickby": "^4.6.0",
     "lodash.uniq": "^4.5.0",
-    "node-sass": "*",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-loaders": "^3.0.1",
@@ -56,6 +55,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "node-sass": "*",
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8",
     "rollup": "^1.2.3",

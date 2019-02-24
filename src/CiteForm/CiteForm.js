@@ -62,7 +62,7 @@ class CiteForm extends Component {
                             });
       this.setState({
         fieldMap: fieldMap,
-        creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, {"key": creator.index, "text": creator.UI, "value": creator.csl}))
+        creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, {"key": creator.index, "text": creator.displayText, "value": creator.csl}))
       }, () => this.generatePreview());
       this.props.UPDATE_CREATORS_TYPES(creatorsMap);
     }
@@ -249,7 +249,7 @@ class CiteForm extends Component {
         {
           this.state.fieldMap.length > 0 && this.state.creatorsMap ? (
             <div>
-              <ContributorFormBuilder citation={this.state.citation} creatorsMap={this.state.creatorsMap} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
+              <ContributorFormBuilder citation={this.state.citation} creatorsMap={this.state.creatorsMap.map(creator => Object.assign(creator, {"text": creator.UI}))} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
               <div style={{marginTop: '15px'}}/>
               <DateAccessedFormBuilder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday}/>
               <div style={{marginTop: '15px'}}/>
@@ -258,10 +258,10 @@ class CiteForm extends Component {
             </div>
           ): <div/>
         }
-          {this.state.fieldMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group)
+          {this.state.fieldMap.filter(element => element.csl && element.csl !== '' && element.csl !== 'accessed' && element.csl !== 'issued' && element.displayText && element.displayText !== '' && !element.group)
             .map((field, index) =>
               <Form.Field key={field.csl}>
-                <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''} value={this.state.citation[field.csl] ? this.state.citation[field.csl]: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
+                <Input label={field.displayText ? field.displayText: ''} placeholder={field.displayText ? field.displayText: ''} value={this.state.citation[field.csl] ? this.state.citation[field.csl]: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
               </Form.Field>
             )}
           <div style={{ marginTop: '15px' }} />

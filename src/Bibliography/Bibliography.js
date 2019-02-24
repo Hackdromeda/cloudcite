@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
 import { EDIT_CITATION, DELETE_CITATION } from '../actions/projects';
@@ -117,8 +117,6 @@ class Bibliography extends Component {
                                     )}
                                 </div>
                             </div>
-                            <Link className="settingsLink" to="/settings">Settings</Link>
-
                         </div> : <div />
                 }
 

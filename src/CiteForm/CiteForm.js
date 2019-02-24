@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ADD_CITATION, EDIT_CITATION, UPDATE_CITATION } from '../actions/projects';
+import { ADD_CITATION, UPDATE_CITATION } from '../actions/projects';
 import { UPDATE_CREATORS_TYPES } from '../actions/creatorsTypes';
 import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';

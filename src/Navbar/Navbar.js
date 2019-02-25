@@ -32,9 +32,9 @@ function Navbar() {
           <a href="https://help.cloudcite.net/" target="_blank" className="closeHam" rel="noopener noreferrer">Help</a>
           <a href="https://feedback.cloudcite.net/" target="_blank" className="closeHam" rel="noopener noreferrer">Feedback</a>
           <a href="https://github.com/Hackdromeda/cloudcite/" target="_blank" className="closeHam" rel="noopener noreferrer">Contribute</a>
-          <Link className="page closeHam" to="/settings">Settings</Link>
           <a id="burger"><Icon className="hamMenu bars" /></a>
         </div>
+        <Link className="settingsLink" to="/settings"><Icon id="settingsIcon" name="settings" /></Link>
         <Switch>
           <Route path="/" exact component={loadingComponent(App)} />
           <Route path="/projects" component={loadingComponent(Projects)} />

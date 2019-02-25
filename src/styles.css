@@ -15,7 +15,7 @@
     margin-left: 39vh;
     margin-right: 39vh;
     text-align: left;
-    font-size: 1rem; } }
+    font-size: 1rem; } } 
 
 #bibliographyActions {
   text-align: center;
@@ -74,7 +74,7 @@
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2); }
   .nav :first-child {
     font-weight: bold;
-    font-size: 1.6rem;
+    font-size: 24px;
     color: #005eea; }
   .nav:not(.responsive) a:not(:first-child):not(:last-child):hover {
     border-bottom: 5px solid #4286f4;
@@ -134,6 +134,42 @@
           background-color: #cccccc;
           color: #4286f4;
           font-weight: bold; } }
+
+.settingsLink {
+  position: fixed;
+  text-align: center;
+  background-color: #fff;
+  font-size: 32px;
+  border-radius: 8px;
+  right: 2.5rem;
+  padding: 6px;
+  bottom: 2rem;
+  color: #666;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  overflow: hidden; }
+  .settingsLink #settingsIcon {
+    margin-top: 10px; }
+  .settingsLink:hover {
+    transition: all 0.5s ease-out;
+    color: #000;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4); }
+  @media screen and (max-width: 450px) {
+    .settingsLink {
+      position: absolute;
+      right: 60px;
+      top: -10px;
+      max-height: 16px;
+      font-size: 24px;
+      box-shadow: none;
+      overflow: visible;
+      padding: 0;
+      border-radius: initial; }
+      .settingsLink #settingsIcon {
+        margin-top: 0; }
+      .settingsLink:hover {
+        transition: all 0.5s ease-out;
+        color: #000;
+        box-shadow: none; } }
 
 @media (max-width: 991.97px) {
   #preview {
@@ -199,7 +235,9 @@
   margin: 1rem;
   padding: 1.5rem;
   display: grid;
-  grid-template-areas: 'header' 'content' 'footer';
+  grid-template-areas: 'header'
+ 'content'
+ 'footer';
   margin-top: 1rem;
   max-height: 40vh;
   min-width: 20vw;
@@ -461,7 +499,11 @@
 .citeForm {
   display: flex;
   justify-content: center;
-  margin-top: 36px; }
+  margin-top: 36px;
+  font-size: 1rem !important; }
+  @media screen and (max-width: 680px) {
+    .citeForm {
+      font-size: 16px !important; } }
   .citeForm .btn {
     margin-left: 5px; }
 
@@ -493,9 +535,12 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+ "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+ sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace; }
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+ monospace; }

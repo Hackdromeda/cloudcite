@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ADD_CITATION, UPDATE_CITATION } from '../actions/projects';
 import { UPDATE_CREATORS_TYPES } from '../actions/creatorsTypes';
-import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
+import { Dropdown, Form, Input, Button } from 'semantic-displayText-react';
 import { types } from './types.js';
 // import './CiteForm.css';
 import { createCitation } from '../functions/createCitation.js';
@@ -11,9 +11,9 @@ import crypto from 'crypto';
 import { generateHTML } from '../functions/generateHTML';
 import cloneDeep from 'lodash.clonedeep';
 
-const ContributorFormBuilder = React.lazy(() => import('./ContributorFormBuilder.js'));
-const DateAccessedFormBuilder = React.lazy(() => import('./DateAccessedFormBuilder.js'));
-const DateIssuedFormBuilder = React.lazy(() => import('./DateIssuedFormBuilder.js'));
+const ContributorFormBdisplayTextlder = React.lazy(() => import('./ContributorFormBdisplayTextlder.js'));
+const DateAccessedFormBdisplayTextlder = React.lazy(() => import('./DateAccessedFormBdisplayTextlder.js'));
+const DateIssuedFormBdisplayTextlder = React.lazy(() => import('./DateIssuedFormBdisplayTextlder.js'));
 const Preview = React.lazy(() => import('../Preview/Preview.js'));
 
 const mapStateToProps = state => ({
@@ -62,7 +62,7 @@ class CiteForm extends Component {
                             });
       this.setState({
         fieldMap: fieldMap,
-        creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, {"key": creator.index, "text": creator.UI, "value": creator.csl}))
+        creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, {"key": creator.index, "text": creator.displayText, "value": creator.csl}))
       }, () => this.generatePreview());
       this.props.UPDATE_CREATORS_TYPES(creatorsMap);
     }
@@ -234,7 +234,7 @@ class CiteForm extends Component {
         type: value
       },
       fieldMap: fieldMap,
-      creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, { "key": creator.index, "text": creator.UI, "value": creator.csl }))
+      creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, { "key": creator.index, "text": creator.displayText, "value": creator.csl }))
     }, () => this.generatePreview());
     this.props.UPDATE_CREATORS_TYPES(creatorsMap);
   }
@@ -243,25 +243,25 @@ class CiteForm extends Component {
     return (
     	<div id="citeForm">
         <div style={{textAlign: 'center'}}>
-     		 <Dropdown fluid style={{marginBottom: '10px'}} placeholder="Select Citation Type" value={this.state.citation.type ? this.state.citation.type: null} selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
+     		 <Dropdown fldisplayTextd style={{marginBottom: '10px'}} placeholder="Select Citation Type" value={this.state.citation.type ? this.state.citation.type: null} selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
         </div>
         <Form widths="equal">
         {
           this.state.fieldMap.length > 0 && this.state.creatorsMap ? (
             <div>
-              <ContributorFormBuilder citation={this.state.citation} creatorsMap={this.state.creatorsMap} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
+              <ContributorFormBdisplayTextlder citation={this.state.citation} creatorsMap={this.state.creatorsMap} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
               <div style={{marginTop: '15px'}}/>
-              <DateAccessedFormBuilder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday}/>
+              <DateAccessedFormBdisplayTextlder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday}/>
               <div style={{marginTop: '15px'}}/>
-              <DateIssuedFormBuilder issued={this.state.citation.issued} changeDateIssued={this.changeDateIssued} removeDateIssued={this.removeDateIssued} setDateIssuedToday={this.setDateIssuedToday}/>
+              <DateIssuedFormBdisplayTextlder issued={this.state.citation.issued} changeDateIssued={this.changeDateIssued} removeDateIssued={this.removeDateIssued} setDateIssuedToday={this.setDateIssuedToday}/>
               <div style={{marginTop: '15px'}}/>
             </div>
           ): <div/>
         }
-          {this.state.fieldMap.filter(element => element.csl && element.csl !== '' && element.UI && element.UI !== '' && !element.group)
+          {this.state.fieldMap.filter(element => element.csl && element.csl !== '' && element.displayText && element.displayText !== '' && !element.group)
             .map((field, index) =>
               <Form.Field key={field.csl}>
-                <Input label={field.UI ? field.UI: ''} placeholder={field.UI ? field.UI: ''} value={this.state.citation[field.csl] ? this.state.citation[field.csl]: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
+                <Input label={field.displayText ? field.displayText: ''} placeholder={field.displayText ? field.displayText: ''} value={this.state.citation[field.csl] ? this.state.citation[field.csl]: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
               </Form.Field>
             )}
           <div style={{ marginTop: '15px' }} />

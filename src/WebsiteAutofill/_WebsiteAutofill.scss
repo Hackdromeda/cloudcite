@@ -33,6 +33,11 @@ $primary-color: $blue;
     display:flex;
     justify-content: center;
     margin-top:36px;
+    font-size:1rem !important;
+
+    @media screen and (max-width: 680px){ 
+     font-size:16px !important;
+    }
     .btn {
       margin-left:5px;
     }

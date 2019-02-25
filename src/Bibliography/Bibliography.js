@@ -73,7 +73,8 @@ class Bibliography extends Component {
 
     async generatePreview() {
         try {
-            const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, this.props.creatorsTypes, this.props.citations);
+            let creatorsMap = this.props.creatorsTypes.map((creator) => creator.csl);
+            const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, creatorsMap, this.props.citations);
             let format = generatedHTML.format;
             let citationHTML = generatedHTML.html.map(htmlItem => htmlItem.html);
             this.setState({

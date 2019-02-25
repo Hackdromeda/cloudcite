@@ -1,13 +1,16 @@
-import React, {useState} from 'react'
+import React, { Suspense, useState } from 'react'
 import { Icon } from 'semantic-ui-react';
-
+import Settings from './Settings';
+// import './settings.scss';
 
 export default function PullTab(props) {
-  const [visible, setVisibility] = useState(false);
-  
+
   return (
-    <div className={visible ? "pullTab active":"pullTab"}>
-      <h1>This is the Settings pull tab!</h1>
+    <div className={props.visible ? "pullTab active" : "pullTab"}>
+      <Suspense fallback={<div />}>
+        <Settings />
+
+      </Suspense>
     </div>
   )
 }

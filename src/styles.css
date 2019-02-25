@@ -68,11 +68,13 @@
     font-size: 16px; } }
 
 .nav {
-  transition: all 0.5s ease-out;
+  top: 0;
+  width: 100vw;
+  position: fixed;
   overflow: hidden;
   background-color: #fff;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-  z-index: 5; }
+  z-index: 10; }
   .nav :first-child {
     font-weight: bold;
     font-size: 24px;
@@ -102,7 +104,6 @@
 
 @media screen and (max-width: 680px) {
   .nav {
-    transition: all 0.5s ease-out;
     overflow: none; }
     .nav a {
       transition: all 0.5s ease-out; }
@@ -147,16 +148,22 @@
   bottom: 2rem;
   color: #666;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-  overflow: hidden; }
+  overflow: hidden;
+  outline: none;
+  border: none; }
   .settingsLink #settingsIcon {
     margin-top: 10px; }
   .settingsLink:hover {
     transition: all 0.5s ease-out;
     color: #000;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4); }
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4);
+    cursor: pointer; }
   @media screen and (max-width: 450px) {
     .settingsLink {
-      position: absolute;
+      position: fixed;
+      z-index: 11;
+      outline: none;
+      border: none;
       right: 60px;
       top: -10px;
       max-height: 16px;
@@ -171,6 +178,13 @@
         transition: all 0.5s ease-out;
         color: #000;
         box-shadow: none; } }
+
+.pullMenu {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none; }
+  .pullMenu.active {
+    display: block; }
 
 @media (max-width: 991.97px) {
   #preview {
@@ -346,6 +360,7 @@
 .container {
   padding: 0rem 2rem 2rem 2rem; }
   .container #settingsHeader {
+    z-index: 0;
     margin-top: 1em;
     color: #444;
     font-size: 20px; }
@@ -360,13 +375,17 @@
   margin: 0.5em 0; }
 
 .pullTab {
-  transition: all 0.3s ease-out;
-  background-color: red;
-  z-index: 1;
-  display: none; }
+  transition: top 0.3s ease-out;
+  position: fixed;
+  display: block;
+  background-color: #fff;
+  z-index: 2;
+  width: 100vw;
+  top: -100rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2); }
   .pullTab.active {
-    transition: all 0.3s ease-out;
-    display: block; }
+    transition: top 0.3s ease-out;
+    top: 3rem; }
 
 .style-button {
   transition: background 0.3s ease-out;
@@ -542,6 +561,7 @@
 
 body {
   margin: 0;
+  margin-top: 3rem;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;

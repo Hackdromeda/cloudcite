@@ -4,11 +4,13 @@ $blue: rgb(66, 134, 244);
 }
 
 .nav {
-  @include easeOut;
+  top:0;
+  width:100vw;
+  position:fixed;
   overflow: hidden;
   background-color:#fff;
   box-shadow: 0 0 1rem rgba(#000,0.2);
-  z-index:5;
+  z-index:10;
 
   :first-child {
     font-weight:bold;
@@ -54,7 +56,6 @@ $blue: rgb(66, 134, 244);
 
 @media screen and (max-width: 680px) {
   .nav {
-    @include easeOut;
     overflow:none;
 
     a {
@@ -121,6 +122,8 @@ $blue: rgb(66, 134, 244);
   color:#666;
   box-shadow:0 0 1rem rgba(#000,0.2);
   overflow: hidden;
+  outline:none;
+  border:none;
 
   #settingsIcon{
     margin-top:10px;
@@ -130,9 +133,13 @@ $blue: rgb(66, 134, 244);
     @include easeOut;
     color: #000;
     box-shadow:0 0 1rem rgba(#000,0.4);
+    cursor:pointer;
   }
   @media screen and (max-width: 450px) {
-    position: absolute;
+    position: fixed;
+    z-index:11;
+    outline:none;
+    border:none;
     right:60px;
     top:-10px;
     max-height:16px;
@@ -152,4 +159,15 @@ $blue: rgb(66, 134, 244);
   }
 
 
+}
+
+.pullMenu {
+  position: absolute;
+
+  background-color: rgba(#000,0.8);
+  display:none;
+
+  &.active {
+    display:block;
+  }
 }

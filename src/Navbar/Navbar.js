@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
+import PullTab from '../Settings/PullTab';
 // import './navbar.scss';
 
 const App = lazy(() => import("../App.js"));
@@ -35,6 +36,7 @@ function Navbar() {
           <a id="burger"><Icon className="hamMenu bars" /></a>
         </div>
         <Link className="settingsLink" to="/settings"><Icon id="settingsIcon" name="settings" /></Link>
+        <PullTab />
         <Switch>
           <Route path="/" exact component={loadingComponent(App)} />
           <Route path="/projects" component={loadingComponent(Projects)} />

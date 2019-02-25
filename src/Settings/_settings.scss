@@ -1,3 +1,6 @@
+@mixin easeOut {
+  transition: all 0.3s ease-out;
+}
 .container {
   padding:0rem 2rem 2rem 2rem;
   #settingsHeader {
@@ -17,4 +20,15 @@
 
 .settingsLabel {
   margin:0.5em 0;
+}
+
+.pullTab {
+  @include easeOut;
+  background-color:red;
+  z-index:1;
+  display:none;
+  &.active {
+    @include easeOut;
+    display:block;
+  }
 }

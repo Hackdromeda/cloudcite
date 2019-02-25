@@ -15,7 +15,7 @@
     margin-left: 39vh;
     margin-right: 39vh;
     text-align: left;
-    font-size: 1rem; } } 
+    font-size: 1rem; } }
 
 #bibliographyActions {
   text-align: center;
@@ -71,7 +71,8 @@
   transition: all 0.5s ease-out;
   overflow: hidden;
   background-color: #fff;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2); }
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  z-index: 5; }
   .nav :first-child {
     font-weight: bold;
     font-size: 24px;
@@ -235,9 +236,7 @@
   margin: 1rem;
   padding: 1.5rem;
   display: grid;
-  grid-template-areas: 'header'
- 'content'
- 'footer';
+  grid-template-areas: 'header' 'content' 'footer';
   margin-top: 1rem;
   max-height: 40vh;
   min-width: 20vw;
@@ -359,6 +358,15 @@
 
 .settingsLabel {
   margin: 0.5em 0; }
+
+.pullTab {
+  transition: all 0.3s ease-out;
+  background-color: red;
+  z-index: 1;
+  display: none; }
+  .pullTab.active {
+    transition: all 0.3s ease-out;
+    display: block; }
 
 .style-button {
   transition: background 0.3s ease-out;
@@ -535,12 +543,9 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
- "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
- sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
- monospace; }
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace; }

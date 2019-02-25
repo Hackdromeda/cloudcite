@@ -8,6 +8,7 @@ $blue: rgb(66, 134, 244);
   overflow: hidden;
   background-color:#fff;
   box-shadow: 0 0 1rem rgba(#000,0.2);
+  z-index:5;
 
   :first-child {
     font-weight:bold;

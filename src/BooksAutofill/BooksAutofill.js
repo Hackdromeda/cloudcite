@@ -78,9 +78,10 @@ class WebsiteAutofill extends Component {
         }
         if (this.state.bookIdentificationSelected && this.state.bookIdentificationSelected.trim() != "") {
             try {
-                let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=40&q=${this.state.bookIdentificationSelected.toLowerCase()}:${this.state.bookIdentificationSelected}`, {
+                /*let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=40&q=${this.state.bookIdentificationSelected.toLowerCase()}:${this.state.bookIdentificationSelected}`, {
                     method: 'GET'
                 });
+                */
             }
             catch (error) {
                 console.log(error);

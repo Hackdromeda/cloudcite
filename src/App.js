@@ -21,6 +21,9 @@ class App extends Component {
       case "webpage":
         this.props.history.push('/website');
         break;
+      case "book":
+        this.props.history.push('/book');
+        break;
       case "other":
         this.props.history.push('/cite');
         break;

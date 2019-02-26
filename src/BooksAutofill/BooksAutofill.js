@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Button, Form } from 'semantic-ui-react';
+import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
@@ -54,7 +54,7 @@ class WebsiteAutofill extends Component {
     }
 
     componentDidMount() {
-        this.fetchFieldAndCreatorsMaps();
+        //this.fetchFieldAndCreatorsMaps();
     }
 
     async fetchFieldAndCreatorsMaps() {
@@ -118,7 +118,7 @@ class WebsiteAutofill extends Component {
     }
 
     buildForm() {
-        if (this.state.citationData && this.state.fieldMap && this.state.creatorsMap) {
+        if (this.state.citationData && this.state.fieldMap && this.state.fieldMap.length > 0 && this.state.creatorsMap) {
             return (
                 <div>
                     <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap} />
@@ -128,8 +128,10 @@ class WebsiteAutofill extends Component {
         else {
             return (
                 <Form className="citeForm">
-                    <Input onChange={(e) => this.setState({ bookInputURL: e.target.value })} placeholder="Cite Book" disabled={this.state.loaderVisible} />
-                    <Button className="btn" loading={this.state.loaderVisible} onClick={() => this.citeBook(this.state.bookInput)} type="submit" disabled={this.state.websiteInputURL === '' || this.state.loaderVisible}>Cite Book</Button>
+                    <Form.Group>
+                        <Form.Field control={Dropdown} lazyLoad selection placeholder="Type" value="Title" options={this.state.bookIdentification} onChange={(e, value) => this.setState({"bookIdentificationSelected": value})}/>
+                        <Form.Field control={Input} onChange={(e) => this.setState({ bookInputURL: e.target.value })} placeholder="Cite Book..." disabled={this.state.loaderVisible} />
+                    </Form.Group>
                 </Form>
             );
         }

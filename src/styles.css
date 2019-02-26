@@ -144,36 +144,34 @@
   font-size: 32px;
   border-radius: 8px;
   right: 2.5rem;
-  padding: 6px;
+  padding: 8px 5px;
+  line-height: 32px;
   bottom: 2rem;
   color: #666;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
   overflow: hidden;
   outline: none;
   border: none; }
-  .settingsLink #settingsIcon {
-    margin-top: 10px; }
   .settingsLink:hover {
     transition: all 0.5s ease-out;
     color: #000;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4);
     cursor: pointer; }
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 680px) {
     .settingsLink {
       position: fixed;
       z-index: 11;
       outline: none;
       border: none;
-      right: 60px;
-      top: -10px;
+      right: 45px;
+      top: 0;
+      line-height: 0;
       max-height: 16px;
       font-size: 24px;
       box-shadow: none;
       overflow: visible;
       padding: 0;
       border-radius: initial; }
-      .settingsLink #settingsIcon {
-        margin-top: 0; }
       .settingsLink:hover {
         transition: all 0.5s ease-out;
         color: #000;
@@ -375,16 +373,30 @@
   margin: 0.5em 0; }
 
 .pullTab {
-  transition: top 0.3s ease-out;
+  transition: top 0.3s ease-in-out;
   position: fixed;
   display: block;
   background-color: #fff;
   z-index: 2;
-  width: 100vw;
+  width: 100%;
+  height: 48px;
   top: -100rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2); }
+  border-radius: 0 0 10px 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5); }
+  .pullTab #checkboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 24px); }
+  @media screen and (max-width: 680px) {
+    .pullTab {
+      width: 45vw;
+      right: 45px;
+      padding: 16px; } }
   .pullTab.active {
-    transition: top 0.3s ease-out;
+    transition: top 0.3s ease-in-out;
     top: 3rem; }
 
 .style-button {
@@ -511,6 +523,7 @@
   margin-top: 10px; }
 
 .top {
+  margin-top: -3rem;
   background-color: #005EEA;
   color: #fff;
   display: flex;
@@ -537,6 +550,10 @@
 .App {
   text-align: center; }
 
+#mainPage {
+  text-align: center;
+  margin-top: -4rem; }
+
 #citeButton {
   margin: 3px;
   padding: 10px;
@@ -561,7 +578,7 @@
 
 body {
   margin: 0;
-  margin-top: 3rem;
+  margin-top: 4rem;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;

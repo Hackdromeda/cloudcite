@@ -38,7 +38,8 @@ function Navbar() {
           <a id="burger"><Icon className="hamMenu bars" /></a>
         </div>
         {/* <Link className="settingsLink" to="/settings" onClick={() => setTimeout(() => setShowPull(!showPull), 300)}><Icon id="settingsIcon" name="cog" /></Link> */}
-        <button className="settingsLink" onClick={() => setTimeout(() => setShowPull(!showPull), 300)}><Icon id="settingsIcon" name="cog" /></button>
+        <a className="settingsLink" onClick={() => setTimeout(() => setShowPull(!showPull), 300)}><Icon id="settingsIcon" name="cog" /></a>
+        {/* FIXME: Bibliography re-renders when pullTab is toggled?! */}
         <PullTab visible={showPull} />
         <div className={showPull ? "pullMenu" : "pullMenu active"}></div>
         <Switch>
@@ -48,7 +49,7 @@ function Navbar() {
           <Route path="/edit" component={loadingComponent(EditForm)} />
           <Route path="/website" component={loadingComponent(WebsiteAutofill)} />
           <Route path="/book" component={loadingComponent(BooksAutofill)} />
-          {/* <Route path="/settings" component={loadingComponent(Settings)} /> */}
+          <Route path="/settings" component={loadingComponent(Settings)} />
         </Switch>
       </Fragment>
     </Router>

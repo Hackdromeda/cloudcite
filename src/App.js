@@ -33,7 +33,7 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div id="mainPage">
         <div style={{ backgroundColor: 'rgb(0, 94, 234)', color: '#ffffff', minHeight: '35vh', marginBottom: '5vh' }}>
           <div className="container">
             <div style={{ paddingLeft: '5vh', paddingRight: '5vh', paddingTop: '10vh', paddingBottom: '10vh' }}>
@@ -51,7 +51,7 @@ class App extends Component {
         <div>
           <Bibliography citations={this.props.projects.find((project) => project.id === this.props.selectedProject).citations} />
         </div>
-      </div>
+      </ div>
     );
   }
 }

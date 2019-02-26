@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Button, Form } from 'semantic-ui-react';
+import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
@@ -54,7 +54,7 @@ class WebsiteAutofill extends Component {
     }
 
     componentDidMount() {
-        this.fetchFieldAndCreatorsMaps();
+        //this.fetchFieldAndCreatorsMaps();
     }
 
     async fetchFieldAndCreatorsMaps() {
@@ -78,15 +78,8 @@ class WebsiteAutofill extends Component {
         }
         if (this.state.bookIdentificationSelected && this.state.bookIdentificationSelected.trim() != "") {
             try {
-                let bookOptions = await fetch('https://api.cloudcite.net/autofill', {
-                    method: 'POST',
-                    headers: {
-                        'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-                    },
-                    body: JSON.stringify({
-                        "format": "book",
-                        [this.state.bookIdentificationSelected.toLowerCase()]: this.state.bookIdentificationSelected
-                    })
+                let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=40&q=${this.state.bookIdentificationSelected.toLowerCase()}:${this.state.bookIdentificationSelected}`, {
+                    method: 'GET'
                 });
             }
             catch (error) {
@@ -118,7 +111,7 @@ class WebsiteAutofill extends Component {
     }
 
     buildForm() {
-        if (this.state.citationData && this.state.fieldMap && this.state.creatorsMap) {
+        if (this.state.citationData && this.state.fieldMap && this.state.fieldMap.length > 0 && this.state.creatorsMap) {
             return (
                 <div>
                     <CiteForm citationData={this.state.citationData} fieldMap={this.state.fieldMap} creatorsMap={this.state.creatorsMap} />
@@ -128,8 +121,12 @@ class WebsiteAutofill extends Component {
         else {
             return (
                 <Form className="citeForm">
-                    <Input onChange={(e) => this.setState({ bookInputURL: e.target.value })} placeholder="Cite Book" disabled={this.state.loaderVisible} />
-                    <Button className="btn" loading={this.state.loaderVisible} onClick={() => this.citeBook(this.state.bookInput)} type="submit" disabled={this.state.websiteInputURL === '' || this.state.loaderVisible}>Cite Book</Button>
+                    <Input
+                        action={<Dropdown button basic floating lazyLoad placeholder="Type" defaultValue="Title" options={this.state.bookIdentification} onChange={(e, value) => this.setState({"bookIdentificationSelected": value})}/>}
+                        icon='search'
+                        iconPosition='left'
+                        placeholder='Search...'
+                      />
                 </Form>
             );
         }

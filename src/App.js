@@ -41,7 +41,7 @@ class App extends Component {
               <p>CloudCite processes citations in the cloud so you never have to create citations manually again.</p>
               <div style={{ textAlign: 'center' }}>
                 <Button id="citeButton" onClick={(e) => this.cite("webpage")}>Website</Button>
-                <Button id="citeButton">Book</Button>
+                <Button id="citeButton" onClick={(e) => this.cite("book")}>Book</Button>
                 <Button id="citeButton">Film</Button>
                 <Button id="citeButton" onClick={(e) => this.cite("other")}>Other</Button>
               </div>

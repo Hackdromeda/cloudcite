@@ -4,7 +4,7 @@ import { Input, Button, Form } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
-// import './WebsiteAutofill.scss';
+// import './BookAutofill.scss';
 import Loader from 'react-loaders';
 import crypto from 'crypto';
 
@@ -19,7 +19,32 @@ class WebsiteAutofill extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            websiteInputURL: "",
+            bookOptions: [],
+            selectedBook: null,
+            bookIdentificationSelected: 'Title',
+            bookInputURL: "",
+            bookIdentification: [
+                {
+                    "key": "Title",
+                    "text": "Title",
+                    "value": "Title"
+                },
+                {
+                    "key": "ISBN",
+                    "text": "ISBN",
+                    "value": "ISBN"
+                },
+                {
+                    "key": "OCLC",
+                    "text": "OCLC",
+                    "value": "OCLC"
+                },
+                {
+                    "key": "LCCN",
+                    "text": "LCCN",
+                    "value": "LCCN"
+                }
+            ],
             startCiting: false,
             citationData: null,
             fieldMap: null,
@@ -33,11 +58,11 @@ class WebsiteAutofill extends Component {
     }
 
     async fetchFieldAndCreatorsMaps() {
-        const fieldMap = await fetch(`https://cdn.cloudcite.net/fields/webpage.json`)
+        const fieldMap = await fetch(`https://cdn.cloudcite.net/fields/book.json`)
             .then((response) => {
                 return response.json();
             });
-        const creatorsMap = await fetch(`https://cdn.cloudcite.net/creators/webpage.json`)
+        const creatorsMap = await fetch(`https://cdn.cloudcite.net/creators/book.json`)
             .then((response) => {
                 return response.json();
             });
@@ -47,25 +72,7 @@ class WebsiteAutofill extends Component {
         });
     }
 
-    formatURL(url) {
-        let newURL = ""
-        switch (url.substring(0, 7)) {
-            case 'https:/':
-                newURL = url.substring(8, url.length)
-                break;
-            case 'http://':
-                newURL = url.substring(7, url.length)
-                break;
-            default:
-                newURL = url
-        }
-        if (newURL.substring(0, 4) === "www.") {
-            newURL = newURL.substring(4, newURL.length)
-        }
-        return newURL
-    }
-
-    async citeURL(url) {
+    async citeBook(book) {
         if (url !== '') {
             this.setState({ loaderVisible: true });
             try {
@@ -78,14 +85,12 @@ class WebsiteAutofill extends Component {
                         "format": "website",
                         "id": crypto.randomBytes(10).toString('hex'),
                         "URL": (url.substring(0, 4) === 'http') ? url : (`http://${url}`),
-                        "transform": true
                     })
                 }).then((response) => response.json());
-                citationData.URL = this.formatURL(citationData.URL);
                 this.setState({ citationData: citationData, loaderVisible: false });
             }
             catch (error) {
-                this.setState({ citationData: createCitation({ "type": "webpage", "URL": this.formatURL(url) }), loaderVisible: false });
+                this.setState({ citationData: createCitation({"type": "book"}), loaderVisible: false });
             }
         }
     }
@@ -101,8 +106,8 @@ class WebsiteAutofill extends Component {
         else {
             return (
                 <Form className="citeForm">
-                    <Input onChange={(e) => this.setState({ websiteInputURL: e.target.value })} placeholder="Cite Website" disabled={this.state.loaderVisible} />
-                    <Button className="btn" loading={this.state.loaderVisible} onClick={() => this.citeURL(this.state.websiteInputURL)} type="submit" disabled={this.state.websiteInputURL === '' || this.state.loaderVisible}>Cite Website</Button>
+                    <Input onChange={(e) => this.setState({ bookInputURL: e.target.value })} placeholder="Cite Book" disabled={this.state.loaderVisible} />
+                    <Button className="btn" loading={this.state.loaderVisible} onClick={() => this.citeBook(this.state.bookInput)} type="submit" disabled={this.state.websiteInputURL === '' || this.state.loaderVisible}>Cite Book</Button>
                 </Form>
             );
         }
@@ -112,8 +117,8 @@ class WebsiteAutofill extends Component {
         return (
             <div>
                 <div className="top">
-                    <h1>Cite a Website</h1>
-                    <label>You can start citing a website by typing the website link and clicking on cite.</label>
+                    <h1>Cite a Book</h1>
+                    <label>You can start citing a book by searching by book title or ISBN and selecting a book.</label>
                 </div>
                 {this.buildForm()}
                 <Loader type="pacman" active={this.state.loaderVisible} />

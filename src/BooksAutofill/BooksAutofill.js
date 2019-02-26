@@ -72,19 +72,41 @@ class WebsiteAutofill extends Component {
         });
     }
 
-    async citeBook(book) {
-        if (url !== '') {
-            this.setState({ loaderVisible: true });
+    async getBookOptions() {
+        if (this.bookOptions.length > 0) {
+            this.setState({"bookOptions": []});
+        }
+        if (this.state.bookIdentificationSelected && this.state.bookIdentificationSelected.trim() != "") {
             try {
-                let citationData = await fetch('https://api.cloudcite.net/autofillv2', {
+                let bookOptions = await fetch('https://api.cloudcite.net/autofill', {
                     method: 'POST',
                     headers: {
                         'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
                     },
                     body: JSON.stringify({
-                        "format": "website",
+                        "format": "book",
+                        [this.state.bookIdentificationSelected.toLowerCase()]: this.state.bookIdentificationSelected
+                    })
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    async citeBook(book) {
+        if (book !== '') {
+            this.setState({ loaderVisible: true });
+            try {
+                let citationData = await fetch('https://api.cloudcite.net/autofill', {
+                    method: 'POST',
+                    headers: {
+                        'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
+                    },
+                    body: JSON.stringify({
+                        "format": "book",
                         "id": crypto.randomBytes(10).toString('hex'),
-                        "URL": (url.substring(0, 4) === 'http') ? url : (`http://${url}`),
                     })
                 }).then((response) => response.json());
                 this.setState({ citationData: citationData, loaderVisible: false });

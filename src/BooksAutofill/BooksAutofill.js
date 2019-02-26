@@ -22,7 +22,7 @@ class WebsiteAutofill extends Component {
             bookOptions: [],
             selectedBook: null,
             bookIdentificationSelected: 'Title',
-            bookInputURL: "",
+            bookInput: "",
             bookIdentification: [
                 {
                     "key": "Title",
@@ -73,7 +73,7 @@ class WebsiteAutofill extends Component {
     }
 
     async getBookOptions() {
-        if (this.bookOptions.length > 0) {
+        if (this.state.bookOptions.length > 0) {
             this.setState({"bookOptions": []});
         }
         if (this.state.bookIdentificationSelected && this.state.bookIdentificationSelected.trim() != "") {
@@ -126,6 +126,7 @@ class WebsiteAutofill extends Component {
                         icon='search'
                         iconPosition='left'
                         placeholder='Search...'
+                        onChange={(e, value) => this.setState({"bookInput": value}, () => this.getBookOptions())}
                       />
                 </Form>
             );

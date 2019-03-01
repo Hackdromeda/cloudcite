@@ -113,11 +113,12 @@ $blue: rgb(66, 134, 244);
 .settingsLink {
   position:fixed;
   text-align:center;
+  z-index:2;
   background-color: #fff;
   font-size:32px;
   border-radius:8px;
   right:2.5rem;
-  padding:8px 5px;
+  padding:8px 4px;
   line-height:32px;
   bottom:2rem;
   color:#666;
@@ -164,5 +165,19 @@ $blue: rgb(66, 134, 244);
 
   &.active {
     display:block;
+  }
+}
+
+.darkness {
+  display:none;
+  &.active {
+    display:block;
+    position:absolute;
+    z-index:1;
+    top:0vh;
+    left:0vw;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(#000,0.5);
   }
 }

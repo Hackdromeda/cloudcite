@@ -106,6 +106,13 @@
         document.querySelector('.hamMenu').className = 'icon hamMenu bars';
       }
     }
+
+    // Settings Menu Exit on Outside Click
+    if (!e.target.classList.contains('pullTab')) {
+      document.querySelector('.pullTab').classList.remove('active');
+      document.querySelector('.darkness').classList.remove('active');
+
+    }
   }
 
   function closeHam() {

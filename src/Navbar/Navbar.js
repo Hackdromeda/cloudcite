@@ -38,10 +38,12 @@ function Navbar() {
           <a id="burger"><Icon className="hamMenu bars" /></a>
         </div>
         {/* <Link className="settingsLink" to="/settings" onClick={() => setTimeout(() => setShowPull(!showPull), 300)}><Icon id="settingsIcon" name="cog" /></Link> */}
-        <a className="settingsLink" onClick={() => setTimeout(() => setShowPull(!showPull), 300)}><Icon id="settingsIcon" name="cog" /></a>
+        <a className="settingsLink" onClick={() => showPull ? setShowPull(!showPull) : setTimeout(() => setShowPull(!showPull), 300)}><Icon id="settingsIcon" name="cog" /></a>
         {/* FIXME: Bibliography re-renders when pullTab is toggled?! */}
         <PullTab visible={showPull} />
         <div className={showPull ? "pullMenu" : "pullMenu active"}></div>
+        <div className={showPull ? "darkness active" : "darkness"}></div>
+
         <Switch>
           <Route path="/" exact component={loadingComponent(App)} />
           <Route path="/projects" component={loadingComponent(Projects)} />

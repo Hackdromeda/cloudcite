@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { ADD_FAVORITE_STYLE, REMOVE_FAVORITE_STYLE } from '../actions/favoriteStyles';
 import { Input, List } from 'semantic-ui-react';
 import algoliasearch from 'algoliasearch/lite';
+import debounce from 'lodash.debounce';
 // import './StyleSearch.scss';
 
 const searchClient = algoliasearch('X2RBUB2NNH', 'e8168f69a4758f6c98f19acb409d904e');
@@ -18,12 +19,14 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class StyleSearch extends Component {
-
-	state = {
-		searchResults: []
+	constructor(props) {
+		super(props);
+		this.state = {
+			searchResults: []
+		}
 	}
 
-	async handleChange(e, { value }) {
+	handleChange = debounce(async (e, { value }) => {
 		if (value && value.length > 0) {
 			try {
 				let response = await index.search({ query: value });
@@ -40,7 +43,7 @@ class StyleSearch extends Component {
 				searchResults: []
 			});
 		}
-	}
+	}, 500);
 
 	addFavoriteStyle(style) {
 		this.props.ADD_FAVORITE_STYLE({ key: style.key, value: style.value });

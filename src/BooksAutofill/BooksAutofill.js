@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
+import { Dropdown, Form, Input, Button, Card, Image } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
 // import './BookAutofill.scss';
 import Loader from 'react-loaders';
 import crypto from 'crypto';
+import debounce from 'lodash.debounce';
 
 const mapStateToProps = state => ({
 });
@@ -49,12 +50,13 @@ class WebsiteAutofill extends Component {
             citationData: null,
             fieldMap: null,
             creatorsMap: null,
-            loaderVisible: false
+            loaderVisible: false,
+            startIndex: 0
         };
     }
 
     componentDidMount() {
-        //this.fetchFieldAndCreatorsMaps();
+        this.fetchFieldAndCreatorsMaps();
     }
 
     async fetchFieldAndCreatorsMaps() {
@@ -71,23 +73,25 @@ class WebsiteAutofill extends Component {
             creatorsMap: creatorsMap
         });
     }
-
-    async getBookOptions() {
+    getBookOptions = debounce(async e => {
         if (this.state.bookOptions.length > 0) {
             this.setState({"bookOptions": []});
         }
         if (this.state.bookIdentificationSelected && this.state.bookIdentificationSelected.trim() != "") {
             try {
-                /*let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=40&q=${this.state.bookIdentificationSelected.toLowerCase()}:${this.state.bookIdentificationSelected}`, {
+                let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=20&startIndex=${this.state.startIndex}&q=${this.state.bookIdentificationSelected.toLowerCase()}:${this.state.bookIdentificationSelected}`, {
                     method: 'GET'
+                })
+                .then((response) => {
+                    return response.json();
                 });
-                */
+                this.setState({"bookOptions": bookOptions.items});
             }
             catch (error) {
                 console.log(error);
             }
         }
-    }
+    }, 1000);
 
     async citeBook(book) {
         if (book !== '') {
@@ -143,7 +147,22 @@ class WebsiteAutofill extends Component {
                 </div>
                 {this.buildForm()}
                 <Loader type="pacman" active={this.state.loaderVisible} />
-
+                {
+                    this.state.bookOptions.map((book, index) =>
+                        <Card key={index}>
+                            {book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail ? <Image src={book.volumeInfo.imageLinks.thumbnail} />: <div/>}
+                            <Card.Content>
+                            <Card.Header>
+                                {book.volumeInfo.title}
+                            </Card.Header>
+                                {book.volumeInfo.publishedDate ? <Card.Meta>{book.volumeInfo.publishedDate}</Card.Meta>: <div/>}
+                            </Card.Content>
+                            <Card.Content extra>
+                                {book.volumeInfo.authors}
+                            </Card.Content>
+                        </Card>
+                    )
+                }
             </div>
         )
     }

@@ -4,14 +4,17 @@ $blue: rgb(66, 134, 244);
 }
 
 .nav {
-  @include easeOut;
+  top:0;
+  width:100vw;
+  position:fixed;
   overflow: hidden;
   background-color:#fff;
   box-shadow: 0 0 1rem rgba(#000,0.2);
+  z-index:10;
 
   :first-child {
     font-weight:bold;
-    font-size:1.6rem;
+    font-size:24px;
     color:rgb(0, 94, 234);
   }
 
@@ -53,7 +56,6 @@ $blue: rgb(66, 134, 244);
 
 @media screen and (max-width: 680px) {
   .nav {
-    @include easeOut;
     overflow:none;
 
     a {
@@ -105,4 +107,77 @@ $blue: rgb(66, 134, 244);
       }
     }
   } 
+}
+
+
+.settingsLink {
+  position:fixed;
+  text-align:center;
+  z-index:2;
+  background-color: #fff;
+  font-size:32px;
+  border-radius:8px;
+  right:2.5rem;
+  padding:8px 4px;
+  line-height:32px;
+  bottom:2rem;
+  color:#666;
+  box-shadow:0 0 1rem rgba(#000,0.2);
+  overflow: hidden;
+  outline:none;
+  border:none;
+
+  &:hover{
+    @include easeOut;
+    color: #000;
+    box-shadow:0 0 1rem rgba(#000,0.4);
+    cursor:pointer;
+  }
+  @media screen and (max-width: 680px) {
+    position: fixed;
+    z-index:11;
+    outline:none;
+    border:none;
+    right:45px;
+    top:0;
+    line-height:0;
+    max-height:16px;
+    font-size:24px;
+    box-shadow:none;
+    overflow: visible;
+    padding:0;
+    border-radius:initial;
+    &:hover {
+    @include easeOut;
+     color: #000;
+     box-shadow:none;
+    }
+  }
+
+
+}
+
+.pullMenu {
+  position: absolute;
+
+  background-color: rgba(#000,0.8);
+  display:none;
+
+  &.active {
+    display:block;
+  }
+}
+
+.darkness {
+  display:none;
+  &.active {
+    display:block;
+    position:absolute;
+    z-index:1;
+    top:0vh;
+    left:0vw;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(#000,0.5);
+  }
 }

@@ -68,13 +68,16 @@
     font-size: 16px; } }
 
 .nav {
-  transition: all 0.5s ease-out;
+  top: 0;
+  width: 100vw;
+  position: fixed;
   overflow: hidden;
   background-color: #fff;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2); }
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  z-index: 10; }
   .nav :first-child {
     font-weight: bold;
-    font-size: 1.6rem;
+    font-size: 24px;
     color: #005eea; }
   .nav:not(.responsive) a:not(:first-child):not(:last-child):hover {
     border-bottom: 5px solid #4286f4;
@@ -101,7 +104,6 @@
 
 @media screen and (max-width: 680px) {
   .nav {
-    transition: all 0.5s ease-out;
     overflow: none; }
     .nav a {
       transition: all 0.5s ease-out; }
@@ -134,6 +136,66 @@
           background-color: #cccccc;
           color: #4286f4;
           font-weight: bold; } }
+
+.settingsLink {
+  position: fixed;
+  text-align: center;
+  z-index: 2;
+  background-color: #fff;
+  font-size: 32px;
+  border-radius: 8px;
+  right: 2.5rem;
+  padding: 8px 4px;
+  line-height: 32px;
+  bottom: 2rem;
+  color: #666;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  outline: none;
+  border: none; }
+  .settingsLink:hover {
+    transition: all 0.5s ease-out;
+    color: #000;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4);
+    cursor: pointer; }
+  @media screen and (max-width: 680px) {
+    .settingsLink {
+      position: fixed;
+      z-index: 11;
+      outline: none;
+      border: none;
+      right: 45px;
+      top: 0;
+      line-height: 0;
+      max-height: 16px;
+      font-size: 24px;
+      box-shadow: none;
+      overflow: visible;
+      padding: 0;
+      border-radius: initial; }
+      .settingsLink:hover {
+        transition: all 0.5s ease-out;
+        color: #000;
+        box-shadow: none; } }
+
+.pullMenu {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none; }
+  .pullMenu.active {
+    display: block; }
+
+.darkness {
+  display: none; }
+  .darkness.active {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0vh;
+    left: 0vw;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); }
 
 @media (max-width: 991.97px) {
   #preview {
@@ -306,13 +368,15 @@
 .projectActionButton:hover {
   color: #29434e; }
 
-.container {
+.settingsContainer {
+  margin-top: 5rem;
   padding: 0rem 2rem 2rem 2rem; }
-  .container #settingsHeader {
+  .settingsContainer #settingsHeader {
+    z-index: 0;
     margin-top: 1em;
     color: #444;
     font-size: 20px; }
-  .container .options {
+  .settingsContainer .options {
     display: grid;
     border-radius: 8px;
     padding: 1rem;
@@ -321,6 +385,88 @@
 
 .settingsLabel {
   margin: 0.5em 0; }
+
+.pullTab {
+  transition: all 0.3s ease-in-out;
+  position: fixed;
+  display: block;
+  background-color: #fff;
+  z-index: 2;
+  width: 45vw;
+  right: 20px;
+  height: minmax(48px, auto);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  @media screen and (max-width: 680px) {
+    .pullTab {
+      top: -80px; }
+      .pullTab:before {
+        transition: all 0.3s ease-in-out;
+        content: 'test';
+        position: fixed;
+        top: -45px;
+        background-color: #fff;
+        color: white;
+        -webkit-clip-path: polygon(82% 0, 35% 100%, 100% 100%);
+        clip-path: polygon(82% 0, 35% 100%, 100% 100%);
+        right: 53px;
+        width: 50px;
+        user-select: none; }
+      .pullTab.active {
+        transition: all 0.3s ease-in-out;
+        top: 60px; }
+        .pullTab.active:before {
+          transition: all 0.3s ease-in-out;
+          top: 45px; } }
+  @media screen and (min-width: 680px) {
+    .pullTab {
+      transition: all 0.3s ease-in-out;
+      right: -1000px;
+      bottom: 10px; }
+      .pullTab:after {
+        transition: all 0.3s ease-in-out;
+        content: 'test';
+        position: fixed;
+        bottom: -45px;
+        background-color: #fff;
+        -webkit-clip-path: polygon(0 0, 77% 53%, 0 100%);
+        clip-path: polygon(0 0, 77% 53%, 0 100%);
+        color: white;
+        right: -1000px;
+        width: 50px;
+        bottom: 45px;
+        user-select: none; }
+      .pullTab.active {
+        transition: all 0.3s ease-in-out;
+        right: 100px; }
+        .pullTab.active:after {
+          transition: all 0.3s ease-in-out;
+          right: 53px; } }
+
+#pulltabBtns {
+  width: 100%;
+  text-align: center;
+  background-color: #fff;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: space-evenly;
+  cursor: pointer; }
+  #pulltabBtns .settingsIcon {
+    color: #666; }
+
+#settingsExpand {
+  margin-top: 20px;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  color: #666;
+  background-color: #ccc;
+  width: 100%; }
 
 .style-button {
   transition: background 0.3s ease-out;
@@ -446,6 +592,7 @@
   margin-top: 10px; }
 
 .top {
+  margin-top: -3rem;
   background-color: #005EEA;
   color: #fff;
   display: flex;
@@ -461,12 +608,20 @@
 .citeForm {
   display: flex;
   justify-content: center;
-  margin-top: 36px; }
+  margin-top: 36px;
+  font-size: 1rem !important; }
+  @media screen and (max-width: 680px) {
+    .citeForm {
+      font-size: 16px !important; } }
   .citeForm .btn {
     margin-left: 5px; }
 
 .App {
   text-align: center; }
+
+#mainPage {
+  text-align: center;
+  margin-top: -4rem; }
 
 #citeButton {
   margin: 3px;
@@ -492,6 +647,7 @@
 
 body {
   margin: 0;
+  margin-top: 4rem;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;

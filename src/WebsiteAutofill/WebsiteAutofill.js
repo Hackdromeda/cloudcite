@@ -18,16 +18,18 @@ class WebsiteAutofill extends Component {
 
     constructor(props) {
         super(props);
-        this.fetchFieldAndCreatorsMaps();
+        this.state = {
+            websiteInputURL: "",
+            startCiting: false,
+            citationData: null,
+            fieldMap: null,
+            creatorsMap: null,
+            loaderVisible: false
+        };
     }
 
-    state = {
-        websiteInputURL: "",
-        startCiting: false,
-        citationData: null,
-        fieldMap: null,
-        creatorsMap: null,
-        loaderVisible: false
+    componentDidMount() {
+        this.fetchFieldAndCreatorsMaps();
     }
 
     async fetchFieldAndCreatorsMaps() {

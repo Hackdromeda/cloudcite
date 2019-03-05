@@ -12,6 +12,7 @@ const Projects = lazy(() => import('./Projects/Projects.js'));
 const CiteForm = lazy(() => import('./CiteForm/CiteForm.js'));
 const EditForm = lazy(() => import('./EditForm/EditForm.js'));
 const WebsiteAutofill = lazy(() => import('./WebsiteAutofill/WebsiteAutofill.js'));
+const BooksAutofill = lazy(() => import('./BooksAutofill/BooksAutofill.js'));
 const Settings = lazy(() => import('./Settings/Settings.js'));
 
 function loadingComponent(Component) {
@@ -28,11 +29,12 @@ ReactDOM.render(
         	<div>
 	        	<Navbar/>
 	        	<Switch>
-		            <Route path="/" exact component={loadingComponent(App)} />
+		            <Route exact path="/" component={loadingComponent(App)} />
 		            <Route path="/projects" component={loadingComponent(Projects)} />
 		            <Route path="/cite" component={loadingComponent(CiteForm)} />
 		            <Route path="/edit" component={loadingComponent(EditForm)} />
 		            <Route path="/website" component={loadingComponent(WebsiteAutofill)} />
+                <Route path="/books" component={loadingComponent(BooksAutofill)} />
 		            <Route path="/settings" component={loadingComponent(Settings)} />
 	         	</Switch>
          	</div>

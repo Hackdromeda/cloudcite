@@ -1,6 +1,11 @@
-.container {
+@mixin easeOut {
+  transition: all 0.3s ease-in-out;
+}
+.settingsContainer {
+  margin-top:5rem;
   padding:0rem 2rem 2rem 2rem;
   #settingsHeader {
+    z-index:0;
     margin-top:1em;
     color: #444;
     font-size:20px;
@@ -17,4 +22,102 @@
 
 .settingsLabel {
   margin:0.5em 0;
+}
+
+.pullTab {
+  @include easeOut;
+  position: fixed;
+  display:block;
+  background-color:#fff;
+  z-index:2;
+  width:45vw;
+  right:20px;
+  height:minmax(48px,auto);
+  border-radius: 10px;
+  padding: 16px;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+
+  @media screen and (max-width: 680px) {
+    top:-80px;
+    &:before {
+      @include easeOut;
+      content:'test';
+      position:fixed;
+      top:-45px;
+      background-color:#fff;
+      color:white;
+      -webkit-clip-path: polygon(82% 0, 35% 100%, 100% 100%);
+      clip-path: polygon(82% 0, 35% 100%, 100% 100%);
+      right:53px;
+      width:50px;
+      user-select:none;
+    }
+
+    &.active {
+      @include easeOut;
+      top: 60px;
+
+      &:before{
+        @include easeOut;
+          top:45px;
+      }
+    }
+  }
+
+  @media screen and (min-width: 680px) {
+    @include easeOut;
+    right:-1000px;
+    bottom:10px;
+    &:after {
+      @include easeOut;
+      content:'test';
+      position:fixed;
+      bottom:-45px;
+      background-color:#fff;
+      -webkit-clip-path: polygon(0 0, 77% 53%, 0 100%);
+      clip-path: polygon(0 0, 77% 53%, 0 100%);
+      color:white;
+      right:-1000px;
+      width:50px;
+      bottom:45px;
+      user-select:none;
+    }
+
+    &.active {
+      @include easeOut;
+      right: 100px;
+
+      &:after{
+        @include easeOut;
+          right:53px;
+      }
+    }
+  }
+}
+
+#pulltabBtns {
+  width:100%;
+  text-align:center;
+  background-color: #fff;
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  justify-content: space-evenly;
+  cursor: pointer;
+  .settingsIcon {
+    color:#666;
+  }
+}
+
+#settingsExpand {
+  margin-top:20px;
+  box-sizing: border-box;
+  padding:5px 10px;
+  border-radius:5px;
+  text-align:center;
+  cursor: pointer;
+  color:#666;
+  background-color: #ccc;
+  width:100%;
 }

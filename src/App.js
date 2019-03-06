@@ -15,6 +15,11 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class App extends Component {
+  componentDidMount() {
+    if (process.env.NODE_ENV === 'production') {
+      window.ga('send', 'pageview');
+    }
+  }
 
   cite(type) {
     switch (type) {

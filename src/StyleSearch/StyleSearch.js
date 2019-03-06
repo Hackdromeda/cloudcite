@@ -34,8 +34,16 @@ class StyleSearch extends Component {
 					searchResults: response.hits
 				});
 			}
-			catch (error) {
-
+			catch (err) {
+				if (process.env.NODE_ENV === 'production') {
+	                ga('send', 'exception', {
+	                  'exDescription': err.message,
+	                  'exFatal': false
+	                });
+	            } 
+	            else {
+	                console.log(err);
+	            }
 			}
 		}
 		else {

@@ -77,8 +77,15 @@ class CiteForm extends Component {
         citationHTML: generatedHTML.html.map(htmlItem => htmlItem.html)
       });
     }
-    catch (error) {
-      console.log(error);
+    catch (err) {
+      if (process.env.NODE_ENV === 'production') {
+        ga('send', 'exception', {
+          'exDescription': err.message,
+          'exFatal': false
+        });
+      } else {
+        console.log(err);
+      }
     }
   }
 

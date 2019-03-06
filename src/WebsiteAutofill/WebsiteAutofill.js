@@ -84,8 +84,17 @@ class WebsiteAutofill extends Component {
                 citationData.URL = this.formatURL(citationData.URL);
                 this.setState({ citationData: citationData, loaderVisible: false });
             }
-            catch (error) {
+            catch (err) {
                 this.setState({ citationData: createCitation({ "type": "webpage", "URL": this.formatURL(url) }), loaderVisible: false });
+                if (process.env.NODE_ENV === 'production') {
+                    ga('send', 'exception', {
+                      'exDescription': err.message,
+                      'exFatal': false
+                    });
+                } 
+                else {
+                    console.log(err);
+                }
             }
         }
     }

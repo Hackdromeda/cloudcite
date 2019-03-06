@@ -86,8 +86,16 @@ class BooksAutofill extends Component {
                 });
                 this.setState({"bookOptions": bookOptions.items});
             }
-            catch (error) {
-                console.log(error);
+            catch (err) {
+                if (process.env.NODE_ENV === 'production') {
+                    ga('send', 'exception', {
+                      'exDescription': err.message,
+                      'exFatal': false
+                    });
+                } 
+                else {
+                    console.log(err);
+                }
             }
         }
     }, 1000);
@@ -108,8 +116,17 @@ class BooksAutofill extends Component {
                 }).then((response) => response.json());
                 this.setState({ citationData: citationData, loaderVisible: false });
             }
-            catch (error) {
+            catch (err) {
                 this.setState({ citationData: createCitation({"type": "book"}), loaderVisible: false });
+                if (process.env.NODE_ENV === 'production') {
+                    ga('send', 'exception', {
+                      'exDescription': err.message,
+                      'exFatal': false
+                    });
+                } 
+                else {
+                    console.log(err);
+                }
             }
         }
     }

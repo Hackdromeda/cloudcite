@@ -36,7 +36,7 @@ class StyleSearch extends Component {
 			}
 			catch (err) {
 				if (process.env.NODE_ENV === 'production') {
-	                ga('send', 'exception', {
+	                window.ga('send', 'exception', {
 	                  'exDescription': err.message,
 	                  'exFatal': false
 	                });

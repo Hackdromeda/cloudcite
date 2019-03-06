@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
 import { EDIT_CITATION, DELETE_CITATION } from '../actions/projects';
+import { Message } from 'semantic-ui-react';
 // import './Bibliography.scss';
 
 const mapStateToProps = state => ({
@@ -126,7 +127,10 @@ class Bibliography extends Component {
                                     )}
                                 </div>
                             </div>
-                        </div> : <div />
+                        </div> : 
+                        <Message info>
+                            <p>A bibliography should appear here after you cite a website, book, film, or other medium.</p>
+                        </Message>
                 }
 
             </div>

@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { SET_TITLE } from './actions/projects';
 
 const Bibliography = React.lazy(() => import('./Bibliography/Bibliography.js'));
+const FavoriteStyleSearch = React.lazy(() => import('./FavoriteStyleSearch/FavoriteStyleSearch.js'));
 
 const mapStateToProps = state => ({
   selectedProject: state.projectsReducer.selectedProject,
@@ -66,6 +67,9 @@ class App extends Component {
         </div>
         <div>
           <input id="titleInput" placeholder="Project Title" defaultValue={this.props.projects.find(project => project.id === this.props.selectedProject).title} onChange={(e) => this.setProjectTitle(e)}/>
+          <div>
+            <FavoriteStyleSearch/>
+          </div>
           <Bibliography citations={this.props.projects.find((project) => project.id === this.props.selectedProject).citations} />
         </div>
       </ div>

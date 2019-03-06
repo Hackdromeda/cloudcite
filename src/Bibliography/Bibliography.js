@@ -39,7 +39,6 @@ class Bibliography extends Component {
         this.generatePreview();
     }
 
-
     copyCSL(e) {
         e.clipboardData.setData("text/plain", this.state.textPlain);
         e.clipboardData.setData("text/html", this.state.textHTML);

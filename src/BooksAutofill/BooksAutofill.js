@@ -23,7 +23,6 @@ class BooksAutofill extends Component {
             bookOptions: [],
             selectedBook: null,
             bookIdentificationSelected: 'Title',
-            bookInput: "",
             bookIdentification: [
                 {
                     "key": "Title",
@@ -73,13 +72,13 @@ class BooksAutofill extends Component {
             creatorsMap: creatorsMap
         });
     }
-    getBookOptions = debounce(async e => {
+    getBookOptions = debounce(async bookInputValue => {
         if (this.state.bookOptions.length > 0) {
             this.setState({"bookOptions": []});
         }
         if (this.state.bookIdentificationSelected && this.state.bookIdentificationSelected.trim() !== "") {
             try {
-                let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=20&startIndex=${this.state.startIndex}&q=${this.state.bookIdentificationSelected.toLowerCase()}:${this.state.bookIdentificationSelected}`, {
+                let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=20&startIndex=${this.state.startIndex}&q=${bookInputValue.value}+${this.state.bookIdentificationSelected}`, {
                     method: 'GET'
                 })
                 .then((response) => {
@@ -131,7 +130,7 @@ class BooksAutofill extends Component {
                         icon='search'
                         iconPosition='left'
                         placeholder='Search...'
-                        onChange={(e, value) => this.setState({"bookInput": value}, () => this.getBookOptions())}
+                        onChange={(e, value) => this.getBookOptions(value)}
                       />
                 </Form>
             );

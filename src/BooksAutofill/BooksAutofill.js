@@ -74,25 +74,25 @@ class BooksAutofill extends Component {
     }
     getBookOptions = debounce(async bookInputValue => {
         if (this.state.bookOptions.length > 0) {
-            this.setState({"bookOptions": []});
+            this.setState({ "bookOptions": [] });
         }
         if (this.state.bookIdentificationSelected && this.state.bookIdentificationSelected.trim() !== "") {
             try {
                 let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=20&startIndex=${this.state.startIndex}&q=${bookInputValue.value}+${this.state.bookIdentificationSelected}`, {
                     method: 'GET'
                 })
-                .then((response) => {
-                    return response.json();
-                });
-                this.setState({"bookOptions": bookOptions.items});
+                    .then((response) => {
+                        return response.json();
+                    });
+                this.setState({ "bookOptions": bookOptions.items });
             }
             catch (err) {
                 if (process.env.NODE_ENV === 'production') {
                     window.ga('send', 'exception', {
-                      'exDescription': err.message,
-                      'exFatal': false
+                        'exDescription': err.message,
+                        'exFatal': false
                     });
-                } 
+                }
                 else {
                     console.log(err);
                 }
@@ -117,13 +117,13 @@ class BooksAutofill extends Component {
                 this.setState({ citationData: citationData, loaderVisible: false });
             }
             catch (err) {
-                this.setState({ citationData: createCitation({"type": "book"}), loaderVisible: false });
+                this.setState({ citationData: createCitation({ "type": "book" }), loaderVisible: false });
                 if (process.env.NODE_ENV === 'production') {
                     window.ga('send', 'exception', {
-                      'exDescription': err.message,
-                      'exFatal': false
+                        'exDescription': err.message,
+                        'exFatal': false
                     });
-                } 
+                }
                 else {
                     console.log(err);
                 }
@@ -143,12 +143,12 @@ class BooksAutofill extends Component {
             return (
                 <Form className="citeForm">
                     <Input
-                        action={<Dropdown button basic floating lazyLoad placeholder="Type" defaultValue="Title" options={this.state.bookIdentification} onChange={(e, bookIndentificationValue) => this.setState({"bookIdentificationSelected": bookIndentificationValue.value})}/>}
+                        action={<Dropdown button basic floating lazyLoad placeholder="Type" defaultValue="Title" options={this.state.bookIdentification} onChange={(e, bookIndentificationValue) => this.setState({ "bookIdentificationSelected": bookIndentificationValue.value })} />}
                         icon='search'
                         iconPosition='left'
                         placeholder='Search...'
                         onChange={(e, value) => this.getBookOptions(value)}
-                      />
+                    />
                 </Form>
             );
         }
@@ -163,22 +163,24 @@ class BooksAutofill extends Component {
                 </div>
                 {this.buildForm()}
                 <Loader type="pacman" active={this.state.loaderVisible} />
-                {
-                    this.state.bookOptions.map((book, index) =>
-                        <Card key={index}>
-                            {book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail ? <Image src={book.volumeInfo.imageLinks.thumbnail} />: <div/>}
-                            <Card.Content>
-                            <Card.Header>
-                                {book.volumeInfo.title}
-                            </Card.Header>
-                                {book.volumeInfo.publishedDate ? <Card.Meta>{book.volumeInfo.publishedDate}</Card.Meta>: <div/>}
-                            </Card.Content>
-                            <Card.Content extra>
-                                {book.volumeInfo.authors}
-                            </Card.Content>
-                        </Card>
-                    )
-                }
+                <div id="bookList">
+                    {
+                        this.state.bookOptions.map((book, index) =>
+                            <Card className="cardContainer" key={index}>
+                                {book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail ? <img src={book.volumeInfo.imageLinks.thumbnail} /> : <div />}
+                                <Card.Content>
+                                    <Card.Header>
+                                        {book.volumeInfo.title}
+                                    </Card.Header>
+                                    {book.volumeInfo.publishedDate ? <Card.Meta>{book.volumeInfo.publishedDate}</Card.Meta> : <div />}
+                                </Card.Content>
+                                <Card.Content extra>
+                                    {book.volumeInfo.authors}
+                                </Card.Content>
+                            </Card>
+                        )
+                    }
+                </div>
             </div>
         )
     }

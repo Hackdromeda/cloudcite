@@ -21,8 +21,8 @@ class App extends Component {
       case "webpage":
         this.props.history.push('/website');
         break;
-      case "book":
-        this.props.history.push('/book');
+      case "books":
+        this.props.history.push('/books');
         break;
       case "other":
         this.props.history.push('/cite');
@@ -44,7 +44,7 @@ class App extends Component {
               <p>CloudCite processes citations in the cloud so you never have to create citations manually again.</p>
               <div style={{ textAlign: 'center' }}>
                 <Button id="citeButton" onClick={(e) => this.cite("webpage")}>Website</Button>
-                <Button id="citeButton" onClick={(e) => this.cite("book")}>Book</Button>
+                <Button id="citeButton" onClick={(e) => this.cite("books")}>Book</Button>
                 <Button id="citeButton">Film</Button>
                 <Button id="citeButton" onClick={(e) => this.cite("other")}>Other</Button>
               </div>

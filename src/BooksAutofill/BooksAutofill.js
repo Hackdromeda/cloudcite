@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Form, Input, Button, Card, Image } from 'semantic-ui-react';
+import { Dropdown, Form, Input, Card, Image } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
@@ -77,7 +77,7 @@ class BooksAutofill extends Component {
         if (this.state.bookOptions.length > 0) {
             this.setState({"bookOptions": []});
         }
-        if (this.state.bookIdentificationSelected && this.state.bookIdentificationSelected.trim() != "") {
+        if (this.state.bookIdentificationSelected && this.state.bookIdentificationSelected.trim() !== "") {
             try {
                 let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=20&startIndex=${this.state.startIndex}&q=${this.state.bookIdentificationSelected.toLowerCase()}:${this.state.bookIdentificationSelected}`, {
                     method: 'GET'

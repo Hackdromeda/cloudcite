@@ -20,6 +20,20 @@
   background-color: #207DF6;
 }
 
+#titleInput {
+  text-align: center;
+  color: #005eea;
+  min-height: 60px;
+  font-size: 2rem;
+  font-weight: 550;
+  border-color: transparent;
+  margin-bottom: 3vh;
+}
+
+#titleInput:focus {
+  outline: none;
+}
+
 @media (max-width: 991.97px) {
   .container {
     margin-left: 1vh;

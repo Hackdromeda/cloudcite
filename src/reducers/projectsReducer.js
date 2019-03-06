@@ -57,7 +57,8 @@ export default (state = initialState, action) => {
             };
         case 'SET_STYLE':
             return { ...state, projects: state.projects.filter(project => project.id !== state.selectedProject).concat([Object.assign(state.projects.find(project => project.id === action.payload.id), {style: action.payload.style})])};
-        
+        case 'SET_TITLE':
+            return {...state, projects: state.projects.filter(project => project.id !== state.selectedProject).concat([Object.assign(state.projects.find(project => project.id === action.payload.id), {title: action.payload.title})])};
     default:
         return state
     }

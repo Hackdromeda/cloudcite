@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import './App.scss';
+import './_App.scss';
 import { Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import { SET_TITLE } from './actions/projects';
+
 const Bibliography = React.lazy(() => import('./Bibliography/Bibliography.js'));
 
 const mapStateToProps = state => ({
@@ -11,7 +13,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
+  SET_TITLE: (PROJECT_ID, TITLE) => dispatch(SET_TITLE(PROJECT_ID, TITLE))
 });
 
 class App extends Component {
@@ -39,6 +41,12 @@ class App extends Component {
     this.props.history.push('/cite');
   }
 
+  setProjectTitle(e) {
+    if (e.target.value.length > 0) {
+      this.props.SET_TITLE(this.props.selectedProject, e.target.value);
+    }
+  }
+
   render() {
     return (
       <div id="mainPage">
@@ -57,6 +65,7 @@ class App extends Component {
           </div>
         </div>
         <div>
+          <input id="titleInput" placeholder="Project Title" defaultValue={this.props.projects.find(project => project.id === this.props.selectedProject).title} onChange={(e) => this.setProjectTitle(e)}/>
           <Bibliography citations={this.props.projects.find((project) => project.id === this.props.selectedProject).citations} />
         </div>
       </ div>

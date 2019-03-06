@@ -76,5 +76,15 @@ export const SET_STYLE = (PROJECT_ID, STYLE) => dispatch => {
    });
 }
 
+export const SET_TITLE = (PROJECT_ID, TITLE) => dispatch => {
+   dispatch({
+      type: 'SET_TITLE',
+      payload: {
+         id: PROJECT_ID,
+         title: TITLE
+      }
+   });
+}
+
 
 

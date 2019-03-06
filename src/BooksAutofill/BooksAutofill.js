@@ -126,7 +126,7 @@ class BooksAutofill extends Component {
             return (
                 <Form className="citeForm">
                     <Input
-                        action={<Dropdown button basic floating lazyLoad placeholder="Type" defaultValue="Title" options={this.state.bookIdentification} onChange={(e, value) => this.setState({"bookIdentificationSelected": value})}/>}
+                        action={<Dropdown button basic floating lazyLoad placeholder="Type" defaultValue="Title" options={this.state.bookIdentification} onChange={(e, bookIndentificationValue) => this.setState({"bookIdentificationSelected": bookIndentificationValue.value})}/>}
                         icon='search'
                         iconPosition='left'
                         placeholder='Search...'

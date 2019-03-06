@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Icon } from 'semantic-ui-react';
 // import './settings.scss';
 
@@ -6,20 +7,28 @@ const FavoriteStyleSearch = React.lazy(() => import('../FavoriteStyleSearch/Favo
 const LocaleSearch = React.lazy(() => import('../LocaleSearch/LocaleSearch.js'));
 const StyleSearch = React.lazy(() => import('../StyleSearch/StyleSearch.js'));
 
-function Settings() {
-  return (
-    <div className="settingsContainer">
-      <h1 id="settingsHeader"><Icon className="settings" /> Settings</h1>
-      <div className="options">
-        <label className="settingsLabel">Favorite Styles</label>
-        <FavoriteStyleSearch />
-        <label className="settingsLabel">Locales</label>
-        <LocaleSearch />
-        <label className="settingsLabel">Styles</label>
-        <StyleSearch />
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
+class Settings extends Component {
+  render() {
+    return (
+      <div className="settingsContainer">
+        <h1 id="settingsHeader"><Icon className="settings" /> Settings</h1>
+        <div className="options">
+          <label className="settingsLabel">Favorite Styles</label>
+          <FavoriteStyleSearch />
+          <label className="settingsLabel">Locales</label>
+          <LocaleSearch />
+          <label className="settingsLabel">Styles</label>
+          <StyleSearch />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default Settings;
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

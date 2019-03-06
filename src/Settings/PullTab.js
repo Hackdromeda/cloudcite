@@ -11,7 +11,7 @@ export default function PullTab(props) {
     <div style={{ backgroundColor: '#ffffff' }} className={props.visible ? "pullTab active" : "pullTab"}>
       <Suspense fallback={<div />}>
         <div id="pulltabBtns">
-          <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>
+          <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='theme' /></a>
           <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>
           <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>
           <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>

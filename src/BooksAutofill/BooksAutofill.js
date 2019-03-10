@@ -4,12 +4,10 @@ import { Dropdown, Form, Input, Card, Image, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
-// import './BooksAutofill.scss';
+import './BooksAutofill.scss';
 import Loader from 'react-loaders';
 import crypto from 'crypto';
 import debounce from 'lodash.debounce';
-import { isoLangs } from './isoLangs.js';
-import { localeLangs } from './localeLangs.js';
 
 const mapStateToProps = state => ({
 });
@@ -106,9 +104,6 @@ class BooksAutofill extends Component {
     async citeBook(book) {
         try {
             this.setState({ loaderVisible: true });
-            let citationData = await fetch(`https://www.googleapis.com/books/v1/volumes/${book.id}`, {
-                method: 'GET',
-            }).then((response) => response.json());
             let citation = {
                 "issued": {
                     "month": null,
@@ -121,7 +116,7 @@ class BooksAutofill extends Component {
                 "collection-editor": [],
                 "translator": [],
                 "edition": null,
-                "language": book.volumeInfo.language ? this.convertLang(book.volumeInfo.language): null,
+                "language": book.volumeInfo.language ? await this.convertLang(book.volumeInfo.language): null,
                 "title": book.volumeInfo.title ? book.volumeInfo.title: null,
                 "title-short": null,
                 "publisher": book.volumeInfo.publisher ? book.volumeInfo.publisher: null,
@@ -147,7 +142,7 @@ class BooksAutofill extends Component {
                 if (fullName.length >= 2) {
                     lastName = fullName[fullName.length - 1];
                 }
-                if (fullName.length == 3) {
+                if (fullName.length === 3) {
                     middleName = fullName[fullName.length - 2];
                 }
                 if (fullName.length > 3) {
@@ -158,7 +153,7 @@ class BooksAutofill extends Component {
                 }
                 citation.contributors.push({given: firstName, middle: middleName, family: lastName, key: crypto.randomBytes(20).toString('hex'), type: 'author'});
             }
-            if (book.volumeInfo.publishedDate && book.volumeInfo.publishedDate != "") {
+            if (book.volumeInfo.publishedDate && book.volumeInfo.publishedDate !== "") {
                 let date = book.volumeInfo.publishedDate.split("-");
                 if (date.length >= 1) {
                     citation.issued.year = date[0];
@@ -170,7 +165,7 @@ class BooksAutofill extends Component {
                     citation.issued.day = date[2];
                 }
             }
-            if (book.volumeInfo.industryIdentifiers && book.volumeInfo.industryIdentifiers != "") {
+            if (book.volumeInfo.industryIdentifiers && book.volumeInfo.industryIdentifiers !== "") {
                 let ISBNs = [];
                 for (let i = 0; i < book.volumeInfo.industryIdentifiers.length; i++) {
                     if (book.volumeInfo.industryIdentifiers[i].type.includes("ISBN")) {
@@ -181,15 +176,15 @@ class BooksAutofill extends Component {
                     citation.ISBN = ISBNs[ISBNs.length - 1];
                 }
             }
-            if (book.volumeInfo.dimensions != null && book.volumeInfo.dimensions != "") {
+            if (book.volumeInfo.dimensions && book.volumeInfo.dimensions !== "") {
                 let dimensions;
-                if (book.volumeInfo.dimensions.height && book.volumeInfo.dimensions.height != "") {
+                if (book.volumeInfo.dimensions.height && book.volumeInfo.dimensions.height !== "") {
                     dimensions = book.volumeInfo.dimensions.height;
                 }
-                if (book.volumeInfo.dimensions.width && book.volumeInfo.dimensions.width != "") {
+                if (book.volumeInfo.dimensions.width && book.volumeInfo.dimensions.width !== "") {
                     dimensions = dimensions + " x " + book.volumeInfo.dimensions.width;
                 }
-                if (book.volumeInfo.dimensions.thickness && book.volumeInfo.dimensions.thickness != "") {
+                if (book.volumeInfo.dimensions.thickness && book.volumeInfo.dimensions.thickness !== "") {
                     dimensions = dimensions + " x " + book.volumeInfo.dimensions.thickness;
                 }
                 citation.dimensions = dimensions;
@@ -233,15 +228,17 @@ class BooksAutofill extends Component {
         }
     }
 
-    convertLang(lang) {
-        lang = lang.toLowerCase()
+    async convertLang(lang) {
+        lang = lang.toLowerCase();
         if (lang.length == 2) {
+            const isoLangs = await import('./isoLangs.json');
             if (isoLangs[lang] != null) {
                 return isoLangs[lang].name;
             } else {
                 return lang;
             }
         } else if (lang.length > 2) {
+            const localeLangs = await import('./localeLangs.json');
             if (localeLangs[lang] != null) {
                 return localeLangs[lang][1];
             } else {

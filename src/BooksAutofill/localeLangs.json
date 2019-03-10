@@ -1,0 +1,210 @@
+{
+  "af-za": [
+    "Afrikaans",
+    "Afrikaans"
+  ],
+  "ar": [
+    "العربية",
+    "Arabic"
+  ],
+  "bg-bg": [
+    "Български",
+    "Bulgarian"
+  ],
+  "ca-ad": [
+    "Català",
+    "Catalan"
+  ],
+  "cs-cz": [
+    "Čeština",
+    "Czech"
+  ],
+  "cy-gb": [
+    "Cymraeg",
+    "Welsh"
+  ],
+  "da-dk": [
+    "Dansk",
+    "Danish"
+  ],
+  "de-at": [
+    "Deutsch (Österreich)",
+    "German (Austria)"
+  ],
+  "de-ch": [
+    "Deutsch (Schweiz)",
+    "German (Switzerland)"
+  ],
+  "de-de": [
+    "Deutsch (Deutschland)",
+    "German (Germany)"
+  ],
+  "el-gr": [
+    "Ελληνικά",
+    "Greek"
+  ],
+  "en-gb": [
+    "English (UK)",
+    "English (UK)"
+  ],
+  "en-us": [
+    "English (US)",
+    "English (US)"
+  ],
+  "es-cl": [
+    "Español (Chile)",
+    "Spanish (Chile)"
+  ],
+  "es-es": [
+    "Español (España)",
+    "Spanish (Spain)"
+  ],
+  "es-mx": [
+    "Español (México)",
+    "Spanish (Mexico)"
+  ],
+  "et-ee": [
+    "Eesti",
+    "Estonian"
+  ],
+  "eu": [
+    "Euskara",
+    "Basque"
+  ],
+  "fa-ir": [
+    "فارسی",
+    "Persian"
+  ],
+  "fi-fi": [
+    "Suomi",
+    "Finnish"
+  ],
+  "fr-ca": [
+    "Français (Canada)",
+    "French (Canada)"
+  ],
+  "fr-fr": [
+    "Français (France)",
+    "French (France)"
+  ],
+  "he-il": [
+    "עברית",
+    "Hebrew"
+  ],
+  "hr-hr": [
+    "Hrvatski",
+    "Croatian"
+  ],
+  "hu-hu": [
+    "Magyar",
+    "Hungarian"
+  ],
+  "id-id": [
+    "Bahasa Indonesia",
+    "Indonesian"
+  ],
+  "is-is": [
+    "Íslenska",
+    "Icelandic"
+  ],
+  "it-it": [
+    "Italiano",
+    "Italian"
+  ],
+  "ja-jp": [
+    "日本語",
+    "Japanese"
+  ],
+  "km-km": [
+    "ភាសាខ្មែរ",
+    "Khmer"
+  ],
+  "ko-kr": [
+    "한국어",
+    "Korean"
+  ],
+  "lt-lt": [
+    "Lietuvių",
+    "Lithuanian"
+  ],
+  "lv-lv": [
+    "Latviešu",
+    "Latvian"
+  ],
+  "mn-mn": [
+    "Монгол",
+    "Mongolian"
+  ],
+  "nb-no": [
+    "Norsk bokmål",
+    "Norwegian (Bokmål)"
+  ],
+  "nl-nl": [
+    "Nederlands",
+    "Dutch"
+  ],
+  "nn-no": [
+    "Norsk nynorsk",
+    "Norwegian (Nynorsk)"
+  ],
+  "pl-pl": [
+    "Polski",
+    "Polish"
+  ],
+  "pt-br": [
+    "Português (Brasil)",
+    "Portuguese (Brazil)"
+  ],
+  "pt-pt": [
+    "Português (Portugal)",
+    "Portuguese (Portugal)"
+  ],
+  "ro-ro": [
+    "Română",
+    "Romanian"
+  ],
+  "ru-ru": [
+    "Русский",
+    "Russian"
+  ],
+  "sk-sk": [
+    "Slovenčina",
+    "Slovak"
+  ],
+  "sl-si": [
+    "Slovenščina",
+    "Slovenian"
+  ],
+  "sr-rs": [
+    "Српски / Srpski",
+    "Serbian"
+  ],
+  "sv-se": [
+    "Svenska",
+    "Swedish"
+  ],
+  "th-th": [
+    "ไทย",
+    "Thai"
+  ],
+  "tr-tr": [
+    "Türkçe",
+    "Turkish"
+  ],
+  "uk-ua": [
+    "Українська",
+    "Ukrainian"
+  ],
+  "vi-vn": [
+    "Tiếng Việt",
+    "Vietnamese"
+  ],
+  "zh-cn": [
+    "中文 (中国大陆)",
+    "Chinese (PRC)"
+  ],
+  "zh-tw": [
+    "中文 (台灣)",
+    "Chinese (Taiwan)"
+  ]
+}

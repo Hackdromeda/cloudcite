@@ -23,7 +23,7 @@ class App extends Component {
       window.ga('send', 'pageview');
     }
   }
-
+  
   cite(type) {
     switch (type) {
       case "webpage":
@@ -41,7 +41,6 @@ class App extends Component {
   citeOther() {
     this.props.history.push('/cite');
   }
-
   setProjectTitle(e) {
     if (e.target.value.length > 0) {
       this.props.SET_TITLE(this.props.selectedProject, e.target.value);

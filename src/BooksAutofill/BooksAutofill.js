@@ -121,18 +121,18 @@ class BooksAutofill extends Component {
                 "collection-editor": [],
                 "translator": [],
                 "edition": null,
-                "language": book.volumeInfo.language ? this.convertLang(book.volumeInfo.language): null,
-                "title": book.volumeInfo.title ? book.volumeInfo.title: null,
+                "language": book.volumeInfo.language ? this.convertLang(book.volumeInfo.language) : null,
+                "title": book.volumeInfo.title ? book.volumeInfo.title : null,
                 "title-short": null,
-                "publisher": book.volumeInfo.publisher ? book.volumeInfo.publisher: null,
+                "publisher": book.volumeInfo.publisher ? book.volumeInfo.publisher : null,
                 "publisher-place": null,
                 "ISBN": null,
-                "number-of-pages": book.volumeInfo.pageCount ? book.volumeInfo.pageCount: null,
+                "number-of-pages": book.volumeInfo.pageCount ? book.volumeInfo.pageCount : null,
                 "number-of-volumes": null,
                 "source": null,
                 "URL": null,
                 "dimensions": null,
-                "abstract": book.volumeInfo.description ? book.volumeInfo.description: null,
+                "abstract": book.volumeInfo.description ? book.volumeInfo.description : null,
                 "collection-title": null,
                 "container-title": null,
                 "collection-number": null,
@@ -156,7 +156,7 @@ class BooksAutofill extends Component {
                     }
                     middleName = fullName[fullName.length - 2];
                 }
-                citation.contributors.push({given: firstName, middle: middleName, family: lastName, key: crypto.randomBytes(20).toString('hex'), type: 'author'});
+                citation.contributors.push({ given: firstName, middle: middleName, family: lastName, key: crypto.randomBytes(20).toString('hex'), type: 'author' });
             }
             if (book.volumeInfo.publishedDate && book.volumeInfo.publishedDate != "") {
                 let date = book.volumeInfo.publishedDate.split("-");
@@ -264,22 +264,19 @@ class BooksAutofill extends Component {
                 <div id="bookList">
                     {
                         this.state.bookOptions.map((book, index) =>
-                            <Card className="cardContainer" key={index}>
-                                {book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail ? <Image src={book.volumeInfo.imageLinks.thumbnail} size="small"/> : <div />}
-                                <Card.Content>
-                                    <Card.Header>
-                                        {book.volumeInfo.title}
-                                    </Card.Header>
-                                    {book.volumeInfo.publishedDate ? <Card.Meta>{book.volumeInfo.publishedDate}</Card.Meta> : <div />}
-                                </Card.Content>
-                                <Card.Content extra>
-                                    {book.volumeInfo.authors}
-                                    <Button onClick={() => this.citeBook(book)}>Cite</Button>
-                                </Card.Content>
-                            </Card>
+                            <div className="book-card" key={index}>
+                                {book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail ? <img className="book-cover" src={book.volumeInfo.imageLinks.thumbnail} size="small" /> : <div />}
+                                <div className="book-info">
+                                    <label className="book-title">{book.volumeInfo.title}</label>
+                                    <label className="book-authors">{book.volumeInfo.authors}</label>
+                                    {book.volumeInfo.publishedDate ? <label className="book-pd">{book.volumeInfo.publishedDate}</label> : <div />}
+                                    <button className="cite-book-btn" onClick={() => this.citeBook(book)}>Cite</button>
+                                </div>
+                            </div>
                         )
                     }
                 </div>
+                <br />
             </div>
         )
     }

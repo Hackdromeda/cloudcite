@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Form, Input, Card, Image } from 'semantic-ui-react';
+import { Dropdown, Form, Input, Card, Image, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
@@ -8,6 +8,8 @@ import { createCitation } from '../functions/createCitation.js';
 import Loader from 'react-loaders';
 import crypto from 'crypto';
 import debounce from 'lodash.debounce';
+import { isoLangs } from './isoLangs.js';
+import { localeLangs } from './localeLangs.js';
 
 const mapStateToProps = state => ({
 });
@@ -72,6 +74,7 @@ class BooksAutofill extends Component {
             creatorsMap: creatorsMap
         });
     }
+
     getBookOptions = debounce(async bookInputValue => {
         if (this.state.bookOptions.length > 0) {
             this.setState({ "bookOptions": [] });
@@ -101,32 +104,108 @@ class BooksAutofill extends Component {
     }, 1000);
 
     async citeBook(book) {
-        if (book !== '') {
+        try {
             this.setState({ loaderVisible: true });
-            try {
-                let citationData = await fetch('https://api.cloudcite.net/autofill', {
-                    method: 'POST',
-                    headers: {
-                        'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
-                    },
-                    body: JSON.stringify({
-                        "format": "book",
-                        "id": crypto.randomBytes(10).toString('hex'),
-                    })
-                }).then((response) => response.json());
-                this.setState({ citationData: citationData, loaderVisible: false });
+            let citationData = await fetch(`https://www.googleapis.com/books/v1/volumes/${book.id}`, {
+                method: 'GET',
+            }).then((response) => response.json());
+            let citation = {
+                "issued": {
+                    "month": null,
+                    "year": null,
+                    "day": null
+                },
+                "id": book.id,
+                "author": [],
+                "editor": [],
+                "collection-editor": [],
+                "translator": [],
+                "edition": null,
+                "language": book.volumeInfo.language ? this.convertLang(book.volumeInfo.language): null,
+                "title": book.volumeInfo.title ? book.volumeInfo.title: null,
+                "title-short": null,
+                "publisher": book.volumeInfo.publisher ? book.volumeInfo.publisher: null,
+                "publisher-place": null,
+                "ISBN": null,
+                "number-of-pages": book.volumeInfo.pageCount ? book.volumeInfo.pageCount: null,
+                "number-of-volumes": null,
+                "source": null,
+                "URL": null,
+                "dimensions": null,
+                "abstract": book.volumeInfo.description ? book.volumeInfo.description: null,
+                "collection-title": null,
+                "container-title": null,
+                "collection-number": null,
+                "type": "book"
+            };
+            citation.contributors = [];
+            for (let author of book.volumeInfo.authors) {
+                let fullName = author.split(' ');
+                let firstName = fullName[0];
+                let middleName = '';
+                let lastName = '';
+                if (fullName.length >= 2) {
+                    lastName = fullName[fullName.length - 1];
+                }
+                if (fullName.length == 3) {
+                    middleName = fullName[fullName.length - 2];
+                }
+                if (fullName.length > 3) {
+                    for (var j = 1; j > fullName.length - 2; j++) {
+                        firstName = firstName + " " + fullName[j];
+                    }
+                    middleName = fullName[fullName.length - 2];
+                }
+                citation.contributors.push({given: firstName, middle: middleName, family: lastName, key: crypto.randomBytes(20).toString('hex'), type: 'author'});
             }
-            catch (err) {
-                this.setState({ citationData: createCitation({ "type": "book" }), loaderVisible: false });
-                if (process.env.NODE_ENV === 'production') {
-                    window.ga('send', 'exception', {
-                        'exDescription': err.message,
-                        'exFatal': false
-                    });
+            if (book.volumeInfo.publishedDate && book.volumeInfo.publishedDate != "") {
+                let date = book.volumeInfo.publishedDate.split("-");
+                if (date.length >= 1) {
+                    citation.issued.year = date[0];
                 }
-                else {
-                    console.log(err);
+                if (date.length >= 2) {
+                    citation.issued.month = date[1];
                 }
+                if (date.length >= 3) {
+                    citation.issued.day = date[2];
+                }
+            }
+            if (book.volumeInfo.industryIdentifiers && book.volumeInfo.industryIdentifiers != "") {
+                let ISBNs = [];
+                for (let i = 0; i < book.volumeInfo.industryIdentifiers.length; i++) {
+                    if (book.volumeInfo.industryIdentifiers[i].type.includes("ISBN")) {
+                        ISBNs.push(book.volumeInfo.industryIdentifiers[i].identifier)
+                    }
+                }
+                if (ISBNs.length >= 1) {
+                    citation.ISBN = ISBNs[ISBNs.length - 1];
+                }
+            }
+            if (book.volumeInfo.dimensions != null && book.volumeInfo.dimensions != "") {
+                let dimensions;
+                if (book.volumeInfo.dimensions.height && book.volumeInfo.dimensions.height != "") {
+                    dimensions = book.volumeInfo.dimensions.height;
+                }
+                if (book.volumeInfo.dimensions.width && book.volumeInfo.dimensions.width != "") {
+                    dimensions = dimensions + " x " + book.volumeInfo.dimensions.width;
+                }
+                if (book.volumeInfo.dimensions.thickness && book.volumeInfo.dimensions.thickness != "") {
+                    dimensions = dimensions + " x " + book.volumeInfo.dimensions.thickness;
+                }
+                citation.dimensions = dimensions;
+            }
+            this.setState({ bookOptions: [], citationData: createCitation(citation), loaderVisible: false });
+        }
+        catch (err) {
+            this.setState({ citationData: createCitation({ "type": "book" }), loaderVisible: false });
+            if (process.env.NODE_ENV === 'production') {
+                window.ga('send', 'exception', {
+                    'exDescription': err.message,
+                    'exFatal': false
+                });
+            }
+            else {
+                console.log(err);
             }
         }
     }
@@ -154,6 +233,25 @@ class BooksAutofill extends Component {
         }
     }
 
+    convertLang(lang) {
+        lang = lang.toLowerCase()
+        if (lang.length == 2) {
+            if (isoLangs[lang] != null) {
+                return isoLangs[lang].name;
+            } else {
+                return lang;
+            }
+        } else if (lang.length > 2) {
+            if (localeLangs[lang] != null) {
+                return localeLangs[lang][1];
+            } else {
+                return lang;
+            }
+        } else {
+            return lang;
+        }
+    }
+
     render() {
         return (
             <div>
@@ -167,7 +265,7 @@ class BooksAutofill extends Component {
                     {
                         this.state.bookOptions.map((book, index) =>
                             <Card className="cardContainer" key={index}>
-                                {book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail ? <img src={book.volumeInfo.imageLinks.thumbnail} /> : <div />}
+                                {book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail ? <Image src={book.volumeInfo.imageLinks.thumbnail} size="small"/> : <div />}
                                 <Card.Content>
                                     <Card.Header>
                                         {book.volumeInfo.title}
@@ -176,6 +274,7 @@ class BooksAutofill extends Component {
                                 </Card.Content>
                                 <Card.Content extra>
                                     {book.volumeInfo.authors}
+                                    <Button onClick={() => this.citeBook(book)}>Cite</Button>
                                 </Card.Content>
                             </Card>
                         )

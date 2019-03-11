@@ -98,4 +98,20 @@
       }
     }
   }
+
+}
+
+.loadMore{
+  transition:background-color 0.3s ease-out;
+  border:none;
+  text-align:center;
+  width:100vw;
+  height:48px;
+  background-color:darken(#005eea,10);
+  color:#fff;
+
+  &:hover{
+    transition:background-color 0.3s ease-out;
+    background-color:darken(#005eea,20);
+  }
 }

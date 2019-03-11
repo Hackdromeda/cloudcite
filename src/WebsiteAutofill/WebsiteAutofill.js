@@ -88,10 +88,10 @@ class WebsiteAutofill extends Component {
                 this.setState({ citationData: createCitation({ "type": "webpage", "URL": this.formatURL(url) }), loaderVisible: false });
                 if (process.env.NODE_ENV === 'production') {
                     window.ga('send', 'exception', {
-                      'exDescription': err.message,
-                      'exFatal': false
+                        'exDescription': err.message,
+                        'exFatal': false
                     });
-                } 
+                }
                 else {
                     console.log(err);
                 }
@@ -125,7 +125,7 @@ class WebsiteAutofill extends Component {
                     <label>You can start citing a website by typing the website link and clicking on cite.</label>
                 </div>
                 {this.buildForm()}
-                <Loader type="pacman" active={this.state.loaderVisible} />
+                <Loader type="pacman" active={this.state.loaderVisible} color="#005eea" />
 
             </div>
         )

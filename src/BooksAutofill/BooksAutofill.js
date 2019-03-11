@@ -292,7 +292,7 @@ class BooksAutofill extends Component {
                     {
                         this.state.bookOptions.map((book, index) =>
                             <div className="book-card" key={index}>
-                                {book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail ? <img className="book-cover" src={book.volumeInfo.imageLinks.thumbnail} size="small" /> : <div />}
+                                {book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail ? <img className="book-cover" src={book.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://')} size="small" /> : <div />}
                                 <div className="book-info">
                                     <label className="book-title">{book.volumeInfo.title}</label>
                                     <label className="book-authors">{book.volumeInfo.authors}</label>

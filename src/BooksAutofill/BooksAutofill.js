@@ -76,9 +76,7 @@ class BooksAutofill extends Component {
     }
 
     getBookOptions = debounce(async bookInputValue => {
-        this.setState({ 'inputValue': bookInputValue.value });
-        await this.setState({ 'loaderVisible': true });
-        await this.setState({ 'startIndex': 0 });
+        this.setState({ 'inputValue': bookInputValue.value, 'loaderVisible': true, 'startIndex': 0 });
         if (this.state.bookOptions.length > 0) {
             this.setState({ "bookOptions": [] });
         }
@@ -90,8 +88,7 @@ class BooksAutofill extends Component {
                     .then((response) => {
                         return response.json();
                     });
-                this.setState({ "bookOptions": bookOptions.items });
-                this.setState({ 'loaderVisible': false });
+                this.setState({ "bookOptions": bookOptions.items, 'loaderVisible': false });
             }
             catch (err) {
                 if (process.env.NODE_ENV === 'production') {
@@ -108,7 +105,7 @@ class BooksAutofill extends Component {
     }, 1000);
 
     moreBooks = async () => {
-        await this.setState({ 'startIndex': this.state.startIndex + 20 });
+        this.setState({ 'startIndex': this.state.startIndex + 20 });
         try {
             let bookOptions = await fetch(`https://www.googleapis.com/books/v1/volumes?maxResults=20&startIndex=${this.state.startIndex}&q=${this.state.inputValue}+${this.state.bookIdentificationSelected}`, {
                 method: 'GET'

@@ -127,7 +127,7 @@ class FilmsAutofill extends Component {
                     },
                     body: JSON.stringify({
                         "format": "movie",
-                        "movie": film.id
+                        "movie": film.id,
                         "transform": true
                     })
                 }).then((response) => response.json());

@@ -32,6 +32,9 @@ class App extends Component {
       case "books":
         this.props.history.push('/books');
         break;
+      case "films":
+        this.props.history.push('/films');
+        break;
       case "other":
         this.props.history.push('/cite');
         break;
@@ -58,7 +61,7 @@ class App extends Component {
               <div style={{ textAlign: 'center' }}>
                 <Button id="citeButton" onClick={(e) => this.cite("webpage")}>Website</Button>
                 <Button id="citeButton" onClick={(e) => this.cite("books")}>Book</Button>
-                <Button id="citeButton">Film</Button>
+                <Button id="citeButton" onClick={(e) => this.cite("films")}>Film</Button>
                 <Button id="citeButton" onClick={(e) => this.cite("other")}>Other</Button>
               </div>
             </div>

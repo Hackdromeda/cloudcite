@@ -1,0 +1,117 @@
+@import 'node_modules/loaders.css/src/animations/pacman.scss';
+
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: flex;
+  justify-content: center;
+  margin-top:10px;
+}
+
+#filmList {
+  margin-top:1rem;
+  display:flex;
+  justify-content:space-evenly;
+  align-content:space-evenly;
+  flex-direction: row;
+  flex-wrap:wrap;
+  
+  // film Card
+  .film-card {
+    transition:box-shadow 0.1s ease-out;
+    display:grid;
+    grid-template-areas:'img content';
+    grid-template-columns: 1fr 1fr;
+
+    margin-top:2rem;
+
+    overflow:hidden;
+
+    border-radius:4px;
+    box-shadow: 0 0 2px rgba(#000,0.5);
+
+    width:300px;
+    height:200px;
+
+    // Focus card on hover
+    &:hover{
+      transition:box-shadow 0.3s ease-out;
+      box-shadow: 1px 5px 8px rgba(#000,0.5);
+    }
+
+    .film-cover {
+      grid-area:img;
+
+      border-radius: 4px 0 0 4px;
+
+      height:100%;
+      max-height: 200px;
+      max-width:100%;
+
+      border:none;
+    }
+    
+    // Content
+    .film-info{
+      grid-area:content;
+      display:flex;
+      flex-direction: column;
+      
+      text-align:center;
+
+      padding:10px;
+
+      // Title label
+      .film-title {
+        font-weight:800;
+      }
+
+      // Authors label
+      .film-authors {
+        font-size:12px;
+      }
+
+      // Publish date label
+      .film-pd{
+
+      }
+
+      // Cite Button 
+      .cite-film-btn {
+        transition:background-color 0.2s ease-out;
+        margin-top:auto;
+
+        border:none;
+        border-radius:4px;
+        padding: 8px 16px;
+
+        background-color: #005eea;
+        color:#fff;
+
+        cursor:pointer;
+
+        &:hover{
+          transition:background-color 0.2s ease-out;
+          background-color:darken(#005eea,10);
+        }
+      }
+    }
+  }
+
+}
+
+.loadMore{
+  transition:background-color 0.3s ease-out;
+  border:none;
+  text-align:center;
+  width:100vw;
+  height:48px;
+  background-color:darken(#005eea,10);
+  color:#fff;
+
+  &:hover{
+    transition:background-color 0.3s ease-out;
+    background-color:darken(#005eea,20);
+  }
+}

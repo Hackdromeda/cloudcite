@@ -51,8 +51,7 @@ class BooksAutofill extends Component {
             creatorsMap: null,
             loaderVisible: false,
             startIndex: 0,
-            inputValue: '',
-            loaderVisible: false
+            inputValue: ''
         };
     }
 
@@ -113,7 +112,6 @@ class BooksAutofill extends Component {
                 return response.json();
             });
             this.setState({ "bookOptions": this.state.bookOptions.concat(bookOptions.items) });
-            console.log(this.state.bookOptions.length);
         }
         catch (err) {
             if (process.env.NODE_ENV === 'production') {

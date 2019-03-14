@@ -30,7 +30,6 @@ class FilmsAutofill extends Component {
             loaderVisible: false,
             startIndex: 0,
             inputValue: '',
-            loaderVisible: false
         };
     }
 
@@ -39,11 +38,11 @@ class FilmsAutofill extends Component {
     }
 
     async fetchFieldAndCreatorsMaps() {
-        const fieldMap = await fetch(`https://cdn.cloudcite.net/fields/film.json`)
+        const fieldMap = await fetch(`https://cdn.cloudcite.net/fields/motion_picture.json`)
             .then((response) => {
                 return response.json();
             });
-        const creatorsMap = await fetch(`https://cdn.cloudcite.net/creators/film.json`)
+        const creatorsMap = await fetch(`https://cdn.cloudcite.net/creators/motion_picture.json`)
             .then((response) => {
                 return response.json();
             });
@@ -53,7 +52,7 @@ class FilmsAutofill extends Component {
         });
     }
 
-    getFilmsOptions = debounce(async filmInputValue => {
+    getFilmOptions = debounce(async filmInputValue => {
         this.setState({ 'inputValue': filmInputValue.value, 'loaderVisible': true, 'startIndex': 0 });
         if (this.state.filmOptions.length > 0) {
             this.setState({ "filmOptions": [] });
@@ -71,7 +70,7 @@ class FilmsAutofill extends Component {
                 .then((response) => {
                     return response.json();
                 });
-                this.setState({ "filmOptions": filmOptions.items, 'loaderVisible': false });
+                this.setState({ "filmOptions": filmOptions.results, 'loaderVisible': false });
             }
             catch (err) {
                 if (process.env.NODE_ENV === 'production') {
@@ -101,8 +100,7 @@ class FilmsAutofill extends Component {
             .then((response) => {
                 return response.json();
             });
-            this.setState({ "filmOptions": this.state.filmOptions.concat(filmOptions.items) });
-            console.log(this.state.filmOptions.length);
+            this.setState({ "filmOptions": this.state.filmOptions.concat(filmOptions.results) });
         }
         catch (err) {
             if (process.env.NODE_ENV === 'production') {
@@ -126,15 +124,16 @@ class FilmsAutofill extends Component {
                         'X-Api-Key': '9kj5EbG1bI4PXlSiFjRKH9Idjr2qf38A2yZPQEZy'
                     },
                     body: JSON.stringify({
+                        "title": film.title,
                         "format": "movie",
                         "movie": film.id,
                         "transform": true
                     })
-                }).then((response) => response.json());
+                }).then((response) => console.log(response));
             this.setState({ filmOptions: [], citationData: createCitation(citationData), loaderVisible: false });
         }
         catch (err) {
-            this.setState({ citationData: createCitation({ "type": "film" }), loaderVisible: false });
+            this.setState({ citationData: createCitation({ "type": "motion_picture" }), loaderVisible: false });
             if (process.env.NODE_ENV === 'production') {
                 window.ga('send', 'exception', {
                     'exDescription': err.message,
@@ -162,7 +161,7 @@ class FilmsAutofill extends Component {
                         icon='search'
                         iconPosition='left'
                         placeholder='Search...'
-                        onChange={(e, value) => this.getfilmOptions(value)}
+                        onChange={(e, value) => this.getFilmOptions(value)}
                     />
                 </Form>
             );
@@ -182,11 +181,9 @@ class FilmsAutofill extends Component {
                     {
                         this.state.filmOptions.map((film, index) =>
                             <div className="film-card" key={index}>
-                                {film.volumeInfo.imageLinks && film.volumeInfo.imageLinks.thumbnail ? <img className="film-cover" src={film.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://')} size="small" /> : <div />}
+                                {film.poster_path ? <img className="film-cover" src={`https://image.tmdb.org/t/p/w200${film.poster_path}`} size="small" /> : <div />}
                                 <div className="film-info">
-                                    <label className="film-title">{film.volumeInfo.title}</label>
-                                    <label className="film-authors">{film.volumeInfo.authors}</label>
-                                    {film.volumeInfo.publishedDate ? <label className="film-pd">{film.volumeInfo.publishedDate}</label> : <div />}
+                                    <label className="film-title">{film.title}</label>
                                     <button className="cite-film-btn" onClick={() => this.citeFilm(film)}>Cite</button>
                                 </div>
                             </div>

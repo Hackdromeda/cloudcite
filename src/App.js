@@ -74,6 +74,10 @@ class App extends Component {
           </div>
           <Bibliography citations={this.props.projects.find((project) => project.id === this.props.selectedProject).citations} />
         </div>
+        <div style={{textAlign: 'left', paddingLeft: '2vh', paddingRight: '2vh'}}>
+          <h2>About CloudCite</h2>
+          <p>CloudCite is a free, automatic, and ad-free bibliography generator for popular citation styles such as MLA 8th Edition, APA, and Chicago, Turabian, Harvard, IEEE, and Vancouver. You can contribute to CloudCite and support the longevity of this project by visiting the contribute page and either donating through a supported platform or lending us your coding skills. Disabling ad-block and interacting with ads placed on the contribute page and our blog also helps support this project. We have no ads throughout the bibliography generation process to provide a focused experience. Learn more about our commitment to a privacy on our privacy page and about our the distraction-free bibliography generation environment we wanted to exist in the universe on our about us page.</p>
+        </div>
       </ div>
     );
   }

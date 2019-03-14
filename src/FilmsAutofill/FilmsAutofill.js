@@ -172,7 +172,7 @@ class FilmsAutofill extends Component {
         return (
             <div>
                 <div className="top">
-                    <h1>Cite a film</h1>
+                    <h1>Cite a Film</h1>
                     <label>You can start citing a film by searching by film title or ISBN and selecting a film.</label>
                 </div>
                 {this.buildForm()}

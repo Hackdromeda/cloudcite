@@ -129,7 +129,9 @@ class FilmsAutofill extends Component {
                         "movie": film.id,
                         "transform": true
                     })
-                }).then((response) => console.log(response));
+                }).then((response) => {
+                    return response.json();
+                });
             this.setState({ filmOptions: [], citationData: createCitation(citationData), loaderVisible: false });
         }
         catch (err) {

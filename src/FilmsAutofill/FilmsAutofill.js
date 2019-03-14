@@ -126,12 +126,14 @@ class FilmsAutofill extends Component {
                     body: JSON.stringify({
                         "title": film.title,
                         "format": "movie",
+                        "id": crypto.randomBytes(10).toString('hex'),
                         "movie": film.id,
                         "transform": true
                     })
                 }).then((response) => {
                     return response.json();
                 });
+                console.log(citationData)
             this.setState({ filmOptions: [], citationData: createCitation(citationData), loaderVisible: false });
         }
         catch (err) {

@@ -39,60 +39,29 @@
   flex-direction: column;
   align-items:center;
 
-  @media screen and (max-width: 680px) {
-    top:-80px;
-    &:before {
-      @include easeOut;
-      content:'test';
-      position:fixed;
-      top:-45px;
-      background-color:#fff;
-      color:white;
-      -webkit-clip-path: polygon(82% 0, 35% 100%, 100% 100%);
-      clip-path: polygon(82% 0, 35% 100%, 100% 100%);
-      right:53px;
-      width:50px;
-      user-select:none;
-    }
 
-    &.active {
-      @include easeOut;
-      top: 60px;
-
-      &:before{
-        @include easeOut;
-          top:45px;
-      }
-    }
+  top:-80px;
+  &:before {
+    @include easeOut;
+    content:'test';
+    position:fixed;
+    top:-45px;
+    background-color:#fff;
+    color:white;
+    -webkit-clip-path: polygon(82% 0, 35% 100%, 100% 100%);
+    clip-path: polygon(82% 0, 35% 100%, 100% 100%);
+    right:53px;
+    width:50px;
+    user-select:none;
   }
 
-  @media screen and (min-width: 680px) {
+  &.active {
     @include easeOut;
-    right:-1000px;
-    bottom:10px;
-    &:after {
-      @include easeOut;
-      content:'test';
-      position:fixed;
-      bottom:-45px;
-      background-color:#fff;
-      -webkit-clip-path: polygon(0 0, 77% 53%, 0 100%);
-      clip-path: polygon(0 0, 77% 53%, 0 100%);
-      color:white;
-      right:-1000px;
-      width:50px;
-      bottom:45px;
-      user-select:none;
-    }
+    top: 60px;
 
-    &.active {
+    &:before{
       @include easeOut;
-      right: 100px;
-
-      &:after{
-        @include easeOut;
-          right:53px;
-      }
+        top:45px;
     }
   }
 }

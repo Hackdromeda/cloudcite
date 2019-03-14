@@ -14,7 +14,6 @@ const EditForm = lazy(() => import('./EditForm/EditForm.js'));
 const WebsiteAutofill = lazy(() => import('./WebsiteAutofill/WebsiteAutofill.js'));
 const BooksAutofill = lazy(() => import('./BooksAutofill/BooksAutofill.js'));
 const FilmsAutofill = lazy(() => import('./FilmsAutofill/FilmsAutofill.js'));
-const Settings = lazy(() => import('./Settings/Settings.js'));
 
 function loadingComponent(Component) {
   return props => (
@@ -37,7 +36,6 @@ ReactDOM.render(
 		            <Route path="/website" component={loadingComponent(WebsiteAutofill)} />
                 <Route path="/books" component={loadingComponent(BooksAutofill)} />
                 <Route path="/films" component={loadingComponent(FilmsAutofill)} />
-		            <Route path="/settings" component={loadingComponent(Settings)} />
 	         	</Switch>
          	</div>
         </Router>

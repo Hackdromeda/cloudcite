@@ -115,9 +115,9 @@ ga('create', 'UA-135622333-1', 'auto');
 
     // Settings Menu Exit on Outside Click
     if (!e.target.classList.contains('pullTab')) {
+      document.querySelector('#quick-settings').classList.remove('active');
       document.querySelector('.pullTab').classList.remove('active');
       document.querySelector('.darkness').classList.remove('active');
-
     }
   }
 

@@ -1,25 +1,44 @@
-import React, { Suspense } from 'react'
-import { Link } from 'react-router-dom';
+import React, { Suspense, useState } from 'react'
 
-import { Icon, Button } from 'semantic-ui-react';
-import Settings from './Settings';
-// import './settings.scss';
+import { Icon } from 'semantic-ui-react';
+
+const FavoriteStyleSearch = React.lazy(() => import('../FavoriteStyleSearch/FavoriteStyleSearch.js'));
+const LocaleSearch = React.lazy(() => import('../LocaleSearch/LocaleSearch.js'));
+const StyleSearch = React.lazy(() => import('../StyleSearch/StyleSearch.js'));
+
 
 export default function PullTab(props) {
+  const [expanded,setExpand] = useState(false);
 
   return (
-    <div style={{ backgroundColor: '#ffffff' }} className={props.visible ? "pullTab active" : "pullTab"}>
-      <Suspense fallback={<div />}>
-        <div id="pulltabBtns">
-          <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='theme' color='blue'/></a>
-          <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>
-          <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>
-          <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>
-        </div>
-        <Link to="/settings" id='settingsExpand'>Expand</Link>
-
-
-        {/* <Settings /> */}
+    <div className={props.visible ? "pullTab active" : "pullTab"}>
+          <Suspense fallback={<div />}>
+        {
+          (expanded) ? (
+            <div className="settingsContainer">
+            <h1 id="settingsHeader"><Icon className="settings" /> Settings</h1>
+            <button onClick={()=>setExpand(false)}><Icon name='close' color='blue'/></button>
+            <div className="options">
+              <label className="settingsLabel">Favorite Styles</label>
+              <FavoriteStyleSearch />
+              <label className="settingsLabel">Locales</label>
+              <LocaleSearch />
+              <label className="settingsLabel">Styles</label>
+              <StyleSearch />
+            </div>
+          </div>
+          ):(
+            <React.Fragment>
+            <div id="pulltabBtns">
+              <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='theme' color='blue'/></a>
+              <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>
+              <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>
+              <a className='settingsBtn' rel="noopener noreferrer" href="#" ><Icon className='settingsIcon' name='settings' /></a>
+            </div>
+            <button id="settingsExpand" onClick={()=> setExpand(true)}>Expand</button>
+          </React.Fragment>
+          )
+        }
       </Suspense>
     </div>
   )

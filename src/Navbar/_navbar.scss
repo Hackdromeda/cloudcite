@@ -1,173 +1,205 @@
-$blue: rgb(66, 134, 244);
-@mixin easeOut {
-  transition: all 0.5s ease-out;
+$blue: #005eea;
+$responsive: 800px;
+
+// Media Query mixin (threshold based on $responsive variable)
+@mixin mq {
+  @media screen and (max-width:$responsive) {
+    @content;
+  }
 }
 
-.nav {
-  top:0;
-  width:100vw;
+// The Navigation Bar!
+#navbar {
   position:fixed;
-  overflow: hidden;
-  background-color:#fff;
-  box-shadow: 0 0 1rem rgba(#000,0.2);
+  top:0;
   z-index:10;
+  
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  align-content:center;
 
-  :first-child {
-    font-weight:bold;
+  width:100vw;
+  height:45px;
+  
+  overflow: hidden;
+  
+  background-color:#fff;
+  box-sizing: border-box;
+  box-shadow: 0 4px 4px rgba(#000,0.4);
+
+  // Responsive Nav Bar
+  @include mq{
+    transition:height 0.2s ease-out;
+    flex-direction: column;
+    flex-wrap:nowrap;
+    height:45px;
+    &.responsive {
+      height:358px;
+    }
+
+    // First Nav Link
+    :nth-child(2){
+      margin-top:5px;
+      border-top:2px solid rgba(#000,0.1);
+    }
+  }
+
+  // CloudCite
+  #nav-logo{
+    color:$blue;
     font-size:24px;
-    color:rgb(0, 94, 234);
-  }
+    font-weight:bold;
 
-  &:not(.responsive){
-    a:not(:first-child):not(:last-child):hover{
-     border-bottom :5px solid $blue;
-     padding: 11.5px 14px;
-    }
-    
-    a.current:not(:first-child):not(:last-child){
-      border-bottom :5px solid $blue;
-      padding: 11.5px 14px;
-      background-color:rgba(darken(#fff, 15) ,0.5);
-      color:$blue;
+    // Space between logo and quick-settings/hamburger icons
+    @include mq{
+      margin-right:auto;
     }
   }
 
+  // Nav Links
   a {
-    @include easeOut;
-    float: left;
-    display: block;
-    color: #37474f;
-    text-align: center;
-    padding: 14px 14px;
-    text-decoration: none;
-    font-size: 16px;
     cursor: pointer;
+    font-size:16px;
+    
+    box-sizing: border-box;
+    padding: 12px 16px;
 
-    &:not(:first-child):not(:last-child):hover{
-      @include easeOut;
-      background-color:rgba(darken(#fff, 15) ,0.5);
+    color:#000;
+
+    // Non-logo/menu-item Nav Links
+    &:not(#nav-logo):not(.nav-right){
+      background-color:white;
+      transition: background-color,border-bottom 0.2s ease-out;
+      &:hover{
+       transition: background-color,border-bottom 0.2s ease-out;
+        border-bottom:4px solid $blue;
+        background-color:darken(#fff,10);
+      }
+
+      // Current route
+      &.current:not(#nav-logo):not(.nav-right) {
+        border-bottom:4px solid $blue;
+        background-color:darken(#fff,10);
+
+        @include mq {
+          border-bottom:none;
+          border-left:4px solid $blue;
+        }
+      }
+
+      // Responsive Nav Links
+      @include mq {
+        transition: background-color,border-left 0.2s ease-out;
+        display:block;
+        width:100vw;
+        background-color:darken(#fff,2);
+
+
+        &:hover{
+         transition: background-color,border-left 0.2s ease-out;
+          border-bottom:none;
+          border-left:4px solid $blue;
+          background-color:darken(#fff,10);
+        }
+      }
+
+
     }
 
-    &#burger {
+    // Last Nav link
+    &:nth-child(8) {
+      margin-right:auto; // Space between last link and Quick Settings/Hamburger Links
+    }
+  }
+
+  // Quick Settings & Hamburger Menu
+  .nav-right {
+    font-size:24px;
+
+    &#quick-settings {
+      transition: transform 0.3s ease-out;
+      margin-right:30px;
+      line-height:20px;
+
+      // If showing settings pull-tab
+      &.active {
+        transform: rotate(45deg);
+        color: $blue;
+      }
+    }
+    &#burger{
       display:none;
     }
-  }
-}
 
-@media screen and (max-width: 680px) {
-  .nav {
-    overflow:none;
-
-    a {
-      @include easeOut;
-
-      &:not(:first-child) {
-       display: none;
+    // Responsive quick-settings & hamburger menu positioning
+    @include mq {
+      position:fixed;
+      top:0;
+      &#quick-settings {
+        right:0.5rem;
       }
-
-      &:last-child {
-        position:absolute;
-        padding:none;
-        max-height:47px;
-        max-width:45px;
-      }
-      
-      &#burger {
+      &#burger{
         display:block;
-        top:0;
-        right:10px;
-        .icon{
-          cursor: pointer;
-        }
+        right:0;
       }
     }
+  }
+}
+
+// @media screen and (max-width: 680px) {
+  // .nav {
+  //   overflow:none;
+
+  //   a {
+
+  //     &:not(:first-child) {
+  //      display: none;
+  //     }
+
+  //     &:last-child {
+  //       position:absolute;
+  //       padding:none;
+  //       max-height:47px;
+  //       max-width:45px;
+  //     }
+      
+  //     &#burger {
+  //       display:block;
+  //       top:0;
+  //       right:10px;
+  //       .icon{
+  //         cursor: pointer;
+  //       }
+  //     }
+  //   }
     
-    &.responsive {
+  //   &.responsive {
+  //     a {
+  //       float: none;
+  //       display: block;
+  //       text-align: left;
+  //       &:not(:first-child):not(:last-child) {
+  //         background-color:darken(#fff,5);
+  //         &:hover {
+  //           background-color:darken(#fff,20);
+  //           border-left :5px solid $blue;
+  //         }
 
-      a {
-        float: none;
-        display: block;
-        text-align: left;
-        &:not(:first-child):not(:last-child) {
-          @include easeOut;
-          background-color:darken(#fff,5);
-          &:hover {
-            @include easeOut;
-            background-color:darken(#fff,20);
-            border-left :5px solid $blue;
-          }
+  //         &.current:not(:first-child):not(:last-child){
+  //           border-left :5px solid $blue;
+  //           background-color:darken(#fff, 20);
+  //           color:$blue;
+  //           font-weight:bold;
+  //         }
+  //       }
+  //     }
+  //   }
+  // } 
+// }
 
-          &.current:not(:first-child):not(:last-child){
-            border-left :5px solid $blue;
-            background-color:darken(#fff, 20);
-            color:$blue;
-            font-weight:bold;
-          }
-        }
-      }
-    }
-  } 
-}
-
-
-.settingsLink {
-  position:fixed;
-  text-align:center;
-  z-index:2;
-  background-color: #fff;
-  font-size:32px;
-  border-radius:8px;
-  right:2.5rem;
-  padding:8px 4px;
-  line-height:32px;
-  bottom:2rem;
-  color:#666;
-  box-shadow:0 0 1rem rgba(#000,0.2);
-  overflow: hidden;
-  outline:none;
-  border:none;
-
-  &:hover{
-    @include easeOut;
-    color: #000;
-    box-shadow:0 0 1rem rgba(#000,0.4);
-    cursor:pointer;
-  }
-  @media screen and (max-width: 680px) {
-    position: fixed;
-    z-index:11;
-    outline:none;
-    border:none;
-    right:45px;
-    top:0;
-    line-height:0;
-    max-height:16px;
-    font-size:24px;
-    box-shadow:none;
-    overflow: visible;
-    padding:0;
-    border-radius:initial;
-    &:hover {
-    @include easeOut;
-     color: #000;
-     box-shadow:none;
-    }
-  }
-
-
-}
-
-.pullMenu {
-  position: absolute;
-
-  background-color: rgba(#000,0.8);
-  display:none;
-
-  &.active {
-    display:block;
-  }
-}
-
+// Darkness behind quick tab
 .darkness {
   display:none;
   &.active {

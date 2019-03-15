@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Dropdown, Form, Input } from 'semantic-ui-react';
 import { monthNames } from './monthNames.js';
 
-function DateIssuedFormBuilder() {
+function DateIssuedFormBuilder(props) {
   return (
     <div>
       <Form.Group>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Form, Input, Card, Image, Button } from 'semantic-ui-react';
+import { Dropdown, Form, Input } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
@@ -255,7 +255,7 @@ class BooksAutofill extends Component {
 
     async convertLang(lang) {
         lang = lang.toLowerCase();
-        if (lang.length == 2) {
+        if (lang.length === 2) {
             const isoLangs = await import('./isoLangs.json');
             if (isoLangs[lang] != null) {
                 return isoLangs[lang].name;

@@ -68,6 +68,12 @@ class CiteForm extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.state.citation.contributors.length === 0) {
+      this.addContributor();
+    }
+  }
+
   async generatePreview() {
     try {
       let creatorsMap = this.state.creatorsMap.map((creator) => creator.csl);
@@ -106,7 +112,7 @@ class CiteForm extends Component {
     this.setState({
       citation: {
         ...this.state.citation,
-        contributors: [...this.state.citation.contributors, { key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author' }]
+        contributors: [...this.state.citation.contributors, { given: '', middle: '', family: '', type: 'Author' }]
       }
     }, () => this.generatePreview())
   }
@@ -116,15 +122,17 @@ class CiteForm extends Component {
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: [{ key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: 'Author' }]
+          contributors: [{ given: '', middle: '', family: '', type: 'Author' }]
         }
       }, () => this.generatePreview())
     }
     else {
+      console.log(key)
+      console.log(this.state.citation.contributors.filter((contributor, index) => index !== key))
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: this.state.citation.contributors.filter((contributor) => contributor.key !== key)
+          contributors: this.state.citation.contributors.filter((contributor, index) => index !== key)
         }
       }, () => this.generatePreview());
     }
@@ -134,7 +142,7 @@ class CiteForm extends Component {
     this.setState({
       citation: {
         ...this.state.citation,
-        contributors: this.state.citation.contributors.map((contributor) => contributor.key === key ? { ...contributor, [field]: value } : contributor)
+        contributors: this.state.citation.contributors.map((contributor, index) => index === key ? { ...contributor, [field]: value } : contributor)
       }
     }, () => this.generatePreview());
   }

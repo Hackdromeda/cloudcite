@@ -4,12 +4,12 @@ import { ADD_CITATION, UPDATE_CITATION } from '../actions/projects';
 import { UPDATE_CREATORS_TYPES } from '../actions/creatorsTypes';
 import { Dropdown, Form, Input, Button } from 'semantic-ui-react';
 import { types } from './types.js';
-// import './CiteForm.css';
 import { createCitation } from '../functions/createCitation.js';
 import { withRouter } from 'react-router-dom';
 import { generateHTML } from '../functions/generateHTML';
 import cloneDeep from 'lodash.clonedeep';
 import shortid from 'shortid';
+// import './CiteForm.css';
 
 const ContributorFormBuilder = React.lazy(() => import('./ContributorFormBuilder.js'));
 const DateAccessedFormBuilder = React.lazy(() => import('./DateAccessedFormBuilder.js'));
@@ -112,7 +112,7 @@ class CiteForm extends Component {
     this.setState({
       citation: {
         ...this.state.citation,
-        contributors: [...this.state.citation.contributors, { given: '', family: '', type: 'Author', id: shortid.generate() }]
+        contributors: [...this.state.citation.contributors, { given: '', family: '', type: '', id: shortid.generate() }]
       }
     }, () => this.generatePreview())
   }
@@ -122,7 +122,7 @@ class CiteForm extends Component {
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: [{ given: '', family: '', type: 'Author', id: shortid.generate() }]
+          contributors: [{ given: '', family: '', type: '', id: shortid.generate() }]
         }
       }, () => this.generatePreview())
     }

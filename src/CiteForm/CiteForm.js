@@ -9,6 +9,7 @@ import { createCitation } from '../functions/createCitation.js';
 import { withRouter } from 'react-router-dom';
 import { generateHTML } from '../functions/generateHTML';
 import cloneDeep from 'lodash.clonedeep';
+import shortid from 'shortid';
 
 const ContributorFormBuilder = React.lazy(() => import('./ContributorFormBuilder.js'));
 const DateAccessedFormBuilder = React.lazy(() => import('./DateAccessedFormBuilder.js'));
@@ -111,37 +112,35 @@ class CiteForm extends Component {
     this.setState({
       citation: {
         ...this.state.citation,
-        contributors: [...this.state.citation.contributors, { given: '', family: '', type: 'Author' }]
+        contributors: [...this.state.citation.contributors, { given: '', family: '', type: 'Author', id: shortid.generate() }]
       }
     }, () => this.generatePreview())
   }
 
-  removeContributor(key) {
+  removeContributor(id) {
     if (this.state.citation.contributors.length <= 1) {
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: [{ given: '', family: '', type: 'Author' }]
+          contributors: [{ given: '', family: '', type: 'Author', id: shortid.generate() }]
         }
       }, () => this.generatePreview())
     }
     else {
-      console.log(key)
-      console.log(this.state.citation.contributors.filter((contributor, index) => index !== key))
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: this.state.citation.contributors.filter((contributor, index) => index !== key)
+          contributors: this.state.citation.contributors.filter(contributor => contributor.id !== id)
         }
       }, () => this.generatePreview());
     }
   }
 
-  setContributor(e, key, field, { value }) {
+  setContributor(e, id, field, { value }) {
     this.setState({
       citation: {
         ...this.state.citation,
-        contributors: this.state.citation.contributors.map((contributor, index) => index === key ? { ...contributor, [field]: value } : contributor)
+        contributors: this.state.citation.contributors.map(contributor => contributor.id === id ? { ...contributor, [field]: value } : contributor)
       }
     }, () => this.generatePreview());
   }

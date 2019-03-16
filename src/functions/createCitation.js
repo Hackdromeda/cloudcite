@@ -1,9 +1,10 @@
-import crypto from 'crypto';
+import shortid from 'shortid';
 /**
  * @return {Object} new citation
  */
 export function createCitation(citationData) {
-    let citation = {
+    return {
+        "id": shortid.generate(),
         "accessed": {
             "month": "",
             "day": "",
@@ -14,11 +15,7 @@ export function createCitation(citationData) {
             "day": "",
             "year": ""
         },
-        "contributors": citationData && citationData.contributors ? citationData.contributors: [{given: '', family: '', type: ''}],
+        "contributors": citationData && citationData.contributors ? citationData.contributors.map(contributor => Object.create({...contributor, id: shortid.generate()})): [{given: '', family: '', type: '', id: shortid.generate()}],
         ...citationData
     };
-    if (citationData && !citationData.id) {
-        citation.id = crypto.randomBytes(10).toString('hex');
-    }
-    return citation;
 }

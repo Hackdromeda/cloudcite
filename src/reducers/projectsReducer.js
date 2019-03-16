@@ -1,5 +1,5 @@
-const crypto = require('crypto');
-let projectId = crypto.randomBytes(20).toString('hex');
+import shortid from 'shortid';
+let projectId = shortid.generate();
 
 const initialState = {
     selectedProject: projectId,

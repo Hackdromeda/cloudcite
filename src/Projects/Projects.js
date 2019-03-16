@@ -1,10 +1,7 @@
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CREATE_PROJECT, DELETE_PROJECT, SELECT_PROJECT } from '../actions/projects';
-// import { Grid, Card, button } from 'semantic-ui-react';
-// import './Projects.scss';
-const crypto = require('crypto');
+import shortid from 'shortid';
 
 const mapStateToProps = state => ({
     projects: state.projectsReducer.projects,
@@ -21,7 +18,7 @@ class Projects extends Component {
 
     render() {
         this.createProject = () => {
-            let projectId = crypto.randomBytes(20).toString('hex');
+            let projectId = shortid.generate();
             this.props.CREATE_PROJECT({
                 "id": projectId,
                 "title": 'New Project',

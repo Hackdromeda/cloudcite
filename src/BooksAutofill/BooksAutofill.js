@@ -7,6 +7,7 @@ import { createCitation } from '../functions/createCitation.js';
 import './BooksAutofill.scss';
 import Loader from 'react-loaders';
 import debounce from 'lodash.debounce';
+import shortid from 'shortid';
 
 const mapStateToProps = state => ({
 });
@@ -175,7 +176,7 @@ class BooksAutofill extends Component {
                     }
                     middleName = fullName[fullName.length - 2];
                 }
-                citation.contributors.push({ given: `${firstName} ${middleName}`, family: lastName, type: 'author' });
+                citation.contributors.push({ given: `${firstName} ${middleName}`, family: lastName, type: 'author', id: shortid.generate() });
             }
             if (book.volumeInfo.publishedDate && book.volumeInfo.publishedDate !== "") {
                 let date = book.volumeInfo.publishedDate.split("-");

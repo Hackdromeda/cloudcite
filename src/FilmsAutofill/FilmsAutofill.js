@@ -6,7 +6,7 @@ import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
 import './FilmsAutofill.scss';
 import Loader from 'react-loaders';
-import crypto from 'crypto';
+import shortid from 'shortid';
 import debounce from 'lodash.debounce';
 
 const mapStateToProps = state => ({
@@ -126,7 +126,7 @@ class FilmsAutofill extends Component {
                     body: JSON.stringify({
                         "title": film.title,
                         "format": "movie",
-                        "id": crypto.randomBytes(10).toString('hex'),
+                        "id": shortid.generate(),
                         "movie": film.id,
                         "transform": true
                     })

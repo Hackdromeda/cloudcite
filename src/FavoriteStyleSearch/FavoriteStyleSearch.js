@@ -17,8 +17,6 @@ class FavoriteStyleSearch extends Component {
 
 	handleChange(e, { value }) {
 		this.props.SET_STYLE(this.props.selectedProject, this.props.favoriteStyles.find(favoriteStyle => favoriteStyle.value === value));
-		// Temporary workaround for bibliography style updating.
-		window.location.reload(); // Refresh page on change.
 	}
 
 	render() {

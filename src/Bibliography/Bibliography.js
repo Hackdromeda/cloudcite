@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { generateHTML } from '../functions/generateHTML';
@@ -37,6 +37,12 @@ class Bibliography extends Component {
 
     componentDidMount() {
         this.generatePreview();
+    }
+
+    componentDidUpdate(outdatedProps, outdatedState) {
+        if (outdatedProps.style.key !== this.props.style.key) {
+            this.generatePreview();
+        }
     }
 
     copyCSL(e) {
@@ -107,7 +113,7 @@ class Bibliography extends Component {
                             <div style={{ marginTop: '10px', backgroundColor: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important' }}>
                                 <div className="csl-bib-body" style={{ lineHeight: this.state.format.linespacing, marginLeft: `${this.state.format.hangingindent}em`, textIndent: `-${this.state.format.hangingindent}em` }}>
                                     {this.state.citationHTML.map((cslEntry, index) =>
-                                        <Fragment key={index}>
+                                        <div key={this.state.format.entry_ids[index]}>
                                             <div id={`cslEntryContainer${index}`} style={{ clear: 'left', marginBottom: this.state.format.entryspacing }}>
                                                 <div dangerouslySetInnerHTML={{ __html: cslEntry }} />
                                             </div>
@@ -122,7 +128,7 @@ class Bibliography extends Component {
                                                     <i className="trash icon" onClick={(e) => this.deleteCitation(this.state.format.entry_ids[index][0])}></i>
                                                 </span>
                                             </div>
-                                        </Fragment>
+                                        </div>
                                     )}
                                 </div>
                             </div>

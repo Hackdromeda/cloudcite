@@ -10,11 +10,12 @@ export function generateCSL(creatorsTypes, citationTray) {
     return citationTray.reduce((accumulator, citationData) => {
         let contributors = [];
         if (citationData.contributors && citationData.contributors.length > 0) {
-            contributors = citationData.contributors.map(contributor => pickBy(Object.assign(contributor, {given: (contributor.middle && contributor.middle !== "" ? (`${contributor.given} ${contributor.middle}`): contributor.given), middle: null}), identity));
+            contributors = citationData.contributors.map(contributor => pickBy({given: contributor.given, family: contributor.family, type: contributor.type}, identity));
         }
         let contributorsData = creatorsTypes.reduce((accumulator, currentValue) => {
-            return Object.assign(accumulator, {[currentValue]: contributors.filter(c => c.type && c.type === currentValue && (c.family || c.given || c.middle)).map(contributor => pickBy(contributor, identity))})
+            return Object.assign(accumulator, {[currentValue]: contributors.filter(c => c.type && c.type === currentValue && (c.given || c.family)).map(contributor => pickBy(contributor, identity))})
         }, {});
+        
         return accumulator.concat(pickBy({
             "accessed": pickBy({
                 "month": (citationData.accessed.month && citationData.accessed.month >= 1 && citationData.accessed.month <= 12) ? citationData.accessed.month: null,

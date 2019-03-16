@@ -176,7 +176,7 @@ class BooksAutofill extends Component {
                     }
                     middleName = fullName[fullName.length - 2];
                 }
-                citation.contributors.push({ given: firstName, middle: middleName, family: lastName, key: crypto.randomBytes(20).toString('hex'), type: 'author' });
+                citation.contributors.push({ given: `${firstName} ${middleName}`, family: lastName, type: 'author' });
             }
             if (book.volumeInfo.publishedDate && book.volumeInfo.publishedDate !== "") {
                 let date = book.volumeInfo.publishedDate.split("-");

@@ -8,8 +8,7 @@ function ContributorFormBuilder(props) {
           <div key={index} style={{marginTop: '10px'}}>
             <Form.Group>
             <Form.Field control={Dropdown} lazyLoad selection label="Contributor Type" placeholder="Contributor Type" value={contributor.type} options={props.creatorsMap} onChange={(e, value) => props.setContributor(e, index, 'type', value)}/>
-            <Form.Field control={Input} label="First Name" placeholder="First Name" defaultValue={contributor.given} onChange={(e, value) => props.setContributor(e, index, 'given', value)}/>
-            <Form.Field control={Input} label="Middle Name" placeholder="Middle Name" defaultValue={contributor.middle} onChange={(e, value) => props.setContributor(e, index, 'middle', value)}/>
+            <Form.Field control={Input} label="Given Name" placeholder="Given Name" defaultValue={contributor.given} onChange={(e, value) => props.setContributor(e, index, 'given', value)}/>
             <Form.Field control={Input} label="Last Name" placeholder="Last Name" defaultValue={contributor.family} onChange={(e, value) => props.setContributor(e, index, 'family', value)}/>
           </Form.Group>
           <Button.Group>

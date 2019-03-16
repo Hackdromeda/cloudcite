@@ -14,7 +14,7 @@ export function createCitation(citationData) {
             "day": "",
             "year": ""
         },
-        "contributors": citationData && citationData.contributors ? citationData.contributors: [{key: crypto.randomBytes(10).toString('hex'), given: '', middle: '', family: '', type: ''}],
+        "contributors": citationData && citationData.contributors ? citationData.contributors: [{given: '', family: '', type: ''}],
         ...citationData
     };
     if (citationData && !citationData.id) {

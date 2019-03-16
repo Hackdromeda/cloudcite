@@ -112,7 +112,7 @@ class CiteForm extends Component {
     this.setState({
       citation: {
         ...this.state.citation,
-        contributors: [...this.state.citation.contributors, { given: '', middle: '', family: '', type: 'Author' }]
+        contributors: [...this.state.citation.contributors, { given: '', family: '', type: 'Author' }]
       }
     }, () => this.generatePreview())
   }
@@ -122,7 +122,7 @@ class CiteForm extends Component {
       this.setState({
         citation: {
           ...this.state.citation,
-          contributors: [{ given: '', middle: '', family: '', type: 'Author' }]
+          contributors: [{ given: '', family: '', type: 'Author' }]
         }
       }, () => this.generatePreview())
     }

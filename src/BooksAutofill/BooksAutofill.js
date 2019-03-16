@@ -6,7 +6,6 @@ import CiteForm from '../CiteForm/CiteForm.js';
 import { createCitation } from '../functions/createCitation.js';
 import './BooksAutofill.scss';
 import Loader from 'react-loaders';
-import crypto from 'crypto';
 import debounce from 'lodash.debounce';
 
 const mapStateToProps = state => ({

@@ -7,7 +7,6 @@ import { types } from './types.js';
 // import './CiteForm.css';
 import { createCitation } from '../functions/createCitation.js';
 import { withRouter } from 'react-router-dom';
-import crypto from 'crypto';
 import { generateHTML } from '../functions/generateHTML';
 import cloneDeep from 'lodash.clonedeep';
 

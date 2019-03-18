@@ -10,17 +10,21 @@ const StyleSearch = React.lazy(() => import('../StyleSearch/StyleSearch.js'));
 export default function PullTab(props) {
   const [expanded,setExpand] = useState(false);
 
+  const closeTab = () => {
+    setExpand(false);
+  }
+
   return (
-    <div className={props.visible ? "pullTab active" : "pullTab"}>
+    <div className={props.visible ? `pullTab active ${expanded ? 'expanded':''}` : "pullTab"}>
           <Suspense fallback={<div />}>
         {
           (expanded) ? (
             <div className="settingsContainer">
-            <h1 id="settingsHeader"><Icon className="settings" /> Settings</h1>
-            <button onClick={()=>setExpand(false)}><Icon name='close' color='blue'/></button>
+            <h1 className="settingsHeader"><Icon className="settings" /> Settings</h1>
+            <button onClick={closeTab}><Icon name='close' color='blue'/></button>
             <div className="options">
               <label className="settingsLabel">Favorite Styles</label>
-              <FavoriteStyleSearch />
+              <FavoriteStyleSearch/>
               <label className="settingsLabel">Locales</label>
               <LocaleSearch />
               <label className="settingsLabel">Styles</label>

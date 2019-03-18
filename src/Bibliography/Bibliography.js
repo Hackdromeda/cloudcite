@@ -26,7 +26,6 @@ function toPlainText(richText) {
 class Bibliography extends Component {
     constructor(props) {
         super(props);
-        this.bibliographyRef = React.createRef();
         this.state = {
             format: null,
             citationHTML: [],
@@ -101,43 +100,53 @@ class Bibliography extends Component {
         }
     }
 
+    displayBibliography() {
+        if (this.state.format && this.state.citationHTML.length > 0) {
+            return (
+                <div onCopy={(e) => this.copyCSL(e)} style={{ textAlign: 'center', justifyContent: 'center' }}>
+                    <div id="bibliographyActions">
+                        <span id="copyBibliographyText" onClick={(e) => this.copyBibliography(e)} style={{ cursor: 'pointer' }}>Copy Bibliography <i className="copy icon"></i></span>
+                    </div>
+                    <div style={{ marginTop: '10px', backgroundColor: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important' }}>
+                        <div className="csl-bib-body" style={{ lineHeight: this.state.format.linespacing, marginLeft: `${this.state.format.hangingindent}em`, textIndent: `-${this.state.format.hangingindent}em` }}>
+                            {this.state.citationHTML.map((cslEntry, index) =>
+                                <div key={this.state.format.entry_ids[index]}>
+                                    <div id={`cslEntryContainer${index}`} style={{ clear: 'left', marginBottom: this.state.format.entryspacing }}>
+                                        <div dangerouslySetInnerHTML={{ __html: cslEntry }} />
+                                    </div>
+                                    <div style={{ textAlign: 'right' }}>
+                                        <span id={`copyCitationButton${index}`} className="bibliographyActionButton">
+                                            <i className="copy outline icon" onClick={(e) => this.copyCitation(e, index)}></i>
+                                        </span>
+                                        <span className="bibliographyActionButton">
+                                            <i className="pencil alternate icon" onClick={(e) => this.editCitation(this.state.format.entry_ids[index][0])}></i>
+                                        </span>
+                                        <span className="bibliographyActionButton">
+                                            <i className="trash icon" onClick={(e) => this.deleteCitation(this.state.format.entry_ids[index][0])}></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        else {
+            return (
+                <div style={{textAlign: 'center'}}>
+                    <Message compact info style={{textAlign: 'center'}}>
+                        <p>A bibliography should appear here after you cite a website, book, film, or other medium.</p>
+                    </Message>
+                </div>
+            );
+        }
+    }
+
     render() {
         return (
             <div id="bibliography" style={{ marginTop: '10px', backgroundColor: '#ffffff', padding: '20px', textAlign: 'left', justifyContent: 'center', fontWeight: 'normal !important' }}>
-                {
-                    this.state.format && this.state.citationHTML.length > 0 ?
-                        <div ref="bibliographyRef" onCopy={(e) => this.copyCSL(e)} style={{ textAlign: 'center', justifyContent: 'center' }}>
-                            <div id="bibliographyActions">
-                                <span id="copyBibliographyText" onClick={(e) => this.copyBibliography(e)} style={{ cursor: 'pointer' }}>Copy Bibliography <i className="copy icon"></i></span>
-                            </div>
-                            <div style={{ marginTop: '10px', backgroundColor: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '5px', textAlign: 'left', fontWeight: 'normal !important' }}>
-                                <div className="csl-bib-body" style={{ lineHeight: this.state.format.linespacing, marginLeft: `${this.state.format.hangingindent}em`, textIndent: `-${this.state.format.hangingindent}em` }}>
-                                    {this.state.citationHTML.map((cslEntry, index) =>
-                                        <div key={this.state.format.entry_ids[index]}>
-                                            <div id={`cslEntryContainer${index}`} style={{ clear: 'left', marginBottom: this.state.format.entryspacing }}>
-                                                <div dangerouslySetInnerHTML={{ __html: cslEntry }} />
-                                            </div>
-                                            <div style={{ textAlign: 'right' }}>
-                                                <span id={`copyCitationButton${index}`} className="bibliographyActionButton">
-                                                    <i className="copy outline icon" onClick={(e) => this.copyCitation(e, index)}></i>
-                                                </span>
-                                                <span className="bibliographyActionButton">
-                                                    <i className="pencil alternate icon" onClick={(e) => this.editCitation(this.state.format.entry_ids[index][0])}></i>
-                                                </span>
-                                                <span className="bibliographyActionButton">
-                                                    <i className="trash icon" onClick={(e) => this.deleteCitation(this.state.format.entry_ids[index][0])}></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div> : 
-                        <Message info>
-                            <p>A bibliography should appear here after you cite a website, book, film, or other medium.</p>
-                        </Message>
-                }
-
+                {this.displayBibliography()}
             </div>
         )
     }

@@ -254,44 +254,59 @@ class CiteForm extends Component {
     this.props.UPDATE_CREATORS_TYPES(creatorsMap);
   }
 
-  render() {
-    return (
-    	<div id="citeForm">
-        <div style={{textAlign: 'center'}}>
-     		 <Dropdown fluid style={{marginBottom: '10px'}} placeholder="Select Citation Type" value={this.state.citation.type ? this.state.citation.type: null} selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
-        </div>
+  citationTypeSelectBuilder() {
+    if (this.state.citation.type) {
+      return (
+        <Dropdown fluid style={{marginBottom: '10px'}} placeholder="Select Citation Type" value={this.state.citation.type} selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
+      );
+    }
+    else {
+      return (
+        <Dropdown fluid style={{marginBottom: '10px'}} placeholder="Select Citation Type" selection search options={types.map((type, index) => Object.assign(type, {key: index}))} onChange={(e, value) => this.handleChange(e, value)}/>
+      );
+    }
+  }
+
+  formBuilder() {
+    if (this.state.fieldMap && this.state.creatorsMap && this.state.creatorsMap.length > 0) {
+      return (
         <Form widths="equal">
-            <div>
-              { this.state.fieldMap && this.state.creatorsMap && this.state.creatorsMap.length > 0 ? (
-                <div>
-                  <ContributorFormBuilder citation={this.state.citation} creatorsMap={this.state.creatorsMap} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
-                  <div style={{marginTop: '15px'}}/>
-                    <DateAccessedFormBuilder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday}/>
-                    <div style={{marginTop: '15px'}}/>
-                    <DateIssuedFormBuilder issued={this.state.citation.issued} changeDateIssued={this.changeDateIssued} removeDateIssued={this.removeDateIssued} setDateIssuedToday={this.setDateIssuedToday}/>
-                    <div style={{marginTop: '15px'}}/>
-                  </div>
-                ): <div/>
-              }
-            </div>
+          <ContributorFormBuilder citation={this.state.citation} creatorsMap={this.state.creatorsMap} removeContributor={this.removeContributor} addContributor={this.addContributor} setContributor={this.setContributor}/>
+          <div style={{marginTop: '15px'}}/>
+          <DateAccessedFormBuilder accessed={this.state.citation.accessed} changeDateAccessed={this.changeDateAccessed} removeDateAccessed={this.removeDateAccessed} setDateAccessedToday={this.setDateAccessedToday}/>
+          <div style={{marginTop: '15px'}}/>
+          <DateIssuedFormBuilder issued={this.state.citation.issued} changeDateIssued={this.changeDateIssued} removeDateIssued={this.removeDateIssued} setDateIssuedToday={this.setDateIssuedToday}/>
+          <div style={{marginTop: '15px'}}/>
           {this.state.fieldMap.filter(element => element.csl && element.csl !== '' && element.displayText && element.displayText !== '' && !element.group)
             .map((field, index) =>
               <Form.Field key={field.csl}>
                 <Input label={field.displayText ? field.displayText: ''} placeholder={field.displayText ? field.displayText: ''} value={this.state.citation[field.csl] ? this.state.citation[field.csl]: ''} onChange={(e, value) => this.setCSLValue(e, field.csl, value)}/>
               </Form.Field>
-            )}
+          )}
           <div style={{ marginTop: '15px' }} />
           <Preview citationHTML={this.state.citationHTML} format={this.state.format} />
-          {
-            this.state.fieldMap.length > 0 ? (
-              <Button.Group style={{ marginTop: '15px' }}>
-                <Button onClick={(e) => this.cancelCitation()}>Cancel</Button>
-                <Button.Or />
-                <Button style={{ backgroundColor: '#005eea', color: '#ffffff' }} onClick={(e) => this.saveCitation()}>Save</Button>
-              </Button.Group>
-            ) : <div />
-          }
+          <Button.Group style={{ marginTop: '15px' }}>
+            <Button onClick={(e) => this.cancelCitation()}>Cancel</Button>
+            <Button.Or />
+            <Button style={{ backgroundColor: '#005eea', color: '#ffffff' }} onClick={(e) => this.saveCitation()}>Save</Button>
+          </Button.Group>
         </Form>
+      );
+    }
+    else {
+      return (
+        <div/>
+      );
+    }
+  }
+
+  render() {
+    return (
+    	<div id="citeForm">
+        <div style={{textAlign: 'center'}}>
+     		 {this.citationTypeSelectBuilder()}
+        </div>
+        {this.formBuilder()}
       </div>
     );
   }

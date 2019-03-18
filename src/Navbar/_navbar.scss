@@ -31,7 +31,7 @@ $responsive: 800px;
 
   // Responsive Nav Bar
   @include mq{
-    transition:height 0.2s ease-out;
+    transition:height 0.1s ease-out;
     flex-direction: column;
     flex-wrap:nowrap;
     height:45px;
@@ -71,9 +71,9 @@ $responsive: 800px;
     // Non-logo/menu-item Nav Links
     &:not(#nav-logo):not(.nav-right){
       background-color:white;
-      transition: background-color,border-bottom 0.2s ease-out;
+      transition: background-color,border-bottom 0.1s ease-out;
       &:hover{
-       transition: background-color,border-bottom 0.2s ease-out;
+       transition: background-color,border-bottom 0.1s ease-out;
         border-bottom:4px solid $blue;
         background-color:darken(#fff,10);
       }
@@ -91,14 +91,14 @@ $responsive: 800px;
 
       // Responsive Nav Links
       @include mq {
-        transition: background-color,border-left 0.2s ease-out;
+        transition: background-color,border-left 0.1s ease-out;
         display:block;
         width:100vw;
         background-color:darken(#fff,2);
 
 
         &:hover{
-         transition: background-color,border-left 0.2s ease-out;
+         transition: background-color,border-left 0.1s ease-out;
           border-bottom:none;
           border-left:4px solid $blue;
           background-color:darken(#fff,10);
@@ -119,7 +119,7 @@ $responsive: 800px;
     font-size:24px;
 
     &#quick-settings {
-      transition: transform 0.3s ease-out;
+      transition: transform 0.2s ease-out;
       margin-right:30px;
       line-height:20px;
 

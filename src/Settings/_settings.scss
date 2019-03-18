@@ -120,6 +120,7 @@
   max-width:100%;
 
 
+
   &:before{
     display:none;
   }
@@ -145,6 +146,7 @@
   // Container for expanded settings
   .settingsContainer {
     margin-top:5rem;
+    max-width:500px;
     width:100%;
 
 

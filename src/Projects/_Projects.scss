@@ -49,7 +49,7 @@ $green: rgb(72, 244, 66);
   div[name="selected"]{
     @include easeOut;
     overflow:hidden;
-    border: 1px solid $blue;
+    border: 2px solid $blue;
     &>* {
 
       @include easeOut; 

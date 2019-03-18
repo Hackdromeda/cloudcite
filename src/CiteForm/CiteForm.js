@@ -63,19 +63,21 @@ class CiteForm extends Component {
       this.setState({
         fieldMap: fieldMap,
         creatorsMap: creatorsMap.map((creator, index) => Object.assign(creator, {"key": creator.index, "text": creator.displayText, "value": creator.csl}))
-      }, () => this.generatePreview());
+      }, () => {
+        if (this.state.citation.contributors.length === 0) {
+          this.addContributor();
+        }
+        this.generatePreview()
+      });
       this.props.UPDATE_CREATORS_TYPES(creatorsMap);
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.state.citation.contributors.length === 0) {
-      this.addContributor();
     }
   }
 
   async generatePreview() {
     try {
+      if (this.state.citation.contributors.length === 0) {
+        this.addContributor();
+      }
       let creatorsMap = this.state.creatorsMap.map((creator) => creator.csl);
       const generatedHTML = await generateHTML(this.props.style.key, this.props.locale, creatorsMap, [cloneDeep(this.state.citation)]);
       this.setState({

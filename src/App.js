@@ -35,6 +35,9 @@ class App extends Component {
       case "films":
         this.props.history.push('/films');
         break;
+      case "podcasts":
+        this.props.history.push('/podcasts');
+        break;
       case "other":
         this.props.history.push('/cite');
         break;
@@ -62,6 +65,7 @@ class App extends Component {
                 <Button id="citeButton" onClick={(e) => this.cite("webpage")}>Website</Button>
                 <Button id="citeButton" onClick={(e) => this.cite("books")}>Book</Button>
                 <Button id="citeButton" onClick={(e) => this.cite("films")}>Film</Button>
+                <Button id="citeButton" onClick={(e) => this.cite("podcasts")}>Podcast</Button>
                 <Button id="citeButton" onClick={(e) => this.cite("other")}>Other</Button>
               </div>
             </div>

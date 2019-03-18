@@ -135,7 +135,7 @@ class BooksAutofill extends Component {
                     "year": null,
                     "day": null
                 },
-                "id": book.id,
+                "id": shortid.generate(),
                 "author": [],
                 "editor": [],
                 "collection-editor": [],

@@ -19,7 +19,7 @@ export default function PullTab(props) {
         {
           (expanded) ? (
             <div className="settingsContainer">
-            <h1 className="settingsHeader"><Icon className="settings" /> Settings</h1>
+            <h1 className="settingsHeader"><Icon className="cog" /> Settings</h1>
             <div className="options">
               <div>
                 <Button circular icon onClick={closeTab}><Icon name='close'/></Button>

@@ -204,7 +204,7 @@ $responsive: 800px;
   display:none;
   &.active {
     display:block;
-    position:absolute;
+    position:fixed;
     z-index:1;
     top:0vh;
     left:0vw;

@@ -114,12 +114,24 @@ ga('create', 'UA-135622333-1', 'auto');
     }
 
     // Settings Menu Exit on Outside Click
-    if (!e.target.classList.contains('pullTab')) {
+    if (!e.target.classList.contains('pullTab')&&!document.querySelector('.pullTab').classList.contains('expanded')) {
       document.querySelector('#quick-settings').classList.remove('active');
       document.querySelector('.pullTab').classList.remove('active');
       document.querySelector('.darkness').classList.remove('active');
     }
   }
+
+  // Close expanded settings if certain elements clicked.
+  const unexpand = () => {
+    document.querySelector('.pullTab').classList.remove('expanded');
+    document.querySelector('.pullTab').classList.remove('active');
+  } 
+  document.getElementById('nav-logo').addEventListener('click',unexpand);
+  document.querySelector('.cog').addEventListener('click',unexpand);
+  document.querySelector('.bars').addEventListener('click',unexpand);
+  document.querySelectorAll('.closeHam').forEach(item => {
+    item.addEventListener('click',unexpand);
+  })
 
   function closeHam() {
     x.classList.remove("responsive");

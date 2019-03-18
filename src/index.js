@@ -15,9 +15,11 @@ const WebsiteAutofill = lazy(() => import('./WebsiteAutofill/WebsiteAutofill.js'
 const BooksAutofill = lazy(() => import('./BooksAutofill/BooksAutofill.js'));
 const FilmsAutofill = lazy(() => import('./FilmsAutofill/FilmsAutofill.js'));
 
+
 function loadingComponent(Component) {
   return props => (
     <Suspense fallback={<div />}>
+      {/* <span id="component-loader">Loader</span> */}
       <Component {...props} />
     </Suspense>
   );

@@ -60,9 +60,9 @@ class PullTab extends Component {
               <React.Fragment>
               <div id="pulltabBtns">
                 <Button toggle circular icon active={this.props.userPreferences.theme.isDarkTheme} onClick={() => this.toggleTheme()}><Icon name='theme'/></Button>
-                <Button circular icon><Icon name='theme'/></Button>
-                <Button circular icon><Icon name='theme'/></Button>
-                <Button circular icon><Icon name='theme'/></Button>
+                <Button circular icon><Icon name='cog'/></Button>
+                <Button circular icon><Icon name='cog'/></Button>
+                <Button circular icon><Icon name='cog'/></Button>
               </div>
               <button id="settingsExpand" onClick={()=> this.setExpanded(true)}>Expand Settings</button>
             </React.Fragment>

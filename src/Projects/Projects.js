@@ -15,56 +15,54 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Projects extends Component {
+    createProject() {
+        let projectId = shortid.generate();
+        this.props.CREATE_PROJECT({
+            "id": projectId,
+            "title": 'New Project',
+            "citations": [],
+            "style": this.props.projects.find(project => project.id === this.props.selectedProject).style
+        });
+        this.newProject();
+    }
+
+    deleteProject(projectId) {
+        // TODO: Fade-out on delete.
+        // FIXME: selectedProject changes when projects before its index are deleted.
+        this.props.DELETE_PROJECT(projectId);
+    }
+
+    selectProject(projectId) {
+        this.scrollToTop(1000); // FIXME: Automatic scrolling to top is incompatible with mobile devices.
+        this.props.SELECT_PROJECT(projectId);
+    }
+
+
+    scrollToTop(scrollDuration) { // Source: https://stackoverflow.com/questions/21474678/scrolltop-animation-without-jquery
+        let scrollStep = -window.scrollY / (scrollDuration / 15),
+            scrollInterval = setInterval(function () {
+                if (window.scrollY !== 0) {
+                    window.scrollBy(0, scrollStep);
+                    scrollStep -= 20;
+                }
+                else
+                    clearInterval(scrollInterval);
+            }, 15);
+    }
+
+    // Transition Styling for New Cards
+    newProject() {
+        const newcomers = document.querySelectorAll('.new');
+        setTimeout(newcomers.forEach(thing => {
+            thing.classList.remove('new');
+        }), 2000);
+    }
 
     render() {
-        this.createProject = () => {
-            let projectId = shortid.generate();
-            this.props.CREATE_PROJECT({
-                "id": projectId,
-                "title": 'New Project',
-                "citations": [],
-                "style": this.props.projects.find(project => project.id === this.props.selectedProject).style
-            });
-            this.newProject();
-        }
-
-        this.deleteProject = (projectId) => {
-            // TODO: Fade-out on delete.
-            // FIXME: selectedProject changes when projects before its index are deleted.
-            this.props.DELETE_PROJECT(projectId);
-        }
-
-        this.selectProject = (projectId) => {
-            this.scrollToTop(1000); // FIXME: Automatic scrolling to top is incompatible with mobile devices.
-            this.props.SELECT_PROJECT(projectId);
-        }
-
-
-        this.scrollToTop = (scrollDuration) => { // Source: https://stackoverflow.com/questions/21474678/scrolltop-animation-without-jquery
-            let scrollStep = -window.scrollY / (scrollDuration / 15),
-                scrollInterval = setInterval(function () {
-                    if (window.scrollY !== 0) {
-                        window.scrollBy(0, scrollStep);
-                        scrollStep -= 20;
-                    }
-                    else
-                        clearInterval(scrollInterval);
-                }, 15);
-        }
-
-        // Transition Styling for New Cards
-        this.newProject = () => {
-            const newcomers = document.querySelectorAll('.new');
-            setTimeout(newcomers.forEach(thing => {
-                thing.classList.remove('new');
-            }), 2000);
-        }
-
         return (
             <div id="projects">
-                {this.props.projects.map(function (project, index) {
-                    return (
-                        <div id={project.id} className="project-card new" key={index} name={this.props.selectedProject !== project.id ? "" : "selected"}>
+                {this.props.projects.map((project, index) =>
+                    <div id={project.id} className="project-card new" key={index} name={this.props.selectedProject !== project.id ? "" : "selected"}>
                             <header className="card-header">{project.title}</header>
                             <div className="project-card-content">Style: {project.style.value}</div>
                             <footer className="card-footer">
@@ -73,8 +71,7 @@ class Projects extends Component {
                                 <button disabled={this.props.selectedProject !== project.id ? false : true} onClick={() => this.deleteProject(project.id)}>Delete</button>
                             </footer>
                         </div>
-                    )
-                }, this)}
+                )}
                 <div className="project-card create">
                     <header className="card-header">Create New Project</header>
                     <div className="project-card-content">Style: {this.props.projects.find(project => project.id === this.props.selectedProject).style.value}</div>

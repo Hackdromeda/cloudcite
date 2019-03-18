@@ -40,7 +40,7 @@ export default function PullTab(props) {
               <Button circular icon><Icon name='theme'/></Button>
               <Button circular icon><Icon name='theme'/></Button>
             </div>
-            <button id="settingsExpand" onClick={()=> setExpand(true)}>Expand</button>
+            <button id="settingsExpand" onClick={()=> setExpand(true)}>Expand Settings</button>
           </React.Fragment>
           )
         }

@@ -36,10 +36,6 @@ class PullTab extends Component {
     this.props.TOGGLE_THEME(!this.props.userPreferences.theme.isDarkTheme);
   }
 
-  clearLocalStorage() {
-    window.localStorage.clear();
-  }
-
   render() {
     return (
       <div className={this.props.visible ? `pullTab active ${this.state.isExpanded ? 'expanded':''}` : "pullTab"}>
@@ -58,9 +54,6 @@ class PullTab extends Component {
                 <LocaleSearch />
                 <label className="settingsLabel">Styles</label>
                 <StyleSearch />
-                <div>
-                  <Button negative onClick={() => this.clearLocalStorage()}>Clear Local Storage</Button>
-                </div>
               </div>
             </div>
             ):(

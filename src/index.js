@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-snapshot';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
@@ -26,7 +26,7 @@ function loadingComponent(Component) {
   );
 }
 
-ReactDOM.render(
+render(
     <Provider store={store}>
         <Router>
         	<div>

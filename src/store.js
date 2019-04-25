@@ -4,10 +4,10 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers/rootReducer';
 
 const saveState = (state) => {
-  window.localStorage.setItem('cloudcite_state', JSON.stringify(state));
+  localStorage.setItem('cloudcite_state', JSON.stringify(state));
 }
 
-const loadState = window.localStorage.getItem('cloudcite_state') ? JSON.parse(window.localStorage.getItem('cloudcite_state')) : {};
+const loadState = localStorage.getItem('cloudcite_state') ? JSON.parse(localStorage.getItem('cloudcite_state')) : {};
 
 
 

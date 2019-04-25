@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Helmet from 'react-helmet';
 import './_App.scss';
 import { Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
@@ -57,7 +56,6 @@ class App extends Component {
   render() {
     return (
       <div id="mainPage">
-        <Helmet title="CloudCite"/>
         <div style={{ backgroundColor: 'rgb(0, 94, 234)', color: '#ffffff', minHeight: '35vh', marginBottom: '5vh' }}>
           <div className="container">
             <div style={{ paddingLeft: '5vh', paddingRight: '5vh', paddingTop: '10vh', paddingBottom: '10vh' }}>
